@@ -1,0 +1,118 @@
+<Project>
+  <Name>Team5GeoTopics</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Team5GeoTopicsUML</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Comment</Name>
+        <Access>Public</Access>
+        <Location left="358" top="116" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int geolocation</Member>
+        <Member type="Field">String text</Member>
+        <Member type="Field">int picture</Member>
+        <Member type="Field">ArrayList&lt;comment&gt; comment</Member>
+        <Member type="Field">Date time</Member>
+        <Member type="Field">String author</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Favorites</Name>
+        <Access>Public</Access>
+        <Location left="612" top="37" />
+        <Size width="188" height="113" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">ArrayList&lt;comment&gt; favorites</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>User</Name>
+        <Access>Public</Access>
+        <Location left="713" top="207" />
+        <Size width="162" height="136" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">String username</Member>
+        <Member type="Field">String ID</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Reply</Name>
+        <Access>Public</Access>
+        <Location left="537" top="397" />
+        <Size width="162" height="142" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Comment parent</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Picture</Name>
+        <Access>Public</Access>
+        <Location left="66" top="116" />
+        <Size width="162" height="112" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Bitmap image</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Bookmark</Name>
+        <Access>Public</Access>
+        <Location left="879" top="361" />
+        <Size width="194" height="138" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">ArrayList&lt;comment&gt; bookmark</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>TopLevelComment</Name>
+        <Access>Public</Access>
+        <Location left="111" top="362" />
+        <Size width="162" height="135" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">String ID</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="0" second="4">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="1" second="0">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+        <StartMultiplicity>0..*</StartMultiplicity>
+        <EndMultiplicity>0..*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="2" second="1">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Generalization" first="3" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="2" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+      </Relationship>
+      <Relationship type="Generalization" first="6" second="0">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>

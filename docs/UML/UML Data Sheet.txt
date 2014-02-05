@@ -1,0 +1,5 @@
+Team5GeoTopics UML
+
+Modify the UML using: NClass - http://nclass.sourceforge.net/
+
+- Created the base for the UML as discussed at our meeting - Bryce
