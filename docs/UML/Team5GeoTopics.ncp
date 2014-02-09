@@ -31,17 +31,18 @@
       <Entity type="Class">
         <Name>User</Name>
         <Access>Public</Access>
-        <Location left="902" top="81" />
+        <Location left="940" top="206" />
         <Size width="162" height="136" />
         <Collapsed>False</Collapsed>
         <Member type="Field">String username</Member>
         <Member type="Field">String ID</Member>
+        <Member type="Field">int sortPreference = 0</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
         <Name>Reply</Name>
         <Access>Public</Access>
-        <Location left="939" top="343" />
+        <Location left="940" top="428" />
         <Size width="162" height="118" />
         <Collapsed>False</Collapsed>
         <Member type="Field">Comment parent</Member>
@@ -50,7 +51,7 @@
       <Entity type="Class">
         <Name>Picture</Name>
         <Access>Public</Access>
-        <Location left="270" top="203" />
+        <Location left="163" top="135" />
         <Size width="162" height="112" />
         <Collapsed>False</Collapsed>
         <Member type="Field">Bitmap image</Member>
@@ -59,10 +60,11 @@
       <Entity type="Class">
         <Name>Bookmark</Name>
         <Access>Public</Access>
-        <Location left="1147" top="154" />
+        <Location left="1198" top="343" />
         <Size width="194" height="138" />
         <Collapsed>False</Collapsed>
         <Member type="Field">ArrayList&lt;Comment&gt; bookmark</Member>
+        <Member type="Method">public void toggleBookmark()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
@@ -77,12 +79,13 @@
       <Entity type="Class">
         <Name>SortCommentController</Name>
         <Access>Public</Access>
-        <Location left="939" top="547" />
-        <Size width="180" height="175" />
+        <Location left="917" top="662" />
+        <Size width="180" height="155" />
         <Collapsed>False</Collapsed>
         <Member type="Method">public void sortByPicture()</Member>
         <Member type="Method">public void sortByDate()</Member>
-        <Member type="Method">public void sortByScore()</Member>
+        <Member type="Method">public void sortByMyLocation()</Member>
+        <Member type="Method">public void sortByAnotherLocation()</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Class">
@@ -93,6 +96,21 @@
         <Collapsed>False</Collapsed>
         <Member type="Field">private ArrayList&lt;TopLevelComment&gt; topLevelComments</Member>
         <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>Picture will be a image associated with a comment/reply taken by phone's camera or uploaded from Gallery.</Text>
+        <Location left="163" top="39" />
+        <Size width="162" height="87" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Each sort function will do the specific sorting task while setting a variable in the User's settings to save the method of sorting.</Text>
+        <Location left="1102" top="662" />
+        <Size width="160" height="87" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>sortPreference: 0 (ByDate DEFAULT), 1 (ByMyLocation), 2 (ByAnotherLocation), 3 (ByPicture)</Text>
+        <Location left="1045" top="107" />
+        <Size width="160" height="89" />
       </Entity>
     </Entities>
     <Relationships>
