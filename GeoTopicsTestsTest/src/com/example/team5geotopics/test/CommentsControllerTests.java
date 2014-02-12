@@ -97,7 +97,55 @@ public class CommentsControllerTests extends
 	 * Use Case 14: EditAuthoredComment Test
 	 */
 	public void EditAuthoredCommentTest() {
+		/* 
+		 * not exactly sure how this should work but I figurer
+		 * a draft test can help us in the end - even if it isn't
+		 * runnable.
+		 * 
+		 * NOTE: this should maybe test last edit date instead of just testing the text
+		 * 	although this still checks that the comment was actually edited
+		 */
+		CommentsController cC = new CommentsController();
 		
+		/*
+		 * create the new top level comment by calling MakeNewTopLevelComment
+		 * and then BrowseTopLevelComments to retrieve it and change it
+		 * 
+		 * NOTE (1): perhaps we need to have some sort of search by id
+		 * 
+		 * 
+		 * NOTE (2): should MakeNewTopLevelComment return an I.D. of some sort so the we can check for it?
+		 */
+		String text = "This is a top level comment!";
+		MakeNewTopLevelComment(text);
+
+		/*
+		 * Now retrieve the top level comments
+		 */
+		ArrayList<TopLevelComment> tlc = BrowseTopLevelComments();
+		TopLevelComment myComment;
+		TopLevelComment myChangedComment;
+		
+		/*
+		 * Right now I am checking for same text but once we have an ID method we will have to check
+		 * for the id instead as it will be unique
+		 */
+		for (int i = 0; i < tlc.getSize(); i++) {
+			if (tlc.get(i).getText.equals(text)) {
+				myComment = tlc.get(i);
+			}
+		}
+		
+		EditAuthoredComment(myComment, "new text");
+		
+		for (int i = 0; i < tlc.getSize(); i++) {
+			if (tlc.get(i).getText.equals("new text")) {
+				myChangedComment = tlc.get(i);
+			}
+		}
+		
+		assertFalse("new comment should not equal old comments text", myComment.getText().equals(myChangedComment.getText()));
+		assertTrue("new comment should have text - 'new text'", myChangedComment.getText().equals("new text"));
 	}
 	
 	/*
