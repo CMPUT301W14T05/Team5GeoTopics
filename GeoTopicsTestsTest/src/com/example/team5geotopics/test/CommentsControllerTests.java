@@ -1,5 +1,7 @@
 package com.example.team5geotopics.test;
 
+import java.util.ArrayList;
+
 import android.test.ActivityInstrumentationTestCase2;
 
 /* 
@@ -18,7 +20,42 @@ public class CommentsControllerTests extends
 	 * Use Case 5: MakeNewTopLevelComment Test
 	 */
 	public void MakeNewTopLevelCommentTest() {
+		/* 
+		 * not exactly sure how this should work but I figurer
+		 * a draft test can help us in the end - even if it isn't
+		 * runnable.
+		 */
+		CommentsController cC = new CommentsController();
 		
+		/*
+		 * create the new top level comment by calling MakeNewTopLevelComment
+		 * and then BrowseTopLevelComments to ensure it's there
+		 * 
+		 * NOTE (1): picture has been ommitted since user does not always need to specify a pic.
+		 * we'll have to have a constructor to handle this
+		 * 
+		 * NOTE (2): should MakeNewTopLevelComment return an I.D. of some sort so the we can check for it?
+		 */
+		String text = "This is a top level comment!";
+		MakeNewTopLevelComment(text);
+
+		/*
+		 * Now retrieve the top level comments
+		 */
+		ArrayList<TopLevelComment> tlc = BrowseTopLevelComments();
+		
+		/*
+		 * Right now I am checking for same text but once we have an ID method we will have to check
+		 * for the id instead as it will be unique
+		 */
+		boolean success = false;
+		for (int i = 0; i < tlc.getSize(); i++) {
+			if (tlc.get(i).getText.equals(text)) {
+				success = true;
+			}
+		}
+	
+		assertTrue(success);
 	}
 	
 	/*
