@@ -1,9 +1,0 @@
-Team5GeoTopics UML
-
-Modify the UML using: NClass - http://nclass.sourceforge.net/
-
-- Created the base for the UML as discussed at our meeting - Bryce
-- Testing my Linux GitHub program interface for pushing - Bryce
-- Push didn't reconize my username, try again.. - Bryce
-
-- ArrayList of jTrees to hold root(top level comment) and children (replies).
