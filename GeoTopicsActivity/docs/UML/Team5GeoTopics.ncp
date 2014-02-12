@@ -1,0 +1,191 @@
+<Project>
+  <Name>Team5GeoTopics</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Team5GeoTopicsUML</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Comment</Name>
+        <Access>Public</Access>
+        <Location left="594" top="343" />
+        <Size width="182" height="202" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">int geolocation</Member>
+        <Member type="Field">String text</Member>
+        <Member type="Field">Bitmap picture</Member>
+        <Member type="Field">Date time</Member>
+        <Member type="Field">String author</Member>
+        <Member type="Field">ArrayList&lt;Comment&gt; children</Member>
+        <Member type="Constructor">public Comment()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Favorites</Name>
+        <Access>Public</Access>
+        <Location left="550" top="135" />
+        <Size width="188" height="113" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">ArrayList&lt;Comment&gt; favorites</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>User</Name>
+        <Access>Public</Access>
+        <Location left="940" top="206" />
+        <Size width="162" height="136" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">String username</Member>
+        <Member type="Field">String ID</Member>
+        <Member type="Field">int sortPreference = 0</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Reply</Name>
+        <Access>Public</Access>
+        <Location left="940" top="428" />
+        <Size width="162" height="118" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Comment parent</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Picture</Name>
+        <Access>Public</Access>
+        <Location left="163" top="135" />
+        <Size width="162" height="112" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">Bitmap image</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Bookmark</Name>
+        <Access>Public</Access>
+        <Location left="1198" top="343" />
+        <Size width="194" height="138" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">ArrayList&lt;Comment&gt; bookmark</Member>
+        <Member type="Method">public void toggleBookmark()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>TopLevelComment</Name>
+        <Access>Public</Access>
+        <Location left="270" top="357" />
+        <Size width="162" height="135" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">String ID</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>SortCommentController</Name>
+        <Access>Public</Access>
+        <Location left="917" top="662" />
+        <Size width="180" height="155" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public void sortByPicture()</Member>
+        <Member type="Method">public void sortByDate()</Member>
+        <Member type="Method">public void sortByMyLocation()</Member>
+        <Member type="Method">public void sortByAnotherLocation()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>TLCommentList</Name>
+        <Access>Public</Access>
+        <Location left="217" top="587" />
+        <Size width="294" height="117" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private ArrayList&lt;TopLevelComment&gt; topLevelComments</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>Picture will be a image associated with a comment/reply taken by phone's camera or uploaded from Gallery.</Text>
+        <Location left="163" top="39" />
+        <Size width="162" height="87" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Each sort function will do the specific sorting task while setting a variable in the User's settings to save the method of sorting.</Text>
+        <Location left="1102" top="662" />
+        <Size width="160" height="87" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>sortPreference: 0 (ByDate DEFAULT), 1 (ByMyLocation), 2 (ByAnotherLocation), 3 (ByPicture)</Text>
+        <Location left="1045" top="107" />
+        <Size width="160" height="89" />
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="0" second="4">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="1" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+        <StartMultiplicity>0..*</StartMultiplicity>
+        <EndMultiplicity>0..*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="2" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Generalization" first="3" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="2" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+      </Relationship>
+      <Relationship type="Generalization" first="6" second="0">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="2" second="0">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>781</X>
+          <Y>498</Y>
+        </BendPoint>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>0..*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="0" second="7">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="8" second="6">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Bidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>0..*</EndMultiplicity>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
