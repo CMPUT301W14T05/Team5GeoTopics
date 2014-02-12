@@ -83,7 +83,16 @@ public class CommentsControllerTests extends
 	 * Use Case 9: AddPictureToComment Test
 	 */
 	public void AddPictureToCommentTest() {
+		CommentsController cC = new CommentsController();
+		ArrayList<Comment> Comments = new ArrayList<Comment>();
+		Comment c = new Comment("Test.");
+		Picture pic1 = new Picture(cat.bmp);
 		
+		AddPictureToComment(c, pic1);
+		Comments.add(c);
+		
+		assertEquals("Returns true is comment has"
+		+ " a picture", true, Comments.get(1).hasPicture());
 	}
 	
 	/*
