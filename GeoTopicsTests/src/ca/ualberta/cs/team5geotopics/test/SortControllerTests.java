@@ -192,4 +192,25 @@ public class SortControllerTests extends ActivityInstrumentationTestCase2<SortCo
 		assertTrue(unsortedComments.equals(sortedComments));
 	}
 	
+	/*
+	 * UseCase 4: SortCommentsByScoringSystem
+	 */
+	public sortCommentsByScoringSystemTest() {
+		
+	}
+	
+	/*
+	 * missing used case!!!
+	 */
+	public sortCommmentsByTimeTest() {
+		
+	}
+	
+	/*
+	 * UseCase 17: Default Fresh Comments
+	 */
+	public sortCommentsByDefaultTest() {
+		
+	}
+	
 }
