@@ -168,6 +168,8 @@ public class SortControllerTests extends ActivityInstrumentationTestCase2<SortCo
 		
 		/*
 		 * Not really sure how these are relevant - Tyler
+		 * I figured we would need a photo attached to a comment
+		 * in order to sort by photos which are near me - Bryce
 		 */
 		//Picture pic1 = new Picture(cat.bmp);
 		//Picture pic2 = new Picture(dog.bmp);
@@ -203,7 +205,38 @@ public class SortControllerTests extends ActivityInstrumentationTestCase2<SortCo
 	 * missing used case!!!
 	 */
 	public testSortCommmentsByTime() {
+	
+		SortView sV = new SortView();	
 		
+		// Dates (This is probably highly incorrect but a good visual)
+		Date date1 = new Date(1/12/2014);
+		Date date2 = new Date(2/12/2014);
+		Date date3 = new Date(3/12/2014);
+		
+		ArrayList<Comment> unsortedComments = new ArrayList<Comment>();
+		ArrayList<Comment> sortedComments = new ArrayList<Comment>();	
+
+		Comment com1 = new Comment(date1);
+		Comment com2 = new Comment(date2);
+		Comment com3 = new Comment(date3);		
+		
+		// Random sort
+		unsortedComments.add(com2);
+		unsortedComments.add(com3);
+		unsortedComments.add(com1);
+		
+		// Sort by newest first
+		sortedComments.add(com3);
+		sortedComments.add(com2);
+		sortedComments.add(com1);
+		
+		
+		// It should not be Time but rather Date as that is what we have
+		// been using. This function would just check the dates. Won't
+		// be difficult to implement.
+		sV.sortCommentsByTime(unsortedComments);
+
+		assertTrue(unsortedComments.equals(sortedComments));
 	}
 	
 	/*
