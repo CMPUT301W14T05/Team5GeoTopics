@@ -1,7 +1,12 @@
 package ca.ualberta.cs.team5geotopics.test;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+import org.w3c.dom.Comment;
+
+import android.graphics.Picture;
 import android.test.ActivityInstrumentationTestCase2;
 
 /* 
@@ -161,6 +166,39 @@ public class CommentsControllerTests extends
 	 * Use Case 16: GetLatestComments Test
 	 */
 	public void GetLatestComments() {
+		/* 
+		 * Im assuming getLatestComments() will return some arrayList<Comment>
+		 */
+		Date date1 = new Date(0);
+		Date date2 = new Date(50000);
+		Date date3 = new Date(100000);
+		
+		Comment com1 = new Comment("default1", date1);
+		Comment com2 = new Comment("default2", date2);
+		Comment com3 = new Comment("default3", date3);
+		
+		/*
+		 * Assumption being made here is that
+		 */
+		MakeNewTopLevelCommentTest(com1);
+		MakeNewTopLevelCommentTest(com2);
+		MakeNewTopLevelCommentTest(com3);
+		
+		/*
+		 * set up the unsorted list
+		 */
+		List<Comment> sortedComList = new ArrayList<Comment>();
+		sortedComList.add(com3);
+		sortedComList.add(com2);
+		sortedComList.add(com1);
+		
+		/*
+		 * get latest Comment returns all of the latest comments, the top three should be our 
+		 * 3 new ones ordered
+		 */
+		ArrayList<Comment> retrievedList = getLatestComments();
+		List<Comment> subList = retrievedList.subList(0, 3);
+		assertTrue("this sub list should be equal to our defined sorted list", subList.equals(sortedComList));
 		
 	}
 	
