@@ -13,7 +13,7 @@ public class SortControllerTests extends ActivityInstrumentationTestCase2<SortCo
 		super(SortController.class);
 	}
 
-	public void sortByProximityToMe() {
+	public void testSortByProximityToMe() {
 		/* I am not sure yet as to exactly how our class system will be setup so for now
 		 * I will make direct calls to the sortController as it is specified in the 
 		 * UML. 
@@ -68,7 +68,7 @@ public class SortControllerTests extends ActivityInstrumentationTestCase2<SortCo
 		assertTrue(unsortedComments.equals(sortedComments));
 	}
 	
-	public void sortByProximityToLocation() {
+	public void testSortByProximityToLocation() {
 		/* I am not sure yet as to exactly how our class system will be setup so for now
 		 * I will make direct calls to the sortController as it is specified in the 
 		 * UML. 
@@ -131,7 +131,7 @@ public class SortControllerTests extends ActivityInstrumentationTestCase2<SortCo
 		assertTrue(unsortedComments.equals(sortedComments));
 	}
 	
-	public void sortByProximityToPicture() {
+	public void testSortByProximityToPicture() {
 		/* I am not sure yet as to exactly how our class system will be setup so for now
 		 * I will make direct calls to the sortController as it is specified in the 
 		 * UML. 
@@ -195,21 +195,21 @@ public class SortControllerTests extends ActivityInstrumentationTestCase2<SortCo
 	/*
 	 * UseCase 4: SortCommentsByScoringSystem
 	 */
-	public sortCommentsByScoringSystemTest() {
+	public testSortCommentsByScoringSystem() {
 		
 	}
 	
 	/*
 	 * missing used case!!!
 	 */
-	public sortCommmentsByTimeTest() {
+	public testSortCommmentsByTime() {
 		
 	}
 	
 	/*
 	 * UseCase 17: Default Fresh Comments
 	 */
-	public sortCommentsByDefaultTest() {
+	public testSortCommentsByDefault() {
 		
 	}
 	

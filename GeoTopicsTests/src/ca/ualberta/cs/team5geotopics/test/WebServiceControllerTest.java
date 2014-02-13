@@ -44,7 +44,7 @@ public class WebServiceControllerTest extends
 	 * Use Case 15: PushCommentsOnInternetConnectivity
 	 * this tests for failure
 	 */
-	public void pushCommentsOnInternetConTestFail(){
+	public void testPushCommentsOnInternetConTestFail(){
 		WebServiceController wsc = new WebServiceController();
 		// ensure network disconnectivity
 		Comment c = new Comment("Test.");
@@ -60,7 +60,7 @@ public class WebServiceControllerTest extends
 	 * Use Case 15: PushCommentsOnInternetConnectivity
 	 * this tests for success
 	 */
-	public void pushCommentsOnInternetConTestPass(){
+	public void testPushCommentsOnInternetConTestPass(){
 		WebServiceController wsc = new WebServiceController();
 		// ensure network connectivity
 		Comment c = new Comment("Test.");
@@ -95,7 +95,7 @@ public class WebServiceControllerTest extends
 		updated: Feb 8/2014 11:00am slmyers
 		last update: Feb 12/2014 8:48pm twendlan
 	*/
-	public void GetCommentsOnInternetReconnectTest(){
+	public void testGetCommentsOnInternetReconnect(){
 		WebServiceController wsc = new WebServiceController();
 		Comment c = new Comment("Test");
 		// ensure connectivity via sometype of code here

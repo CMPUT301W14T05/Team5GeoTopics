@@ -26,7 +26,7 @@ public class CommentsControllerTests extends
 	/*
 	 * Use Case 5: MakeNewTopLevelComment Test
 	 */
-	public void MakeNewTopLevelCommentTest() {
+	public void testMakeNewTopLevelComment() {
 		/* 
 		 * not exactly sure how this should work but I figurer
 		 * a draft test can help us in the end - even if it isn't
@@ -68,21 +68,21 @@ public class CommentsControllerTests extends
 	/*
 	 * Use Case 6: BrowseTopLevelComments Test
 	 */
-	public void BrowseTopLevelCommentsTest() {
+	public void testBrowseTopLevelComments() {
 		
 	}
 	
 	/*
 	 * Use Case 7: BrowseCommentReplies Test
 	 */
-	public void BrowseCommentRepliesTest() {
+	public void testBrowseCommentReplies() {
 		
 	}
 	
 	/*
 	 * Use Case 8: ReplyToComment Test
 	 */
-	public void ReplyToCommentTest() {
+	public void testReplyToComment() {
 		Comment Reply = new comment("This is a reply");
 		
 		ListView lw = (ListView) findViewById(ca.ualberta.cs.team5geotopics.R.id.commentList);
@@ -98,7 +98,7 @@ public class CommentsControllerTests extends
 	/*
 	 * Use Case 9: AddPictureToComment Test
 	 */
-	public void AddPictureToCommentTest() {
+	public void testAddPictureToComment() {
 		CommentsController cC = new CommentsController();
 		ArrayList<Comment> Comments = new ArrayList<Comment>();
 		Comment c = new Comment("Test.");
@@ -125,14 +125,14 @@ public class CommentsControllerTests extends
 	/*
 	 * Use Case 12: SaveComentAsFavoritees Test
 	 */
-	public void SaveCommentAsFavoritTest() {
+	public void testSaveCommentAsFavorit() {
 		
 	}
 
 	/*
 	 * Use Case 14: EditAuthoredComment Test
 	 */
-	public void EditAuthoredCommentTest() {
+	public void testEditAuthoredComment() {
 		/* 
 		 * not exactly sure how this should work but I figurer
 		 * a draft test can help us in the end - even if it isn't
@@ -187,7 +187,7 @@ public class CommentsControllerTests extends
 	/*
 	 * Use Case 16: GetLatestComments Test
 	 */
-	public void GetLatestComments() {
+	public void testGetLatestComments() {
 		/* 
 		 * Im assuming getLatestComments() will return some arrayList<Comment>
 		 */
