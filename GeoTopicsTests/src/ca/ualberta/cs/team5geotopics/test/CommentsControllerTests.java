@@ -109,6 +109,17 @@ public class CommentsControllerTests extends
 		
 		assertEquals("Returns true is comment has"
 		+ " a picture", true, Comments.get(1).hasPicture());
+		
+		/*
+		 * -----MATTS VERSION-------
+		 * Comment com = new comment("This is a comment");
+		 * Picture pic = new picture("testPic.bmp");
+		 * com.addPicture(pic);
+		 * int id = makeNewTopLevelComment(com); //lets have an Id returned when a comment is made
+		 * 
+		 * ArrayList<TopLevelComment> tlc = BrowseTopLevelComments();
+		 * assertEquals(tlc.getItem(id).getPicture(), pic);
+		 */
 	}
 	
 	/*
