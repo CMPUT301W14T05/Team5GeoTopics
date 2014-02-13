@@ -8,6 +8,8 @@ import org.w3c.dom.Comment;
 
 import android.graphics.Picture;
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 /* 
  * contains the test code for all methods in the CommentsController class
@@ -81,7 +83,16 @@ public class CommentsControllerTests extends
 	 * Use Case 8: ReplyToComment Test
 	 */
 	public void ReplyToCommentTest() {
+		Comment Reply = new comment("This is a reply");
 		
+		ListView lw = (ListView) findViewById(ca.ualberta.cs.team5geotopics.R.id.commentList);
+		ArrayAdapter<comments> aa = (ArrayAdapter<comments>) lw.getAdapter();
+		Comment parent = aa.getItem(0);//grabs the first comment (probably have to check that this exists)
+		replyToComment(reply, parent); //assuming that this will require 2 comments as arguments
+		
+		assertEquals(reply, aa.getItem(0).getChild()); /*I also make the 
+		assumption that the comment had no other replies (getChild should 
+		return a list and the index of the new comment should be determined) */
 	}
 	
 	/*
