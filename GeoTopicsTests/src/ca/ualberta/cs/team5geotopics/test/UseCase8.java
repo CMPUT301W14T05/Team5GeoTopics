@@ -44,7 +44,7 @@ public class UseCase8 extends ActivityInstrumentationTestCase2<GeoTopicsActivity
 	}
 
 	public void testSuccess(){
-		Comment Reply = new Reply("This is a reply");
+		Comment Reply = new comment("This is a reply");
 		
 		ListView lw = (ListView) findViewById(ca.ualberta.cs.team5geotopics.R.id.commentList);
 		ArrayAdapter<comments> aa = (ArrayAdapter<comments>) lw.getAdapter();
