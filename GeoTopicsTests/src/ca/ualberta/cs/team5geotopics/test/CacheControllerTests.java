@@ -47,5 +47,20 @@ public class CacheControllerTests extends
 		
 		assertEquals("Testing the two comments", true, Comment1.text, Comment2.text);
 	}
+	
+	//use case 11.
+	//Caches a comment to read offline
+	
+	public void testCacheWntToRead(){
+		CacheController cacheController = new CacheController();
+		CommentBuilder commentBuilder = new commentBuilder();
+		Comment comment = commentBuilder.createTestComment();
+		
+		cacheController.addToBookmarked(comment);
+		ArrayList<Comment> commentList = cacheController.getBookmarks();
+		
+		assertTrue(commentList.contains(comment));
+		
+	}
 
 }
