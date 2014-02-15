@@ -1,0 +1,14 @@
+Using a UI thread, a TopLevelComment -- topLevel -- and a Reply -- reply -- are created. Ensure that the Favorites Cache is empty.
+Both of these comments are added to the the Favorites Cache. Then the Favorites Cache is loaded into the CommentAdapter associated with the
+ListView that is associated with the GeoTopicsActivity. This is done by selecting the view Favorites. The ListView is then updated. 
+
+To Verify the results:
+				//when the comments are added to the favorites cache
+				assertTrue(cacheController.getFavorites().contains(adapter.getItem(0)));
+				assertTrue(cacheController.getFavorites().contains(adapter.getItem(1)));
+				//viewFavoritesBtn = (Button) activity.findViewById(ca.ualberta.cs.team5geotopics.R.id.viewFavorites);
+				ViewAsserts.assertOnScreen(viewFavoritesBtn.getRootView(), viewFavoritesBtn); 
+				//when the favorites cache is loaded
+				ViewAsserts.assertOnScreen(listView, view); //view = adapter.getView(0, null, null);
+				ViewAsserts.assertOnScreen(listView, view); //view = adapter.getView(1, null, null);
+				

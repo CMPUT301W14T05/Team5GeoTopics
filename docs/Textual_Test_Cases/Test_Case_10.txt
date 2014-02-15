@@ -1,0 +1,10 @@
+Using a UI thread, a test TopLevelComment -- topLevel -- is created. topLevel is then pushed to the CommentController, and if we are w/o WebServiceController functionality, 
+then the CommentController will push topLevel into the CommentArrayAdapter.Otherwise topLevel can be pushed to WebServiceController and retrieved from WebServiceController 
+where it will then be pushed into CommentArrayAdapter. The ListView associated with CommentArrayAdapter is then updated. topLevel is then selected to be viewed.
+
+To Verify the results:
+
+ ViewAsserts.assertOnScreen(listView, view); // use this when the ListView is updated 
+																						 // view is adapter.getView(adapter.getPosition(topLevel), null, null);
+ assertTrue(cacheController.getHistory().contains(adapter.getItem(0))); // this requires that topLevel is the first TopLevelComment loaded
+
