@@ -1,9 +1,10 @@
 Using a UI test thread, three Comments are created with different locations.
 i.e., firstComment.Location != secondComment.Location != thirdComment.Location
 In the same thread the comments are then loaded into the CommentArrayAdapter.
-Code is written to initiate a Sort by Proximity to Me is initiated. 
+Code is written to initiate a Sort by Location with a location that is unique
+among the locations of the Comments. 
 
 To verify the results:
-ensure that Comment_0.Distance <= Comment_1.Distance <= Comment_2.
+ensure that Comment_0.Distance <= Comment_1.Distance <= ... <= Comment_n.Distance
 
 the _x subscript where x is an int refers to the Comment position in the array adapter.

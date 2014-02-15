@@ -1,0 +1,9 @@
+Using a UI test thread, two Comments are created with different picture properties.
+i.e., firstComment.hasPicture() == false && secondComment.hasPicture() == true
+In the same thread the comments are then loaded into the CommentArrayAdapter.
+Code is written to initiate a Sort by Picture.
+
+To verify the results:
+ensure that Comment_0.hasPicture() == true && Comment_1.hasPicture == false
+
+the _x subscript where x is an int refers to the Comment position in the array adapter.
