@@ -79,9 +79,8 @@ public class CacheControllerTests extends
 			public void run(){
 				//cache controller is a singleton
 				CacheController cacheController = getCacheController();
-				//create the comment and then adds the comment to the CommentController
-				CommentBuilder commentBuilder = new commentBuilder();
-				Comment comment = commentBuilder.createTopTestComment();
+				//creates test comment
+				createTestComment();
 				//browse button on main screen
 				((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.browseButton)).performClick();
 				//after we hit browse we should load TopLevelComments and it should only be the test comment in there
@@ -113,16 +112,15 @@ public class CacheControllerTests extends
 			public void run(){
 				//cache controller is a singleton
 				CacheController cacheController = getCacheController();
-				//create the comment and then adds the comment to the CommentController
-				CommentBuilder commentBuilder = new commentBuilder();
-				Comment comment = commentBuilder.createTopTestComment();
+				//creates test comment
+				createTestComment();
 				//browse button on main screen
 				((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.browseButton)).performClick();
 				//the ListView for the custom adapter
 				ListView listView = (ListView) activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.commentList);
 				ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) listView.getAdapter();
 				// click comment to view it
-				View view = adapter.getView(adapter.getPosition(comment), null, null);
+				View view = adapter.getView(0, null, null);
 				ViewAsserts.assertOnScreen(listView, view);
 				view.performClick();
 				
@@ -135,7 +133,8 @@ public class CacheControllerTests extends
 				// is there a way I can get references to the objects
 				// already instantiated in the test thread?
 				
-				assertTrue(cacheController.getBookMarks().contains(comment));
+				assertTrue(cacheController.getBookMarks().contains(adapter.getItem(0)));
+				
 			}
 		});
 	}
@@ -151,9 +150,10 @@ public class CacheControllerTests extends
 			
 			@Override
 			public void run() {
-				//create the comment and then adds the comment to the CommentController
-				CommentBuilder commentBuilder = new commentBuilder();
-				Comment comment = commentBuilder.createTopTestComment();
+				//cache controller is a singleton
+				CacheController cacheController = getCacheController();
+				//creates test comment
+				createTestComment();
 				//browse button on main screen
 				((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.browseButton)).performClick();
 				//the ListView for the custom adapter
@@ -162,7 +162,7 @@ public class CacheControllerTests extends
 				ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) listView.getAdapter();
 				
 				//click comment to view it
-				View view = adapter.getView(adapter.getPosition(comment), null, null);
+				View view = adapter.getView(0, null, null);
 				ViewAsserts.assertOnScreen(listView, view);
 				view.performClick();
 				
@@ -172,6 +172,7 @@ public class CacheControllerTests extends
 				ViewAsserts.assertOnScreen(favorite.getRootView(), favorite);
 				favorite.performClick();
 				//shutdown app
+				
 			}
 		});
 		
@@ -179,9 +180,6 @@ public class CacheControllerTests extends
 			
 			@Override
 			public void run(){
-				//create the comment and then adds the comment to the CommentController
-				CommentBuilder commentBuilder = new commentBuilder();
-				Comment comment = commentBuilder.createTopTestComment();
 				// the favorites button on app startup
 				((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.favoritesButton))
 				.performClick();
@@ -190,11 +188,21 @@ public class CacheControllerTests extends
 				ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) listView.getAdapter();
 				
 				//assert that the ListView has a view that represents our comment uploaded into favorites
-				View view = adapter.getView(adapter.getPosition(comment), null, null);
+				View view = adapter.getView(0, null, null);
 				ViewAsserts.assertOnScreen(listView, view);
+				CacheController.emptyCaches();
 			}
 		});
+		
+		
 			
 	}
-
+	
+	public void createTestComment(){
+		((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.R.id.createNewTopComment)).performClick();
+		EditText comment = (EditText) findViewById(ca.ualberta.cs.team5geotopics.R.id.commentTextInput);
+		comment.setText("Test");
+		((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.newCommentOk)).performClick();
+		
+	}
 }

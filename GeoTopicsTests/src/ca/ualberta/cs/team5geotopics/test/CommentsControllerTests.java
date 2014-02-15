@@ -6,9 +6,18 @@ import java.util.List;
 
 import org.w3c.dom.Comment;
 
+import ca.ualberta.cs.team5geotopics.GeoTopicsActivity;
+
+import android.app.Activity;
+import android.app.Instrumentation;
 import android.graphics.Picture;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.ViewAsserts;
+import android.view.View;
+import android.webkit.WebView.FindListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 /* 
@@ -17,12 +26,22 @@ import android.widget.ListView;
  * NOTE: this is currently skeleton test code - please add to it
  */
 public class CommentsControllerTests extends
-		ActivityInstrumentationTestCase2<CommentsController> {
+		ActivityInstrumentationTestCase2<GeoTopicsActivity> {
 
+	Instrumentation instrumentation;
+	Activity activity;
+	
+	
 	public CommentsControllerTests() {
-		super(CommentsController.class);
+		super(GeoTopicsActivity.class);
 	}
 
+	protected void setUp() throws Exception{
+		super.setUp();
+		instrumentation = getInstrumentation();
+		activity = getActivity();
+	}
+	
 	/*
 	 * Use Case 5: MakeNewTopLevelComment Test
 	 */
@@ -67,8 +86,26 @@ public class CommentsControllerTests extends
 	
 	/*
 	 * Use Case 6: BrowseTopLevelComments Test
+	 * browse list of TopLevelComments
 	 */
-	public void testBrowseTopLevelComments() {
+	public void testBrowseTopLevelComments() throws Throwable{
+		runTestOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				createTestComment();
+				((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.R.id.browseButton)).performClick();
+				ListView lv = ((ListView)activity.findViewById(ca.ualberta.cs.team5geotopics.R.id.browseButton));
+				
+				ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) lv.getAdapter();
+				
+				
+				View view = adapter.getView(0, null, null);
+				ViewAsserts.assertOnScreen(lv, view);
+				
+			}
+		});
+		
 		
 	}
 	
@@ -221,6 +258,14 @@ public class CommentsControllerTests extends
 		ArrayList<Comment> retrievedList = getLatestComments();
 		List<Comment> subList = retrievedList.subList(0, 3);
 		assertTrue("this sub list should be equal to our defined sorted list", subList.equals(sortedComList));
+		
+	}
+	
+	public void createTestComment(){
+		((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.R.id.createNewTopComment)).performClick();
+		EditText comment = (EditText) findViewById(ca.ualberta.cs.team5geotopics.R.id.commentTextInput);
+		comment.setText("Test");
+		((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.newCommentOk)).performClick();
 		
 	}
 	
