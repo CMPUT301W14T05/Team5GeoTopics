@@ -2,14 +2,36 @@ package ca.ualberta.cs.team5geotopics.test;
 
 import java.util.ArrayList;
 
+import org.w3c.dom.Comment;
+
+import ca.ualberta.cs.team5geotopics.GeoTopicsActivity;
+
+import android.R;
+import android.app.Activity;
+import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.ViewAsserts;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 
 
 public class CacheControllerTests extends
-		ActivityInstrumentationTestCase2<CacheController> {
-
+		ActivityInstrumentationTestCase2<GeoTopicsActivity> {
+	
+	Instrumentation instrumentation;
+	Activity activity;
+	
 	public CacheControllerTests() {
-		super(CacheController.class);
+		super(GeoTopicsActivity.class);
+	}
+	
+	protected void setUp() throws Exception{
+		super.setUp();
+		instrumentation = getInstrumentation();
+		activity = getActivity();
 	}
 	
 	// Test Case 10.
@@ -48,19 +70,131 @@ public class CacheControllerTests extends
 		assertEquals("Testing the two comments", true, Comment1.text, Comment2.text);
 	}
 	
+	// use case 10b alternate version
+	// caches a read comment temporarily 
+	public void testCacheReadComment2() throws Throwable{
+		runTestOnUiThread(new Runnable()
+		{
+			@Override
+			public void run(){
+				//cache controller is a singleton
+				CacheController cacheController = getCacheController();
+				//create the comment and then adds the comment to the CommentController
+				CommentBuilder commentBuilder = new commentBuilder();
+				Comment comment = commentBuilder.createTopTestComment();
+				//browse button on main screen
+				((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.browseButton)).performClick();
+				//after we hit browse we should load TopLevelComments and it should only be the test comment in there
+				//the ListView for the custom adapter
+				ListView listView = (ListView) activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.commentList);
+				//the custom adapter on the physical screen
+				ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) listView.getAdapter();
+				
+				//click on comment to view it
+				
+				View view = adapter.getView(adapter.getPosition(comment), null, null);
+				ViewAsserts.assertOnScreen(listView, view);
+				view.performClick();
+
+				assertTrue(cacheController.getHistory().contains(comment));
+
+			}
+		});
+	}
+	
+	
 	//use case 11.
 	//Caches a comment to read offline
 	
-	public void testCacheWntToRead(){
-		CacheController cacheController = new CacheController();
-		CommentBuilder commentBuilder = new commentBuilder();
-		Comment comment = commentBuilder.createTestComment();
+	public void testCacheWntToRead() throws Throwable{
+		runTestOnUiThread(new Runnable()
+		{
+			@Override
+			public void run(){
+				//cache controller is a singleton
+				CacheController cacheController = getCacheController();
+				//create the comment and then adds the comment to the CommentController
+				CommentBuilder commentBuilder = new commentBuilder();
+				Comment comment = commentBuilder.createTopTestComment();
+				//browse button on main screen
+				((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.browseButton)).performClick();
+				//the ListView for the custom adapter
+				ListView listView = (ListView) activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.commentList);
+				ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) listView.getAdapter();
+				// click comment to view it
+				View view = adapter.getView(adapter.getPosition(comment), null, null);
+				ViewAsserts.assertOnScreen(listView, view);
+				view.performClick();
+				
+				//ok at this time the ListView should be updated to display
+				//only the ConcreteCommentView of comment
+				Button bookMark = (Button) activity.findViewById(ca.ualberta.cs.team5geotopics.R.id.toggleBookMark);
+				ViewAsserts.assertOnScreen(bookMark.getRootView(), bookMark);
+				bookMark.performClick();
+				
+				// is there a way I can get references to the objects
+				// already instantiated in the test thread?
+				
+				assertTrue(cacheController.getBookMarks().contains(comment));
+			}
+		});
+	}
+			
 		
-		cacheController.addToBookmarked(comment);
-		ArrayList<Comment> commentList = cacheController.getBookmarks();
+	
+	
+	//use case 13
+	//Loads favorites Cache
+	
+	public void testViewFavouriteComments() throws Throwable{
+		runTestOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				//create the comment and then adds the comment to the CommentController
+				CommentBuilder commentBuilder = new commentBuilder();
+				Comment comment = commentBuilder.createTopTestComment();
+				//browse button on main screen
+				((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.browseButton)).performClick();
+				//the ListView for the custom adapter
+				ListView listView = (ListView) activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.commentList);
+				//the custom adapter on the physical screen
+				ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) listView.getAdapter();
+				
+				//click comment to view it
+				View view = adapter.getView(adapter.getPosition(comment), null, null);
+				ViewAsserts.assertOnScreen(listView, view);
+				view.performClick();
+				
+				//only the ConcreteCommentView of comment
+				//not sure where toggleFavorite is ie which view
+				Button favorite = (Button) activity.findViewById(ca.ualberta.cs.team5geotopics.R.id.toggleFavorite);
+				ViewAsserts.assertOnScreen(favorite.getRootView(), favorite);
+				favorite.performClick();
+				//shutdown app
+			}
+		});
 		
-		assertTrue(commentList.contains(comment));
-		
+		runTestOnUiThread(new Runnable(){
+			
+			@Override
+			public void run(){
+				//create the comment and then adds the comment to the CommentController
+				CommentBuilder commentBuilder = new commentBuilder();
+				Comment comment = commentBuilder.createTopTestComment();
+				// the favorites button on app startup
+				((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.favoritesButton))
+				.performClick();
+				ListView listView = (ListView) activity.findViewById(ca.ualberta.cs.team5geotopics.R.id.commentList);
+				
+				ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) listView.getAdapter();
+				
+				//assert that the ListView has a view that represents our comment uploaded into favorites
+				View view = adapter.getView(adapter.getPosition(comment), null, null);
+				ViewAsserts.assertOnScreen(listView, view);
+			}
+		});
+			
 	}
 
 }
