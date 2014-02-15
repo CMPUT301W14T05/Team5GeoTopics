@@ -197,14 +197,26 @@ public class SortControllerTests extends ActivityInstrumentationTestCase2<SortCo
 	/*
 	 * UseCase 4: SortCommentsByScoringSystem
 	 */
-	public testSortCommentsByScoringSystem() {
-		
+	public void testSortCommentsByScoringSystem() {
+		/* 
+		 * Not exactly sure how we will test this yet, as we have not clearly
+		 * laid out how we will be setting up said 'scoring system'. We may need
+		 * a few test cases for this as users will have to be able to select different
+		 * attributes to sort on.
+		 * 
+		 * The main flow of this test will be much like the other sorting tests found in 
+		 * this class. We will have to create a few dummy comments with different attributes
+		 * then we will have to test the different possible scoring systems on the dummy
+		 * comments. Since we what attributes make up the comments we will be able to 
+		 * predetermine the expected outcomes and will compare them to the actual outcomes
+		 * in order to test this.
+		 */
 	}
 	
 	/*
 	 * missing used case!!!
 	 */
-	public testSortCommmentsByTime() {
+	public void testSortCommmentsByTime() {
 	
 		SortView sV = new SortView();	
 		
@@ -242,8 +254,15 @@ public class SortControllerTests extends ActivityInstrumentationTestCase2<SortCo
 	/*
 	 * UseCase 17: Default Fresh Comments
 	 */
-	public testSortCommentsByDefault() {
-		
+	public void testSortCommentsByDefault() {
+		/*
+		 * This method MAY be removed as most of the group has agreed that 
+		 * the default sort is in fact going to be sortByProximityToMe(). and
+		 * we have already built the test case for that above.
+		 * 
+		 * If we do not remove it it will be a similar test as the 
+		 * testSortByProximityToMe(). (Literally the same actually).
+		 */
 	}
 	
 }
