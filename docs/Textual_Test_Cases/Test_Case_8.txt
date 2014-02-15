@@ -8,3 +8,5 @@ To Verify the results:
 
  use ViewAsserts.assertOnScreen(ListView, CommentArrayAdapter.getView(replyLevel, null, null))
  // review second parameter 
+
+ // same as Test_Case_7.txt
