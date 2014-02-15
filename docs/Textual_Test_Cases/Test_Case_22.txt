@@ -3,5 +3,6 @@ and if we are w/o WebServiceController functionality, then the CommentController
 WebServiceController and retrieved from WebServiceController where it will then be pushed into CommentArrayAdapter. The ListView associated with CommentArrayAdapter is then updated. 
 topLevel is then selected to be viewed.
 
+
 To verify results:
-	assertTrue(adapter.getItem(adapter.getPosition(topLevel)).getAuthorName.equals("test author"));
+	assertFalse(adapter.getItem(adapter.getPosition(topLevel)).getAuthorName() != null);
