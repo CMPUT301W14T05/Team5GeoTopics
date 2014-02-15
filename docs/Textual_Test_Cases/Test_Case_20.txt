@@ -1,0 +1,6 @@
+Using a UI thread, a TopLevelComment -- topLevel -- is created. This is then pushed to ElasticSearch, so to ensure that there is a 
+comment to get. This should not have to be done explicitly. Browse TopLevelComments is intiated. topLevel should be pulled from
+the ElasticSearch at this step.
+
+To Verify the results:
+	ViewAsserts.assertOnScreen(listView, view); //where view = adapter.getView(adapter.getPosition(topLevel), null, null);
