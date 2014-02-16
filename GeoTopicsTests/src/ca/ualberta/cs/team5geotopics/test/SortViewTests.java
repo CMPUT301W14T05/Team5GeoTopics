@@ -2,8 +2,6 @@ package ca.ualberta.cs.team5geotopics.test;
 
 import java.util.ArrayList;
 
-import org.w3c.dom.Comment;
-
 import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
 
