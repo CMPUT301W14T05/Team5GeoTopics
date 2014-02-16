@@ -1,7 +1,7 @@
 package ca.ualberta.cs.team5geotopics.test;
 
 import java.util.ArrayList;
-
+import ca.ualberta.cs.team5geotopics.Comment;
 import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
 

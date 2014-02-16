@@ -6,6 +6,7 @@ import java.util.List;
 
 
 import ca.ualberta.cs.team5geotopics.GeoTopicsActivity;
+import ca.ualberta.cs.team5geotopics.Comment;
 
 import android.app.Activity;
 import android.app.Instrumentation;
