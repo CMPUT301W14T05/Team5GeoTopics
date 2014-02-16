@@ -1,6 +1,8 @@
-Using a UI thread, a TopLevelComment -- topLevel -- is created using "test author" as the author name.topLevel is then pushed to the CommentController, 
-and if we are w/o WebServiceController functionality, then the CommentController will push topLevel into the CommentArrayAdapter.Otherwise topLevel can be pushed to 
-WebServiceController and retrieved from WebServiceController where it will then be pushed into CommentArrayAdapter. The ListView associated with CommentArrayAdapter is then updated. 
+Using a UI thread, a TopLevelComment -- topLevel -- is created using "test author" as the author name.
+topLevel is then pushed to the CommentController, and if we are w/o WebServiceController functionality, 
+then the CommentController will push topLevel into the CommentArrayAdapter.
+Otherwise topLevel can be pushed to WebServiceController and retrieved from WebServiceController 
+where it will then be pushed into CommentArrayAdapter. The ListView associated with CommentArrayAdapter is then updated. 
 topLevel is then selected to be viewed.
 
 To verify results:

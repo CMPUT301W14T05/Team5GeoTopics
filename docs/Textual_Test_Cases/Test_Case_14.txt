@@ -1,15 +1,23 @@
-Using a UI thread, a TopLevelComment -- topLevel -- is created. topLevel is then pushed to the CommentController, and if we are w/o WebServiceController functionality, 
-then the CommentController will push topLevel into the CommentArrayAdapter.Otherwise topLevel can be pushed to WebServiceController and retrieved from WebServiceController 
-where it will then be pushed into CommentArrayAdapter. The ListView associated with CommentArrayAdapter is then updated. topLevel is then selected to be viewed.
-Then the comment text is edited, location is edited and picure is edited. The ListView associated with CommentArrayAdapter is then updated.
+Using a UI thread, a TopLevelComment -- topLevel -- is created. topLevel is 
+then pushed to the CommentController, and if we are w/o WebServiceController functionality, 
+then the CommentController will push topLevel into the CommentArrayAdapter.
+Otherwise topLevel can be pushed to WebServiceController and retrieved from WebServiceController 
+where it will then be pushed into CommentArrayAdapter. The ListView associated with 
+CommentArrayAdapter is then updated. topLevel is then selected to be viewed.
+Then the comment text is edited, location is edited and picure is edited. 
+The ListView associated with CommentArrayAdapter is then updated.
 
 To Verify the results:
 	ViewAsserts.assertOnScreen(listView, view); // use this when the ListView is updated 
-																						  // view is adapter.getView(adapter.getPosition(topLevel), null, null); 
+	 // view is adapter.getView(adapter.getPosition(topLevel), null, null);																					  
 
 	ViewAsserts.assertOnScreen(view, editBtn); // use this to make sure edit btn is on screen
-																						 // editBtn = (Button) activity.findViewById(ca.ualberta.cs.team5geotopics.R.id.editCommentBtn);	
+	// editBtn = (Button) activity.findViewById(ca.ualberta.cs.team5geotopics.R.id.editCommentBtn);																					 	
 
-	assertFalse(commentText_prime.equals(CommentText)) //commentText_prime is the new string derived from the TextView (comment text) portion of topLevel row in the adapter
-	assertFalse(commentPic_prime.equals(CommentPic))   //commentPic_prime is the new bitmap derived from the ImageView portion of the topLevel row in the adapter
-	assertFalse(commentLoc_prime.equals(CommentLoc))   //commentLoc_prime is the new location that is derived from the topLevel comment
+	//commentText_prime is the new string derived from the TextView (comment text) portion of topLevel row in the adapter
+	//commentPic_prime is the new bitmap derived from the ImageView portion of the topLevel row in the adapter
+	//commentLoc_prime is the new location that is derived from the topLevel comment
+
+	assertFalse(commentText_prime.equals(CommentText)) 
+	assertFalse(commentPic_prime.equals(CommentPic))   
+	assertFalse(commentLoc_prime.equals(CommentLoc))   

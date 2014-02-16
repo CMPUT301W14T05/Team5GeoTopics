@@ -1,6 +1,8 @@
-Using a UI thread, a TopLevelComment -- topLevel -- is created. topLevel is then pushed to the CommentController, and the topLevel
-is pushed to the WebServiceController. Then the topLevel is pushed to the ElasticSearch WebService. These steps should be done without
-explicit instruction. 
+Using a UI thread, a TopLevelComment -- topLevel -- is created. 
+topLevel is then pushed to the CommentController, 
+and the topLevel is pushed to the WebServiceController. 
+Then the topLevel is pushed to the ElasticSearch WebService. 
+These steps should be done without explicit instruction. 
 
 To Verify the results:
 	assertTrue(ElasticSearch.has(topLevel)) // unsure how to implement

@@ -1,12 +1,15 @@
-Using a UI thread, a TopLevelComment topLevel is created, and the picture member is non-null and containing a valid bitmap, let this bitmap be called bm. 
-topLevel is then pushed to the CommentController, and if we are w/o WebServiceController functionality, then the CommentController will push topLevel into the CommentArrayAdapter.
-Otherwise topLevel can be pushed to WebServiceController and retrieved from WebServiceController where it will then be pushed into CommentArrayAdapter.
-The ListView associated with CommentArrayAdapter is then updated. 
+Using a UI thread, a TopLevelComment topLevel is created, and the picture member is non-null and 
+containing a valid bitmap, let this bitmap be called bm. topLevel is then pushed to the CommentController,
+and if we are w/o WebServiceController functionality, then the CommentController will push topLevel into 
+the CommentArrayAdapter. Otherwise topLevel can be pushed to WebServiceController and retrieved from 
+WebServiceController where it will then be pushed into CommentArrayAdapter.The ListView associated with 
+CommentArrayAdapter is then updated. 
 
 To Verify the results:
 
- ViewAsserts.assertOnScreen(CommentArrayAdapter.getView(topLevel, null, null), (ImageView)ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.commentPicture)
- AssertTrue(((ImageView)ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.commentPicture).getDrawable().equals(bm))
+ ViewAsserts.assertOnScreen(CommentArrayAdapter.getView(topLevel, null, null),
+													 (ImageView)ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.commentPicture)
+AssertTrue(((ImageView)ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.commentPicture).getDrawable().equals(bm))
  // review second parameter 
 
 

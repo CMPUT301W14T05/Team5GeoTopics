@@ -3,8 +3,8 @@ This test has a heavy dependency upon use_case_5 (MakeNewTopLevelComment).
 Using a UI thread two new TopLevelComments, topLevel1 and topLevel2,  are created.
 These comments are then pushed to the CommentController, and if we are w/o WebServiceController functionality,
 then the CommentController will push topLevel1 and topLevel2 into the CommentArrayAdapter.
-Otherwise topLevel1 and topLevel2 can be pushed to WebServiceController and retrieved from WebServiceController where it will then be pushed into CommentArrayAdapter.
-The ListView associated with CommentArrayAdapter is then updated.
+Otherwise topLevel1 and topLevel2 can be pushed to WebServiceController and retrieved from WebServiceController 
+where it will then be pushed into CommentArrayAdapter.The ListView associated with CommentArrayAdapter is then updated.
 
 To Verify the results:
 

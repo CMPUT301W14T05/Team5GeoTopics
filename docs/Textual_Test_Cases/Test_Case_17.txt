@@ -1,4 +1,5 @@
 This method MAY be removed as most of the group has agreed that 
 the default sort is in fact going to be sortByProximityToMe(). and
-we have already built the test case for that above.If we do not remove it it will be a similar test as the 
+we have already built the test case for that above.
+If we do not remove it it will be a similar test as the 
 testSortByProximityToMe(). (Literally the same actually).

@@ -1,8 +1,11 @@
-Using a UI thread, a TopLevelComment -- topLevel -- is created. topLevel is then pushed to the CommentController, and the topLevel
-is pushed to the WebServiceController. Then the topLevel is pushed to the ElasticSearch WebService. These steps should be done without
-explicit instruction. The WebServiceController then pulls topLevel from the WebService, and pushes topLevel to CommentController which
-then updates CommentListAdapter and this in turn updates the ListView associated with GeoTopicsActivity. Unsure of level of explicitness.
+Using a UI thread, a TopLevelComment -- topLevel -- is created. 
+topLevel is then pushed to the CommentController, and the topLevelis pushed 
+to the WebServiceController. Then the topLevel is pushed to the ElasticSearch WebService. 
+These steps should be done without explicit instruction. The WebServiceController then pulls 
+topLevel from the WebService, and pushes topLevel to CommentController which
+then updates CommentListAdapter and this in turn updates the ListView associated 
+with GeoTopicsActivity. Unsure of level of explicitness.
 
 To Verify the results:
 	ViewAsserts.assertOnScreen(listView, view); // use this when the ListView is updated 
-																						  // view is adapter.getView(adapter.getPosition(topLevel), null, null); 
+	// view is adapter.getView(adapter.getPosition(topLevel), null, null); 																					  

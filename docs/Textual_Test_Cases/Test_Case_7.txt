@@ -1,8 +1,10 @@
-Using a UI thread, a TopLevelComment topLevel is created. topLevel is then pushed to the CommentController, and if we are w/o WebServiceController functionality,
-then the CommentController will push topLevel into the CommentArrayAdapter.
-Otherwise topLevel can be pushed to WebServiceController and retrieved from WebServiceController where it will then be pushed into CommentArrayAdapter.
-The ListView associated with CommentArrayAdapter is then updated. From there the the comment will be viewed, and then a reply to topLevel will 
-be created called replyLevel. Then we load the replies to topLevel into the CommentArrayAdapter and update the ListView.
+Using a UI thread, a TopLevelComment topLevel is created. topLevel is then pushed to the CommentController, 
+and if we are w/o WebServiceController functionality,then the CommentController will push topLevel into the 
+CommentArrayAdapter. Otherwise topLevel can be pushed to WebServiceController and retrieved from 
+WebServiceController where it will then be pushed into CommentArrayAdapter.The ListView associated with 
+CommentArrayAdapter is then updated. From there the the comment will be viewed, and then a reply to topLevel 
+will be created called replyLevel. Then we load the replies to topLevel into the CommentArrayAdapter and 
+update the ListView.
 
 To Verify the results:
 
