@@ -2,6 +2,8 @@ package ca.ualberta.cs.team5geotopics.test;
 
 import java.util.ArrayList;
 
+import org.w3c.dom.Comment;
+
 import android.test.ActivityInstrumentationTestCase2;
 
 
@@ -18,7 +20,25 @@ public class WebServiceControllerTest extends
 	 * tests to see if comments are pushed to web service
 	 */
 	public void testPushCommentsOnInternetCon(){
-	
+		/*
+		 * To view textual test case go to the used case 15 in the wiki
+		 * and click 'view textual test case'
+		 */
+		
+		WebServiceController wsc = new WebServiceController();
+		Comment c = new Comment("Test");
+		ArrayList<Comment> commentList = new ArrayList<Comment>();
+		/* if (internet is available) {*/
+			wsc.pushCommentsOnInternetConnectivity();
+		/*}*/
+		try{
+			wsc.getCommentsOnConnectivity(commentList);
+		}catch(Exception 3){ 
+			// reference to exception above
+		}catch(Exception 3.1){ // reference to excetpion above
+
+		}
+		assertTrue(commentList.contains(c));
 	}
 
 	

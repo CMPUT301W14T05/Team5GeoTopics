@@ -113,7 +113,22 @@ public class CommentsControllerTests extends
 	 * Use Case 7: BrowseCommentReplies Test
 	 */
 	public void testBrowseCommentReplies() {
-		
+		/*
+		 * Unsure as of right now how we would code this test as it has a lot of dependencies.
+		 * We have written up a Textual test case that can be navigated to by looking for used case 7
+		 * in the wiki and selecting 'view textual test' link.
+		 * 
+		 * Basically we will need to create a toplevelcomment using a UI thread and push it to the
+		 * CommentController, if there is internet the WebServiceController will push the comment to the web 
+		 * and pull all the topLevelComments again. a reply will be generated and we will test load the 
+		 * replies into the commentArrayAdapter and test that the generated reply is present.
+		 * ---For a more in depth textual test description view the actual textual test (direction located above)
+		 * 
+		 * assert will be the following:
+		 * To Verify the results:
+		 * use ViewAsserts.assertOnScreen(ListView, CommentArrayAdapter.getView(replyLevel, null, null))
+         * ---review second parameter 
+		 */
 	}
 	
 	/*
@@ -163,7 +178,28 @@ public class CommentsControllerTests extends
 	 * Use Case 12: SaveComentAsFavoritees Test
 	 */
 	public void testSaveCommentAsFavorit() {
-		
+		/*
+		 * Unsure as of right now how we would code this test as it has a lot of dependencies.
+		 * We have written up a Textual test case that can be navigated to by looking for used case 12
+		 * in the wiki and selecting 'view textual test' link.
+		 * 
+		 * A basic summary: A comment is created, whether it is a toplevel or a reply is irrelevent
+		 * but we will have to test both (the only difference will be the start). The comment is pushed
+		 * to the CommentController and depending on internet connectivity, is pushed to the db through the 
+		 * WebServiceController then pulled again. the comment is added to the CommentArrayAdapter. Once the 
+		 * comment is pressed in the UI it is then the favorite button is toggled. The comment should then be 
+		 * saved to the favorites Cache. We will then have to load from the cache to check that the selected 
+		 * comment has been saved properly.
+		 * 
+		 * To Verify the results:
+		 * 
+ 		 * ViewAsserts.assertOnScreen(listView, view); // use this when the ListView is updated 
+		 * ---view is adapter.getView(adapter.getPosition(topLevel), null, null);
+ 		 * ViewAsserts.assertOnScreen(favorite.getRootView(), favorite);
+		 * ---where favorite = (Button) activity.findViewById(ca.ualberta.cs.team5geotopics.R.id.toggleFavorite);
+ 		 * assertTrue(cacheController.getFavorites().contains(adapter.getItem(0)));
+ 		 * ---this requires that topLevel is the first TopLevelComment loaded
+		 */
 	}
 
 	/*
