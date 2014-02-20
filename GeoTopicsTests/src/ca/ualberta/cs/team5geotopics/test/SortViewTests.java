@@ -1,16 +1,14 @@
 package ca.ualberta.cs.team5geotopics.test;
 
 import java.util.ArrayList;
-
-import org.w3c.dom.Comment;
-
+import ca.ualberta.cs.team5geotopics.Comment;
 import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
 
-public class SortControllerTests extends ActivityInstrumentationTestCase2<SortController> {
+public class SortViewTests extends ActivityInstrumentationTestCase2<SortView> {
 
-	public SortControllerTests() {
-		super(SortController.class);
+	public SortViewTests() {
+		super(SortView.class);
 	}
 
 	public void testSortByProximityToMe() {
@@ -22,7 +20,7 @@ public class SortControllerTests extends ActivityInstrumentationTestCase2<SortCo
 		 * call the sort function and compare it to the sorted version of the comment list
 		 * which we will already know 
 		 */
-		SortController sC = new SortController();		
+		SortView sC = new SortView();		
 
 		/*
 		 * This location is just a dummy location supposed to represent me
@@ -77,7 +75,7 @@ public class SortControllerTests extends ActivityInstrumentationTestCase2<SortCo
 		 * call the sort function and compare it to the sorted version of the comment list
 		 * which we will already know 
 		 */
-		SortController sC = new SortController();	
+		SortView sC = new SortView();		
 		
 		/*
 		 * This location is just a dummy location supposed to represent
@@ -140,7 +138,7 @@ public class SortControllerTests extends ActivityInstrumentationTestCase2<SortCo
 		 * call the sort function and compare it to the sorted version of the comment list
 		 * which we will already know 
 		 */
-		SortController sC = new SortController();	
+		SortView sC = new SortView();		
 
 		/*
 		 * This location is just a dummy location supposed to represent me

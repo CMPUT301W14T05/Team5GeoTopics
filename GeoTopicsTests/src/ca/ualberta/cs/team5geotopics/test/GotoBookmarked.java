@@ -3,6 +3,7 @@ package ca.ualberta.cs.team5geotopics.test;
 import java.util.ArrayList;
 import main.GeoTopicsActivity;
 import android.test.ActivityInstrumentationTestCase2;
+import ca.ualberta.cs.team5geotopics.Comment;
 
 /*
 	** This test is bound to change substantially as we may not use this format for bookmarks **

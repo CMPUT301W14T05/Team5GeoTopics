@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.w3c.dom.Comment;
 
 import ca.ualberta.cs.team5geotopics.GeoTopicsActivity;
+import ca.ualberta.cs.team5geotopics.Comment;
 
 import android.app.Activity;
 import android.app.Instrumentation;
