@@ -4,5 +4,8 @@
     <string name="app_name">Team5GeoTopics</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_browse_top_level_view">BrowseTopLevelView</string>
+    <string name="title_activity_">A</string>
+    <string name="title_activity_b">B</string>
 
 </resources>
