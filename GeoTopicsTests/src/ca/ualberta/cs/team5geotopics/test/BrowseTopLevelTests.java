@@ -1,5 +1,7 @@
 package ca.ualberta.cs.team5geotopics.test;
 
+import org.w3c.dom.Comment;
+
 import ca.ualberta.cs.team5geotopics.GeoTopicsActivity;
 import ca.ualberta.cs.team5geotopics.GeoTopicsApplication;
 import android.app.Activity;
@@ -10,6 +12,7 @@ import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.test.ViewAsserts;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -20,6 +23,7 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 	Button mCreateNewComment;
 	Intent mStartIntent;
 	ListView mTopLevelListView;
+	ArrayAdapter<Comment> mAdapter;
 	
 	public BrowseTopLevelTests(){
 		super(BrowseTopLevelView.class);
@@ -31,6 +35,7 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 		mInstrumentation = getInstrumentation();
 		mCreateNewComment = (Button)mActivity.findViewById(ca.ualberta.cs.team5geotopics.R.id.newCommentBtn);
 		mTopLevelListView = (ListView)mActivity.findViewById(ca.ualberta.cs.team5geotopicsR.id.topLevelListView);
+		mAdapter = mTopLevelListView.getAdapter();
 	}
 	
 	public final void testPreConditions(){
@@ -40,30 +45,7 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 		assertNotNull(mTopLevelListView);
 	}
 	
-	//http://stackoverflow.com/questions/13041890/testing-that-an-activity-returns-the-expected-result/13113137#13113137
-	//http://stackoverflow.com/questions/9405561/test-if-a-button-starts-a-new-activity-in-android-junit-pref-without-robotium
-		
-	/*
-	 * this tests that the CreateCommentActivity is launched if the 
-	 * new comment button is pressed in the BrowseTopLevel Activity.
-	 */
 	
-	public void testCreateCommentLaunched(){
-		ActivityMonitor monitor = mInstrumentation.addMonitor(CreateCommentView.class.getName(), null, false);
-		mActivity.runOnUiThread(new Runnable() {
-			
-			@Override
-			public void run() {
-				mCreateNewComment.performClick();
-				
-			}
-		});
-		
-		CreateCommentView newCommentView = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
-		// next activity is opened and captured.
-		assertNotNull(newCommentView);
-		newCommentView.finish();
-	}
 	
 	/*
 	 * this tests to see if we add a new TopLevel Comment to the QueueController
@@ -71,51 +53,60 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 	 * for BrowseTopLevelView. At this point in the development the Comment is text only. 
 	 * 
 	 * This test mocks the functionality of the Web Service, ie, no real internet stuff.
+	 * 
+	 * This test requires the field BROWSE_TOP_LEVEL_TEST  
+	 * and requires BROWSE_TOP_LEVEL_NO_INTERNET 
+	 * (Both of these fields should be in GeoTopicsApplication)
+	 * to be true at compile time.
+	 * 
+	 * If these fields are true then a list of mock comments will be loaded
+	 * to the QueueController and pushed to the CommentAdapter. During the run time
+	 * of the activity. This way we can test that we can view TopLevel Comments
+	 * without having to worry about WebService stuff, or tediously creating comments
+	 * which is another test.
+	 * The list should contain three comments created with this constructor:
+	 * public Comment(String title, String body, String author, Location loc, Bitmap pic, String type)
+	 * 
+	 * i,e, comment1 = new Comment("test1", "body1", "author1", null, null, "TopLevel")
+	 * and so on for comment2 and comment3. Then put/add this list where it would be if 
+	 * these comments were just loaded off the web. We are testing to be sure that these comments
+	 * will be loaded into the ArrayAdapter automatically through some type of notifyAll()/updateAll()
+	 * mechanic. 
+	 * 
+	 * the
 	 */
 	@UiThreadTest
 	public void testCreateTopLevelAppearsOnlyTextNoWeb(){
-		// our mock values
-		final String EXPECTED_TITLE = "Test Top Level Comment";
-		final String EXPECTED_BODY = "This is body text.";
-		final String EXPECTED_AUTHOR = "Peter Watts";
-		Comment newTopLevel = new Comment(EXPECTED_TITLE, EXPECTED_BODY, EXPECTED_AUTHOR
-										  null, null);
+		//make sure that the adapter has three elements
+		assertTrue(mAdapter.getCount() == 3);
 		
-		// this is the adapter for the ListVIew
-		ArrayAdapter<Comment> adapter = mTopLevelListView.getAdapter();
+		View view;
+		// as for right now I've just implemented 
+		// checking th the author, title and the body views.
+		for(int i = 0; i < 3; i++){
+			//http://stackoverflow.com/questions/11541114/unittesting-of-arrayadapter
+			view = mAdapter.getView(i, null, null);
+			TextView author = (TextView) view
+	                .findViewById(ca.ualberta.cs.team5geotopics.R.id.topLevelAdapterAuthor);
+
+	        TextView title = (TextView) view
+	                .findViewById(ca.ualberta.cs.team5geotopics.R.id.topLevelAdapterTitle);
+
+	        ImageView photo = (ImageView) view
+	                .findViewById(ca.ualberta.cs.team5geotopics.R.id.topLevelAdapterPicture);
+	        
+	        //hopfully this will test to see that the view is in the adapter
+	        ViewAsserts.assertOnScreen(mTopLevelListView, view);
+	        
+	        assertNotNull("View is null. ", view);
+	        assertNotNull("Name TextView is null. ", author);
+	        assertNotNull("Number TextView is null. ", title);
+	        assertNotNull("Photo ImageView is null. ", photo);
+
+	        assertEquals("Authors doesn't match.", "author" + Integer.toString(i), author.getText());
+	        assertEquals("Numbers doesn't match.", "test" + Integer.toString(i),
+	        		title.getText());
+		}
 		
-		// this should get GeoTOpicsApplication
-		GeoTopicsApplication application = (GeoTopicsApplication) mActivity.getApplication();
-		
-		// this is the controller for the web service model
-		QueueController qController = application.getQueueController();
-		
-		// lets pretend that the mock comment was just pulled by our Web Service Controller
-		qController.getTopLevelInList().add(newTopLevel);
-		
-		// now that the list has changed we need to update 
-		// the CommentListAdapter for BrowseTopLevelView. 
-		// The adapter should have been notified of a change
-		// in the mTopLevelInList in the QueueController
-		
-		
-		// assert that the adapter has only one comment
-		assertTrue(adapter.size() == 1);
-		
-		// assert that the zero'th Comment in the adapter is a TopLevelComment
-		// assumes CommentModel has a getType() method that returns a string indicating
-		// the model's type (Reply, TopLevel).
-		assertTrue(adapter.getItem(0).getType().equals("TopLevel"));
-		
-		// this is that comment in the adapter
-		TopLevelComment topLevel = (TopLevelComment) adapter.getItem(0);
-		
-		// assert that the TopLevel Comment's state is equal to our mock Comment
-		assertTrue(topLevel.equals(newTopLevel));
-		
-		// now we need to assert that the view for the TopLevelComment
-		// is on the ListView
-		// http://stackoverflow.com/questions/11541114/unittesting-of-arrayadapter
-		ViewAsserts.assertOnScreen(mTopLevelListView, adapter.getView(0, null, null));
 	}
 }

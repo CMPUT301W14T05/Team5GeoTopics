@@ -10,8 +10,10 @@ import ca.ualberta.cs.team5geotopics.GeoTopicsApplication;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.app.Instrumentation.ActivityMonitor;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.TouchUtils;
 import android.test.UiThreadTest;
 import android.webkit.WebView.FindListener;
 import android.widget.EditText;
@@ -26,6 +28,7 @@ public class CreateCommentViewTests extends
 	EditText mBody;
 	EditText mAuthor;
 	ImageButton mPost;
+	final int TIMEOUT_IN_MS = 10000;
 	
 	public CreateCommentViewTests(){
 		super(CreateCommentView.class);
@@ -53,22 +56,25 @@ public class CreateCommentViewTests extends
 	/*
 	 * This tests to see if a new Top Level Comment is created if
 	 * all the applicable fields are filled out, and buttons are pressed.
+	 * After the comment is created CommentView is launched. Make
+	 * sure data in CommentView matches the data in test.
 	 * 
 	 * --> at the moment there is no location funcitonality. <--
 	 */
 	@UiThreadTest
 	public void testCreateTopLevelCommentOnlyText(){
+		//I'm not sure but we might have to call getActivity() here
+		//because the previous test we "ended" in another actvitiy?
+	
+		
 		// our input values
 		final String EXPECTED_TITLE = "Test Top Level Comment";
 		final String EXPECTED_BODY = "This is body text.";
 		final String EXPECTED_AUTHOR = "Peter Watts";
-		//year-month-dayInYear-hourInDay 
-		//24hour range
 		final SimpleDateFormat expectedDateFormat = new SimpleDateFormat("yyyy:MM:DDD:HH");
 		// calendar object to get time at creation
 		Calendar creationTime;
-		// this is the return intent. This will have the Comment object contained in it.
-		Intent returnIntent;
+		
 		
 		//input the values into the UI
 		mTitle.requestFocus();
@@ -82,27 +88,76 @@ public class CreateCommentViewTests extends
 		 *  In here we test funcitonality of pictures and location changing
 		 *  ie, before we hit post.
 		 */
-		
-		// post the comment
-		mPost.performClick();
 		// get the time
 		creationTime = Calendar.getInstance();
+		final String EXPECTED_TIME = expectedDateFormat.format(creationTime).toString();
+		/*
+		 * I'm assuming that after you post the comment a View of only that comment is loaded.
+		 * Like the OP on a forum.
+		 */
 		
-		//create Mock comment
-		Comment cmt = new Comment(EXPECTED_TITLE, EXPECTED_BODY, EXPECTED_AUTHOR,
-									null, null); // picture and location are both null at this point
+		// Set up an ActivityMonitor
+		ActivityMonitor receiverActivityMonitor = getInstrumentation().addMonitor(CommentView.class.getName(),
+													null, false);
+				        
+		// post the comment
+		mPost.performClick();
+		
+		// Validate that ReceiverActivity is started
+		CommentView commentView = (CommentView)
+								receiverActivityMonitor.waitForActivityWithTimeout(TIMEOUT_IN_MS);
+		assertNotNull("ReceiverActivity is null", commentView);
+		assertEquals("Monitor for ReceiverActivity has not been called",
+				        1, receiverActivityMonitor.getHits());
+		assertEquals("Activity is of wrong type",
+						CommentView.class, commentView.getClass());
 		
 		
-		// test to see if comment is in out list
-		GeoTopicsApplication application = (GeoTopicsApplication) mActivity.getApplication();
-		CommentQueueController queueController = application.getQueueController();
-		ArrayList<Comment> outList = queueController.getmOut();
+		// we should now be in CommentView Activity
+		EditText editAuthor = (EditText)commentView.findViewById
+										(ca.ualberta.cs.team5geotopics.R.id.commentViewAuthorEditText);
 		
-		// assert that the outList only contains one comment
-		assertTrue(outList.size() == 1);
+		EditText editBody = (EditText)commentView.findViewById
+										(ca.ualberta.cs.team5geotopics.R.id.commentViewBodyEditText);
+				
+		EditText editTitle = (EditText)commentView.findViewById
+										(ca.ualberta.cs.team5geotopics.R.id.commentViewAuthorTitleText);
 		
-		// assert that the outList has a comment with
-		// the same state as the mock comment.
-		assertTrue(outList.get(0).equals(cmt));
+		EditText editTime =  (EditText)commentView.findViewById
+										(ca.ualberta.cs.team5geotopics.R.id.commentViewAuthorTimeText);
+		
+		// assert that we got the views from the activity
+		assertNotNull(editAuthor);
+		assertNotNull(editBody);
+		assertNotNull(editTitle);
+		assertNotNull(editTime);
+		
+		/*
+		 * add some ViewAsserts
+		 * 
+		 */
+		
+		/*
+		 * add some assertions about location and picture being null.
+		 * 
+		 */
+		
+		
+		
+		
+		// turn the text in the views into appropriate strings
+		String author = editAuthor.getText().toString();
+		String body = editBody.getText().toString();
+		String title = editTitle.getText().toString();
+		String time = editTime.getText().toString();
+		
+		// test to see if the strings are equal to the expected values
+		assertTrue(author.equals(EXPECTED_AUTHOR));
+		assertTrue(body.equals(EXPECTED_BODY));
+		assertTrue(title.equals(EXPECTED_TITLE));
+		assertTrue(time.equals(EXPECTED_TIME));
+		
+		// Remove the ActivityMonitor
+		getInstrumentation().removeMonitor(receiverActivityMonitor);
 	}
 }

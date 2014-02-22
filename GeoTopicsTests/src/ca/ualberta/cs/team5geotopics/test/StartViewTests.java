@@ -6,6 +6,8 @@ import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.TouchUtils;
+import android.test.UiThreadTest;
 import android.widget.Button;
 
 public class StartViewTests extends ActivityInstrumentationTestCase2<StartView> {
@@ -14,6 +16,7 @@ public class StartViewTests extends ActivityInstrumentationTestCase2<StartView> 
 	Instrumentation mInstrumentation;
 	Button mBrowseComments;
 	Intent mStartIntent;
+	final int TIMEOUT_IN_MS = 10000;
 	
 	public StartViewTests(){
 		super(StartView.class);
@@ -36,28 +39,30 @@ public class StartViewTests extends ActivityInstrumentationTestCase2<StartView> 
 		assertNotNull(mInstrumentation);
 	}
 	
-	//http://stackoverflow.com/questions/13041890/testing-that-an-activity-returns-the-expected-result/13113137#13113137
-	//http://stackoverflow.com/questions/9405561/test-if-a-button-starts-a-new-activity-in-android-junit-pref-without-robotium
+	//http://developer.android.com/training/activity-testing/activity-functional-testing.html
 	/*
 	 * This test will check to see if the BrowseComments activity is launched when the Browse Comments option
 	 * is selected at the start screen.
 	 */
-	
+	@UiThreadTest
 	public void testBrowseActivityLaunched(){
-		ActivityMonitor monitor = mInstrumentation.addMonitor(BrowseTopLevelView.class.getName(), null, false);
-		mActivity.runOnUiThread(new Runnable() {
-			
-			@Override
-			public void run() {
-				mBrowseComments.performClick();
-				
-			}
-		});
-		
-		BrowseTopLevelView browseView = getInstrumentation().waitForMonitorWithTimeout(monitor, 5000);
-		// next activity is opened and captured.
-		assertNotNull(browseView);
-		browseView.finish();
+		// Set up an ActivityMonitor
+		ActivityMonitor receiverActivityMonitor =
+		        getInstrumentation().addMonitor(BrowseTopLevel.class.getName(),
+		        null, false);
+
+		// Validate that ReceiverActivity is started
+		TouchUtils.clickView(this, mBrowseComments);
+		BrowseTopLevel browseTopLevel = (BrowseTopLevel) 
+		        receiverActivityMonitor.waitForActivityWithTimeout(TIMEOUT_IN_MS);
+		assertNotNull("ReceiverActivity is null", browseTopLevel);
+		assertEquals("Monitor for ReceiverActivity has not been called",
+		        1, browseTopLevel.getHits());
+		assertEquals("Activity is of wrong type",
+				BrowseTopLevel.class, browseTopLevel.getClass());
+
+		// Remove the ActivityMonitor
+		getInstrumentation().removeMonitor(receiverActivityMonitor);
 	}
 	
 	
