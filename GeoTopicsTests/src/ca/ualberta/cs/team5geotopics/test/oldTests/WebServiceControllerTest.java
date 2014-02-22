@@ -1,4 +1,4 @@
-package ca.ualberta.cs.team5geotopics.test;
+package ca.ualberta.cs.team5geotopics.test.oldTests;
 
 import java.util.ArrayList;
 import ca.ualberta.cs.team5geotopics.Comment;
