@@ -11,8 +11,32 @@ public class QueueModel extends AModel<AView> {
 	private ArrayList<CommentModel> mOut;
 	
 	public QueueModel(){
+		super();
 		this.mIn = new ArrayList<CommentModel>();
 		this.mOut = new ArrayList<CommentModel>();
 	}
 
+	public void addToIn(CommentModel comment){
+		if(!mIn.contains(comment)){
+			mIn.add(comment);
+		}
+	}
+	
+	public void addToOut(CommentModel comment){
+		if(!mOut.contains(comment)){
+			mOut.add(comment);
+		}
+	}
+	
+	public void removeFromIn(CommentModel comment){
+		if(mIn.contains(comment)){
+			mIn.remove(comment);
+		}
+	}
+	
+	public void removeFromOut(CommentModel comment){
+		if(mOut.contains(comment)){
+			mOut.remove(comment);
+		}
+	}
 }
