@@ -20,7 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 public class CreateCommentViewTests extends
-		ActivityInstrumentationTestCase2<CreateCommentView> {
+		ActivityInstrumentationTestCase2<NewCommentView> {
 	
 	CreateCommentView mActivity;
 	Instrumentation mInstrumentation;
@@ -31,7 +31,7 @@ public class CreateCommentViewTests extends
 	final int TIMEOUT_IN_MS = 10000;
 	
 	public CreateCommentViewTests(){
-		super(CreateCommentView.class);
+		super(NewCommentView.class);
 	}
 	
 	protected void setUp(){
@@ -97,20 +97,20 @@ public class CreateCommentViewTests extends
 		 */
 		
 		// Set up an ActivityMonitor
-		ActivityMonitor receiverActivityMonitor = getInstrumentation().addMonitor(CommentView.class.getName(),
+		ActivityMonitor receiverActivityMonitor = getInstrumentation().addMonitor(InspectCommentView.class.getName(),
 													null, false);
 				        
 		// post the comment
 		mPost.performClick();
 		
 		// Validate that ReceiverActivity is started
-		CommentView commentView = (CommentView)
+		InspectCommentView commentView = (InspectCommentView)
 								receiverActivityMonitor.waitForActivityWithTimeout(TIMEOUT_IN_MS);
 		assertNotNull("ReceiverActivity is null", commentView);
 		assertEquals("Monitor for ReceiverActivity has not been called",
 				        1, receiverActivityMonitor.getHits());
 		assertEquals("Activity is of wrong type",
-						CommentView.class, commentView.getClass());
+				InspectCommentView.class, commentView.getClass());
 		
 		
 		// we should now be in CommentView Activity

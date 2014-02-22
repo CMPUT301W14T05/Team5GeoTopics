@@ -1,8 +1,8 @@
 package ca.ualberta.cs.team5geotopics.test;
 
-import org.w3c.dom.Comment;
 
-import ca.ualberta.cs.team5geotopics.GeoTopicsActivity;
+
+import ca.ualberta.cs.team5geotopics.StartActivity;
 import ca.ualberta.cs.team5geotopics.GeoTopicsApplication;
 import android.app.Activity;
 import android.app.Application;
@@ -23,7 +23,7 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 	Button mCreateNewComment;
 	Intent mStartIntent;
 	ListView mTopLevelListView;
-	ArrayAdapter<Comment> mAdapter;
+	ArrayAdapter<CommentModel> mAdapter;
 	
 	public BrowseTopLevelTests(){
 		super(BrowseTopLevelView.class);
@@ -35,7 +35,7 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 		mInstrumentation = getInstrumentation();
 		mCreateNewComment = (Button)mActivity.findViewById(ca.ualberta.cs.team5geotopics.R.id.newCommentBtn);
 		mTopLevelListView = (ListView)mActivity.findViewById(ca.ualberta.cs.team5geotopicsR.id.topLevelListView);
-		mAdapter = mTopLevelListView.getAdapter();
+		mAdapter = (ArrayAdapter<CommentModel>) mTopLevelListView.getAdapter();
 	}
 	
 	public final void testPreConditions(){
@@ -54,26 +54,20 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 	 * 
 	 * This test mocks the functionality of the Web Service, ie, no real internet stuff.
 	 * 
-	 * This test requires the field BROWSE_TOP_LEVEL_TEST  
-	 * and requires BROWSE_TOP_LEVEL_NO_INTERNET 
-	 * (Both of these fields should be in GeoTopicsApplication)
-	 * to be true at compile time.
+	 * This test requires the field BROWSE_TOP_LEVEL_TEST in the GeoTopicsApplication
+	 * to be true at compile time of the App.
 	 * 
-	 * If these fields are true then a list of mock comments will be loaded
-	 * to the QueueController and pushed to the CommentAdapter. During the run time
-	 * of the activity. This way we can test that we can view TopLevel Comments
-	 * without having to worry about WebService stuff, or tediously creating comments
-	 * which is another test.
-	 * The list should contain three comments created with this constructor:
-	 * public Comment(String title, String body, String author, Location loc, Bitmap pic, String type)
+	 * If this field is true then a list of mock comments will be loaded
+	 * into the QueueController mTopLvlQueue.mIn list (this is done
+	 * in actual code), which should then 
+	 * notify the BrowseTopLevelView, where the list of mock comments would 
+	 * be added to the list of comments in the View. 
 	 * 
 	 * i,e, comment1 = new Comment("test1", "body1", "author1", null, null, "TopLevel")
-	 * and so on for comment2 and comment3. Then put/add this list where it would be if 
-	 * these comments were just loaded off the web. We are testing to be sure that these comments
-	 * will be loaded into the ArrayAdapter automatically through some type of notifyAll()/updateAll()
-	 * mechanic. 
+	 * and so on for comment2 and comment3. 
 	 * 
-	 * the
+	 * We are testing the model/view framework and the display on the 
+	 * ListView for the BrowseTopLevelView. 
 	 */
 	@UiThreadTest
 	public void testCreateTopLevelAppearsOnlyTextNoWeb(){
@@ -83,7 +77,7 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 		View view;
 		// as for right now I've just implemented 
 		// checking th the author, title and the body views.
-		for(int i = 0; i < 3; i++){
+		for(int i = 1; i < 4; i++){
 			//http://stackoverflow.com/questions/11541114/unittesting-of-arrayadapter
 			view = mAdapter.getView(i, null, null);
 			TextView author = (TextView) view
@@ -104,7 +98,7 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 	        assertNotNull("Photo ImageView is null. ", photo);
 
 	        assertEquals("Authors doesn't match.", "author" + Integer.toString(i), author.getText());
-	        assertEquals("Numbers doesn't match.", "test" + Integer.toString(i),
+	        assertEquals("Titles doesn't match.", "test" + Integer.toString(i),
 	        		title.getText());
 		}
 		

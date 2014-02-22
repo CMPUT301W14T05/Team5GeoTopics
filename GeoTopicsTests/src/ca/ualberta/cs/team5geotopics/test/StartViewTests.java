@@ -1,6 +1,6 @@
 package ca.ualberta.cs.team5geotopics.test;
 
-import ca.ualberta.cs.team5geotopics.GeoTopicsActivity;
+import ca.ualberta.cs.team5geotopics.StartActivity;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
@@ -10,7 +10,7 @@ import android.test.TouchUtils;
 import android.test.UiThreadTest;
 import android.widget.Button;
 
-public class StartViewTests extends ActivityInstrumentationTestCase2<StartView> {
+public class StartViewTests extends ActivityInstrumentationTestCase2<StartActivity> {
 
 	Activity mActivity;
 	Instrumentation mInstrumentation;
@@ -19,7 +19,7 @@ public class StartViewTests extends ActivityInstrumentationTestCase2<StartView> 
 	final int TIMEOUT_IN_MS = 10000;
 	
 	public StartViewTests(){
-		super(StartView.class);
+		super(StartActivity.class);
 	}
 	
 	protected void setUp() throws Exception{
@@ -28,7 +28,7 @@ public class StartViewTests extends ActivityInstrumentationTestCase2<StartView> 
 		mInstrumentation = getInstrumentation();
 		
 		
-		mBrowseComments = (Button) mActivity.findViewById(ca.ualberta.cs.team5geotopics.R.id.browseCommentsBtn);
+		mBrowseComments = (Button) mActivity.findViewById(ca.ualberta.cs.team5geotopics.R.id.browseCommentsBtnStart);
 		
 		
 	}
@@ -48,18 +48,18 @@ public class StartViewTests extends ActivityInstrumentationTestCase2<StartView> 
 	public void testBrowseActivityLaunched(){
 		// Set up an ActivityMonitor
 		ActivityMonitor receiverActivityMonitor =
-		        getInstrumentation().addMonitor(BrowseTopLevel.class.getName(),
+		        getInstrumentation().addMonitor(BrowseTopLevelView.class.getName(),
 		        null, false);
 
 		// Validate that ReceiverActivity is started
 		TouchUtils.clickView(this, mBrowseComments);
-		BrowseTopLevel browseTopLevel = (BrowseTopLevel) 
+		BrowseTopLevelView browseTopLevel = (BrowseTopLevelView) 
 		        receiverActivityMonitor.waitForActivityWithTimeout(TIMEOUT_IN_MS);
 		assertNotNull("ReceiverActivity is null", browseTopLevel);
 		assertEquals("Monitor for ReceiverActivity has not been called",
 		        1, browseTopLevel.getHits());
 		assertEquals("Activity is of wrong type",
-				BrowseTopLevel.class, browseTopLevel.getClass());
+				BrowseTopLevelView.class, browseTopLevel.getClass());
 
 		// Remove the ActivityMonitor
 		getInstrumentation().removeMonitor(receiverActivityMonitor);

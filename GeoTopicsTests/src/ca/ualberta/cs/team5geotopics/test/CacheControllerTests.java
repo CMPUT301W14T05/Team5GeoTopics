@@ -2,7 +2,7 @@ package ca.ualberta.cs.team5geotopics.test;
 
 import java.util.ArrayList;
 
-import ca.ualberta.cs.team5geotopics.GeoTopicsActivity;
+import ca.ualberta.cs.team5geotopics.StartActivity;
 import ca.ualberta.cs.team5geotopics.Comment;
 
 import android.R;
@@ -18,13 +18,13 @@ import android.widget.ListView;
 
 
 public class CacheControllerTests extends
-		ActivityInstrumentationTestCase2<GeoTopicsActivity> {
+		ActivityInstrumentationTestCase2<StartActivity> {
 	
 	Instrumentation instrumentation;
 	Activity activity;
 	
 	public CacheControllerTests() {
-		super(GeoTopicsActivity.class);
+		super(StartActivity.class);
 	}
 	
 	protected void setUp() throws Exception{
@@ -81,10 +81,10 @@ public class CacheControllerTests extends
 				//creates test comment
 				createTestComment();
 				//browse button on main screen
-				((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.browseButton)).performClick();
+				((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.StartActivity.browseButton)).performClick();
 				//after we hit browse we should load TopLevelComments and it should only be the test comment in there
 				//the ListView for the custom adapter
-				ListView listView = (ListView) activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.commentList);
+				ListView listView = (ListView) activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.StartActivity.commentList);
 				//the custom adapter on the physical screen
 				ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) listView.getAdapter();
 				
@@ -114,9 +114,9 @@ public class CacheControllerTests extends
 				//creates test comment
 				createTestComment();
 				//browse button on main screen
-				((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.browseButton)).performClick();
+				((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.StartActivity.browseButton)).performClick();
 				//the ListView for the custom adapter
-				ListView listView = (ListView) activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.commentList);
+				ListView listView = (ListView) activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.StartActivity.commentList);
 				ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) listView.getAdapter();
 				// click comment to view it
 				View view = adapter.getView(0, null, null);
@@ -154,9 +154,9 @@ public class CacheControllerTests extends
 				//creates test comment
 				createTestComment();
 				//browse button on main screen
-				((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.browseButton)).performClick();
+				((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.StartActivity.browseButton)).performClick();
 				//the ListView for the custom adapter
-				ListView listView = (ListView) activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.commentList);
+				ListView listView = (ListView) activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.StartActivity.commentList);
 				//the custom adapter on the physical screen
 				ArrayAdapter<Comment> adapter = (ArrayAdapter<Comment>) listView.getAdapter();
 				
@@ -180,7 +180,7 @@ public class CacheControllerTests extends
 			@Override
 			public void run(){
 				// the favorites button on app startup
-				((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.favoritesButton))
+				((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.StartActivity.favoritesButton))
 				.performClick();
 				ListView listView = (ListView) activity.findViewById(ca.ualberta.cs.team5geotopics.R.id.commentList);
 				
@@ -201,7 +201,7 @@ public class CacheControllerTests extends
 		((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.R.id.createNewTopComment)).performClick();
 		EditText comment = (EditText) findViewById(ca.ualberta.cs.team5geotopics.R.id.commentTextInput);
 		comment.setText("Test");
-		((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.newCommentOk)).performClick();
+		((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.StartActivity.newCommentOk)).performClick();
 		
 	}
 }

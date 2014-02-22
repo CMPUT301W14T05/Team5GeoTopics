@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 
-import ca.ualberta.cs.team5geotopics.GeoTopicsActivity;
+import ca.ualberta.cs.team5geotopics.StartActivity;
 import ca.ualberta.cs.team5geotopics.Comment;
 
 import android.app.Activity;
@@ -26,14 +26,14 @@ import android.widget.ListView;
  * NOTE: this is currently skeleton test code - please add to it
  */
 public class CommentsControllerTests extends
-		ActivityInstrumentationTestCase2<GeoTopicsActivity> {
+		ActivityInstrumentationTestCase2<StartActivity> {
 
 	Instrumentation instrumentation;
 	Activity activity;
 	
 	
 	public CommentsControllerTests() {
-		super(GeoTopicsActivity.class);
+		super(StartActivity.class);
 	}
 
 	protected void setUp() throws Exception{
@@ -301,7 +301,7 @@ public class CommentsControllerTests extends
 		((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.R.id.createNewTopComment)).performClick();
 		EditText comment = (EditText) findViewById(ca.ualberta.cs.team5geotopics.R.id.commentTextInput);
 		comment.setText("Test");
-		((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.id.newCommentOk)).performClick();
+		((Button)activity.findViewById(ca.ualberta.cs.team5geotopics.GeoTopicsActivity.R.StartActivity.newCommentOk)).performClick();
 		
 	}
 	
