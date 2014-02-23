@@ -45,4 +45,21 @@ public class QueueModel extends AModel<AView> {
 	public ArrayList<CommentModel> getIn(){
 		return mIn;
 	}
+	
+	public ArrayList<CommentModel> getOut(){
+		return mOut;
+	}
+
+	public void testInit() {
+		for(int i = 0; i < 3; i++){
+			// load up three TopLevelComments with null pictures and null location
+			// tests only the text fields title, body, author.
+			// TODO: set a constant date and check comment time in the BrowseTopLevelTests
+			mIn.add(new TopLevelModel(null, "body" + Integer.valueOf(i + 1).toString(),
+												"title" + Integer.valueOf(i + 1).toString(), 
+												"author" + Integer.valueOf(i + 1).toString(),
+												null));
+		
+		}
+	}
 }

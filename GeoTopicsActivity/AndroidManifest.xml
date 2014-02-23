@@ -26,6 +26,17 @@
             android:name="ca.ualberta.cs.team5geotopics.BrowseTopLevelView"
             android:label="@string/browse_top_level" >
         </activity>
+        
+        <activity 
+            android:name="ca.ualberta.cs.team5geotopics.NewCommentView"
+            android:label="@string/new_comment">
+            
+        </activity>
+        
+        <activity
+            android:name="ca.ualberta.cs.team5geotopics.CommentView"
+            android:label="@string/comment_view_string">
+        </activity>
     </application>
 
 </manifest>

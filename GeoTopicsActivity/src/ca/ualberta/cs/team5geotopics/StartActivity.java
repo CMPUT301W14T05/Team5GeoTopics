@@ -26,7 +26,7 @@ public class StartActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent myIntent = new Intent(StartActivity.this, BrowseTopLevelView.class);
-				StartActivity.this.startActivity(myIntent);
+				startActivity(myIntent);
 				
 			}
 		});

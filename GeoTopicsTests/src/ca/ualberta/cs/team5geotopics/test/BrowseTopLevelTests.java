@@ -31,21 +31,15 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 	protected void setUp() throws Exception{
 		super.setUp();
 		mActivity = getActivity();
+		assertNotNull(mActivity);
 		mInstrumentation = getInstrumentation();
+		assertNotNull(mInstrumentation);
 		mTopLevelListView = (ListView)mActivity.findViewById(R.id.browse_top_level_listView);
+		assertNotNull(mTopLevelListView);
 		//this give warning
 		mAdapter = (ArrayAdapter<CommentModel>) mTopLevelListView.getAdapter();
-	}
-	
-	public final void testPreConditions(){
-		assertNotNull(mActivity);
-		assertNotNull(mInstrumentation);
-		assertNotNull(mTopLevelListView);
 		assertNotNull(mAdapter);
 	}
-	
-	
-	
 	/*
 	 * this tests to see if we add a new TopLevel Comment to the QueueController
 	 * in list and push the list, then the TopLevel Comment appears in the ListView
@@ -69,13 +63,12 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 	 */
 	@UiThreadTest
 	public void testCreateTopLevelAppearsOnlyTextNoWeb(){
-		//make sure that the adapter has three elements
-		assertTrue(mAdapter.getCount() == 3);
+		assertEquals("there should be three elements in the adapter", 3, mAdapter.getCount());
 		
 		View view;
 		// as for right now I've just implemented 
-		// checking th the author, title and the body views.
-		for(int i = 1; i < 4; i++){
+		// checking the the author, title and the body views.
+		for(int i = 0; i < 3; i++){
 			//http://stackoverflow.com/questions/11541114/unittesting-of-arrayadapter
 			view = mAdapter.getView(i, null, null);
 			TextView author = (TextView) view
@@ -87,17 +80,11 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 	        TextView body = (TextView) view
 	                .findViewById(R.id.top_level_body_list_item);
 	        
-	        //Hopefully this will test to see that the view is in the adapter
-	        ViewAsserts.assertOnScreen(mTopLevelListView, view);
+	        ViewAsserts.assertOnScreen(mTopLevelListView.getRootView(), view);
+	        ViewAsserts.assertOnScreen(view.getRootView(), author);
+	        ViewAsserts.assertOnScreen(view.getRootView(), title);
+	        ViewAsserts.assertOnScreen(view.getRootView(), body);
 	        
-	        assertNotNull("View is null. ", view);
-	        assertNotNull("Name TextView is null. ", author);
-	        assertNotNull("Number TextView is null. ", title);
-	        assertNotNull("Photo ImageView is null. ", title);
-
-	        assertEquals("Authors doesn't match.", "author" + Integer.valueOf(i).toString(), author.getText());
-	        assertEquals("Titles doesn't match.", "test" + Integer.valueOf(i).toString(), title.getText());
-	        assertEquals("Body doesn't match.", "body" + Integer.valueOf(i).toString(), body.getText());
 		}
 		
 	}

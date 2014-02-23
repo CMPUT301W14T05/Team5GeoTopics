@@ -6,7 +6,11 @@ import java.util.Calendar;
 
 import org.w3c.dom.Comment;
 
+import com.example.team5geotopics.R;
+
+import ca.ualberta.cs.team5geotopics.CommentView;
 import ca.ualberta.cs.team5geotopics.GeoTopicsApplication;
+import ca.ualberta.cs.team5geotopics.NewCommentView;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -15,9 +19,12 @@ import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.TouchUtils;
 import android.test.UiThreadTest;
+import android.test.ViewAsserts;
 import android.webkit.WebView.FindListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class CreateCommentViewTests extends
 		ActivityInstrumentationTestCase2<NewCommentView> {
@@ -27,29 +34,26 @@ public class CreateCommentViewTests extends
 	EditText mTitle;
 	EditText mBody;
 	EditText mAuthor;
-	ImageButton mPost;
+	Button mPost;
 	final int TIMEOUT_IN_MS = 10000;
 	
 	public CreateCommentViewTests(){
 		super(NewCommentView.class);
 	}
 	
-	protected void setUp(){
+	protected void setUp() throws Exception{
 		super.setUp();
 		mActivity = getActivity();
-		mInstrumentation = getInstrumentation();
-		mTitle = (EditText)mActivity.findViewById(ca.ualberta.cs.team5geotopics.R.commentTitleEditTxt);
-		mBody = (EditText)mActivity.findViewById(ca.ualberta.cs.team5geotopics.R.commentBodyEditTxt);
-		mAuthor = (EditText)mActivity.findViewById(ca.ualberta.cs.team5geotopics.R.commentAuthorEditTxt);
-		mPost = (ImageButton)mActivity.findViewById(ca.ualberta.cs.team5geotopics.R.commentPostBtn);
-	}
-	
-	public final void testPreConditions(){
 		assertNotNull(mActivity);
+		mInstrumentation = getInstrumentation();
 		assertNotNull(mInstrumentation);
+		mTitle = (EditText)mActivity.findViewById(R.id.new_comment_title);
 		assertNotNull(mTitle);
+		mBody = (EditText)mActivity.findViewById(R.id.new_comment_body);
 		assertNotNull(mBody);
+		mAuthor = (EditText)mActivity.findViewById(R.id.new_comment_author);
 		assertNotNull(mAuthor);
+		mPost = (Button)mActivity.findViewById(R.id.new_comment_ok);
 		assertNotNull(mPost);
 	}
 	
@@ -61,8 +65,10 @@ public class CreateCommentViewTests extends
 	 * 
 	 * --> at the moment there is no location funcitonality. <--
 	 */
-	@UiThreadTest
-	public void testCreateTopLevelCommentOnlyText(){
+	//TODO: implement date field check in test & view
+	//TODO: implement picture field check in test & view
+	//TODO: implement location field check in test & view
+	public void testCreateTopLevelCommentOnlyText() throws Throwable{
 		//I'm not sure but we might have to call getActivity() here
 		//because the previous test we "ended" in another actvitiy?
 	
@@ -75,14 +81,22 @@ public class CreateCommentViewTests extends
 		// calendar object to get time at creation
 		Calendar creationTime;
 		
+		runTestOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				//input the values into the UI
+				mTitle.requestFocus();
+				mTitle.setText(EXPECTED_TITLE);
+				mBody.requestFocus();
+				mBody.setText(EXPECTED_BODY);
+				mAuthor.requestFocus();
+				mAuthor.setText(EXPECTED_AUTHOR);
+				
+			}
+		});
+		mInstrumentation.waitForIdleSync();
 		
-		//input the values into the UI
-		mTitle.requestFocus();
-		mTitle.setText(EXPECTED_TITLE);
-		mBody.requestFocus();
-		mBody.setText(EXPECTED_BODY);
-		mAuthor.requestFocus();
-		mAuthor.setText(EXPECTED_AUTHOR);
 		
 		/*
 		 *  In here we test funcitonality of pictures and location changing
@@ -90,48 +104,57 @@ public class CreateCommentViewTests extends
 		 */
 		// get the time
 		creationTime = Calendar.getInstance();
-		final String EXPECTED_TIME = expectedDateFormat.format(creationTime).toString();
+		//final String EXPECTED_TIME = expectedDateFormat.format(creationTime).toString();
 		/*
 		 * I'm assuming that after you post the comment a View of only that comment is loaded.
 		 * Like the OP on a forum.
 		 */
 		
 		// Set up an ActivityMonitor
-		ActivityMonitor receiverActivityMonitor = getInstrumentation().addMonitor(InspectCommentView.class.getName(),
+		ActivityMonitor monitor = mInstrumentation.addMonitor(CommentView.class.getName(),
 													null, false);
-				        
-		// post the comment
-		mPost.performClick();
+		
+		runTestOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// post the comment
+				mPost.performClick();
+				
+			}
+		});
+		mInstrumentation.waitForIdleSync();
 		
 		// Validate that ReceiverActivity is started
-		InspectCommentView commentView = (InspectCommentView)
-								receiverActivityMonitor.waitForActivityWithTimeout(TIMEOUT_IN_MS);
-		assertNotNull("ReceiverActivity is null", commentView);
+		CommentView commentView = (CommentView)
+				monitor.waitForActivityWithTimeout(TIMEOUT_IN_MS);
+		
 		assertEquals("Monitor for ReceiverActivity has not been called",
-				        1, receiverActivityMonitor.getHits());
-		assertEquals("Activity is of wrong type",
-				InspectCommentView.class, commentView.getClass());
+				        1, monitor.getHits());
+		assertNotNull("ReceiverActivity is null", commentView);
+		
 		
 		
 		// we should now be in CommentView Activity
-		EditText editAuthor = (EditText)commentView.findViewById
-										(ca.ualberta.cs.team5geotopics.R.id.commentViewAuthorEditText);
+		TextView textAuthor = (TextView)commentView.findViewById
+										(R.id.comment_view_author);
 		
-		EditText editBody = (EditText)commentView.findViewById
-										(ca.ualberta.cs.team5geotopics.R.id.commentViewBodyEditText);
+		TextView textBody = (TextView)commentView.findViewById
+										(R.id.comment_view_body);
 				
-		EditText editTitle = (EditText)commentView.findViewById
-										(ca.ualberta.cs.team5geotopics.R.id.commentViewAuthorTitleText);
+		TextView textTitle = (TextView)commentView.findViewById
+										(R.id.comment_view_title);
 		
-		EditText editTime =  (EditText)commentView.findViewById
-										(ca.ualberta.cs.team5geotopics.R.id.commentViewAuthorTimeText);
+		
 		
 		// assert that we got the views from the activity
-		assertNotNull(editAuthor);
-		assertNotNull(editBody);
-		assertNotNull(editTitle);
-		assertNotNull(editTime);
+		assertNotNull(textAuthor);
+		assertNotNull(textBody);
+		assertNotNull(textTitle);
 		
+		ViewAsserts.assertOnScreen(textAuthor.getRootView(), textAuthor);
+		ViewAsserts.assertOnScreen(textBody.getRootView(), textBody);
+		ViewAsserts.assertOnScreen(textTitle.getRootView(), textTitle);
 		/*
 		 * add some ViewAsserts
 		 * 
@@ -146,18 +169,21 @@ public class CreateCommentViewTests extends
 		
 		
 		// turn the text in the views into appropriate strings
-		String author = editAuthor.getText().toString();
-		String body = editBody.getText().toString();
-		String title = editTitle.getText().toString();
-		String time = editTime.getText().toString();
+		String author = textAuthor.getText().toString();
+		String body = textBody.getText().toString();
+		String title = textTitle.getText().toString();
+		
 		
 		// test to see if the strings are equal to the expected values
-		assertTrue(author.equals(EXPECTED_AUTHOR));
-		assertTrue(body.equals(EXPECTED_BODY));
-		assertTrue(title.equals(EXPECTED_TITLE));
-		assertTrue(time.equals(EXPECTED_TIME));
+		assertEquals("Title should be " + EXPECTED_TITLE, EXPECTED_TITLE, title);
+		assertEquals("Body should be " + EXPECTED_BODY, EXPECTED_BODY, body);
+		
+		assertEquals("Author should be " + EXPECTED_AUTHOR, EXPECTED_AUTHOR, author);
+		
+		
+		
 		
 		// Remove the ActivityMonitor
-		getInstrumentation().removeMonitor(receiverActivityMonitor);
+		mInstrumentation.removeMonitor(monitor);
 	}
 }
