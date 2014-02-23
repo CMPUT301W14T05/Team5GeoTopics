@@ -1,5 +1,8 @@
 package ca.ualberta.cs.team5geotopics.test;
 
+import com.example.team5geotopics.R;
+
+import ca.ualberta.cs.team5geotopics.BrowseTopLevelView;
 import ca.ualberta.cs.team5geotopics.StartActivity;
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -28,7 +31,7 @@ public class StartViewTests extends ActivityInstrumentationTestCase2<StartActivi
 		mInstrumentation = getInstrumentation();
 		
 		
-		mBrowseComments = (Button) mActivity.findViewById(ca.ualberta.cs.team5geotopics.R.id.browseCommentsBtnStart);
+		mBrowseComments = (Button) mActivity.findViewById(R.id.start_browse_top_level);
 		
 		
 	}
@@ -57,7 +60,7 @@ public class StartViewTests extends ActivityInstrumentationTestCase2<StartActivi
 		        receiverActivityMonitor.waitForActivityWithTimeout(TIMEOUT_IN_MS);
 		assertNotNull("ReceiverActivity is null", browseTopLevel);
 		assertEquals("Monitor for ReceiverActivity has not been called",
-		        1, browseTopLevel.getHits());
+		        1, receiverActivityMonitor.getHits());
 		assertEquals("Activity is of wrong type",
 				BrowseTopLevelView.class, browseTopLevel.getClass());
 

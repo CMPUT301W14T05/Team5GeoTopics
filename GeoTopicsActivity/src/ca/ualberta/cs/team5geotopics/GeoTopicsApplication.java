@@ -15,11 +15,13 @@ public class GeoTopicsApplication {
 	// into the QueueController.mTopLevel.mIn list.
 	// that is we can test to see if the comments pushed into this
 	// list are loaded onto the ListView for the BrowseTopLevelView
-	private static final boolean BROWSE_TOP_LEVEL_TEST = true; 
-	
+	transient private static final boolean BROWSE_TOP_LEVEL_TEST = true; 
+	static boolean BrowseTopLevelNoInternetTest(){
+		return BROWSE_TOP_LEVEL_TEST;
+	}
 	
 	transient private static QueueController mQueueController = null;
-	static QueueController getFillerCreep() {
+	static QueueController getQueueController() {
         if (mQueueController == null) {
         	mQueueController = new QueueController();
         }

@@ -2,6 +2,10 @@ package ca.ualberta.cs.team5geotopics.test;
 
 
 
+import com.example.team5geotopics.R;
+
+import ca.ualberta.cs.team5geotopics.BrowseTopLevelView;
+import ca.ualberta.cs.team5geotopics.CommentModel;
 import ca.ualberta.cs.team5geotopics.StartActivity;
 import ca.ualberta.cs.team5geotopics.GeoTopicsApplication;
 import android.app.Activity;
@@ -15,7 +19,9 @@ import android.test.ViewAsserts;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<BrowseTopLevelView> {
 	Activity mActivity;
@@ -33,8 +39,8 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 		super.setUp();
 		mActivity = getActivity();
 		mInstrumentation = getInstrumentation();
-		mCreateNewComment = (Button)mActivity.findViewById(ca.ualberta.cs.team5geotopics.R.id.newCommentBtn);
-		mTopLevelListView = (ListView)mActivity.findViewById(ca.ualberta.cs.team5geotopicsR.id.topLevelListView);
+		mCreateNewComment = (Button)mActivity.findViewById(R.id.browse_top_lvl_new_cmnt);
+		mTopLevelListView = (ListView)mActivity.findViewById(R.id.top_lvl_listView);
 		mAdapter = (ArrayAdapter<CommentModel>) mTopLevelListView.getAdapter();
 	}
 	
@@ -63,8 +69,7 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 	 * notify the BrowseTopLevelView, where the list of mock comments would 
 	 * be added to the list of comments in the View. 
 	 * 
-	 * i,e, comment1 = new Comment("test1", "body1", "author1", null, null, "TopLevel")
-	 * and so on for comment2 and comment3. 
+	 *
 	 * 
 	 * We are testing the model/view framework and the display on the 
 	 * ListView for the BrowseTopLevelView. 
@@ -81,15 +86,15 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 			//http://stackoverflow.com/questions/11541114/unittesting-of-arrayadapter
 			view = mAdapter.getView(i, null, null);
 			TextView author = (TextView) view
-	                .findViewById(ca.ualberta.cs.team5geotopics.R.id.topLevelAdapterAuthor);
+	                .findViewById(R.id.top_level_adapter_author);
 
 	        TextView title = (TextView) view
-	                .findViewById(ca.ualberta.cs.team5geotopics.R.id.topLevelAdapterTitle);
+	                .findViewById(R.id.top_level_adapter_title);
 
 	        ImageView photo = (ImageView) view
-	                .findViewById(ca.ualberta.cs.team5geotopics.R.id.topLevelAdapterPicture);
+	                .findViewById(R.id.top_level_adapter_picture);
 	        
-	        //hopfully this will test to see that the view is in the adapter
+	        //Hopefully this will test to see that the view is in the adapter
 	        ViewAsserts.assertOnScreen(mTopLevelListView, view);
 	        
 	        assertNotNull("View is null. ", view);

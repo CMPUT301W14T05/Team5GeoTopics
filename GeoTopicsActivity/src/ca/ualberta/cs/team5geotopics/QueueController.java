@@ -9,6 +9,23 @@ public class QueueController {
 		this.mTopLvlQueue = new QueueModel();
 		this.mReplyLvlQueue = new QueueModel();
 	}
+
+	public QueueModel getmTopLvlQueue() {
+		return mTopLvlQueue;
+	}
+
+	public void setmTopLvlQueue(QueueModel mTopLvlQueue) {
+		this.mTopLvlQueue = mTopLvlQueue;
+	}
+
+	public QueueModel getmReplyLvlQueue() {
+		return mReplyLvlQueue;
+	}
+
+	public void setmReplyLvlQueue(QueueModel mReplyLvlQueue) {
+		this.mReplyLvlQueue = mReplyLvlQueue;
+	}
+	
 	
 	/*
 	 * have some thread that pulls comments from web service and

@@ -23,8 +23,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.team5geotopics.B"
-            android:label="@string/title_activity_b" >
+            android:name="ca.ualberta.cs.team5geotopics.BrowseTopLevelView"
+            android:label="@string/browse_top_level" >
         </activity>
     </application>
 

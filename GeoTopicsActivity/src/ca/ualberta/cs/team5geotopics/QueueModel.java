@@ -20,6 +20,8 @@ public class QueueModel extends AModel<AView> {
 		if(!mIn.contains(comment)){
 			mIn.add(comment);
 		}
+		// notify the views that we have new comments
+		this.notifyViews();
 	}
 	
 	public void addToOut(CommentModel comment){
@@ -38,5 +40,9 @@ public class QueueModel extends AModel<AView> {
 		if(mOut.contains(comment)){
 			mOut.remove(comment);
 		}
+	}
+	
+	public ArrayList<CommentModel> getIn(){
+		return mIn;
 	}
 }
