@@ -16,10 +16,10 @@ public class StartActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_geo_topics);
 		
-		setUpBroweButton();
+		setUpBrowseButton();
 	}
 	
-	private void setUpBroweButton() {
+	private void setUpBrowseButton() {
 		mBrowseTopLevel = (Button)findViewById(R.id.start_browse_top_level);
 		mBrowseTopLevel.setOnClickListener(new View.OnClickListener() {
 			

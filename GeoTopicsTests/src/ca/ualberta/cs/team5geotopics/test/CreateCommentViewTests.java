@@ -22,7 +22,7 @@ import android.widget.ImageButton;
 public class CreateCommentViewTests extends
 		ActivityInstrumentationTestCase2<NewCommentView> {
 	
-	CreateCommentView mActivity;
+	NewCommentView mActivity;
 	Instrumentation mInstrumentation;
 	EditText mTitle;
 	EditText mBody;

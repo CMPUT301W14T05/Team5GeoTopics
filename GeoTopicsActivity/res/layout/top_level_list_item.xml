@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal" >
+    <!-- at the moment we only have three text views for the ListView row  
+    	 care must be taken to ensure that no widget is focusable
+    	 http://stackoverflow.com/questions/19155109/android-list-view-setonitemclicklistener-not-working
+    -->
+    <TextView 
+        android:id="@+id/top_level_title_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        />
+    <TextView 
+        android:id="@+id/top_level_body_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
+    <TextView 
+        android:id="@+id/top_level_author_list_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        />
+
+</LinearLayout>

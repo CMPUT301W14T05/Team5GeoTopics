@@ -3,30 +3,22 @@ package ca.ualberta.cs.team5geotopics.test;
 
 
 import com.example.team5geotopics.R;
-
 import ca.ualberta.cs.team5geotopics.BrowseTopLevelView;
 import ca.ualberta.cs.team5geotopics.CommentModel;
-import ca.ualberta.cs.team5geotopics.StartActivity;
-import ca.ualberta.cs.team5geotopics.GeoTopicsApplication;
 import android.app.Activity;
-import android.app.Application;
 import android.app.Instrumentation;
-import android.app.Instrumentation.ActivityMonitor;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
 import android.test.ViewAsserts;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<BrowseTopLevelView> {
 	Activity mActivity;
 	Instrumentation mInstrumentation;
-	Button mCreateNewComment;
 	Intent mStartIntent;
 	ListView mTopLevelListView;
 	ArrayAdapter<CommentModel> mAdapter;
@@ -35,20 +27,21 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 		super(BrowseTopLevelView.class);
 	}
 	
-	protected void setUp(){
+	@SuppressWarnings("unchecked")
+	protected void setUp() throws Exception{
 		super.setUp();
 		mActivity = getActivity();
 		mInstrumentation = getInstrumentation();
-		mCreateNewComment = (Button)mActivity.findViewById(R.id.browse_top_lvl_new_cmnt);
-		mTopLevelListView = (ListView)mActivity.findViewById(R.id.top_lvl_listView);
+		mTopLevelListView = (ListView)mActivity.findViewById(R.id.browse_top_level_listView);
+		//this give warning
 		mAdapter = (ArrayAdapter<CommentModel>) mTopLevelListView.getAdapter();
 	}
 	
 	public final void testPreConditions(){
 		assertNotNull(mActivity);
 		assertNotNull(mInstrumentation);
-		assertNotNull(mCreateNewComment);
 		assertNotNull(mTopLevelListView);
+		assertNotNull(mAdapter);
 	}
 	
 	
@@ -86,13 +79,13 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 			//http://stackoverflow.com/questions/11541114/unittesting-of-arrayadapter
 			view = mAdapter.getView(i, null, null);
 			TextView author = (TextView) view
-	                .findViewById(R.id.top_level_adapter_author);
+	                .findViewById(R.id.top_level_author_list_item);
 
 	        TextView title = (TextView) view
-	                .findViewById(R.id.top_level_adapter_title);
+	                .findViewById(R.id.top_level_title_list_item);
 
-	        ImageView photo = (ImageView) view
-	                .findViewById(R.id.top_level_adapter_picture);
+	        TextView body = (TextView) view
+	                .findViewById(R.id.top_level_body_list_item);
 	        
 	        //Hopefully this will test to see that the view is in the adapter
 	        ViewAsserts.assertOnScreen(mTopLevelListView, view);
@@ -100,11 +93,11 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 	        assertNotNull("View is null. ", view);
 	        assertNotNull("Name TextView is null. ", author);
 	        assertNotNull("Number TextView is null. ", title);
-	        assertNotNull("Photo ImageView is null. ", photo);
+	        assertNotNull("Photo ImageView is null. ", title);
 
-	        assertEquals("Authors doesn't match.", "author" + Integer.toString(i), author.getText());
-	        assertEquals("Titles doesn't match.", "test" + Integer.toString(i),
-	        		title.getText());
+	        assertEquals("Authors doesn't match.", "author" + Integer.valueOf(i).toString(), author.getText());
+	        assertEquals("Titles doesn't match.", "test" + Integer.valueOf(i).toString(), title.getText());
+	        assertEquals("Body doesn't match.", "body" + Integer.valueOf(i).toString(), body.getText());
 		}
 		
 	}

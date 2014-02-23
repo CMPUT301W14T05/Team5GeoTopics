@@ -1,13 +1,15 @@
 package ca.ualberta.cs.team5geotopics;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.team5geotopics.R;
 
 public class BrowseTopLevelView extends BrowseView implements AView<QueueModel>{
 	
-	ListView listView;
+	ListView mListView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -22,11 +24,22 @@ public class BrowseTopLevelView extends BrowseView implements AView<QueueModel>{
 		this.update(topLevelQ);
 		
 		// set up the ListView
-		
+		setUpListView();
 		
 		// now we set up the adapter for this listView
+		setUpAdapter();
 		
+		// now we setUp an Item Listener on ListView
+		// so that user can click a TopLevel Comment
+		// in order to view replies
+		setUpItemListener();
 	}
+	
+	
+	
+
+
+
 	@Override
 	public void update(QueueModel topLevelQ) {
 		
@@ -62,7 +75,37 @@ public class BrowseTopLevelView extends BrowseView implements AView<QueueModel>{
 		
 	}
 	
+	private void setUpListView() {
+		mListView = (ListView) findViewById(R.id.browse_top_level_listView);
+		
+	}
 	
-
+	/*
+	 * In this method we register the ListView with an adapter (or vice-versa w/e).
+	 */
+	private void setUpAdapter() {
+		BrowseCommentController controller = GeoTopicsApplication.getTopLevelController(this, 
+				                             R.layout.top_level_list_item, getmCommentList());
+		CommentListAdapter adapter = controller.getAdapter();
+		mListView.setAdapter(adapter);
+		
+	}
+	
+	//http://stackoverflow.com/questions/4709870/setonitemclicklistener-on-custom-listview
+	private void setUpItemListener() {
+		
+		mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View view, int position,
+					long arg3) {
+				/*
+				 * launch BrowseCommentReplies
+				 */
+				
+			}
+			
+		});
+		
+	}
 
 }

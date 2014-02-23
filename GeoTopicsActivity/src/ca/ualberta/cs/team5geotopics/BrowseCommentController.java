@@ -11,4 +11,8 @@ public class BrowseCommentController {
 		super();
 		this.mAdapter = new CommentListAdapter(context, layoutResourceId, comments);
 	}
+	
+	public CommentListAdapter getAdapter(){
+		return this.mAdapter;
+	}
 }
