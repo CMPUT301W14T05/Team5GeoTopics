@@ -1,6 +1,8 @@
 package ca.ualberta.cs.team5geotopics;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -15,6 +17,14 @@ public class BrowseTopLevelView extends BrowseView{
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_browse_top_level_view);
+		
+		//Remove the title and logo from the action bar
+		//TODO: Look for a better way to do this, this feels like a hack. 
+		//Has to be a better way to do this in xml. (James)
+		getActionBar().setDisplayShowTitleEnabled(false);
+		//Gives us the left facing caret. Need to drop the app icon however OR 
+		//change it to something other than the android guy.
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		// this is the model that we will be using to modify view
 		QueueModel topLevelQ = GeoTopicsApplication.getQueueController().getmTopLvlQueue();
@@ -82,7 +92,6 @@ public class BrowseTopLevelView extends BrowseView{
 	
 	//http://stackoverflow.com/questions/4709870/setonitemclicklistener-on-custom-listview
 	private void setUpItemListener() {
-		
 		mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View view, int position,
@@ -95,6 +104,14 @@ public class BrowseTopLevelView extends BrowseView{
 			
 		});
 		
+	}
+	
+	//Creates the options menu using the layout in menu.
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    // Inflate the menu items for use in the action bar
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.browse_top_level_view, menu);
+	    return super.onCreateOptionsMenu(menu);
 	}
 
 }
