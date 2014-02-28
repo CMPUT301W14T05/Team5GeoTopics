@@ -1,5 +1,7 @@
 package ca.ualberta.cs.team5geotopics;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.location.Location;
@@ -19,14 +21,14 @@ public class SortComments {
 	}
 	
 	public List<CommentModel> SortCommentsByProximityToMe(final List<CommentModel> cList, final Location myLoc) {
-		/*
+		
 		Collections.sort(cList, new Comparator<CommentModel>() {
     	    public int compare(CommentModel a, CommentModel b) {
-    	        return (a.getLocation().distanceTo(myLoc) - 
-    	        		b.getLocation().distanceTo(myLoc));
+    	        return (int) (b.getLocation().distanceTo(myLoc) - 
+    	        		a.getLocation().distanceTo(myLoc));
     	    }
     	});
-    	*/
+    	
 		return cList;
 		
 	}
