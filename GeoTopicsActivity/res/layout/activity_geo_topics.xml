@@ -18,4 +18,22 @@
         android:layout_marginTop="89dp"
         android:text="@string/browse_top_level" />
 
+    <ImageButton
+        android:id="@+id/displayPhotoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/start_browse_top_level"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="93dp"
+        android:src="@drawable/ic_launcher" />
+
+    <Button
+        android:id="@+id/takePhotoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/start_browse_top_level"
+        android:layout_below="@+id/start_browse_top_level"
+        android:layout_marginTop="37dp"
+        android:text="Take Photo" />
+
 </RelativeLayout>
