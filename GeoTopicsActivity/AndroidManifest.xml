@@ -14,10 +14,11 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo" >
         <service
-            android:name=".PutIndexService" 
+            android:name="ca.ualberta.cs.team5geotopcs.PutIndexService"
             android:enabled="true"
-    	    android:exported="false">
-     	</service>
+            android:exported="false" >
+        </service>
+
         <activity
             android:name="ca.ualberta.cs.team5geotopics.StartActivity"
             android:label="@string/app_name" >
@@ -28,15 +29,18 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".EsTestActivity"
+            android:label="@string/es_test_activity" >
+        </activity>
+        <activity
             android:name="ca.ualberta.cs.team5geotopics.BrowseView"
             android:label="@string/browse_view" >
         </activity>
-        
-        <activity 
+        <activity
             android:name="ca.ualberta.cs.team5geotopics.InspectCommentView"
-            android:label="@string/inspect_comment">
-            
+            android:label="@string/inspect_comment" >
         </activity>
-    </application>
+        
+        </application>
 
 </manifest>

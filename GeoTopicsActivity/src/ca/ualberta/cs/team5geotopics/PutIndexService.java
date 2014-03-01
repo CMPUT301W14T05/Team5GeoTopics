@@ -32,16 +32,18 @@ public class PutIndexService extends IntentService{
 					.actionGet();
 		
 		if(GeoTopicsApplication.giveFeedback()){
+			String result = mResponse.getIndex() + mResponse.getType() + mResponse.getId();
+			final String OUTPUT_TEXT = "OUTPUT_TEXT";
 			//http://www.mobiledevguide.com/2013/01/how-to-use-intentservice-in-android.html
 			/*create new intent to broadcast our processed data to our activity*/
 			Intent resultBroadCastIntent = new Intent();
 			/*set action here*/
-			resultBroadCastIntent.setAction(TextCapitalizeResultReceiver.ACTION_TEXT_CAPITALIZED);
+			resultBroadCastIntent.setAction(EsTestActivity.IndexReciever.ACTION_TEXT_CAPITALIZED);
 			/*set intent category as default*/
 			resultBroadCastIntent.addCategory(Intent.CATEGORY_DEFAULT);
 	 
 			/*add data to intent*/
-			resultBroadCastIntent.putExtra(OUTPUT_TEXT, data);
+			resultBroadCastIntent.putExtra(OUTPUT_TEXT, result);
 			/*send broadcast */
 			sendBroadcast(resultBroadCastIntent);
 		}
