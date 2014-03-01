@@ -1,8 +1,8 @@
 package ca.ualberta.cs.team5geotopics;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.Client;
+
 import com.google.gson.Gson;
-import android.content.Context;
 
 
 public class EsOperations {

@@ -61,6 +61,10 @@ public class CommentModel extends AModel<AView> implements Serializable{
 		this.mAuthor = mAuthor;
 	}
 	
+	public Location getGeoLocation() {
+		return mGeolocation;
+	}
+	
 	
 	
 }

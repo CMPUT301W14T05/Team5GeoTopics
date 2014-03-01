@@ -21,7 +21,7 @@ public class PutIndexService extends IntentService{
 		String[] args = bundle.getStringArray("args");
 		String jsonComment = bundle.getString("json");
 		
-		Client client = GeoTopicsApplication.getClient();
+		//Client client = GeoTopicsApplication.getClient();
 		//for clarity
 		String index = args[0];
 		String type = args[1];
