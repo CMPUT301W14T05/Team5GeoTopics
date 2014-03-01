@@ -45,6 +45,7 @@ public class EsTestActivity extends Activity {
 				Bundle bundle = new Bundle();
 				bundle.putStringArray("args", args);
 				bundle.putString("json", json);
+				putIndexServiceIntent.putExtras(bundle);
 				startService(putIndexServiceIntent);
 				
 			}
