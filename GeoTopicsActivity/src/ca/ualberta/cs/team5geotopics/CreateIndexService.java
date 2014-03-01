@@ -3,6 +3,7 @@ package ca.ualberta.cs.team5geotopics;
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Index;
+import io.searchbox.indices.CreateIndex;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
@@ -19,29 +20,30 @@ public class CreateIndexService extends IntentService {
 	public static void createIndex(Context context, String name) {
 		Intent intent = new Intent(context, CreateIndexService.class);
 		intent.putExtra("name", name);
+		Toast.makeText(context, "launching createIndex service", 
+				   Toast.LENGTH_LONG).show();
+		Log.w("CreateIndexService", "in createIndex");
 		context.startService(intent);
 	}
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		JestClient client = GeoTopicsApplication.getClient();
+		Log.w("CreateIndexService", "in onHandleIntent");
+		JestClient client = GeoTopicsApplication.getClient(getApplicationContext());
 		String indexName = intent.getStringExtra("name");
-		Index indexToPush = new Index.Builder(indexName).build();
 		JestResult result = null;
 		Exception exception = null;
 		try {
-			result = client.execute(indexToPush);
+			result = client.execute(new CreateIndex.Builder(indexName).build());
 		} catch (Exception e) {
 			exception = e;
-			Log.w("createIndex", e.toString());
-			Toast.makeText(getApplicationContext(), (String)e.toString(), 
-					   Toast.LENGTH_LONG).show();
+			Log.w("CreateIndexService", e.toString());
 		}
 		
 		if(exception == null){
-			Toast.makeText(getApplicationContext(), (String)result.getJsonString(), 
-					   Toast.LENGTH_LONG).show();
+			Log.w("CreateIndexService", result.getJsonString());
 		}
+		
 		
 	}
 

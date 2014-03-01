@@ -1,11 +1,13 @@
 package ca.ualberta.cs.team5geotopics;
 
 
-import com.searchly.jestdroid.DroidClientConfig;
-import com.searchly.jestdroid.JestClientFactory;
-
 import io.searchbox.client.JestClient;
 import android.app.Application;
+import android.content.Context;
+import android.widget.Toast;
+
+import com.searchly.jestdroid.DroidClientConfig;
+import com.searchly.jestdroid.JestClientFactory;
 
 //https://github.com/abramhindle/FillerCreepForAndroid/blob/master/src/es/softwareprocess/fillercreep/FillerCreepApplication.java
 //josh said not to extend Application
@@ -38,7 +40,9 @@ public class GeoTopicsApplication extends Application{
 	}
 	
 	transient private static JestClient mClient = null;
-	static JestClient getClient(){
+	static JestClient getClient(Context context){
+		Toast.makeText(context, "getting client", 
+				   Toast.LENGTH_LONG).show();
 		if (mClient == null) {
 			DroidClientConfig clientConfig = new DroidClientConfig.Builder(
 					SEARCHLY_CLUSTER).build();
