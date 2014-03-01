@@ -37,7 +37,7 @@ public class EsTestActivity extends Activity {
 			public void onClick(View v) {
 				
 				CommentModel comment = new CommentModel(null, "test body",
-						"test author", null);
+						"test author", null, "test title");
 				Gson gson = new Gson();
 				String json = gson.toJson(comment);
 				Log.w("json", json);

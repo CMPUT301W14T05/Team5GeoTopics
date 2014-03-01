@@ -38,15 +38,10 @@
             android:label="@string/es_test_activity" >
         </activity>
         <activity
-            android:name="ca.ualberta.cs.team5geotopics.BrowseView"
-            android:label="@string/browse_view" >
+            android:name="ca.ualberta.cs.team5geotopics.BrowseActivity"
+            android:label="@string/browse_activity" >
 
         </activity>
-        <activity
-            android:name="ca.ualberta.cs.team5geotopics.InspectCommentView"
-            android:label="@string/inspect_comment" >
-        </activity>
-        
         </application>
 
 </manifest>

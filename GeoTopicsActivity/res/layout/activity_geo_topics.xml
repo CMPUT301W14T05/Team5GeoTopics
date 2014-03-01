@@ -13,7 +13,7 @@
         android:id="@+id/start_browse_top_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-				android:text="@string/browse_view" />
+		android:text="@string/browse_activity" />
     <Button 
         android:id="@+id/start_test_es"
         android:layout_width="wrap_content"
