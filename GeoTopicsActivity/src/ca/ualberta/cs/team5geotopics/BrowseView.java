@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public abstract class BrowseView extends Activity implements AView<Cache> {
+public class BrowseView extends Activity implements AView<Cache> {
 	ListView mListView;
 
 	// Not sure if we need this, might have been moved to the comment list model
@@ -36,6 +36,7 @@ public abstract class BrowseView extends Activity implements AView<Cache> {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_browse_view);
 		initCommentList();
 
 		// Remove the title and logo from the action bar
@@ -90,11 +91,9 @@ public abstract class BrowseView extends Activity implements AView<Cache> {
 
 	//TODO: This code needs to be re-worked
 	private void setUpAdapter() {
-		BrowseCommentController controller = GeoTopicsApplication
-				.getTopLevelController(this, R.layout.top_level_list_item,
-						getmCommentList());
-		CommentListAdapter adapter = controller.getAdapter();
-		mListView.setAdapter(adapter);
+		//BrowseCommentController controller = GeoTopicsApplication.getTopLevelController(this, R.layout.top_level_list_item,getmCommentList());
+		//CommentListAdapter adapter = controller.getAdapter();
+		//mListView.setAdapter(adapter);
 
 	}
 	

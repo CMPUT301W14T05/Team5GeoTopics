@@ -86,7 +86,7 @@ public class CommentListAdapter extends ArrayAdapter<CommentModel> {
 			holder = (Holder) view.getTag();
 		}
 		CommentModel comment = mCommentList.get(position);
-		holder.title.setText(comment.getmTitle());
+		//holder.title.setText(comment.getmTitle());
 		holder.body.setText(comment.getmBody());
 		holder.author.setText(comment.getmAuthor());
 		
