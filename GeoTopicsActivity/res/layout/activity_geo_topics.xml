@@ -16,6 +16,6 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="76dp"
         android:layout_marginTop="89dp"
-        android:text="@string/browse_top_level" />
+        android:text="@string/browse_view" />
 
 </RelativeLayout>

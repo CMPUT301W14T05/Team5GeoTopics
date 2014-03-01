@@ -5,8 +5,8 @@
     <string name="app_name">Team5GeoTopics</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_">A</string>
-    <string name="browse_top_level">Top Level Comments</string>
-    <string name="new_comment">New Comment</string>
+    <string name="browse_view">Browse Comments</string>
+    <string name="inspect_comment">Inspect Comment</string>
     <string name="author">Author</string>
     <string name="title">Title</string>
     <string name="body">Body</string>

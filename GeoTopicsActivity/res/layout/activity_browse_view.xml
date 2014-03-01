@@ -12,7 +12,7 @@
         android:id="@+id/browse_top_level_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/browse_top_level" />
+        android:text="@string/browse_view" />
     
     <!-- I'm not sure abot the layout_width
     	 or the layout_height. Those will probably
