@@ -1,9 +1,10 @@
 package ca.ualberta.cs.team5geotopics;
 
-import org.elasticsearch.client.Client;
-import static org.elasticsearch.node.NodeBuilder.*;
 
+import com.searchly.jestdroid.DroidClientConfig;
+import com.searchly.jestdroid.JestClientFactory;
 
+import io.searchbox.client.JestClient;
 import android.app.Application;
 
 //https://github.com/abramhindle/FillerCreepForAndroid/blob/master/src/es/softwareprocess/fillercreep/FillerCreepApplication.java
@@ -36,10 +37,15 @@ public class GeoTopicsApplication extends Application{
 		return GIVE_FEEDBACK;
 	}
 	
-	transient private static Client mClient = null;
-	static Client getClient(){
+	transient private static JestClient mClient = null;
+	static JestClient getClient(){
 		if (mClient == null) {
-			mClient = nodeBuilder().clusterName(SEARCHLY_CLUSTER).client(true).node().client();
+			DroidClientConfig clientConfig = new DroidClientConfig.Builder(
+					SEARCHLY_CLUSTER).build();
+
+			JestClientFactory jestClientFactory = new JestClientFactory();
+			jestClientFactory.setDroidClientConfig(clientConfig);
+			mClient = jestClientFactory.getObject();
         }
         return mClient;
 	}

@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".EsTestActivity"
+            android:name="ca.ualberta.cs.team5geotopics.EsTestActivity"
             android:label="@string/es_test_activity" >
         </activity>
         <activity

@@ -14,8 +14,18 @@
         android:layout_height="wrap_content"
         android:text="@string/es_test_activity" />
     <TextView 
-        android:id="@+id/ea_test_textview"
+        android:id="@+id/es_test_textview"
       	android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+    <Button 
+        android:id="@+id/es_test_put_index_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="index test comment"/>
+    <Button 
+        android:id="@+id/es_test_create_index_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create test index"/>
 
 </LinearLayout>

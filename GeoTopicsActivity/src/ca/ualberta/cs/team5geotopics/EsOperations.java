@@ -1,9 +1,12 @@
 package ca.ualberta.cs.team5geotopics;
-import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.client.Client;
-import com.google.gson.Gson;
-import android.content.Context;
+
+import android.util.Log;
+import android.widget.Toast;
+import io.searchbox.client.JestClient;
+import io.searchbox.client.JestResult;
+import io.searchbox.core.Index;
+
+
 
 
 public class EsOperations {
@@ -17,18 +20,22 @@ public class EsOperations {
 	 * @param args 		an array of string containing the information need to prepare the Index
 	 * @return			returns an IndexResponse that contains information pertaining to putting the comment on server.
 	 */
-	public static IndexResponse putComment(String[] args, CommentModel comment){
-		Gson gson = new Gson();
-		String jsonComment = gson.toJson(comment);
-		Client client = GeoTopicsApplication.getClient();
+	public static String putComment(String[] args, String jsonComment){
+		JestClient client = GeoTopicsApplication.getClient();
 		//for clarity
 		String index = args[0];
 		String type = args[1];
 		String id = args[2];
-		return	client.prepareIndex(index, type, id)
-					.setSource(jsonComment)
-					.execute()
-					.actionGet();
+		
+		Index indexToPush = new Index.Builder(jsonComment).index(index).type(type).id(id).build();
+		JestResult result = null;
+		try {
+			result = client.execute(indexToPush);
+		} catch (Exception e) {
+			Log.w("putComment", e.toString());
+			return e.toString();
+		}
+		return result.toString();
 		}
 	
 	//http://karussell.wordpress.com/2011/02/07/get-started-with-elasticsearch/
@@ -40,17 +47,20 @@ public class EsOperations {
 	 */
 	
 	public static String createIndex(String indexName){
-		String returnString = null;
-		Client client = GeoTopicsApplication.getClient();
+		JestClient client = GeoTopicsApplication.getClient();
 		
+		Index indexToPush = new Index.Builder(indexName).build();
+		JestResult result = null;
 		try{
-			client.admin().indices().create(new CreateIndexRequest(indexName)).actionGet();
+			result = client.execute(indexToPush);
 		}
 		catch(Exception e){
-			returnString = e.toString();
+			Log.w("createIndex", e.toString());
+			return e.toString();
 		}
+		return result.toString();
 		
-		return returnString;
+		
 	}
 }
 
