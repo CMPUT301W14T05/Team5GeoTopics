@@ -35,9 +35,14 @@ public class PutIndexService extends IntentService{
 		
 		Bundle bundle = intent.getExtras();
 		String[] args = bundle.getStringArray("argList");
-		String jsonComment = bundle.getString("jsonComment");
+		String jsonComment = bundle.getString("json");
+		if(jsonComment == null){
+			Log.w("json", "jsonComment is null in onHandleIntent");
+		}
+		
 		//for clarity
 		String index = bundle.getString("index");
+		Log.w("PutIndexService" , "attempting to push to index: " + index);
 		String type = bundle.getString("type");
 		String id = bundle.getString("id");
 		

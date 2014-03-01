@@ -40,12 +40,17 @@ public class EsTestActivity extends Activity {
 						"test author", null);
 				Gson gson = new Gson();
 				String json = gson.toJson(comment);
+				Log.w("json", json);
 				Bundle bundle = new Bundle();
-				bundle.putString("index", "Cats");
+				bundle.putString("index", "cats");
 				bundle.putString("type", "cute");
 				bundle.putString("id", "9001");
 				bundle.putString("json", json);
-
+				
+				if(bundle.getString("json").equals(null)){
+					Log.w("json", "json null before sent");
+				}
+				
 				Intent intent = new Intent(context, ca.ualberta.cs.team5geotopics.PutIndexService.class);
 				intent.putExtras(bundle);
 				Log.w("EsTestActivity", "starting service" + '\n' 
@@ -62,7 +67,7 @@ public class EsTestActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				String name = "test";
+				String name = "cats";
 				CreateIndexService.createIndex(getApplicationContext(), name);
 			}
 		});
