@@ -65,6 +65,10 @@ public class CommentModel extends AModel<AView> implements Serializable{
 		return mGeolocation;
 	}
 	
+	public Date getDate() {
+		return mDate;
+	}
+	
 	
 	
 }

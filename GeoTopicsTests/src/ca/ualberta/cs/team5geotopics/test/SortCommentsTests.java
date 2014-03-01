@@ -16,14 +16,14 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseVi
 	}
 	
 	public void testSortCommentByProximityToMe() {
-		SortComments sc = new SortComments();
-		
 		List<CommentModel> lc = prepCommentList();
 		Location myLoc = new Location("myLoc");
+		myLoc.setLatitude(0);
+		myLoc.setLongitude(0);
 		
-		lc = sc.SortCommentsByProximityToMe(lc, myLoc);
+		lc = SortComments.SortCommentsByProximityToLoc(lc, myLoc);
 		
-		assertEquals("C", lc.get(0));
+		assertTrue(lc.get(0).getmAuthor().equals("C"));
 	}
 	
 	public List<CommentModel> prepCommentList() {
@@ -32,13 +32,13 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseVi
 		Location locC = new Location("C");
 		
 		locC.setLatitude(50);
-		locC.setLongitude(50);
+		locC.setLongitude(0);
 		
-		locB.setLatitude(100);
-		locB.setLongitude(100);
+		locB.setLatitude(1000);
+		locB.setLongitude(0);
 		
-		locA.setLatitude(150);
-		locA.setLongitude(150);
+		locA.setLatitude(550);
+		locA.setLongitude(0);
 		
 		List<CommentModel> lc = new ArrayList<CommentModel>();
 		lc.add(new CommentModel(locA, "A", "A", null));
