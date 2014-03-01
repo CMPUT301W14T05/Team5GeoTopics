@@ -13,36 +13,54 @@ import android.location.Location;
  * and ReplyLevelModel.
  */
 //TODO: implement parcable or sometype of JSon serialization.
-public class CommentModel extends AModel<AView> implements Serializable{
+public class CommentModel extends AModel<AView> implements Serializable {
 	private Location mGeolocation;
 	private String mBody;
 	private String mAuthor;
-	private ArrayList<ReplyLevelModel> replies;
-	//private Bitmap mPicture;
+	private String mTitle;
+	private ArrayList<CommentModel> replies;
+	private Bitmap mPicture;
 	private Date mDate;
+	private CommentModel mParent;
 	private String mDMYFormatedDate;
 	private String mHrSecFormatedDate;
-	
-	public CommentModel(Location mGeolocation, String mBody,
-			String mAuthor, Bitmap mPicture) {
+
+	// Constructor for Top Level Comments
+	public CommentModel(Location mGeolocation, String mBody, String mAuthor,
+			Bitmap mPicture, String mTitle) {
 		super();
 		this.mGeolocation = mGeolocation;
 		this.mBody = mBody;
 		this.mAuthor = mAuthor;
-		//this.mPicture = mPicture;
+		this.mTitle = mTitle;
+		this.mPicture = mPicture;
 		putTimeStamp();
-		this.replies = new ArrayList<ReplyLevelModel>();
-		
+		this.replies = new ArrayList<CommentModel>();
+		this.mParent = null;
+	}
+
+	// Constructor for replies
+	public CommentModel(Location mGeolocation, String mBody, String mAuthor,
+			Bitmap mPicture, CommentModel mParent) {
+		super();
+		this.mGeolocation = mGeolocation;
+		this.mBody = mBody;
+		this.mAuthor = mAuthor;
+		this.mTitle = null;
+		this.mPicture = mPicture;
+		putTimeStamp();
+		this.replies = new ArrayList<CommentModel>();
+		this.mParent = mParent;
 	}
 
 	protected void putTimeStamp() {
 		this.mDate = new Date(System.currentTimeMillis());
 		SimpleDateFormat dmy = new SimpleDateFormat("dd/MM/yyy");
 		SimpleDateFormat hrSec = new SimpleDateFormat("hh:mm a");
-		
+
 		this.mDMYFormatedDate = dmy.format(mDate);
 		this.mHrSecFormatedDate = hrSec.format(mDate);
-		
+
 	}
 
 	public String getmBody() {
@@ -61,6 +79,12 @@ public class CommentModel extends AModel<AView> implements Serializable{
 		this.mAuthor = mAuthor;
 	}
 	
-	
-	
+	public boolean isTopLevel(){
+		return mParent == null;
+	}
+
+	public CharSequence getmTitle() {
+		//TODO: Return empty string if it is not a top level
+		return this.mTitle;
+	}
 }

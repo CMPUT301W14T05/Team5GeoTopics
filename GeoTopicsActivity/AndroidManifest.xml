@@ -28,8 +28,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="ca.ualberta.cs.team5geotopics.BrowseView"
-            android:label="@string/browse_view" >
+            android:name="ca.ualberta.cs.team5geotopics.BrowseActivity"
+            android:label="@string/browse_activity" >
         </activity>
         
         <activity 

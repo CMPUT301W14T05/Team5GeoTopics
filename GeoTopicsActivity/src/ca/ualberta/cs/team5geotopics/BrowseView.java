@@ -1,108 +1,98 @@
 package ca.ualberta.cs.team5geotopics;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import com.example.team5geotopics.R;
-
-import android.app.Activity;
-import android.os.Bundle;
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
-public class BrowseView extends Activity implements AView<Cache> {
-	ListView mListView;
+import ca.ualberta.cs.team5geotopics.BrowseView.Holder;
 
-	// Not sure if we need this, might have been moved to the comment list model
-	// ***************************************************************************
-	private ArrayList<CommentModel> mCommentList;
+import com.example.team5geotopics.R;
 
-	public ArrayList<CommentModel> getmCommentList() {
-		return mCommentList;
-	}
-
-	public void setmCommentList(ArrayList<CommentModel> mCommentList) {
-		this.mCommentList = mCommentList;
-	}
-
-	public void initCommentList() {
-		mCommentList = new ArrayList<CommentModel>();
-	}
-
-	// ***************************************************************************
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_browse_view);
-		initCommentList();
-
-		// Remove the title and logo from the action bar
-		// TODO: Look for a better way to do this, this feels like a hack.
-		// Has to be a better way to do this in xml. (James)
-		getActionBar().setDisplayShowTitleEnabled(false);
-		// Gives us the left facing caret. Need to drop the app icon however OR
-		// change it to something other than the android guy.
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-
-		// this is the model that we will be using to modify view
-		Cache cache = GeoTopicsApplication.getCache();
-		// add this view to the list of views held in the cache
-		cache.addView(this);
-
-		// set up the ListView
-		setUpListView();
-
-		// now we set up the adapter for this listView
-		setUpAdapter();
-
-		// now we setUp an Item Listener on ListView
-		// so that user can click a TopLevel Comment
-		// in order to view replies
-		setUpItemListener();
-	}
-
-	public void update(Cache cache) {
-
-	}
-
-	// http://stackoverflow.com/questions/4709870/setonitemclicklistener-on-custom-listview
-	private void setUpItemListener() {
-		mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> adapter, View view,
-					int position, long arg3) {
-				/*
-				 * launch another browse view to browse the comment
-				 */
-
-			}
-
-		});
-
-	}
-
-	private void setUpListView() {
-		mListView = (ListView) findViewById(R.id.browse_top_level_listView);
-
-	}
-
-	//TODO: This code needs to be re-worked
-	private void setUpAdapter() {
-		//BrowseCommentController controller = GeoTopicsApplication.getTopLevelController(this, R.layout.top_level_list_item,getmCommentList());
-		//CommentListAdapter adapter = controller.getAdapter();
-		//mListView.setAdapter(adapter);
-
+public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<CommentListModel> {
+	
+	private List<CommentModel> mCommentList;
+	private int mLayoutResourceId;
+	private Context mContext;
+	
+	public BrowseView(Context context, int layoutResourceId, CommentListModel clm){
+		super(context, layoutResourceId, clm.getList());
+		this.mLayoutResourceId = layoutResourceId;
+		this.mContext = context;
+		this.mCommentList = clm.getList();
 	}
 	
-	//Creates the options menu using the layout in menu.
-	public boolean onCreateOptionsMenu(Menu menu) {
-		   // Inflate the menu items for use in the action bar
-		   MenuInflater inflater = getMenuInflater();
-		   inflater.inflate(R.menu.browse_view, menu);
-		   return super.onCreateOptionsMenu(menu);
+	/*
+	 * holder class
+	 * http://developer.android.com/training/improving-layouts/smooth-scrolling.html
+	 * http://www.javacodegeeks.com/2013/09/android-viewholder-pattern-example.html
+	 */
+	
+	public static class Holder{
+		CommentModel comment;
+		TextView title;
+		TextView author;
+		TextView body;
+	}
+	
+	// http://stackoverflow.com/questions/5177056/overriding-android-arrayadapter
+	// http://blog.ghatasheh.com/2012/11/android-array-adapter-viewholder.html
+	
+	/*
+	 * This method returns the view associated with the row of the ListView the adapter 
+	 * is registered to. Basically it fills our ListView with the appropriate widgets.
+	 */
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		
+		boolean isTopLevel = false;
+		View view = convertView;
+		Holder holder = null;
+		if(mCommentList.get(position).isTopLevel()){
+			isTopLevel = true;
+		}
+		// we need to call the findViewById to get the views
+		if(view == null){
+			if(isTopLevel){
+				// fill row with TopLevelComment layout
+				view = LayoutInflater.from(mContext).inflate(R.layout.top_level_list_item,
+															null, false);
+				
+				holder = new Holder();
+				holder.comment = mCommentList.get(position);
+				holder.title = (TextView)view.findViewById(R.id.top_level_title_list_item);
+				holder.author = (TextView)view.findViewById(R.id.top_level_author_list_item);
+				holder.body = (TextView)view.findViewById(R.id.top_level_body_list_item);
+				view.setTag(holder);
+			}
+			else{
+				//here we can set view to a reply_list_item or w/e
+			}
+		}
+		// we don't need to call findViewById to get views, because we already did.
+		else{
+			holder = (Holder) view.getTag();
+		}
+		CommentModel comment = mCommentList.get(position);
+		holder.title.setText(comment.getmTitle());
+		holder.body.setText(comment.getmBody());
+		holder.author.setText(comment.getmAuthor());
+		
+		return view;
+		
 	}
 
+	@Override
+	public void update(CommentListModel model) {
+		this.notifyDataSetChanged();
+	}
+	
 }
