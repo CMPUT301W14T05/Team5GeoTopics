@@ -32,4 +32,12 @@ public class SortComments {
 		return cList;
 
 	}
+	
+	public List<CommentModel> getCommentsWithinRegion(List<CommentModel> cList, Location myLoc) {
+		for (int i = 0; i < cList.size(); i++) {
+			
+		}
+		
+		return cList;
+	}
 }
