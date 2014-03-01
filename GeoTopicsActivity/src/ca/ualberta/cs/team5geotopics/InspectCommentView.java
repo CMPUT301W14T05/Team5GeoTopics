@@ -2,7 +2,7 @@ package ca.ualberta.cs.team5geotopics;
 
 import android.app.Activity;
 
-public abstract class InspectCommentView extends Activity implements AView<QueueModel>{
+public abstract class InspectCommentView extends Activity implements AView<Cache>{
 	CommentModel mComment;
 
 	public CommentModel getmComment() {
@@ -14,7 +14,7 @@ public abstract class InspectCommentView extends Activity implements AView<Queue
 	}
 
 	public void initmComment(){
-		this.mComment = new CommentModel(null, null, null, null, null);
+		this.mComment = new CommentModel(null, null, null, null);
 	}
 
 	

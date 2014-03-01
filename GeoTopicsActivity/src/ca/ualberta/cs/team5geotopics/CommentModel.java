@@ -2,6 +2,7 @@ package ca.ualberta.cs.team5geotopics;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import android.graphics.Bitmap;
@@ -15,22 +16,22 @@ import android.location.Location;
 public class CommentModel extends AModel<AView> implements Serializable{
 	private Location mGeolocation;
 	private String mBody;
-	private String mTitle;
 	private String mAuthor;
+	private ArrayList<ReplyLevelModel> replies;
 	//private Bitmap mPicture;
 	private Date mDate;
 	private String mDMYFormatedDate;
 	private String mHrSecFormatedDate;
 	
-	public CommentModel(Location mGeolocation, String mBody, String mTitle,
+	public CommentModel(Location mGeolocation, String mBody,
 			String mAuthor, Bitmap mPicture) {
 		super();
 		this.mGeolocation = mGeolocation;
 		this.mBody = mBody;
-		this.mTitle = mTitle;
 		this.mAuthor = mAuthor;
 		//this.mPicture = mPicture;
 		putTimeStamp();
+		this.replies = new ArrayList<ReplyLevelModel>();
 		
 	}
 
@@ -50,14 +51,6 @@ public class CommentModel extends AModel<AView> implements Serializable{
 
 	public void setmBody(String mBody) {
 		this.mBody = mBody;
-	}
-
-	public String getmTitle() {
-		return mTitle;
-	}
-
-	public void setmTitle(String mTitle) {
-		this.mTitle = mTitle;
 	}
 
 	public String getmAuthor() {

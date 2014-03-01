@@ -7,10 +7,12 @@ import android.location.Location;
 
 public class TopLevelModel extends CommentModel {
 	private  ArrayList<ReplyLevelModel> mReplies;
-	
+	private String mTitle;
+
 	public TopLevelModel(Location mGeolocation, String mBody, String mTitle,
 			String mAuthor, Bitmap mPicture) {
-		super(mGeolocation, mBody, mTitle, mAuthor, mPicture);
+		super(mGeolocation, mBody, mAuthor, mPicture);
+		this.mTitle = mTitle;
 		super.putTimeStamp();
 		this.mReplies = new ArrayList<ReplyLevelModel>();
 	}
@@ -37,4 +39,13 @@ public class TopLevelModel extends CommentModel {
 			this.mReplies.remove(reply);
 		}
 	}
+	
+	public void setmTitle(String mTitle) {
+		this.mTitle = mTitle;
+	}
+	
+	public String getmTitle() {
+		return mTitle;
+	}
+
 }
