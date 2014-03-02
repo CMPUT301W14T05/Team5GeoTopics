@@ -1,8 +1,12 @@
-package com.example.team5geotopics;
+package ca.ualberta.cs.team5geotopics;
+
+
+import com.example.team5geotopics.R;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
+
 
 public class InspectCommentActivity extends Activity {
 

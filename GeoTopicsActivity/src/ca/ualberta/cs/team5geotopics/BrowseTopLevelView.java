@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.example.team5geotopics.InspectCommentActivity;
 import com.example.team5geotopics.R;
 
 public class BrowseTopLevelView extends BrowseView{

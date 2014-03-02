@@ -38,7 +38,7 @@
             android:label="@string/comment_view_string" >
         </activity>
         <activity
-            android:name="com.example.team5geotopics.InspectCommentActivity"
+            android:name="ca.ualberta.cs.team5geotopics.InspectCommentActivity"
             android:label="@string/title_activity_inspect_comment" >
         </activity>
     </application>
