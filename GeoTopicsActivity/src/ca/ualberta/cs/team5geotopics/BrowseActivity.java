@@ -29,6 +29,8 @@ public class BrowseActivity extends Activity{
 		this.clm = new CommentListModel();
 		//Construct the View
 		this.myView = new BrowseView(this, R.layout.top_level_list_item, clm);
+		
+		this.clm.add(new CommentModel("This is a body", "James", "This is a Title"));
 	}
 	
 	//Creates the options menu using the layout in menu.
