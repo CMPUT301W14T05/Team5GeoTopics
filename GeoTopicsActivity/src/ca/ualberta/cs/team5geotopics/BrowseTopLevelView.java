@@ -1,17 +1,23 @@
 package ca.ualberta.cs.team5geotopics;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.team5geotopics.InspectCommentActivity;
 import com.example.team5geotopics.R;
 
 public class BrowseTopLevelView extends BrowseView{
 	
 	ListView mListView;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -110,8 +116,20 @@ public class BrowseTopLevelView extends BrowseView{
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    // Inflate the menu items for use in the action bar
 	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.browse_top_level_view, menu);
+	    inflater.inflate(R.menu.browse_top_level_view, menu);    
 	    return super.onCreateOptionsMenu(menu);
 	}
+	
+	public boolean onOptionsItemSelected(MenuItem item){
+		switch(item.getItemId()){
+		case R.id.new_top_level_comment:
+			Intent intent = new Intent(this, InspectCommentActivity.class);
+			startActivity(intent);
+			break;
 
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	return true;
+	}
 }

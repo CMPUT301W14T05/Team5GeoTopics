@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<!-- Misc Strings -->
+    <!-- Misc Strings -->
     <string name="app_name">Team5GeoTopics</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_">A</string>
@@ -12,13 +12,13 @@
     <string name="body">Body</string>
     <string name="OK">OK</string>
     <string name="comment_view_string">Comment View</string>
-    
+
     <!-- Strings for brows top level view menu -->
     <string name="action_refresh">Refresh Root Comments</string>
     <string name="action_settings">Settings</string>
     <string name="action_bookmark">Bookmark Comments</string>
     <string name="action_sort">Sort Comments</string>
     <string name="new_top_level_comment">New Top Level Comment</string>
-    
+    <string name="title_activity_inspect_comment">InspectCommentActivity</string>
 
 </resources>
