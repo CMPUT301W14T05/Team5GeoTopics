@@ -1,72 +1,61 @@
 package ca.ualberta.cs.team5geotopics;
 
+import com.google.gson.Gson;
+
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Index;
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 public class PutIndexService extends IntentService {
-	protected Index pushIndex = null;
-	protected JestResult result = null;
-	protected JestClient client = null;
-	protected Exception exception = null;
-
 	public PutIndexService() {
 		super("PutIndexService");
 
 	}
 
-	@Override
-	public void onStart(Intent intent, int startId) {
-		Log.w("PutIndexService", "in onStart() PutIndexService.");
-		super.onStart(intent, startId);
-	};
-
-	@Override
-	public void onCreate() {
-		Log.w("PutIndexService", "in onCreate() PutIndexService.");
-		super.onCreate();
+	public static void putComment(Context context, String index, String type,
+			String id, CommentModel comment) {
+		Bundle bundle = new Bundle();
+		bundle.putString("index", index);
+		bundle.putString("type", type);
+		if(id != null){
+			bundle.putString("id", id);
+		}
+		bundle.putString("comment", new Gson().toJson(comment));
+		Intent intent = new Intent(context, PutIndexService.class);
+		intent.putExtras(bundle);
+		context.startService(intent);
 	}
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		client = GeoTopicsApplication.getClient(getApplicationContext());
-		Log.w("PutIndexService", "inHandleIntent");
-
+		final JestClient client = GeoTopicsApplication
+				.getClient(getApplicationContext());
 		Bundle bundle = intent.getExtras();
-		String jsonComment = bundle.getString("json");
-		if (jsonComment == null) {
-			Log.w("json", "jsonComment is null in onHandleIntent");
-		}
-
-		
+		String jsonComment = bundle.getString("comment");
 		String index = bundle.getString("index");
 		String type = bundle.getString("type");
 		String id = bundle.getString("id");
 		
-		
-		Log.w("PutIndexService", "attempting to push to index: " + index);
-		this.pushIndex = new Index.Builder(jsonComment).index(index).type(type)
-				.id(id).build();
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					result = client.execute(pushIndex);
-					Log.w("PutIndexService", "result: " + result.getJsonString());
-				} catch (Exception e) {
-					Log.w("PutIndexService", "exception: " + e.toString());
-					exception = e;
-				}
-
-			}
-		}).start();
-		
-		
-
+		Index pushIndex = null;
+		if(!id.equals(null)){
+			pushIndex = new Index.Builder(jsonComment).index(index)
+					.type(type).id(id).build();
+		}
+		else{
+			pushIndex = new Index.Builder(jsonComment).index(index)
+					.type(type).build();
+		}
+		try {
+			JestResult result = client.execute(pushIndex);
+			Log.w("PutIndexService", "result: " + result.getJsonString());
+		} catch (Exception e) {
+			Log.w("PutIndexService", "exception: " + e.toString());
+		}
+		client.shutdownClient();
 	}
 }
