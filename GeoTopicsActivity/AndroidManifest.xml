@@ -23,6 +23,11 @@
             android:name="ca.ualberta.cs.team5geotopics.CreateIndexService"
             android:enabled="true">
        	</service>
+       	
+        <service 
+            android:name="ca.ualberta.cs.team5geotopics.GetAllService"
+            android:enabled="true">
+       	</service>
 
         <activity
             android:name="ca.ualberta.cs.team5geotopics.StartActivity"

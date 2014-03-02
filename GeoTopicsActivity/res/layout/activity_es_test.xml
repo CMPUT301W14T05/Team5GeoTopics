@@ -27,5 +27,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create test index"/>
-
+    <Button
+        android:id="@+id/es_get_top_level"
+		android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test get top level"/>
 </LinearLayout>

@@ -37,12 +37,15 @@ public class PutIndexService extends IntentService {
 				.getClient(getApplicationContext());
 		Bundle bundle = intent.getExtras();
 		String jsonComment = bundle.getString("comment");
+		Log.w("PutIndexService", jsonComment);
 		String index = bundle.getString("index");
 		String type = bundle.getString("type");
-		String id = bundle.getString("id");
-		
+		String id = null;
+		if(bundle.containsKey("id")){
+			id = bundle.getString("id");
+		}
 		Index pushIndex = null;
-		if(!id.equals(null)){
+		if(id == null){
 			pushIndex = new Index.Builder(jsonComment).index(index)
 					.type(type).id(id).build();
 		}

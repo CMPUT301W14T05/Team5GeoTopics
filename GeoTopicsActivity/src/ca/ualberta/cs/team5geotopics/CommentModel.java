@@ -1,10 +1,10 @@
 package ca.ualberta.cs.team5geotopics;
 
+
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
 import android.graphics.Bitmap;
 import android.location.Location;
 
@@ -12,8 +12,12 @@ import android.location.Location;
  * This is the base class for the TopLevelModel 
  * and ReplyLevelModel.
  */
-//TODO: implement parcable or sometype of JSon serialization.
-public class CommentModel extends AModel<AView> implements Serializable {
+
+public class CommentModel extends AModel<AView> implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Location mGeolocation;
 	private String mBody;
 	private String mAuthor;
@@ -24,6 +28,7 @@ public class CommentModel extends AModel<AView> implements Serializable {
 	private CommentModel mParent;
 	private String mDMYFormatedDate;
 	private String mHrSecFormatedDate;
+	private boolean mTopLevel;
 
 	// Constructor for Top Level Comments
 	public CommentModel(Location mGeolocation, String mBody, String mAuthor,
@@ -37,6 +42,7 @@ public class CommentModel extends AModel<AView> implements Serializable {
 		putTimeStamp();
 		this.replies = new ArrayList<CommentModel>();
 		this.mParent = null;
+		this.mTopLevel = true;
 	}
 
 	// Constructor for replies
@@ -51,6 +57,7 @@ public class CommentModel extends AModel<AView> implements Serializable {
 		putTimeStamp();
 		this.replies = new ArrayList<CommentModel>();
 		this.mParent = mParent;
+		this.mTopLevel = false;
 	}
 
 	protected void putTimeStamp() {
