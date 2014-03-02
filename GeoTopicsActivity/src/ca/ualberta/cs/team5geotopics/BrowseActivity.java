@@ -29,14 +29,9 @@ public class BrowseActivity extends Activity{
 		this.clm = new CommentListModel();
 		//Construct the View
 		this.myView = new BrowseView(this, R.layout.top_level_list_item, clm);
+		this.clm.addView(this.myView);
 	}
 	
-	//Creates the options menu using the layout in menu.
-	public boolean onCreateOptionsMenu(Menu menu) {
-		   // Inflate the menu items for use in the action bar
-		   MenuInflater inflater = getMenuInflater();
-		   inflater.inflate(R.menu.browse_view, menu);
-		   return super.onCreateOptionsMenu(menu);
-	}
+	
 
 }
