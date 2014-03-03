@@ -7,8 +7,15 @@
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="19" />
+<<<<<<< HEAD
 	<uses-permission android:name="android.permission.INTERNET"/>
     
+=======
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+>>>>>>> bryce
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -42,10 +49,24 @@
 						android:name="ca.ualberta.cs.team5geotopics.EsTestActivity"
             android:label="@string/es_test_activity" >
         </activity>
+<<<<<<< HEAD
         <activity
             android:name="ca.ualberta.cs.team5geotopics.BrowseActivity"
             android:label="@string/browse_activity" >
 
+=======
+        <activity
+            android:name="ca.ualberta.cs.team5geotopics.NewCommentView"
+            android:label="@string/new_comment" >
+        </activity>
+        <activity
+            android:name="ca.ualberta.cs.team5geotopics.CommentView"
+            android:label="@string/comment_view_string" >
+        </activity>
+        <activity
+            android:name="ca.ualberta.cs.team5geotopics.InspectCommentActivity"
+            android:label="@string/title_activity_inspect_comment" >
+>>>>>>> bryce
         </activity>
         </application>
 
