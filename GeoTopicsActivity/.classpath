@@ -5,6 +5,6 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry exported="true" kind="lib" path="/home/linux/development/jest-droid-0.0.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="jars/jest-droid-0.0.6.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
