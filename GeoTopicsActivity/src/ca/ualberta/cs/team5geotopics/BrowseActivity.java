@@ -1,11 +1,12 @@
 package ca.ualberta.cs.team5geotopics;
 
-import com.example.team5geotopics.R;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.ListView;
+
+import com.example.team5geotopics.R;
 
 public class BrowseActivity extends Activity{
 	
@@ -27,10 +28,19 @@ public class BrowseActivity extends Activity{
 		
 		//Construct the model
 		this.clm = new CommentListModel();
-		//Construct the View
-		this.myView = new BrowseView(this, R.layout.top_level_list_item, clm);
 		
+		//REMOVE THIS AFTER TESTING
+		//Fill the model with test data
 		this.clm.add(new CommentModel("This is a body", "James", "This is a Title"));
+		this.clm.add(new CommentModel("This is a my body", "Tyler", "This is a my Title"));
+		//**********************************************************************************
+		
+		//Construct the View
+		this.myView = new BrowseView(this, R.layout.top_level_list_item, clm.getList());
+		
+		//Attach the list view to myView
+		ListView browseListView = (ListView) findViewById(R.id.browse_top_level_listView);
+		browseListView.setAdapter(myView);
 	}
 	
 	//Creates the options menu using the layout in menu.

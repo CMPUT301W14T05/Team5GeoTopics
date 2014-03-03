@@ -17,13 +17,13 @@
         android:id="@+id/top_level_body_list_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_bellow="@id/top_level_title_list_item"
+        android:layout_below="@id/top_level_title_list_item"
         />
     <TextView 
         android:id="@+id/top_level_author_list_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_bellow="@id/top_level_body_list_item"
+        android:layout_below="@id/top_level_body_list_item"
         />
 
 </LinearLayout>

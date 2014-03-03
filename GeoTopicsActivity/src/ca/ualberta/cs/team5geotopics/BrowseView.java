@@ -23,11 +23,11 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<Com
 	private int mLayoutResourceId;
 	private Context mContext;
 	
-	public BrowseView(Context context, int layoutResourceId, CommentListModel clm){
-		super(context, layoutResourceId, clm.getList());
+	public BrowseView(Context context, int layoutResourceId, List<CommentModel> mCommentList){
+		super(context, layoutResourceId, mCommentList);
 		this.mLayoutResourceId = layoutResourceId;
 		this.mContext = context;
-		this.mCommentList = clm.getList();
+		this.mCommentList = mCommentList;
 	}
 	
 	/*
