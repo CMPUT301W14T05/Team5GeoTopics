@@ -1,9 +1,11 @@
 package ca.ualberta.cs.team5geotopics;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.example.team5geotopics.R;
@@ -44,6 +46,18 @@ public class BrowseActivity extends Activity{
 		browseListView.setAdapter(myView);
 	}
 	
+	public boolean onOptionsItemSelected(MenuItem item){
+		switch(item.getItemId()){
+		case R.id.new_top_level_comment:
+			Intent intent = new Intent(this, InspectCommentActivity.class);
+			startActivity(intent);
+			break;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	return true;
+	}
 	
 
 }

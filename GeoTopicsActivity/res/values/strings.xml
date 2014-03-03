@@ -19,11 +19,11 @@
     <string name="action_bookmark">Bookmark Comments</string>
     <string name="action_sort">Sort Comments</string>
     <string name="new_top_level_comment">New Top Level Comment</string>
-<<<<<<< HEAD
+
     <string name="title_activity_es_test">EsTestActivity</string>
     <string name="es_test_activity">Elastic Search Test Suite</string>
-=======
+
     <string name="title_activity_inspect_comment">InspectCommentActivity</string>
->>>>>>> bryce
+
 
 </resources>
