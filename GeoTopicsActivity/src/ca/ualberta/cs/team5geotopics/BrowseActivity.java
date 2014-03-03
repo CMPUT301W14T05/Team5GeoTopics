@@ -33,7 +33,7 @@ public class BrowseActivity extends Activity{
 		//Fill the model with test data
 		this.clm.add(new CommentModel("This is a body", "James", "This is a much longer Title that will cut off "));
 		this.clm.add(new CommentModel("This is a my body", "Tyler", "This is a my Title"));
-		//**********************************************************************************
+		//***********************************************************************************************************
 		
 		//Construct the View
 		this.myView = new BrowseView(this, R.layout.top_level_list_item, clm.getList());
@@ -44,4 +44,12 @@ public class BrowseActivity extends Activity{
 		ListView browseListView = (ListView) findViewById(R.id.browse_top_level_listView);
 		browseListView.setAdapter(myView);
 	}
+	
+	//Creates the options menu using the layout in menu.
+		public boolean onCreateOptionsMenu(Menu menu) {
+		    // Inflate the menu items for use in the action bar
+		    MenuInflater inflater = getMenuInflater();
+		    inflater.inflate(R.menu.browse_view, menu);    
+		    return super.onCreateOptionsMenu(menu);
+		}
 }
