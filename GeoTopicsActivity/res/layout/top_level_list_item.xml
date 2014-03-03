@@ -1,29 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal" >
-    <!-- at the moment we only have three text views for the ListView row  
-    	 care must be taken to ensure that no widget is focusable
-    	 http://stackoverflow.com/questions/19155109/android-list-view-setonitemclicklistener-not-working
-    -->
-    <TextView 
-        android:id="@+id/top_level_title_list_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        />
-    <TextView 
-        android:id="@+id/top_level_body_list_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/top_level_title_list_item"
-        />
-    <TextView 
-        android:id="@+id/top_level_author_list_item"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/top_level_body_list_item"
-        />
 
-</LinearLayout>
+    <!--
+         at the moment we only have three text views for the ListView row  
+    	 care must be taken to ensure that no widget is focusable
+    	 http://stackoverflow.com/questions/19155109/android-list-view-setonitemclicklistener-not-working 
+    -->
+
+    <RelativeLayout
+        android:id="@+id/top_level_text_wrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/top_level_side_bar"
+        android:background="@color/red" >
+
+        <TextView
+            android:id="@+id/top_level_title_list_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:fontFamily="sans-serif"
+            android:singleLine="true"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/top_level_body_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/top_level_title_list_item"
+            android:layout_gravity="left"
+            android:maxLength="100" />
+
+        <TextView
+            android:id="@+id/top_level_author_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/top_level_body_list_item"
+            android:layout_gravity="left"
+            android:maxLength="20"
+            android:singleLine="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@id/top_level_side_bar"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/blue"
+        android:orientation="horizontal" >
+        
+        <ImageView 
+             android:background="@color/white"
+             android:layout_width="90dp"
+             android:layout_height="90dp"
+              android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -31,19 +31,17 @@ public class BrowseActivity extends Activity{
 		
 		//REMOVE THIS AFTER TESTING
 		//Fill the model with test data
-		this.clm.add(new CommentModel("This is a body", "James", "This is a Title"));
+		this.clm.add(new CommentModel("This is a body", "James", "This is a much longer Title that will cut off "));
 		this.clm.add(new CommentModel("This is a my body", "Tyler", "This is a my Title"));
 		//**********************************************************************************
 		
 		//Construct the View
-		this.clm.addView(this.myView);
 		this.myView = new BrowseView(this, R.layout.top_level_list_item, clm.getList());
+		//Register the view with the model
+		this.clm.addView(this.myView);
 		
 		//Attach the list view to myView
 		ListView browseListView = (ListView) findViewById(R.id.browse_top_level_listView);
 		browseListView.setAdapter(myView);
 	}
-	
-	
-
 }
