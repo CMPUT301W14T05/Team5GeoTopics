@@ -61,7 +61,7 @@ public class BrowseActivity extends Activity{
 				Intent intent = new Intent(this, InspectCommentActivity.class);
 				startActivity(intent);
 				break;
-
+				
 			default:
 				return super.onOptionsItemSelected(item);
 			}
