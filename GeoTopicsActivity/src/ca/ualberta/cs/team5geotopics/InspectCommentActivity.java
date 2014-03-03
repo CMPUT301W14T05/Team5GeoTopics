@@ -7,6 +7,7 @@ import java.io.InputStream;
 
 import com.example.team5geotopics.R;
 
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,6 +24,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 
@@ -37,6 +39,13 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 	public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	public static final int GET_PHOTO = 105;
 	public static Uri imageFileUri;
+	
+	// Variables for a Top Level Comment.
+	Location mGeolocation; 
+	String mBody; 
+	String mAuthor;
+	Bitmap mPicture;
+	String mTitle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,8 +112,19 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 		if (v == cancelBtn){
 			finish();
 		}
+		// Gets all the data from the text boxes and submits it as a new comment
 		if (v == postBtn){
+			EditText editText = (EditText)findViewById(R.id.editCommentTitle);
+			mTitle = editText.getText().toString();
+			editText = (EditText)findViewById(R.id.editCommentAuthor);
+			mAuthor = editText.getText().toString();
+			editText = (EditText)findViewById(R.id.editCommentBody);
+			mBody = editText.getText().toString();
 			
+			// Creates new top level comment.
+			CommentModel topLevel = new CommentModel(mGeolocation, mBody, mAuthor, mPicture, mTitle);
+			
+			finish();
 		}
 	}
 	
@@ -156,7 +176,8 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 					e.printStackTrace();
 				}
 	               Bitmap image = BitmapFactory.decodeStream(imageStream);
-	               returnBitmapImage(image);
+	               // Set mPicture with Bitmap image.
+	               mPicture = returnBitmapImage(image);
 	            } else if (resultCode == RESULT_CANCELED) {
 	                // Photo was canceled, do nothing.
 	            } else {
@@ -176,7 +197,8 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 				e.printStackTrace();
 			}
                Bitmap image = BitmapFactory.decodeStream(imageStream);
-               returnBitmapImage(image); 
+               // Set mPicture with Bitmap image.
+               mPicture = returnBitmapImage(image);
            }
 	    }
 	}
