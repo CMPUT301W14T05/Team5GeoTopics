@@ -29,6 +29,10 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseAc
 	
 	/*
 	 * This tests the functionality of getCommentsWithinRegion()
+	 * 
+	 * This adds three Comments to a list, one of which is within 1 kilometer 
+	 * of myLoc. getCommentsWithinRegion retrieves all comments within a kilometer 
+	 * and therefore the size should only contain the one comment upon return
 	 */
 	public void testGetCommentsWithinRegion() {
 		List<CommentModel> lc = prepCommentList(0.001, 0.01, 0.02);
@@ -39,6 +43,7 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseAc
 		lc = SortComments.getCommentsWithinRegion(lc, myLoc);
 		
 		assertTrue("List is not empty", lc.size() > 0);
+		assertEquals("List is expected to be size = 1", 1, lc.size());
 		assertTrue("The first item ins the is has title 'C'", lc.get(0).getmBody().equals("C"));
 		
 	}
