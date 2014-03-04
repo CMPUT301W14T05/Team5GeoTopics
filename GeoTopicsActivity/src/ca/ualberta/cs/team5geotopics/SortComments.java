@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.location.Location;
+import ca.ualberta.cs.team5geotopics.CommentModel;
 
 /*
  * This is a simple sort comments class that will be required for local sorting (no internet)

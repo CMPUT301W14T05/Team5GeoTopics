@@ -5,14 +5,14 @@ import java.util.List;
 
 import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
-import ca.ualberta.cs.team5geotopics.BrowseView;
+import ca.ualberta.cs.team5geotopics.BrowseActivity;
 import ca.ualberta.cs.team5geotopics.CommentModel;
 import ca.ualberta.cs.team5geotopics.SortComments;
 
-public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseView> {
+public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseActivity> {
 
 	public SortCommentsTests() {
-		super(BrowseView.class);
+		super(BrowseActivity.class);
 	}
 	
 	public void testSortCommentByProximityToMe() {
@@ -41,9 +41,9 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseVi
 		locA.setLongitude(0);
 		
 		List<CommentModel> lc = new ArrayList<CommentModel>();
-		lc.add(new CommentModel(locA, "A", "A", null));
-		lc.add(new CommentModel(locB, "B", "B", null));
-		lc.add(new CommentModel(locC, "C", "C", null));
+		lc.add(new CommentModel(locA, "A", "A", null, "A"));
+		lc.add(new CommentModel(locB, "B", "B", null, "B"));
+		lc.add(new CommentModel(locC, "C", "C", null, "C"));
 		
 		return lc;	
 	}
