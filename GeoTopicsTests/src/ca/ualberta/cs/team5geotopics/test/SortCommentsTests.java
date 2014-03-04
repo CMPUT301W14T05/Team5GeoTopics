@@ -48,6 +48,30 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseAc
 		
 	}
 	
+	/*
+	 * This tests the functionality of sortCommentsByDate()
+	 * 
+	 * This adds three Comments to a list. The three comments are created 
+	 * with a delay so that their dates are different. The comments are 
+	 * created in the order: A -> B -> C and are originally put into the 
+	 * list in order: C -> B -> A. After the sort it should be in order
+	 * A -> B -> C
+	 */
+	public void testSortCommentsByDate() {
+		List<CommentModel> lc = prepCommentList(0.001, 0.01, 0.02);
+		
+		assertTrue("The first element is originally C", lc.get(0).getmBody().equals("C"));
+		assertTrue("The first element is originally B", lc.get(1).getmBody().equals("B"));
+		assertTrue("The first element is originally A", lc.get(2).getmBody().equals("A"));
+		
+		lc = SortComments.sortCommentsByDate(lc);
+		
+		assertTrue("List is not empty", lc.size() > 0);
+		assertTrue("The first element should be A", lc.get(0).getmBody().equals("A"));
+		assertTrue("The first element is originally B", lc.get(1).getmBody().equals("B"));
+		assertTrue("The first element is originally C", lc.get(2).getmBody().equals("C"));
+	}
+	
 	public List<CommentModel> prepCommentList(double latC, double latA, double latB) {
 		Location locA = new Location("A");
 		Location locB = new Location("B");
@@ -63,13 +87,23 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseAc
 		locA.setLongitude(0);
 		
 		CommentModel cA = new CommentModel(locA, "A", "A", null, "A");
+		try {
+		    Thread.sleep(10);
+		} catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
+		}
 		CommentModel cB = new CommentModel(locB, "B", "B", null, "B");
+		try {
+		    Thread.sleep(10);
+		} catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
+		}
 		CommentModel cC = new CommentModel(locC, "C", "C", null, "C");
 		
 		List<CommentModel> lc = new ArrayList<CommentModel>();
-		lc.add(cA);
-		lc.add(cB);
 		lc.add(cC);
+		lc.add(cB);
+		lc.add(cA);
 		return lc;	
 	}
 

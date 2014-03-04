@@ -77,7 +77,7 @@ public class SortComments {
 	public static List<CommentModel> getCommentsWithinRegion(List<CommentModel> cList, Location myLoc) {
 
 		/*
-		 *	This should remove any comment from the list that is further than 500 meters away 
+		 *	This should remove any comment from the list that is further than 1 km away 
 		 */
 		for (int i = cList.size() - 1; i >= 0; i--) {
 			if (cList.get(i).getGeoLocation().distanceTo(myLoc) > 1000) {
