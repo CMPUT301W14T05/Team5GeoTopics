@@ -141,7 +141,6 @@ public class CommentModel extends AModel<AView> implements Serializable{
 	}
 
 	public CharSequence getmTitle() {
-		//TODO: Return empty string if it is not a top level
 		return this.mTitle;
 	}
 
@@ -155,5 +154,9 @@ public class CommentModel extends AModel<AView> implements Serializable{
 
 	public ArrayList<CommentModel> getReplies() {
 		return replies;
+	}
+	
+	public void addReply(CommentModel reply) {
+		replies.add(reply);
 	}
 }

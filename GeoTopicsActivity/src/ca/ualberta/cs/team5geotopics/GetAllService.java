@@ -26,7 +26,6 @@ public class GetAllService extends IntentService {
 	
 	public GetAllService() {
 		super("GetTopLevelService");
-		// TODO Auto-generated constructor stub
 	}
 
 	public static void getAll(Context context){

@@ -1,19 +1,15 @@
 package ca.ualberta.cs.team5geotopics;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
-
-import ca.ualberta.cs.team5geotopics.BrowseView.Holder;
 
 import com.example.team5geotopics.R;
 
@@ -22,12 +18,16 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<Com
 	private List<CommentModel> mCommentList;
 	private int mLayoutResourceId;
 	private Context mContext;
+	private DateFormat dateFormat; 
+	private DateFormat timeFormat;
 	
 	public BrowseView(Context context, int layoutResourceId, List<CommentModel> mCommentList){
 		super(context, layoutResourceId, mCommentList);
 		this.mLayoutResourceId = layoutResourceId;
 		this.mContext = context;
 		this.mCommentList = mCommentList;
+		this.dateFormat = android.text.format.DateFormat.getDateFormat(mContext);
+		this.timeFormat = android.text.format.DateFormat.getTimeFormat(mContext);
 	}
 	
 	/*
@@ -41,6 +41,8 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<Com
 		TextView title;
 		TextView author;
 		TextView body;
+		TextView date;
+		TextView time;
 	}
 	
 	// http://stackoverflow.com/questions/5177056/overriding-android-arrayadapter
@@ -71,6 +73,8 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<Com
 				holder.title = (TextView)view.findViewById(R.id.top_level_title_list_item);
 				holder.author = (TextView)view.findViewById(R.id.top_level_author_list_item);
 				holder.body = (TextView)view.findViewById(R.id.top_level_body_list_item);
+				holder.date = (TextView)view.findViewById(R.id.top_level_date_list_item);
+				holder.time = (TextView)view.findViewById(R.id.top_level_time_list_item);
 				view.setTag(holder);
 			}
 			else{
@@ -82,9 +86,14 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<Com
 			holder = (Holder) view.getTag();
 		}
 		CommentModel comment = mCommentList.get(position);
+		Date date = comment.getDate();
+		DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(mContext);
+		DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(mContext);
 		holder.title.setText(comment.getmTitle());
 		holder.body.setText(comment.getmBody());
-		holder.author.setText(comment.getmAuthor());
+		holder.author.setText("By " + comment.getmAuthor());
+		holder.date.setText(dateFormat.format(date));
+		holder.time.setText(timeFormat.format(date));
 		
 		return view;
 		

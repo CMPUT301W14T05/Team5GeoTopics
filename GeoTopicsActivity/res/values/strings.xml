@@ -23,5 +23,11 @@
     <string name="es_test_activity">Elastic Search Test Suite</string>
     <string name="title_activity_inspect_comment">InspectCommentActivity</string>
     <string name="title_activity_browse_relpy">BrowseRelpyActivity</string>
+    
+    <!--  Strings for top level list layout -->
+    <string name="top_level_thumbnail">Thumb Nail</string>
+    <string name="top_level_replies">Replies</string>
+    <string name="top_level_bookmark">Bookmarkl</string>
+    <string name="top_level_favourite">Favourites</string>
 
 </resources>
