@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.team5geotopics.R;
@@ -43,6 +44,7 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<Com
 		TextView body;
 		TextView date;
 		TextView time;
+		ImageView picture;
 	}
 	
 	// http://stackoverflow.com/questions/5177056/overriding-android-arrayadapter
@@ -67,7 +69,6 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<Com
 				// fill row with TopLevelComment layout
 				view = LayoutInflater.from(mContext).inflate(R.layout.top_level_list_item,
 															null, false);
-				
 				holder = new Holder();
 				holder.comment = mCommentList.get(position);
 				holder.title = (TextView)view.findViewById(R.id.top_level_title_list_item);
@@ -75,6 +76,7 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<Com
 				holder.body = (TextView)view.findViewById(R.id.top_level_body_list_item);
 				holder.date = (TextView)view.findViewById(R.id.top_level_date_list_item);
 				holder.time = (TextView)view.findViewById(R.id.top_level_time_list_item);
+				holder.picture = (ImageView)view.findViewById(R.id.top_level_thumbnail);
 				view.setTag(holder);
 			}
 			else{
@@ -94,7 +96,8 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<Com
 		holder.author.setText("By " + comment.getmAuthor());
 		holder.date.setText(dateFormat.format(date));
 		holder.time.setText(timeFormat.format(date));
-		
+		if(comment.getPicture() != null)
+		holder.picture.setImageBitmap(comment.getPicture());
 		return view;
 		
 	}

@@ -5,7 +5,7 @@
     <string name="app_name">Team5GeoTopics</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_">A</string>
-    <string name="browse_activity">Browse Comments</string>
+    <string name="browse_activity">ROOT COMMENTS</string>
     <string name="inspect_comment">Inspect Comment</string>
     <string name="author">Author</string>
     <string name="title">Title</string>
@@ -16,6 +16,7 @@
     <string name="es_test_activity">Elastic Search Test Suite</string>
     <string name="title_activity_inspect_comment">InspectCommentActivity</string>
     <string name="title_activity_browse_relpy">BrowseRelpyActivity</string>
+     <string name="comment_image">Comment Image</string>
 
     <!-- Strings for brows top level view menu -->
     <string name="action_refresh">Refresh Root Comments</string>

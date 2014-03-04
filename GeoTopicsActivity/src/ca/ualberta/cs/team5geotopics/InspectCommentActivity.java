@@ -155,7 +155,6 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
         imageFilePath = folder + "/" + String.valueOf(System.currentTimeMillis()) + "jpg";
         File imageFile = new File(imageFilePath);
         imageFileUri = Uri.fromFile(imageFile);
-        
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }

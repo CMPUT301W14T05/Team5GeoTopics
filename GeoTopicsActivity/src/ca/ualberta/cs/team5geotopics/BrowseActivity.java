@@ -13,16 +13,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.team5geotopics.R;
 
 public class BrowseActivity extends Activity{
 	
-	BrowseView myView;
+	private BrowseView myView;
 	// Changed this to public static to test adding functionality
 	public static CommentListModel clm;
-	ListView browseListView;
+	private ListView browseListView;
+	private CommentModel viewingComment;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +37,41 @@ public class BrowseActivity extends Activity{
 		// Has to be a better way to do this in xml. (James)
 		getActionBar().setDisplayShowTitleEnabled(false);
 		// Gives us the left facing caret. Need to drop the app icon however OR
-		// change it to something other than the android guy.
+		// change it to something other than the android guy OR remove software back
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		//Setup the text box's
+		//--------------------------------------------------------------
+		//Get the current viewing comment
+		viewingComment = GeoTopicsApplication.getCurrentViewingComment();
+		//Find all the views we need to alter
+		TextView title = (TextView)findViewById(R.id.browse_title);
+		TextView commentTitle = (TextView) findViewById(R.id.comment_title);
+		TextView commentBody = (TextView)findViewById(R.id.comment_body);
+		//Find the 2 dividers
+		View divider1 = (View)findViewById(R.id.divider1);
+		View divider2 = (View)findViewById(R.id.divider2);
+		//Find the Image
+		ImageView image = (ImageView)findViewById(R.id.comment_image);
+		
+		if(viewingComment == null){
+			//Disable all the views we don't need
+			commentTitle.setVisibility(View.GONE);
+			divider1.setVisibility(View.GONE);
+			divider2.setVisibility(View.GONE);
+			commentBody.setVisibility(View.GONE);
+			image.setVisibility(View.GONE);
+		}else{
+			title.setText("REPLIES");
+			//Check and set the comment title. Not all comments have them.
+			if(viewingComment.hasTitle()){
+				commentTitle.setText((String)viewingComment.getmTitle());
+			}else{
+				commentTitle.setVisibility(View.GONE);
+			}
+			
+			commentBody.setText(viewingComment.getmBody());
+		}
 		
 		//Construct the model
 		this.clm = new CommentListModel();
@@ -72,11 +108,8 @@ public class BrowseActivity extends Activity{
 			@Override
 			public void onItemClick(AdapterView<?> myView, View view, int position,
 					long arg3) {
-				Intent intent = new Intent(BrowseActivity.this, BrowseReplyActivity.class);
-				CommentModel TLComment = (CommentModel) browseListView.getItemAtPosition(position);
-				Bundle b = new Bundle();
-				b.putSerializable("TLComment", TLComment);
-				intent.putExtra("TLComment", b);
+				Intent intent = new Intent(BrowseActivity.this, BrowseActivity.class);
+				GeoTopicsApplication.setCurrentViewingComment((CommentModel)browseListView.getItemAtPosition(position));
 				startActivity(intent);
 			}
 			

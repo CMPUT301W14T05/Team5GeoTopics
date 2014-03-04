@@ -31,6 +31,8 @@ public class GeoTopicsApplication extends Application{
 	transient private static final String CMPUT301_CLUSTER = 
 			"http://cmput301.softwareprocess.es:8080/testing/";
 	
+	transient private static CommentModel currentlyViewingComment;
+	
 	static boolean BrowseTopLevelNoInternetTest(){
 		return BROWSE_TOP_LEVEL_TEST;
 	}
@@ -52,6 +54,16 @@ public class GeoTopicsApplication extends Application{
 			mClient = jestClientFactory.getObject();
         }
         return mClient;
+	}
+	//This allows us to pass the comment around between activities without putExtra
+	//Might need to implement this as a push and pop stack if activities are having
+	//Issues with it.
+	static CommentModel getCurrentViewingComment() {
+		return currentlyViewingComment;
+	}
+	//Sets the current Viewing Comment
+	static void setCurrentViewingComment(CommentModel comment) {
+		GeoTopicsApplication.currentlyViewingComment = comment;
 	}
 	
 	transient private static Cache mCache = null;
