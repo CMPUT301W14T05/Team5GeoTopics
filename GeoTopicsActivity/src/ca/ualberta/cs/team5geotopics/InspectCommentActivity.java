@@ -130,7 +130,9 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 			
 			// Creates new top level comment.
 			CommentModel topLevel = new CommentModel(mGeolocation, mBody, mAuthor, mPicture, mTitle);
-			
+			// Adds comment to top level browse
+			// This will most likely change
+			BrowseActivity.clm.add(topLevel);
 			finish();
 		}
 	}

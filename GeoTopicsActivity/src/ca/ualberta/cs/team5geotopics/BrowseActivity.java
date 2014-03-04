@@ -20,7 +20,8 @@ import com.example.team5geotopics.R;
 public class BrowseActivity extends Activity{
 	
 	BrowseView myView;
-	CommentListModel clm;
+	// Changed this to public static to test adding functionality
+	public static CommentListModel clm;
 	ListView browseListView;
 	
 	@Override
@@ -146,4 +147,7 @@ public class BrowseActivity extends Activity{
 		}
 			return null;
 		}
+		
+		
+		
 }
