@@ -99,6 +99,18 @@ public class CommentModel extends AModel<AView> implements Serializable{
 		this.mAuthor = mAuthor;
 	}
 	
+	public void setmPicture(Bitmap mPicture) {
+		this.mPicture = mPicture;
+	}
+	
+	public void setmGeolocation(Location mGeolocation) {
+		this.mGeolocation = mGeolocation;
+	}
+	
+	public void setmTitle(String mTitle) {
+		this.mTitle = mTitle;
+	}
+	
 	public Location getGeoLocation() {
 		return mGeolocation;
 	}

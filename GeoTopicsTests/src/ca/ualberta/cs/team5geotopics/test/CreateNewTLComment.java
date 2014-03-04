@@ -16,10 +16,11 @@ public class CreateNewTLComment extends ActivityInstrumentationTestCase2<Inspect
 		super(InspectCommentActivity.class);
 	}
 	
+	@SuppressWarnings("null")
 	@SuppressLint("NewApi")
 	public void testCreateNewComment(){
 	// Variables for the new Top Level Comment
-	Location mGeolocation = null; 
+	Location mGeolocation = new Location("");
 	String mBody = null; 
 	String mAuthor = null;
 	Bitmap mPicture = null;
@@ -29,6 +30,9 @@ public class CreateNewTLComment extends ActivityInstrumentationTestCase2<Inspect
 	mAuthor = "AUTHOR";
 	mTitle = "TITLE";
 	
+	mGeolocation.setLatitude(30.6282);
+	mGeolocation.setLongitude(55.3116);
+	
 	mPicture = Bitmap.createBitmap(10,10 ,Bitmap.Config.ARGB_8888);
 	
 	CommentModel topLevel = new CommentModel(mGeolocation, mBody, mAuthor, mPicture, mTitle);
@@ -37,7 +41,6 @@ public class CreateNewTLComment extends ActivityInstrumentationTestCase2<Inspect
 	assertTrue("Comment Author is correct", topLevel.getmAuthor() == "AUTHOR");
 	assertTrue("Comment Title is correct", topLevel.getmTitle() == "TITLE");
 	assertTrue("Comment Picture is correct", topLevel.getPicture() == mPicture);
-	
-	
+	assertTrue("Comment Geolocation is correct", topLevel.getGeoLocation() == mGeolocation);
 	}
 }

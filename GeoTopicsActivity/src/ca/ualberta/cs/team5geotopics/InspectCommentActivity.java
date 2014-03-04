@@ -58,7 +58,7 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_inspect_comment);
-		
+		setTitle("Create Comment");
 		// Associates the button with their ID.
 		locationBtn = (ImageButton)findViewById(R.id.imageButtonLocation);
 		photoBtn = (ImageButton)findViewById(R.id.imageButtonImage);
@@ -70,6 +70,22 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 		photoBtn.setOnClickListener(this);
 		cancelBtn.setOnClickListener(this);
 		postBtn.setOnClickListener(this);
+		
+		// If comments already exists, put in the data to fields
+		if(GeoTopicsApplication.getCurrentViewingComment() != null){
+			setTitle("Edit Comment");
+			EditText editText = (EditText)findViewById(R.id.editCommentTitle);
+			editText.setText(GeoTopicsApplication.getCurrentViewingComment().getmTitle());
+			
+			editText = (EditText)findViewById(R.id.editCommentAuthor);
+			editText.setText(GeoTopicsApplication.getCurrentViewingComment().getmAuthor());
+			
+			editText = (EditText)findViewById(R.id.editCommentBody);
+			editText.setText(GeoTopicsApplication.getCurrentViewingComment().getmBody());
+			
+			ImageView uploadedImage = (ImageView)findViewById(R.id.imageViewPicture);
+            uploadedImage.setImageBitmap(GeoTopicsApplication.getCurrentViewingComment().getPicture());
+		}
 	}
 
 	@Override
@@ -121,19 +137,34 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 		}
 		// Gets all the data from the text boxes and submits it as a new comment
 		if (v == postBtn){
-			EditText editText = (EditText)findViewById(R.id.editCommentTitle);
-			mTitle = editText.getText().toString();
-			editText = (EditText)findViewById(R.id.editCommentAuthor);
-			mAuthor = editText.getText().toString();
-			editText = (EditText)findViewById(R.id.editCommentBody);
-			mBody = editText.getText().toString();
+			if(GeoTopicsApplication.getCurrentViewingComment() == null){
+				EditText editText = (EditText)findViewById(R.id.editCommentTitle);
+				mTitle = editText.getText().toString();
+				editText = (EditText)findViewById(R.id.editCommentAuthor);
+				mAuthor = editText.getText().toString();
+				editText = (EditText)findViewById(R.id.editCommentBody);
+				mBody = editText.getText().toString();
 			
-			// Creates new top level comment.
-			CommentModel topLevel = new CommentModel(mGeolocation, mBody, mAuthor, mPicture, mTitle);
-			// Adds comment to top level browse
-			// This will most likely change
-			BrowseActivity.clm.add(topLevel);
-			finish();
+				// Creates new top level comment.
+				CommentModel topLevel = new CommentModel(mGeolocation, mBody, mAuthor, mPicture, mTitle);
+				// Adds comment to top level browse
+				// This will most likely change
+				BrowseActivity.clm.add(topLevel);
+				
+				finish();
+			}
+			if(GeoTopicsApplication.getCurrentViewingComment() != null){
+				EditText editText = (EditText)findViewById(R.id.editCommentTitle);
+				GeoTopicsApplication.getCurrentViewingComment().setmTitle(editText.getText().toString());
+				editText = (EditText)findViewById(R.id.editCommentAuthor);
+				GeoTopicsApplication.getCurrentViewingComment().setmAuthor(editText.getText().toString());
+				editText = (EditText)findViewById(R.id.editCommentBody);
+				GeoTopicsApplication.getCurrentViewingComment().setmBody(editText.getText().toString());
+			
+				GeoTopicsApplication.getCurrentViewingComment().setmPicture(mPicture);
+				GeoTopicsApplication.getCurrentViewingComment().setmGeolocation(mGeolocation);
+				finish();
+			}
 		}
 	}
 	public static String imageFilePath;
