@@ -27,13 +27,41 @@ public class SortComments {
 	public static List<CommentModel> SortCommentsByProximityToLoc(List<CommentModel> cList, Location myLoc) {
 
 		cList = getCommentsWithinRegion(cList, myLoc);
-    	cList = sortCommentsByDate(cList, myLoc);
+    	cList = sortCommentsByDate(cList);
     	
 		return cList;
 
 	}
 	
-	public static List<CommentModel> sortCommentsByDate(final List<CommentModel> cList, final Location myLoc) {
+	/*
+	 * Handles Used Case 3:
+	 * SortCommentsByPicture
+	 * 
+	 * take in the array of current comments and retrieves those with pictures,
+	 * then sorts them by date.
+	 * 
+	 *  NOTE: As of right now does  NOT consider location
+	 */
+	public static List<CommentModel> SortCommentsByPicture(List<CommentModel> cList) {
+		getCommentsWithPictures(cList);
+		sortCommentsByDate(cList);
+		return cList;
+	}
+	
+	/*
+	 * Retrieves the comments in the current list that have pictures
+	 */
+	public static List<CommentModel> getCommentsWithPictures(List<CommentModel> cList) {
+		for (int i = 0; i < cList.size(); i++) {
+			if (!cList.get(i).hasPicture()) {
+				cList.remove(i);
+				i -= 1; 
+			}
+		}
+		return cList;
+	}
+	
+	public static List<CommentModel> sortCommentsByDate(final List<CommentModel> cList) {
 		
 		/*
 		 * This should sort the comment list based on date
@@ -55,6 +83,7 @@ public class SortComments {
 		for (int i = 0; i < cList.size(); i++) {
 			if (500 < cList.get(i).getGeoLocation().distanceTo(myLoc)) {
 				cList.remove(i);
+				i -= 1;
 			}
 		}
 		return cList;
