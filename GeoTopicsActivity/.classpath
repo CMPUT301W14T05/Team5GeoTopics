@@ -8,5 +8,6 @@
 	<classpathentry exported="true" kind="lib" path="jars/gson-2.2.4.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="jars/jest-droid-0.0.6.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
