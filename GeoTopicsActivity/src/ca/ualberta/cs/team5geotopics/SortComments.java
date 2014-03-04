@@ -16,28 +16,46 @@ import android.location.Location;
  */
 public class SortComments {
 
-	public SortComments() {
-		super();
-	}
+	/*
+	 * Handles Used Cases 1, 2:
+	 * SortByProximityToMe
+	 * SortByProximityToLoc
+	 * 
+	 * Simply pass the current comment list and the either the location you want or your location
+	 */
+	public static List<CommentModel> SortCommentsByProximityToLoc(List<CommentModel> cList, Location myLoc) {
 
-	public List<CommentModel> SortCommentsByProximityToMe(final List<CommentModel> cList, final Location myLoc) {
-
-		Collections.sort(cList, new Comparator<CommentModel>() {
-    	    public int compare(CommentModel a, CommentModel b) {
-    	        return (int) (b.getGeoLocation().distanceTo(myLoc) - 
-    	        		a.getGeoLocation().distanceTo(myLoc));
-    	    }
-    	});
+		cList = getCommentsWithinRegion(cList, myLoc);
+    	cList = sortCommentsByDate(cList, myLoc);
     	
 		return cList;
 
 	}
 	
-	public List<CommentModel> getCommentsWithinRegion(List<CommentModel> cList, Location myLoc) {
-		for (int i = 0; i < cList.size(); i++) {
-			
-		}
+	public static List<CommentModel> sortCommentsByDate(final List<CommentModel> cList, final Location myLoc) {
 		
+		/*
+		 * This should sort the comment list based on date
+		 */
+		Collections.sort(cList, new Comparator<CommentModel>() {
+			public int compare(CommentModel a, CommentModel b) {
+				return (int) (a.getDate().getTime() - 
+						b.getDate().getTime());
+			}
+		});
+		return cList;
+	}
+	
+	public static List<CommentModel> getCommentsWithinRegion(List<CommentModel> cList, Location myLoc) {
+		
+		/*
+		 *	This should remove any comment from the list that is further than 500 meters away 
+		 */
+		for (int i = 0; i < cList.size(); i++) {
+			if (500 < cList.get(i).getGeoLocation().distanceTo(myLoc)) {
+				cList.remove(i);
+			}
+		}
 		return cList;
 	}
 }

@@ -1,17 +1,15 @@
 package ca.ualberta.cs.team5geotopics.test;
 
-import com.example.team5geotopics.R;
-
-import ca.ualberta.cs.team5geotopics.BrowseTopLevelView;
-import ca.ualberta.cs.team5geotopics.StartActivity;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.app.Instrumentation.ActivityMonitor;
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.TouchUtils;
-import android.test.UiThreadTest;
 import android.widget.Button;
+import ca.ualberta.cs.team5geotopics.BrowseView;
+import ca.ualberta.cs.team5geotopics.StartActivity;
+
+import com.example.team5geotopics.R;
 
 public class StartViewTests extends ActivityInstrumentationTestCase2<StartActivity> {
 	Activity mActivity;
@@ -44,7 +42,7 @@ public class StartViewTests extends ActivityInstrumentationTestCase2<StartActivi
 	public void testBrowseActivityLaunched(){
 		// Add monitor to check for the second activity
 	      ActivityMonitor monitor = mInstrumentation.addMonitor(
-	          BrowseTopLevelView.class.getName(), null, false);
+	          BrowseView.class.getName(), null, false);
 	      // find button and click it
 	      assertNotNull(monitor);
 	      assertNotNull(mBrowseComments);
@@ -60,8 +58,8 @@ public class StartViewTests extends ActivityInstrumentationTestCase2<StartActivi
 	      
 
 	      
-	      BrowseTopLevelView secondActivity = 
-	    		  (BrowseTopLevelView) monitor.waitForActivityWithTimeout(25000);
+	      BrowseView secondActivity = 
+	    		  (BrowseView) monitor.waitForActivityWithTimeout(25000);
 	      assertEquals("Monitor for ReceiverActivity has not been called",
 			        1, monitor.getHits());
 	      assertNotNull("Activity should not be null", secondActivity);
