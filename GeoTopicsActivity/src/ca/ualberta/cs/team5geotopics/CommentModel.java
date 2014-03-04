@@ -31,11 +31,6 @@ public class CommentModel extends AModel<AView> implements Serializable{
 	private CommentModel mParent;
 	private String mDMYFormatedDate;
 	private String mHrSecFormatedDate;
-	private boolean mTopLevel;
-	/*
-	 * When  a picture is added switch this to true
-	 */
-	private boolean mHasPicture;
 
 	
 	// Constructor for Test Top Level Comments
@@ -49,20 +44,6 @@ public class CommentModel extends AModel<AView> implements Serializable{
 			putTimeStamp();
 			this.replies = replies;
 			this.mParent = null;
-			
-			/*
-			 * Added this in for sorting purposes (easy check for pictures)
-			 * I figured that by default if no picture is added we would end up adding 
-			 * a filler image, therefore I would not be able to do a getPicture == null
-			 * test.
-			 * 
-			 * This is bound to change but shouldn't affect others too much
-			 */
-			if (mPicture == null) {
-				this.mHasPicture = false;
-			} else {
-				this.mHasPicture = true;
-			}
 		}
 	// Constructor for Top Level Comments
 	public CommentModel(Location mGeolocation, String mBody, String mAuthor,
@@ -76,13 +57,6 @@ public class CommentModel extends AModel<AView> implements Serializable{
 		putTimeStamp();
 		this.replies = new ArrayList<CommentModel>();
 		this.mParent = null;
-		this.mTopLevel = true;
-		
-		if (mPicture == null) {
-			this.mHasPicture = false;
-		} else {
-			this.mHasPicture = true;
-		}
 	}
 
 	// Constructor for replies
@@ -97,13 +71,6 @@ public class CommentModel extends AModel<AView> implements Serializable{
 		putTimeStamp();
 		this.replies = new ArrayList<CommentModel>();
 		this.mParent = mParent;
-		this.mTopLevel = false;
-		
-		if (mPicture == null) {
-			this.mHasPicture = false;
-		} else {
-			this.mHasPicture = true;
-		}
 	}
 
 	protected void putTimeStamp() {
@@ -149,7 +116,7 @@ public class CommentModel extends AModel<AView> implements Serializable{
 	}
 	
 	public boolean hasPicture() {
-		return mHasPicture;
+		return mPicture != null;
 	}
 
 	public ArrayList<CommentModel> getReplies() {
@@ -158,5 +125,9 @@ public class CommentModel extends AModel<AView> implements Serializable{
 	
 	public void addReply(CommentModel reply) {
 		replies.add(reply);
+	}
+	
+	public boolean hasTitle() {
+		return mTitle != null;
 	}
 }

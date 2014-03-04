@@ -42,6 +42,8 @@ public class StartActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent myIntent = new Intent(StartActivity.this, BrowseActivity.class);
+				//This lets the browse activity know that we are viewing top level comments
+				GeoTopicsApplication.setCurrentViewingComment(null);
 				startActivity(myIntent);
 				
 			}
