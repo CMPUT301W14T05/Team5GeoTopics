@@ -80,10 +80,9 @@ public class SortComments {
 		/*
 		 *	This should remove any comment from the list that is further than 500 meters away 
 		 */
-		for (int i = 0; i < cList.size(); i++) {
-			if (500 < cList.get(i).getGeoLocation().distanceTo(myLoc)) {
+		for (int i = cList.size() - 1; i >= 0; i--) {
+			if (cList.get(i).getGeoLocation().distanceTo(myLoc) > 1000) {
 				cList.remove(i);
-				i -= 1;
 			}
 		}
 		return cList;
