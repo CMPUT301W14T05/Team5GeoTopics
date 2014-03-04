@@ -31,9 +31,9 @@ public class SortComments {
 		return cList;
 
 	}
-	
+
 	public static List<CommentModel> sortCommentsByDate(final List<CommentModel> cList, final Location myLoc) {
-		
+
 		/*
 		 * This should sort the comment list based on date
 		 */
@@ -45,9 +45,9 @@ public class SortComments {
 		});
 		return cList;
 	}
-	
+
 	public static List<CommentModel> getCommentsWithinRegion(List<CommentModel> cList, Location myLoc) {
-		
+
 		/*
 		 *	This should remove any comment from the list that is further than 500 meters away 
 		 */
