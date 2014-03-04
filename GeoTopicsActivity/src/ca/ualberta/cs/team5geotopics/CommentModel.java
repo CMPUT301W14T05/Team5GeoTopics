@@ -116,4 +116,7 @@ public class CommentModel extends AModel<AView> implements Serializable{
 		return mDate;
 	}
 
+	public ArrayList<CommentModel> getReplies() {
+		return replies;
+	}
 }
