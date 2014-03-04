@@ -152,4 +152,8 @@ public class CommentModel extends AModel<AView> implements Serializable{
 	public boolean hasPicture() {
 		return mHasPicture;
 	}
+
+	public ArrayList<CommentModel> getReplies() {
+		return replies;
+	}
 }

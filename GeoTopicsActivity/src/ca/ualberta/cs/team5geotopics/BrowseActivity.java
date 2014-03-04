@@ -42,7 +42,9 @@ public class BrowseActivity extends Activity{
 		//REMOVE THIS AFTER TESTING
 		//Fill the model with test data
 		ArrayList<CommentModel> replies = new ArrayList<CommentModel>();
-		this.clm.add(new CommentModel("This is a body", "James", "This is a much longer Title that will cut off ",replies));
+		/* just made James' comment a reply to all comments (probably to itself as well, though I'm not actually sure how this compiles)*/
+		replies.add(new CommentModel("This is a body", "James", "This is a much longer Title that will cut off ",replies)); 
+		this.clm.add(replies.get(0));
 		this.clm.add(new CommentModel("This is a my body", "Tyler", "This is a my Title",replies));
 		this.clm.add(new CommentModel("This is a Really Really Really Really Really Really Really Really(8)" +
 				" Really Really(10) Really Really(12) Really Really(14) Really Really Really Really Really Really(20) Really" +
