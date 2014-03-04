@@ -188,9 +188,9 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 					e.printStackTrace();
 				}
 			       // Rotates normal baxk camera photo
-			       Matrix m = new Matrix();
-			       m.postRotate(90);
-			       mPicture = Bitmap.createBitmap(mPicture, 0, 0, mPicture.getWidth(), mPicture.getHeight(), m, true);
+			       //Matrix m = new Matrix();
+			       //m.postRotate(90);
+			       //mPicture = Bitmap.createBitmap(mPicture, 0, 0, mPicture.getWidth(), mPicture.getHeight(), m, true);
 			       uploadedImage.setImageBitmap(mPicture);
 			       
 	            } else if (resultCode == RESULT_CANCELED) {

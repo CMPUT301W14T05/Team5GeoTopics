@@ -165,14 +165,19 @@ public class BrowseActivity extends Activity{
 						public void onClick(DialogInterface dialog, int which) {
 							// Which option to sort by?
 							if(which == 0){ //Proximity to me
+								
 							}
 							if(which == 1){ //Proximity to location
+							
 							}
 							if(which == 2){ //Proximity to picture
+							
 							}
 							if(which == 3){ //Scoring system
+							
 							}
 							if(which == 4){ //Time
+							
 							}
 						}
 					});
