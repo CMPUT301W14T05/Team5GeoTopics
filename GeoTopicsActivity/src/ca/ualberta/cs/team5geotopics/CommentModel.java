@@ -32,7 +32,7 @@ public class CommentModel extends AModel<AView> implements Serializable{
 
 	
 	// Constructor for Test Top Level Comments
-		public CommentModel( String mBody, String mAuthor, String mTitle) {
+		public CommentModel( String mBody, String mAuthor, String mTitle, ArrayList<CommentModel> replies) {
 			super();
 			this.mGeolocation = null;
 			this.mBody = mBody;
@@ -40,7 +40,7 @@ public class CommentModel extends AModel<AView> implements Serializable{
 			this.mTitle = mTitle;
 			this.mPicture = null;
 			putTimeStamp();
-			this.replies = new ArrayList<CommentModel>();
+			this.replies = replies;
 			this.mParent = null;
 		}
 	// Constructor for Top Level Comments

@@ -8,15 +8,22 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 
-public class BrowseRelpyActivity extends Activity
+public class BrowseReplyActivity extends Activity
 {
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
-
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Bundle b = getIntent().getBundleExtra("TLComment");
+		b.getSerializable("TLComment");
+		
 		setContentView(R.layout.activity_browse_relpy);
+		
+		getActionBar().setDisplayShowTitleEnabled(false);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		
 	}
 
 	@Override
