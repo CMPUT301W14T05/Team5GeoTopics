@@ -52,7 +52,7 @@
             android:label="@string/browse_activity" >
         </activity>
         <activity
-            android:name="ca.ualberta.cs.team5geotopics.BrowseRelpyActivity"
+            android:name="ca.ualberta.cs.team5geotopics.BrowseReplyActivity"
             android:label="@string/title_activity_browse_relpy" >
         </activity>
     </application>

@@ -1,5 +1,7 @@
 package ca.ualberta.cs.team5geotopics;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -39,8 +41,15 @@ public class BrowseActivity extends Activity{
 		
 		//REMOVE THIS AFTER TESTING
 		//Fill the model with test data
-		this.clm.add(new CommentModel("This is a body", "James", "This is a much longer Title that will cut off "));
-		this.clm.add(new CommentModel("This is a my body", "Tyler", "This is a my Title"));
+		ArrayList<CommentModel> replies = new ArrayList<CommentModel>();
+		this.clm.add(new CommentModel("This is a body", "James", "This is a much longer Title that will cut off ",replies));
+		this.clm.add(new CommentModel("This is a my body", "Tyler", "This is a my Title",replies));
+		this.clm.add(new CommentModel("This is a Really Really Really Really Really Really Really Really(8)" +
+				" Really Really(10) Really Really(12) Really Really(14) Really Really Really Really Really Really(20) Really" +
+				" Really Really Really Really Really Really Really Really Really Really" +
+				" Really Really Really Really Really Really Really Really Really(40) Really Really Really Really Really Really" +
+				" Really Really Really Really Really Really Really Really Really Really Really Really Really Really Really" +
+				" Really(62) long body", "Matt", "Title, this is.",replies));
 		//***********************************************************************************************************
 		
 		//Construct the View
@@ -60,7 +69,7 @@ public class BrowseActivity extends Activity{
 			@Override
 			public void onItemClick(AdapterView<?> myView, View view, int position,
 					long arg3) {
-				Intent intent = new Intent(BrowseActivity.this, StartActivity.class);
+				Intent intent = new Intent(BrowseActivity.this, BrowseReplyActivity.class);
 				CommentModel TLComment = (CommentModel) browseListView.getItemAtPosition(position);
 				Bundle b = new Bundle();
 				b.putSerializable("TLComment", TLComment);
