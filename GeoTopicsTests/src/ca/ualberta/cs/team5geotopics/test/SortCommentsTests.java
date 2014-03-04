@@ -23,6 +23,7 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseAc
 		
 		lc = SortComments.SortCommentsByProximityToLoc(lc, myLoc);
 		
+		assertTrue("array is not empty", lc.size() > 0);
 		assertTrue(lc.get(0).getmAuthor().equals("C"));
 	}
 	
