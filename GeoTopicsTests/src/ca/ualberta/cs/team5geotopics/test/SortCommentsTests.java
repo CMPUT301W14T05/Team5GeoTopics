@@ -40,7 +40,7 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseAc
 		myLoc.setLatitude(0);
 		myLoc.setLongitude(0);
 		
-		lc = SortComments.getCommentsWithinRegion(lc, myLoc);
+		lc = SortComments.getCommentsWithinRegion(lc, myLoc, 0);
 		
 		assertTrue("List is not empty", lc.size() > 0);
 		assertEquals("List is expected to be size = 1", 1, lc.size());
