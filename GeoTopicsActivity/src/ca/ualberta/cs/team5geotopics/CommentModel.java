@@ -99,6 +99,10 @@ public class CommentModel extends AModel<AView> implements Serializable{
 		this.mAuthor = mAuthor;
 	}
 	
+	public Location getGeoLocation() {
+		return mGeolocation;
+	}
+	
 	public boolean isTopLevel(){
 		return mParent == null;
 	}
@@ -107,4 +111,9 @@ public class CommentModel extends AModel<AView> implements Serializable{
 		//TODO: Return empty string if it is not a top level
 		return this.mTitle;
 	}
+
+	public Date getDate() {
+		return mDate;
+	}
+
 }

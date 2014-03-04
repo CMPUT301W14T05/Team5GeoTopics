@@ -2,9 +2,6 @@ package ca.ualberta.cs.team5geotopics.test;
 
 
 
-import com.example.team5geotopics.R;
-import ca.ualberta.cs.team5geotopics.BrowseTopLevelView;
-import ca.ualberta.cs.team5geotopics.CommentModel;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
@@ -15,8 +12,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import ca.ualberta.cs.team5geotopics.BrowseView;
+import ca.ualberta.cs.team5geotopics.CommentModel;
 
-public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<BrowseTopLevelView> {
+import com.example.team5geotopics.R;
+
+public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<BrowseView> {
 	Activity mActivity;
 	Instrumentation mInstrumentation;
 	Intent mStartIntent;
@@ -24,7 +25,7 @@ public class BrowseTopLevelTests extends ActivityInstrumentationTestCase2<Browse
 	ArrayAdapter<CommentModel> mAdapter;
 	
 	public BrowseTopLevelTests(){
-		super(BrowseTopLevelView.class);
+		super(BrowseView.class);
 	}
 	
 	@SuppressWarnings("unchecked")
