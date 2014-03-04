@@ -15,10 +15,35 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseAc
 		super(BrowseActivity.class);
 	}
 	
-	public void testSortCommentByProximityToMe() {
+	public void testSortTLCByProximityToMe() {
 		
 	}
 	
+	public void testSortRepliesByProximityToMe() {
+		
+	}
+	
+	public void testSortTLCByFreshness() {
+		
+	}
+	
+	public void testSortRepliesByFreshness() {
+		
+	}
+	
+	public void testSortTLCByPicture() {
+		
+	}
+	
+	public void testSortRepliesByPicture() {
+		
+	}
+	/*
+	 * Test SortAllCommentsByProximity
+	 * 
+	 * test adds Comments to a list in order C -> B -> A
+	 * after sort C -> A -> B.
+	 */
 	public void testSortAllCommentsByProximity() {
 		List<CommentModel> lc = prepCommentList(15, 20, 0.01);
 		Location myLoc = new Location("My Location");
