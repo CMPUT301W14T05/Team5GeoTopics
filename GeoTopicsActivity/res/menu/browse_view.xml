@@ -5,7 +5,7 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
-  	
+    
   	<item
         android:id="@+id/new_top_level_comment"
         android:icon="@drawable/ic_action_new"
@@ -18,9 +18,14 @@
         android:title="@string/action_sort"/>
    <item
         android:id="@+id/action_bookmark"
-        android:icon="@drawable/ic_action_bookmark"
+        android:icon="@drawable/ic_notification_bookmark"
         android:showAsAction="always"
         android:title="@string/action_bookmark"/>
+   <item
+        android:id="@+id/action_favourite"
+        android:icon="@drawable/ic_action_favorite"
+        android:showAsAction="always"
+        android:title="@string/action_favorite"/>
    <item
         android:id="@+id/action_refresh"
         android:icon="@drawable/ic_action_refresh"

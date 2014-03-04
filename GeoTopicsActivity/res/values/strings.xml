@@ -12,6 +12,10 @@
     <string name="body">Body</string>
     <string name="OK">OK</string>
     <string name="comment_view_string">Comment View</string>
+    <string name="title_activity_es_test">EsTestActivity</string>
+    <string name="es_test_activity">Elastic Search Test Suite</string>
+    <string name="title_activity_inspect_comment">InspectCommentActivity</string>
+    <string name="title_activity_browse_relpy">BrowseRelpyActivity</string>
 
     <!-- Strings for brows top level view menu -->
     <string name="action_refresh">Refresh Root Comments</string>
@@ -19,15 +23,12 @@
     <string name="action_bookmark">Bookmark Comments</string>
     <string name="action_sort">Sort Comments</string>
     <string name="new_top_level_comment">New Top Level Comment</string>
-    <string name="title_activity_es_test">EsTestActivity</string>
-    <string name="es_test_activity">Elastic Search Test Suite</string>
-    <string name="title_activity_inspect_comment">InspectCommentActivity</string>
-    <string name="title_activity_browse_relpy">BrowseRelpyActivity</string>
+    <string name="action_favorite">Favorite Comments</string>
     
     <!--  Strings for top level list layout -->
-    <string name="top_level_thumbnail">Thumb Nail</string>
+    <string name="top_level_thumbnail">Thumbnail</string>
     <string name="top_level_replies">Replies</string>
-    <string name="top_level_bookmark">Bookmarkl</string>
-    <string name="top_level_favourite">Favourites</string>
+    <string name="top_level_bookmark">Bookmark</string>
+    <string name="top_level_favourite">Favourite</string>
 
 </resources>
