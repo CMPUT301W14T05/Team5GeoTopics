@@ -8,7 +8,6 @@ public class CommentListModel extends AModel<AView>{
 	public CommentListModel(){
 		this.mComments = new ArrayList<CommentModel>();
 		
-		
 	}
 	
 	public ArrayList<CommentModel> getList() {
@@ -19,6 +18,4 @@ public class CommentListModel extends AModel<AView>{
 		mComments.add(comment);
 		this.notifyViews();
 	}
-
-	
 }
