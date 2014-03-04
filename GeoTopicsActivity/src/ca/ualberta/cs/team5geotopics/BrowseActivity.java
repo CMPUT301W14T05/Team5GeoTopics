@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.team5geotopics.R;
@@ -46,8 +48,23 @@ public class BrowseActivity extends Activity{
 		this.clm.addView(this.myView);
 		
 		//Attach the list view to myView
-		ListView browseListView = (ListView) findViewById(R.id.browse_top_level_listView);
+		final ListView browseListView = (ListView) findViewById(R.id.browse_top_level_listView);
 		browseListView.setAdapter(myView);
+		
+		browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> myView, View view, int position,
+					long arg3) {
+				Intent intent = new Intent(BrowseActivity.this, StartActivity.class);
+//				CommentModel TLComment = (CommentModel) browseListView.getItemAtPosition(position); // is this a commentModel?
+//				Bundle b = new Bundle();
+//				b.putSerializable("TLComment", TLComment);
+//				intent.putExtra("TLComment", b);
+				startActivity(intent);
+			}
+			
+		});
 	}
 	
 	//Creates the options menu using the layout in menu.
