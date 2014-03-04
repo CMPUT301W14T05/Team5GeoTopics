@@ -6,8 +6,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.location.Location;
-import android.widget.ArrayAdapter;
-import ca.ualberta.cs.team5geotopics.CommentModel;
 
 /*
  * This is a simple sort comments class that will be required for local sorting (no internet)
@@ -29,9 +27,7 @@ public class SortComments {
 	 * NOTE: this is for TLC sorting
 	 */
 	public static List<CommentModel> SortTLCommentsByProximityToLoc(List<CommentModel> cList, Location myLoc) {
-		cList = getCommentsWithinRegion(cList, myLoc, 0);
-    	cList = sortCommentsByDate(cList);
-    	
+		cList = SortAllCommentsByProximity(cList, myLoc);
 		return cList;
 	}
 	
@@ -45,6 +41,40 @@ public class SortComments {
 	 * NOTE: this is for REPLY sorting
 	 */
 	public static List<CommentModel> SortRepliesByProximityToLoc(List<CommentModel> cList, Location myLoc) {
+		List<CommentModel> tempList = new ArrayList<CommentModel>();
+		for (int i = cList.size() - 1; i >= 1; i--) {
+			tempList.add(cList.get(i));
+			cList.remove(i);
+		}
+		
+		tempList = SortAllCommentsByProximity(tempList, myLoc);
+		
+		for (int i = 0; i < tempList.size(); i++) {
+			cList.add(tempList.get(i));
+		}
+		
+		return cList;
+	}
+	
+	public static List<CommentModel> SortAllCommentsByProximity(final List<CommentModel> cList, final Location myLoc) {
+	
+		Collections.sort(cList, new Comparator<CommentModel>() {
+			public int compare(CommentModel a, CommentModel b) {
+				return (int) (a.getGeoLocation().distanceTo(myLoc) - 
+						b.getGeoLocation().distanceTo(myLoc));
+			}
+		});
+		return cList;
+	}
+	
+	public static List<CommentModel> SortTLCByFreshness(List<CommentModel> cList, Location myLoc) {
+		cList = getCommentsWithinRegion(cList, myLoc, 0);
+    	cList = sortCommentsByDate(cList);
+    	
+		return cList;
+	}
+	
+	public static List<CommentModel> SortRepliesByFreshness(List<CommentModel> cList, Location myLoc) {
 		cList = getCommentsWithinRegion(cList, myLoc, 1);
 		List<CommentModel> tempList = new ArrayList<CommentModel>();
 		for (int i = cList.size(); i >= 1; i--) {
