@@ -7,9 +7,11 @@
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="19" />
-	<uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -17,18 +19,16 @@
         android:theme="@android:style/Theme.Holo" >
         <service
             android:name="ca.ualberta.cs.team5geotopics.PutIndexService"
-            android:enabled="true">
+            android:enabled="true" >
         </service>
-        
-        <service 
+        <service
             android:name="ca.ualberta.cs.team5geotopics.CreateIndexService"
-            android:enabled="true">
-       	</service>
-       	
-        <service 
+            android:enabled="true" >
+        </service>
+        <service
             android:name="ca.ualberta.cs.team5geotopics.GetAllService"
-            android:enabled="true">
-       	</service>
+            android:enabled="true" >
+        </service>
 
         <activity
             android:name="ca.ualberta.cs.team5geotopics.StartActivity"
@@ -40,17 +40,21 @@
             </intent-filter>
         </activity>
         <activity
-			android:name="ca.ualberta.cs.team5geotopics.EsTestActivity"
+            android:name="ca.ualberta.cs.team5geotopics.EsTestActivity"
             android:label="@string/es_test_activity" >
         </activity>
         <activity
             android:name="ca.ualberta.cs.team5geotopics.BrowseActivity"
             android:label="@string/browse_activity" >
-		</activity>
+        </activity>
         <activity
             android:name="ca.ualberta.cs.team5geotopics.InspectCommentActivity"
             android:label="@string/browse_activity" >
-		</activity>
-        </application>
+        </activity>
+        <activity
+            android:name="com.example.team5geotopics.BrowseRelpyActivity"
+            android:label="@string/title_activity_browse_relpy" >
+        </activity>
+    </application>
 
 </manifest>

@@ -22,5 +22,6 @@
     <string name="title_activity_es_test">EsTestActivity</string>
     <string name="es_test_activity">Elastic Search Test Suite</string>
     <string name="title_activity_inspect_comment">InspectCommentActivity</string>
+    <string name="title_activity_browse_relpy">BrowseRelpyActivity</string>
 
 </resources>

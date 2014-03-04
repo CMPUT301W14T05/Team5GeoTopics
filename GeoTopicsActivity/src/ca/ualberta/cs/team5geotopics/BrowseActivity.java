@@ -19,6 +19,7 @@ public class BrowseActivity extends Activity{
 	
 	BrowseView myView;
 	CommentListModel clm;
+	ListView browseListView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,26 +49,31 @@ public class BrowseActivity extends Activity{
 		this.clm.addView(this.myView);
 		
 		//Attach the list view to myView
-		final ListView browseListView = (ListView) findViewById(R.id.browse_top_level_listView);
+		browseListView = (ListView) findViewById(R.id.browse_top_level_listView);
 		browseListView.setAdapter(myView);
 		
-		browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+	}
 
+	@Override
+	protected void onResume(){
+		browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> myView, View view, int position,
 					long arg3) {
 				Intent intent = new Intent(BrowseActivity.this, StartActivity.class);
-//				CommentModel TLComment = (CommentModel) browseListView.getItemAtPosition(position); // is this a commentModel?
-//				Bundle b = new Bundle();
-//				b.putSerializable("TLComment", TLComment);
-//				intent.putExtra("TLComment", b);
+				CommentModel TLComment = (CommentModel) browseListView.getItemAtPosition(position);
+				Bundle b = new Bundle();
+				b.putSerializable("TLComment", TLComment);
+				intent.putExtra("TLComment", b);
 				startActivity(intent);
 			}
 			
 		});
+		super.onResume();
 	}
 	
-	//Creates the options menu using the layout in menu.
+
+		//Creates the options menu using the layout in menu.
 		public boolean onCreateOptionsMenu(Menu menu) {
 		    // Inflate the menu items for use in the action bar
 		    MenuInflater inflater = getMenuInflater();
