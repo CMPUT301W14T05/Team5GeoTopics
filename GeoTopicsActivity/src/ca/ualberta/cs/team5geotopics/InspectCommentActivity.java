@@ -2,15 +2,19 @@ package ca.ualberta.cs.team5geotopics;
 
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 
 import com.example.team5geotopics.R;
 
 import android.location.Location;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -19,13 +23,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.hardware.Camera;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 
 public class InspectCommentActivity extends Activity implements OnClickListener {
@@ -127,7 +134,7 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 			finish();
 		}
 	}
-	
+	public static String imageFilePath;
 	// Method takes photo from camera and returns image.
 	public void takePhoto(){
 		
@@ -143,7 +150,7 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
             folderF.mkdir();
         }
         
-        String imageFilePath = folder + "/" + String.valueOf(System.currentTimeMillis()) + "jpg";
+        imageFilePath = folder + "/" + String.valueOf(System.currentTimeMillis()) + "jpg";
         File imageFile = new File(imageFilePath);
         imageFileUri = Uri.fromFile(imageFile);
         
@@ -167,17 +174,24 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 	           // Photo was taken successfully.
 	           if (resultCode == RESULT_OK) {   	     
 	               // Gets image from /GeoTopics path.
-	               Uri myPhoto = data.getData();
-	               InputStream imageStream = null;
-	               try {
-					imageStream = getContentResolver().openInputStream(myPhoto);
+			       ImageView uploadedImage = (ImageView)findViewById(R.id.imageViewPicture);
+			       try {
+					Bitmap image = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageFileUri);
+					mPicture = returnBitmapImage(image);
+		            mPicture = Bitmap.createScaledBitmap(mPicture, 200, 200, true);
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-	               Bitmap image = BitmapFactory.decodeStream(imageStream);
-	               // Set mPicture with Bitmap image.
-	               mPicture = returnBitmapImage(image);
+			       // Rotates normal baxk camera photo
+			       Matrix m = new Matrix();
+			       m.postRotate(90);
+			       mPicture = Bitmap.createBitmap(mPicture, 0, 0, mPicture.getWidth(), mPicture.getHeight(), m, true);
+			       uploadedImage.setImageBitmap(mPicture);
+			       
 	            } else if (resultCode == RESULT_CANCELED) {
 	                // Photo was canceled, do nothing.
 	            } else {
@@ -199,6 +213,9 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
                Bitmap image = BitmapFactory.decodeStream(imageStream);
                // Set mPicture with Bitmap image.
                mPicture = returnBitmapImage(image);
+               mPicture = Bitmap.createScaledBitmap(mPicture, 200, 200, true);
+               ImageView uploadedImage = (ImageView)findViewById(R.id.imageViewPicture);
+               uploadedImage.setImageBitmap(mPicture);
            }
 	    }
 	}
