@@ -18,7 +18,7 @@
         android:title="@string/action_sort"/>
    <item
         android:id="@+id/action_bookmark"
-        android:icon="@drawable/ic_action_refresh"
+        android:icon="@drawable/ic_action_bookmark"
         android:showAsAction="always"
         android:title="@string/action_bookmark"/>
    <item
