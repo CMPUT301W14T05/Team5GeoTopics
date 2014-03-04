@@ -16,15 +16,26 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseAc
 	}
 	
 	public void testSortCommentByProximityToMe() {
-		List<CommentModel> lc = prepCommentList(0.001, 0.005, 0.01);
-		Location myLoc = new Location("myLoc");
-		myLoc.setLatitude(0);
+		
+	}
+	
+	public void testSortAllCommentsByProximity() {
+		List<CommentModel> lc = prepCommentList(15, 20, 0.01);
+		Location myLoc = new Location("My Location");
 		myLoc.setLongitude(0);
+		myLoc.setLatitude(0);
 		
-		//lc = SortComments.SortCommentsByProximityToLoc(lc, myLoc);
+		assertTrue("The list is not null", lc.size() > 0);
+		assertTrue("The first element of the list is C", lc.get(0).getmBody().equals("C"));
+		assertTrue("The second element of the list is B", lc.get(1).getmBody().equals("B"));
+		assertTrue("The third element of the list is A", lc.get(2).getmBody().equals("A"));
 		
-		assertTrue("array is not empty", lc.size() > 0);
-		//assertTrue(lc.get(0).getmAuthor().equals("C"));
+		lc = SortComments.SortAllCommentsByProximity(lc, myLoc);
+		
+		assertTrue("The first element of the list is C", lc.get(0).getmBody().equals("C"));
+		assertTrue("The second element of the list is A", lc.get(1).getmBody().equals("A"));
+		assertTrue("The first element of the list is B", lc.get(2).getmBody().equals("B"));
+		
 	}
 	
 	/*
@@ -35,7 +46,7 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseAc
 	 * and therefore the size should only contain the one comment upon return
 	 */
 	public void testGetCommentsWithinRegion() {
-		List<CommentModel> lc = prepCommentList(0.001, 0.01, 0.02);
+		List<CommentModel> lc = prepCommentList(0.01, 0.02, 0.001);
 		Location myLoc = new Location("myLoc");
 		myLoc.setLatitude(0);
 		myLoc.setLongitude(0);
@@ -58,7 +69,7 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseAc
 	 * A -> B -> C
 	 */
 	public void testSortCommentsByDate() {
-		List<CommentModel> lc = prepCommentList(0.001, 0.01, 0.02);
+		List<CommentModel> lc = prepCommentList(0.01, 0.02, 0.001);
 		
 		assertTrue("The first element is originally C", lc.get(0).getmBody().equals("C"));
 		assertTrue("The first element is originally B", lc.get(1).getmBody().equals("B"));
@@ -72,7 +83,7 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseAc
 		assertTrue("The first element is originally C", lc.get(2).getmBody().equals("C"));
 	}
 	
-	public List<CommentModel> prepCommentList(double latC, double latA, double latB) {
+	public List<CommentModel> prepCommentList(double latA, double latB, double latC) {
 		Location locA = new Location("A");
 		Location locB = new Location("B");
 		Location locC = new Location("C");
