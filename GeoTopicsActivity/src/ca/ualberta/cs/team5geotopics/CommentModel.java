@@ -148,6 +148,10 @@ public class CommentModel extends AModel<AView> implements Serializable{
 		return mDate;
 	}
 	
+	public Bitmap getPicture() {
+		return mPicture;
+	}
+	
 	public boolean hasPicture() {
 		return mHasPicture;
 	}
