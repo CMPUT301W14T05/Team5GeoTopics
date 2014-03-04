@@ -30,6 +30,19 @@ public class CommentModel extends AModel<AView> implements Serializable{
 	private String mHrSecFormatedDate;
 	private boolean mTopLevel;
 
+	
+	// Constructor for Test Top Level Comments
+		public CommentModel( String mBody, String mAuthor, String mTitle) {
+			super();
+			this.mGeolocation = null;
+			this.mBody = mBody;
+			this.mAuthor = mAuthor;
+			this.mTitle = mTitle;
+			this.mPicture = null;
+			putTimeStamp();
+			this.replies = new ArrayList<CommentModel>();
+			this.mParent = null;
+		}
 	// Constructor for Top Level Comments
 	public CommentModel(Location mGeolocation, String mBody, String mAuthor,
 			Bitmap mPicture, String mTitle) {
