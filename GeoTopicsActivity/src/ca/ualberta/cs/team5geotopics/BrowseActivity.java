@@ -90,24 +90,4 @@ public abstract class BrowseActivity extends Activity {
 		}
 			return null;
 		}
-		
-		public class CommentReciever extends BroadcastReceiver{
-			public static final String ACCEPT_COMMENTS = "cs.ualberta.cs.team5geotopics.ACCEPT_COMMENTS";
-			@SuppressWarnings("unchecked")
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				Bundle bundle = intent.getExtras();
-				List<CommentModel> comments = (List<CommentModel>) (bundle.getSerializable("comments"));
-				if(comments.size() == 0){
-					Log.w("GetAllService", "commentList is empty");
-				}
-				if(comments.get(0).equals(null)){
-					Log.w("GetAllService", "element is null");
-				}
-				for(CommentModel cmnt : comments){
-					clm.add(cmnt);
-				}
-			}
-		}
-		
 }
