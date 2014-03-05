@@ -17,6 +17,9 @@ import ca.ualberta.cs.team5geotopics.AView;
  */
 
 public class CommentModel extends AModel<AView> implements Serializable{
+	//elastic search id variables
+	private String mEsID;
+	private String mParentID;
 	/**
 	 * 
 	 */
@@ -25,17 +28,16 @@ public class CommentModel extends AModel<AView> implements Serializable{
 	private String mBody;
 	private String mAuthor;
 	private String mTitle;
-	private ArrayList<CommentModel> replies;
-	private String esID;
 	private Bitmap mPicture;
 	private Date mDate;
-	private CommentModel mParent;
 	private String mDMYFormatedDate;
 	private String mHrSecFormatedDate;
 
 	
 	// Constructor for Test Top Level Comments
-		public CommentModel( String mBody, String mAuthor, String mTitle, ArrayList<CommentModel> replies) {
+
+		public CommentModel( String mBody, String mAuthor, String mTitle) {
+
 			super();
 			this.mGeolocation = null;
 			this.mBody = mBody;
@@ -43,8 +45,9 @@ public class CommentModel extends AModel<AView> implements Serializable{
 			this.mTitle = mTitle;
 			this.mPicture = null;
 			putTimeStamp();
-			this.replies = replies;
-			this.mParent = null;
+			this.mEsID = null;
+			this.mParentID =  null;
+
 		}
 	// Constructor for Top Level Comments
 	public CommentModel(Location mGeolocation, String mBody, String mAuthor,
@@ -56,8 +59,9 @@ public class CommentModel extends AModel<AView> implements Serializable{
 		this.mTitle = mTitle;
 		this.mPicture = mPicture;
 		putTimeStamp();
-		this.replies = new ArrayList<CommentModel>();
-		this.mParent = null;
+		this.mEsID = null;
+		this.mParentID =  null;
+
 	}
 
 	// Constructor for replies
@@ -70,8 +74,9 @@ public class CommentModel extends AModel<AView> implements Serializable{
 		this.mTitle = null;
 		this.mPicture = mPicture;
 		putTimeStamp();
-		this.replies = new ArrayList<CommentModel>();
-		this.mParent = mParent;
+		this.mEsID = null;
+		this.mParentID =  null;
+
 	}
 
 	protected void putTimeStamp() {
@@ -84,6 +89,9 @@ public class CommentModel extends AModel<AView> implements Serializable{
 
 	}
 
+	public void setmEsID(String ID){
+		this.mEsID = ID;
+	}
 	public String getmBody() {
 		return mBody;
 	}
@@ -117,7 +125,7 @@ public class CommentModel extends AModel<AView> implements Serializable{
 	}
 	
 	public boolean isTopLevel(){
-		return mParent == null;
+		return this.mParentID == null;
 	}
 
 	public CharSequence getmTitle() {
@@ -136,14 +144,6 @@ public class CommentModel extends AModel<AView> implements Serializable{
 		return mPicture != null;
 	}
 
-	public ArrayList<CommentModel> getReplies() {
-		return replies;
-	}
-	
-	public void addReply(CommentModel reply) {
-		replies.add(reply);
-	}
-	
 	public boolean hasTitle() {
 		return mTitle != null;
 	}

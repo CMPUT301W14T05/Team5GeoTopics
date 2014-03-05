@@ -34,7 +34,8 @@ public class GetAllService extends IntentService {
 	}
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		JestClient client = GeoTopicsApplication.getClient(getApplicationContext());
+		GeoTopicsApplication application = new GeoTopicsApplication();
+		final JestClient client = application.getClient();
 		List<CommentModel> commentList = null;
 		Search search = (Search) new Search.Builder(QUERY_STRING)
         // multiple index or types can be added.

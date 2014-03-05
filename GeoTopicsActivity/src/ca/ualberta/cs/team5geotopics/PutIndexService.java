@@ -1,5 +1,9 @@
 package ca.ualberta.cs.team5geotopics;
 
+import java.util.ArrayList;
+
+import ca.ualberta.cs.team5geotopics.EsTestActivity.CommentReciever;
+
 import com.google.gson.Gson;
 
 import io.searchbox.client.JestClient;
@@ -12,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 public class PutIndexService extends IntentService {
+	
 	public PutIndexService() {
 		super("PutIndexService");
 
@@ -33,8 +38,10 @@ public class PutIndexService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		final JestClient client = GeoTopicsApplication
-				.getClient(getApplicationContext());
+		String exception = null;
+		String eSid = null;
+		GeoTopicsApplication application = new GeoTopicsApplication();
+		final JestClient client = application.getClient();
 		Bundle bundle = intent.getExtras();
 		String jsonComment = bundle.getString("comment");
 		Log.w("PutIndexService", jsonComment);
@@ -53,12 +60,31 @@ public class PutIndexService extends IntentService {
 			pushIndex = new Index.Builder(jsonComment).index(index)
 					.type(type).build();
 		}
+		JestResult result = null;
 		try {
-			JestResult result = client.execute(pushIndex);
+			result = client.execute(pushIndex);
 			Log.w("PutIndexService", "result: " + result.getJsonString());
 		} catch (Exception e) {
 			Log.w("PutIndexService", "exception: " + e.toString());
+			exception = e.toString();
 		}
+		
 		client.shutdownClient();
+		
+		Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction(CommentReciever.ACCEPT_COMMENTS);
+        broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+		
+		
+		if(result != null){
+			eSid = (String) result.getValue("id");
+		}
+		else{
+			eSid = exception;
+		}
+		
+        broadcastIntent.putExtra("id", eSid);
+        sendBroadcast(broadcastIntent);
+		
 	}
 }
