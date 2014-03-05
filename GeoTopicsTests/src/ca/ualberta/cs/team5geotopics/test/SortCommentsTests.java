@@ -16,20 +16,83 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseAc
 		super(BrowseActivity.class);
 	}
 	
-	public void testSortTLCByProximityToMe() {
+	/*
+	 * Test SortAllCommentsByProximity
+	 * 
+	 * test adds Comments to a list in order C -> B -> A
+	 * after sort C -> A -> B.
+	 */
+	public void testSortCommentsByProximity() {
+		List<CommentModel> lc = prepCommentList(15, 20, 0.01, false);
+		Location myLoc = new Location("My Location");
+		myLoc.setLongitude(0);
+		myLoc.setLatitude(0);
+		
+		assertTrue("The list is not null", lc.size() > 0);
+		assertTrue("The first element of the list is C", lc.get(0).getmBody().equals("C"));
+		assertTrue("The second element of the list is B", lc.get(1).getmBody().equals("B"));
+		assertTrue("The third element of the list is A", lc.get(2).getmBody().equals("A"));
+		
+		lc = SortComments.SortCommentsByProximity(lc, myLoc);
+		
+		assertTrue("The first element of the list is C", lc.get(0).getmBody().equals("C"));
+		assertTrue("The second element of the list is A", lc.get(1).getmBody().equals("A"));
+		assertTrue("The first element of the list is B", lc.get(2).getmBody().equals("B"));
 		
 	}
 	
-	public void testSortRepliesByProximityToMe() {
+	public void testSortRepliesByProximityToLoc() {
+		List<CommentModel> lc = prepCommentList(10, .03, 15, false);
+		Location myLoc = new Location("My Location");
+		myLoc.setLongitude(0);
+		myLoc.setLatitude(0);
 		
+		assertTrue("The list is not null", lc.size() > 0);
+		assertTrue("The first element of the list is C", lc.get(0).getmBody().equals("C"));
+		assertTrue("The second element of the list is B", lc.get(1).getmBody().equals("B"));
+		assertTrue("The third element of the list is A", lc.get(2).getmBody().equals("A"));
+		
+		lc = SortComments.SortCommentsByProximity(lc, myLoc);
+		
+		assertTrue("The first element of the list is B", lc.get(0).getmBody().equals("B"));
+		assertTrue("The second element of the list is A", lc.get(1).getmBody().equals("A"));
+		assertTrue("The first element of the list is C", lc.get(2).getmBody().equals("C"));
 	}
 	
 	public void testSortTLCByFreshness() {
+		List<CommentModel> lc = prepCommentList(0.001, .02, 0.008, false);
+		Location myLoc = new Location("My Location");
+		myLoc.setLongitude(0);
+		myLoc.setLatitude(0);
 		
+		assertEquals("The size of the array should now be 3", 3, lc.size());
+		assertTrue("The first element of the list is C", lc.get(0).getmBody().equals("C"));
+		assertTrue("The second element of the list is B", lc.get(1).getmBody().equals("B"));
+		assertTrue("The third element of the list is A", lc.get(2).getmBody().equals("A"));
+		
+		SortComments.SortTLCByFreshness(lc, myLoc);
+		
+		assertEquals("The size of the array should now be 2", 2, lc.size());
+		assertTrue("The first element of the list is A", lc.get(0).getmBody().equals("A"));
+		assertTrue("The second element of the list is C", lc.get(1).getmBody().equals("C"));
 	}
 	
 	public void testSortRepliesByFreshness() {
+		List<CommentModel> lc = prepCommentList(0.001, .02, 0.008, false);
+		Location myLoc = new Location("My Location");
+		myLoc.setLongitude(0);
+		myLoc.setLatitude(0);
 		
+		assertEquals("The size of the array should now be 3", 3, lc.size());
+		assertTrue("The first element of the list is C", lc.get(0).getmBody().equals("C"));
+		assertTrue("The second element of the list is B", lc.get(1).getmBody().equals("B"));
+		assertTrue("The third element of the list is A", lc.get(2).getmBody().equals("A"));
+		
+		SortComments.SortRepliesByFreshness(lc, myLoc);
+		
+		assertEquals("The size of the array should now be 2", 2, lc.size());
+		assertTrue("The first element of the list is C", lc.get(0).getmBody().equals("C"));
+		assertTrue("The second element of the list is A", lc.get(1).getmBody().equals("A"));
 	}
 	
 	/*
@@ -70,32 +133,6 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseAc
 		assertTrue("The first element of the list is C", lc.get(0).getmBody().equals("C"));
 		assertTrue("The second element of the list is A", lc.get(1).getmBody().equals("A"));
 		assertTrue("The third element of the list is B", lc.get(2).getmBody().equals("B"));
-		
-	}
-	
-	
-	/*
-	 * Test SortAllCommentsByProximity
-	 * 
-	 * test adds Comments to a list in order C -> B -> A
-	 * after sort C -> A -> B.
-	 */
-	public void testSortAllCommentsByProximity() {
-		List<CommentModel> lc = prepCommentList(15, 20, 0.01, false);
-		Location myLoc = new Location("My Location");
-		myLoc.setLongitude(0);
-		myLoc.setLatitude(0);
-		
-		assertTrue("The list is not null", lc.size() > 0);
-		assertTrue("The first element of the list is C", lc.get(0).getmBody().equals("C"));
-		assertTrue("The second element of the list is B", lc.get(1).getmBody().equals("B"));
-		assertTrue("The third element of the list is A", lc.get(2).getmBody().equals("A"));
-		
-		lc = SortComments.SortAllCommentsByProximity(lc, myLoc);
-		
-		assertTrue("The first element of the list is C", lc.get(0).getmBody().equals("C"));
-		assertTrue("The second element of the list is A", lc.get(1).getmBody().equals("A"));
-		assertTrue("The first element of the list is B", lc.get(2).getmBody().equals("B"));
 		
 	}
 	

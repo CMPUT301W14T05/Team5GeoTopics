@@ -27,7 +27,7 @@ public class SortComments {
 	 * NOTE: this is for TLC sorting
 	 */
 	public static List<CommentModel> SortTLCommentsByProximityToLoc(List<CommentModel> cList, Location myLoc) {
-		cList = SortAllCommentsByProximity(cList, myLoc);
+		cList = SortCommentsByProximity(cList, myLoc);
 		return cList;
 	}
 	
@@ -47,7 +47,7 @@ public class SortComments {
 			cList.remove(i);
 		}
 		
-		tempList = SortAllCommentsByProximity(tempList, myLoc);
+		tempList = SortCommentsByProximity(tempList, myLoc);
 		
 		for (int i = 0; i < tempList.size(); i++) {
 			cList.add(tempList.get(i));
@@ -56,7 +56,7 @@ public class SortComments {
 		return cList;
 	}
 	
-	public static List<CommentModel> SortAllCommentsByProximity(final List<CommentModel> cList, final Location myLoc) {
+	public static List<CommentModel> SortCommentsByProximity(final List<CommentModel> cList, final Location myLoc) {
 	
 		Collections.sort(cList, new Comparator<CommentModel>() {
 			public int compare(CommentModel a, CommentModel b) {
@@ -77,7 +77,7 @@ public class SortComments {
 	public static List<CommentModel> SortRepliesByFreshness(List<CommentModel> cList, Location myLoc) {
 		cList = getCommentsWithinRegion(cList, myLoc, 1);
 		List<CommentModel> tempList = new ArrayList<CommentModel>();
-		for (int i = cList.size(); i >= 1; i--) {
+		for (int i = cList.size() - 1; i >= 1; i--) {
 			tempList.add(cList.get(i));
 			cList.remove(i);
 		}
