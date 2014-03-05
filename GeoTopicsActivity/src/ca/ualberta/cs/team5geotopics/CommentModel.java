@@ -5,8 +5,11 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import android.graphics.Bitmap;
 import android.location.Location;
+import ca.ualberta.cs.team5geotopics.AModel;
+import ca.ualberta.cs.team5geotopics.AView;
 
 /*
  * This is the base class for the TopLevelModel 
@@ -14,6 +17,9 @@ import android.location.Location;
  */
 
 public class CommentModel extends AModel<AView> implements Serializable{
+	//elastic search id variables
+	private String mEsID;
+	private String mParentID;
 	/**
 	 * 
 	 */
@@ -22,14 +28,24 @@ public class CommentModel extends AModel<AView> implements Serializable{
 	private String mBody;
 	private String mAuthor;
 	private String mTitle;
-	private ArrayList<CommentModel> replies;
 	private Bitmap mPicture;
 	private Date mDate;
-	private CommentModel mParent;
 	private String mDMYFormatedDate;
 	private String mHrSecFormatedDate;
-	private boolean mTopLevel;
 
+	
+	// Constructor for Test Top Level Comments
+		public CommentModel( String mBody, String mAuthor, String mTitle) {
+			super();
+			this.mGeolocation = null;
+			this.mBody = mBody;
+			this.mAuthor = mAuthor;
+			this.mTitle = mTitle;
+			this.mPicture = null;
+			putTimeStamp();
+			this.mEsID = null;
+			this.mParentID =  null;
+		}
 	// Constructor for Top Level Comments
 	public CommentModel(Location mGeolocation, String mBody, String mAuthor,
 			Bitmap mPicture, String mTitle) {
@@ -40,9 +56,8 @@ public class CommentModel extends AModel<AView> implements Serializable{
 		this.mTitle = mTitle;
 		this.mPicture = mPicture;
 		putTimeStamp();
-		this.replies = new ArrayList<CommentModel>();
-		this.mParent = null;
-		this.mTopLevel = true;
+		this.mEsID = null;
+		this.mParentID =  null;
 	}
 
 	// Constructor for replies
@@ -55,9 +70,8 @@ public class CommentModel extends AModel<AView> implements Serializable{
 		this.mTitle = null;
 		this.mPicture = mPicture;
 		putTimeStamp();
-		this.replies = new ArrayList<CommentModel>();
-		this.mParent = mParent;
-		this.mTopLevel = false;
+		this.mEsID = null;
+		this.mParentID =  null;
 	}
 
 	protected void putTimeStamp() {
@@ -70,6 +84,9 @@ public class CommentModel extends AModel<AView> implements Serializable{
 
 	}
 
+	public void setmEsID(String ID){
+		this.mEsID = ID;
+	}
 	public String getmBody() {
 		return mBody;
 	}
@@ -86,12 +103,43 @@ public class CommentModel extends AModel<AView> implements Serializable{
 		this.mAuthor = mAuthor;
 	}
 	
+	public void setmPicture(Bitmap mPicture) {
+		this.mPicture = mPicture;
+	}
+	
+	public void setmGeolocation(Location mGeolocation) {
+		this.mGeolocation = mGeolocation;
+	}
+	
+	public void setmTitle(String mTitle) {
+		this.mTitle = mTitle;
+	}
+	
+	public Location getGeoLocation() {
+		return mGeolocation;
+	}
+	
 	public boolean isTopLevel(){
-		return mParent == null;
+		return this.mParentID == null;
 	}
 
 	public CharSequence getmTitle() {
-		//TODO: Return empty string if it is not a top level
 		return this.mTitle;
+	}
+
+	public Date getDate() {
+		return mDate;
+	}
+	
+	public Bitmap getPicture() {
+		return mPicture;
+	}
+	
+	public boolean hasPicture() {
+		return mPicture != null;
+	}
+
+	public boolean hasTitle() {
+		return mTitle != null;
 	}
 }
