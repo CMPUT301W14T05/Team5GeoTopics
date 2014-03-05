@@ -2,6 +2,7 @@ package ca.ualberta.cs.team5geotopics;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,6 +11,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -76,14 +78,39 @@ public abstract class BrowseActivity extends Activity {
 						public void onClick(DialogInterface dialog, int which) {
 							// Which option to sort by?
 							if (which == 0) { // Proximity to me
+								/*
+								 * Here is where we would have to get the current location
+								 * Defaulting to lat= 0, long = 0
+								 */
+								Location myLoc = new Location("myLoc");
+								myLoc.setLatitude(0);
+								myLoc.setLongitude(0);
+								clm.sortCommentsByProximityToLoc(myLoc);
 							}
 							if (which == 1) { // Proximity to location
+								/*
+								 * Here is where we would have to get the users desired location
+								 * Defaulting to lat= 0, long = 0
+								 */
+								Location myLoc = new Location("myLoc");
+								myLoc.setLatitude(0);
+								myLoc.setLongitude(0);
+								clm.sortCommentsByProximityToLoc(myLoc);
 							}
 							if (which == 2) { // Proximity to picture
+								clm.sortCommentsByPicture();
 							}
 							if (which == 3) { // Scoring system
+								/*
+								 * we are just default sorting by date right now
+								 */
+								clm.sortAllCommentsByDate();
 							}
 							if (which == 4) { // Time
+								/*
+								 * not sure if this is supposed to be part of the scoring system
+								 */
+								clm.sortAllCommentsByDate();
 							}
 						}
 					});
