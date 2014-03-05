@@ -1,13 +1,17 @@
 package ca.ualberta.cs.team5geotopics;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,7 +27,7 @@ public class BrowseActivity extends Activity{
 	
 	private BrowseView myView;
 	// Changed this to public static to test adding functionality
-	public static CommentListModel clm;
+	protected static CommentListModel clm;
 	private ListView browseListView;
 	private CommentModel viewingComment;
 	
@@ -186,6 +190,23 @@ public class BrowseActivity extends Activity{
 			return null;
 		}
 		
-		
+		public class CommentReciever extends BroadcastReceiver{
+			public static final String ACCEPT_COMMENTS = "cs.ualberta.cs.team5geotopics.ACCEPT_COMMENTS";
+			@SuppressWarnings("unchecked")
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				Bundle bundle = intent.getExtras();
+				List<CommentModel> comments = (List<CommentModel>) (bundle.getSerializable("comments"));
+				if(comments.size() == 0){
+					Log.w("GetAllService", "commentList is empty");
+				}
+				if(comments.get(0).equals(null)){
+					Log.w("GetAllService", "element is null");
+				}
+				for(CommentModel cmnt : comments){
+					clm.add(cmnt);
+				}
+			}
+		}
 		
 }

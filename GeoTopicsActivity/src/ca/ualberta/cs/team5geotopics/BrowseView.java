@@ -106,5 +106,4 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<Com
 	public void update(CommentListModel model) {
 		this.notifyDataSetChanged();
 	}
-	
 }

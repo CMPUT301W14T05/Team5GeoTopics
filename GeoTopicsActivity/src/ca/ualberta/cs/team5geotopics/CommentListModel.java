@@ -18,4 +18,6 @@ public class CommentListModel extends AModel<AView>{
 		mComments.add(comment);
 		this.notifyViews();
 	}
+	
+	public void addAll(ArrayList<CommentModel> )
 }

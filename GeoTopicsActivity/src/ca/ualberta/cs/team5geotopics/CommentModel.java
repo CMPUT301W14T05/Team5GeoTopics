@@ -26,6 +26,7 @@ public class CommentModel extends AModel<AView> implements Serializable{
 	private String mAuthor;
 	private String mTitle;
 	private ArrayList<CommentModel> replies;
+	private String esID;
 	private Bitmap mPicture;
 	private Date mDate;
 	private CommentModel mParent;
