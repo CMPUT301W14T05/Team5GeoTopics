@@ -44,15 +44,15 @@
             android:label="@string/es_test_activity" >
         </activity>
         <activity
-            android:name="ca.ualberta.cs.team5geotopics.BrowseActivity"
-            android:label="@string/browse_activity" >
+            android:name="ca.ualberta.cs.team5geotopics.TopLevelActivity"
+            android:label="@string/title_top_level_activity" >
         </activity>
         <activity
             android:name="ca.ualberta.cs.team5geotopics.InspectCommentActivity"
-            android:label="@string/browse_activity" >
+            android:label="@string/title_activity_inspect_comment" >
         </activity>
         <activity
-            android:name="ca.ualberta.cs.team5geotopics.BrowseReplyActivity"
+            android:name="ca.ualberta.cs.team5geotopics.ReplyLevelActivity"
             android:label="@string/title_activity_browse_relpy" >
         </activity>
     </application>

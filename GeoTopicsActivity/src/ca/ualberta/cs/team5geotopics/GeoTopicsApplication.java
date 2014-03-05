@@ -12,6 +12,7 @@ import com.searchly.jestdroid.JestClientFactory;
  * this is a collection of singletons
  */
 public class GeoTopicsApplication{
+
 	transient private static final String SEARCHLY_CLUSTER = 
 			"http://site:d87a47445dc808449dd78637d9031609@bombur-us-east-1.searchly.com";
 
