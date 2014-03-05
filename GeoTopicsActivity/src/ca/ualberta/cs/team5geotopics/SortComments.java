@@ -142,7 +142,7 @@ public class SortComments {
 		List<CommentModel> picList = new ArrayList<CommentModel>();
 		List<CommentModel> noPicList = new ArrayList<CommentModel>();
 		
-		for (int i = cList.size() - 1; i >= 1; i++) {
+		for (int i = cList.size() - 1; i >= 1; i--) {
 			if (cList.get(i).hasPicture()) {
 				picList.add(cList.get(i));
 				cList.remove(i);

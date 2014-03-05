@@ -32,6 +32,13 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseAc
 		
 	}
 	
+	/*
+	 * Test SortTLCByPicture
+	 * Handles Used Case 3
+	 * 
+	 * Initial order of comments C -> B -> A, after sort order should be A -> C -> B
+	 * 
+	 */
 	public void testSortTLCByPicture() {
 		List<CommentModel> lc = prepCommentList(10, 0.01, 10, true);
 		
@@ -45,8 +52,25 @@ public class SortCommentsTests extends ActivityInstrumentationTestCase2<BrowseAc
 		assertTrue("The third element of the list is B", lc.get(2).getmBody().equals("B"));
 	}
 	
+	/*
+	 * Test SortTLCByPicture
+	 * Handles Used Case 3
+	 * 
+	 * Initial order of comments C -> B -> A, after sort order should be C -> A -> B
+	 * as it assumes C is the comment and A and B are the replies
+	 */
 	public void testSortRepliesByPicture() {
-	
+		List<CommentModel> lc = prepCommentList(10, 0.01, 10, true);
+		
+		assertTrue("The list is not null", lc.size() > 0);
+		assertTrue("The first element of the list is C", lc.get(0).getmBody().equals("C"));
+		assertTrue("The second element of the list is B", lc.get(1).getmBody().equals("B"));
+		assertTrue("The third element of the list is A", lc.get(2).getmBody().equals("A"));
+		SortComments.SortRepliesByPicture(lc);
+		assertTrue("The first element of the list is C", lc.get(0).getmBody().equals("C"));
+		assertTrue("The second element of the list is A", lc.get(1).getmBody().equals("A"));
+		assertTrue("The third element of the list is B", lc.get(2).getmBody().equals("B"));
+		
 	}
 	
 	
