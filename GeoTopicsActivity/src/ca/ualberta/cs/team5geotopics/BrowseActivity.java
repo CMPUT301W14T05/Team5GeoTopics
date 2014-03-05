@@ -28,6 +28,7 @@ public abstract class BrowseActivity extends Activity {
 	public static CommentListModel clm;
 	protected ListView browseListView;
 	protected CommentModel viewingComment;
+	protected GeoTopicsApplication application;
 
 	// Creates the options menu using the layout in menu.
 	public boolean onCreateOptionsMenu(Menu menu) {

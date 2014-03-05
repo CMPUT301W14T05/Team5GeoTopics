@@ -43,6 +43,8 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 	ImageButton cancelBtn;
 	ImageButton postBtn;
 	
+	GeoTopicsApplication application;
+	
 	public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	public static final int GET_PHOTO = 105;
 	public static Uri imageFileUri;
@@ -65,6 +67,8 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 		cancelBtn = (ImageButton)findViewById(R.id.imageButtonCancel);
 		postBtn = (ImageButton)findViewById(R.id.imageButtonPost);
 		
+		application = new GeoTopicsApplication();
+		
 		// Allows the buttons to be checked for a click event.
 		locationBtn.setOnClickListener(this);
 		photoBtn.setOnClickListener(this);
@@ -72,19 +76,19 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 		postBtn.setOnClickListener(this);
 		
 		// If comments already exists, put in the data to fields
-		if(GeoTopicsApplication.getCurrentViewingComment() != null){
+		if(application.getCurrentViewingComment() != null){
 			setTitle("Edit Comment");
 			EditText editText = (EditText)findViewById(R.id.editCommentTitle);
-			editText.setText(GeoTopicsApplication.getCurrentViewingComment().getmTitle());
+			editText.setText(application.getCurrentViewingComment().getmTitle());
 			
 			editText = (EditText)findViewById(R.id.editCommentAuthor);
-			editText.setText(GeoTopicsApplication.getCurrentViewingComment().getmAuthor());
+			editText.setText(application.getCurrentViewingComment().getmAuthor());
 			
 			editText = (EditText)findViewById(R.id.editCommentBody);
-			editText.setText(GeoTopicsApplication.getCurrentViewingComment().getmBody());
+			editText.setText(application.getCurrentViewingComment().getmBody());
 			
 			ImageView uploadedImage = (ImageView)findViewById(R.id.imageViewPicture);
-            uploadedImage.setImageBitmap(GeoTopicsApplication.getCurrentViewingComment().getPicture());
+            uploadedImage.setImageBitmap(application.getCurrentViewingComment().getPicture());
 		}
 	}
 
@@ -137,7 +141,7 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 		}
 		// Gets all the data from the text boxes and submits it as a new comment
 		if (v == postBtn){
-			if(GeoTopicsApplication.getCurrentViewingComment() == null){
+			if(application.getCurrentViewingComment() == null){
 				EditText editText = (EditText)findViewById(R.id.editCommentTitle);
 				mTitle = editText.getText().toString();
 				editText = (EditText)findViewById(R.id.editCommentAuthor);
@@ -153,16 +157,16 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 				
 				finish();
 			}
-			if(GeoTopicsApplication.getCurrentViewingComment() != null){
+			if(application.getCurrentViewingComment() != null){
 				EditText editText = (EditText)findViewById(R.id.editCommentTitle);
-				GeoTopicsApplication.getCurrentViewingComment().setmTitle(editText.getText().toString());
+				application.getCurrentViewingComment().setmTitle(editText.getText().toString());
 				editText = (EditText)findViewById(R.id.editCommentAuthor);
-				GeoTopicsApplication.getCurrentViewingComment().setmAuthor(editText.getText().toString());
+				application.getCurrentViewingComment().setmAuthor(editText.getText().toString());
 				editText = (EditText)findViewById(R.id.editCommentBody);
-				GeoTopicsApplication.getCurrentViewingComment().setmBody(editText.getText().toString());
+				application.getCurrentViewingComment().setmBody(editText.getText().toString());
 			
-				GeoTopicsApplication.getCurrentViewingComment().setmPicture(mPicture);
-				GeoTopicsApplication.getCurrentViewingComment().setmGeolocation(mGeolocation);
+				application.getCurrentViewingComment().setmPicture(mPicture);
+				application.getCurrentViewingComment().setmGeolocation(mGeolocation);
 				finish();
 			}
 		}

@@ -43,11 +43,11 @@ public class GeoTopicsApplication{
 	//This allows us to pass the comment around between activities without putExtra
 	//Might need to implement this as a push and pop stack if activities are having
 	//Issues with it.
-	static CommentModel getCurrentViewingComment() {
+	public CommentModel getCurrentViewingComment() {
 		return currentlyViewingComment;
 	}
 	//Sets the current Viewing Comment
-	static void setCurrentViewingComment(CommentModel comment) {
+	public void setCurrentViewingComment(CommentModel comment) {
 		GeoTopicsApplication.currentlyViewingComment = comment;
 	}
 

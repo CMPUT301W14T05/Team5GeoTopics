@@ -17,11 +17,12 @@ public class StartActivity extends Activity {
 	private ImageButton mBrowseFavourites;
 	private ImageButton mBrowseBookmarks;
 	private Button mTestEsBtn;
+	private GeoTopicsApplication application;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_geo_topics);
-		
+		application = new GeoTopicsApplication();
 		
 		setUpEsTestButton();
 		setUpBrowseButton();
@@ -52,7 +53,7 @@ public class StartActivity extends Activity {
 			public void onClick(View v) {
 				Intent myIntent = new Intent(StartActivity.this, TopLevelActivity.class);
 				//This lets the browse activity know that we are viewing top level comments
-				GeoTopicsApplication.setCurrentViewingComment(null);
+				application.setCurrentViewingComment(null);
 				startActivity(myIntent);
 				
 			}
@@ -68,7 +69,7 @@ public class StartActivity extends Activity {
 			public void onClick(View v) {
 				Intent myIntent = new Intent(StartActivity.this, BrowseActivity.class);
 				//This lets the browse activity know that we are viewing top level comments
-				GeoTopicsApplication.setCurrentViewingComment(null);
+				application.setCurrentViewingComment(null);
 				startActivity(myIntent);
 				
 			}
@@ -84,7 +85,7 @@ public class StartActivity extends Activity {
 			public void onClick(View v) {
 				Intent myIntent = new Intent(StartActivity.this, TopLevelActivity.class);
 				//This lets the browse activity know that we are viewing top level comments
-				GeoTopicsApplication.setCurrentViewingComment(null);
+				application.setCurrentViewingComment(null);
 				startActivity(myIntent);
 				
 			}
@@ -100,7 +101,7 @@ public class StartActivity extends Activity {
 			public void onClick(View v) {
 				Intent myIntent = new Intent(StartActivity.this, BrowseActivity.class);
 				//This lets the browse activity know that we are viewing top level comments
-				GeoTopicsApplication.setCurrentViewingComment(null);
+				application.setCurrentViewingComment(null);
 				startActivity(myIntent);
 				
 			}
