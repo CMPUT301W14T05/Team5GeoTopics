@@ -67,7 +67,7 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<Com
 		if(view == null){
 			if(isTopLevel){
 				// fill row with TopLevelComment layout
-				view = LayoutInflater.from(mContext).inflate(R.layout.top_level_list_item,
+				view = LayoutInflater.from(mContext).inflate(R.layout.comment_list_item,
 															null, false);
 				holder = new Holder();
 				holder.comment = mCommentList.get(position);

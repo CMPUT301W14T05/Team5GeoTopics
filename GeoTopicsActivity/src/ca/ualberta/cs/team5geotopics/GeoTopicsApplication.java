@@ -15,7 +15,7 @@ import com.searchly.jestdroid.JestClientFactory;
 /*
  * this is a collection of singletons
  */
-public class GeoTopicsApplication extends Application{
+public class GeoTopicsApplication{
 	// with this true then the a list of test comments is loaded
 	// into the QueueController.mTopLevel.mIn list.
 	// that is we can test to see if the comments pushed into this
