@@ -31,7 +31,7 @@ public class ReplyLevelActivity extends BrowseActivity
 		
 
 		//Get the current viewing comment
-		application = new GeoTopicsApplication();
+		application = GeoTopicsApplication.getInstance();
 		viewingComment = application.getCurrentViewingComment();
 		//Construct the model
 		this.clm = new CommentListModel();
@@ -61,7 +61,7 @@ public class ReplyLevelActivity extends BrowseActivity
 		TextView body = (TextView)findViewById(R.id.reply_comment_body);
 		ImageView image = (ImageView)findViewById(R.id.reply_comment_image);
 		
-		title.setText((String)viewingComment.getmTitle());
+		title.setText(viewingComment.getmTitle());
 		body.setText(viewingComment.getmBody());
 		if(viewingComment.hasPicture()){
 			image.setImageBitmap(viewingComment.getPicture());

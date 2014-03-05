@@ -19,36 +19,36 @@ public class GeoTopicsApplication{
 	private static final String CMPUT301_CLUSTER = 
 			"http://cmput301.softwareprocess.es:8080/testing/";
 
-	private static CommentModel currentlyViewingComment;
-	private static GeoTopicsApplication myself =  null;
-	private static JestClient mClient = null;
+	private CommentModel currentlyViewingComment;
+	private static GeoTopicsApplication myself =  new GeoTopicsApplication();
+	private JestClient mClient = null;
 
-	public GeoTopicsApplication(){
-		if(myself == null){
-			myself = this;
-			if (mClient == null) {
-				DroidClientConfig clientConfig = new DroidClientConfig.Builder(
-				SEARCHLY_CLUSTER).build();
-
-				JestClientFactory jestClientFactory = new JestClientFactory();
-				jestClientFactory.setDroidClientConfig(clientConfig);
-				mClient = jestClientFactory.getObject();
-			}
-		}
+	private GeoTopicsApplication(){
 	}
+	 public static GeoTopicsApplication getInstance(){
+		 return myself;
+	 }
+	
 	public JestClient getClient(){
-		return mClient;
+		if (mClient == null) {
+			DroidClientConfig clientConfig = new DroidClientConfig.Builder(SEARCHLY_CLUSTER).build();
+
+			JestClientFactory jestClientFactory = new JestClientFactory();
+			jestClientFactory.setDroidClientConfig(clientConfig);
+			this.mClient = jestClientFactory.getObject();
+		}
+		return this.mClient;
 	}
 
 	//This allows us to pass the comment around between activities without putExtra
 	//Might need to implement this as a push and pop stack if activities are having
 	//Issues with it.
 	public CommentModel getCurrentViewingComment() {
-		return currentlyViewingComment;
+		return this.currentlyViewingComment;
 	}
 	//Sets the current Viewing Comment
 	public void setCurrentViewingComment(CommentModel comment) {
-		GeoTopicsApplication.currentlyViewingComment = comment;
+		this.currentlyViewingComment = comment;
 	}
 
 

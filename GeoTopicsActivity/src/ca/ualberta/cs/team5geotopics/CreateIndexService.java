@@ -23,7 +23,7 @@ public class CreateIndexService extends IntentService {
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
-		GeoTopicsApplication application = new GeoTopicsApplication();
+		GeoTopicsApplication application = GeoTopicsApplication.getInstance();
 		final JestClient client = application.getClient();
 		String index = intent.getStringExtra("name");
 		try {

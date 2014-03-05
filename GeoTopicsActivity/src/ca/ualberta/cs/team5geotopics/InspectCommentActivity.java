@@ -67,7 +67,7 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 		cancelBtn = (ImageButton)findViewById(R.id.imageButtonCancel);
 		postBtn = (ImageButton)findViewById(R.id.imageButtonPost);
 		
-		application = new GeoTopicsApplication();
+		application = GeoTopicsApplication.getInstance();
 		
 		// Allows the buttons to be checked for a click event.
 		locationBtn.setOnClickListener(this);

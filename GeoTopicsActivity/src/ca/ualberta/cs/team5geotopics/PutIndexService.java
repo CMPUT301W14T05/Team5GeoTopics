@@ -40,7 +40,7 @@ public class PutIndexService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 		String exception = null;
 		String eSid = null;
-		GeoTopicsApplication application = new GeoTopicsApplication();
+		GeoTopicsApplication application = GeoTopicsApplication.getInstance();
 		final JestClient client = application.getClient();
 		Bundle bundle = intent.getExtras();
 		String jsonComment = bundle.getString("comment");

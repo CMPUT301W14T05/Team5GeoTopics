@@ -28,7 +28,7 @@ public class TopLevelActivity extends BrowseActivity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		//Get the application
-		application = new GeoTopicsApplication();
+		application = GeoTopicsApplication.getInstance();
 		
 		//Construct the model
 		this.clm = new CommentListModel();
