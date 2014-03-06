@@ -1,14 +1,23 @@
 package ca.ualberta.cs.team5geotopics;
 
+
 import com.example.team5geotopics.R;
 
 import android.location.Location;
+
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
 
 public class CreateCommentActivity extends InspectCommentActivity implements
 		OnClickListener {
@@ -16,6 +25,13 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 	protected GeoTopicsApplication application;
 	protected Cache mCache;
 
+
+
+
+
+public class CreateCommentActivity extends InspectCommentActivity implements OnClickListener {
+	private static User USER = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,6 +56,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 		cancelBtn.setOnClickListener(this);
 		postBtn.setOnClickListener(this);
 
+
 		//Find the edit text views
 		title = (EditText) findViewById(R.id.editCommentTitle);
 		author = (EditText) findViewById(R.id.editCommentAuthor);
@@ -51,6 +68,10 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 			title.setVisibility(View.GONE);
 			findViewById(R.id.textViewTitle).setVisibility(View.GONE);
 		}
+
+		
+		USER = new User(getApplicationContext());
+
 	}
 
 	@Override
@@ -103,6 +124,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 
 			if (viewingComment == null) {
 				// Creates new top level comment.
+
 				mCache.addToHistory(new CommentModel(mGeolocation, mBody,
 						mAuthor, mPicture, mTitle), this);
 				// CommentModel topLevel = new CommentModel(mGeolocation, mBody,
@@ -115,6 +137,11 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 						mAuthor, mPicture, mTitle));
 			}
 
+			CommentModel topLevel = new CommentModel(mGeolocation, mBody, mAuthor, mPicture, mTitle);
+			topLevel.setmEsID(USER.readInstallIDFile() + " " + USER.readPostCount());
+			topLevel.setmEsType(USER.readInstallIDFile());
+			PutIndexService.pushComment(getApplicationContext(), "TopLevel", topLevel);
+			finish();
 			finish();
 		}
 	}

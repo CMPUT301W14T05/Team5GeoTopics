@@ -24,25 +24,16 @@ public class StartActivity extends Activity {
 		setContentView(R.layout.activity_geo_topics);
 		application =GeoTopicsApplication.getInstance();
 		
-		// setUpEsTestButton();
+		User user = new User(getApplicationContext());
+		if(!user.installFilesExist()){
+			user.writeInstallFiles();
+		}
 		setUpBrowseButton();
 		setUpFavouritesButton();
 		setUpMyCommentsButton();
 		setUpBrowseBookmarks();
 	}
-	
-	private void setUpEsTestButton() {
-		// mTestEsBtn = (Button)findViewById(R.id.start_test_es);
-		mTestEsBtn.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent myIntent = new Intent(StartActivity.this, EsTestActivity.class);
-				startActivity(myIntent);
-			}
-		});
-		
-	}
+
 
 	private void setUpBrowseButton() {
 		mBrowseTopLevel = (ImageButton)findViewById(R.id.start_browse_top_level);
