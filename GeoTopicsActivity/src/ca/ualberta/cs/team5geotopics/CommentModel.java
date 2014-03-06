@@ -40,10 +40,10 @@ public class CommentModel extends AModel<AView> implements Serializable {
 
 	// Test Constructor for Top Level Comments
 
-	public CommentModel(String mBody, String mAuthor, String mTitle) {
+	public CommentModel(String mBody, String mAuthor, String mTitle, Location geoLoc) {
 
 		super();
-		this.mGeolocation = null;
+		this.mGeolocation = geoLoc;
 		this.mBody = mBody;
 		this.mAuthor = mAuthor;
 		this.mTitle = mTitle;

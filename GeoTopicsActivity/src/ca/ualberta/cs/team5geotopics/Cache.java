@@ -2,6 +2,8 @@ package ca.ualberta.cs.team5geotopics;
 
 import java.util.ArrayList;
 
+import android.location.Location;
+
 public class Cache extends AModel<AView> {
 	private ArrayList<CommentModel> mHistory;
 	private ArrayList<CommentModel> mBookMarks;
@@ -37,16 +39,36 @@ public class Cache extends AModel<AView> {
 	
 	//Load the cache with dummy data
 	private void dummyData() {
-		CommentModel tlc1 = new CommentModel("I am indestructable!!", "Superman", "Info about superman");
-		CommentModel tlc2 = new CommentModel("I am a pansy", "Spiderman", "Info about spiderman");
-		CommentModel tlc3 = new CommentModel("I can't feel my legs guys", "Professor X", "Info about Professor X");
+		Location l1 = new Location("l1");
+		Location l2 = new Location("l2");
+		Location l3 = new Location("l3");
+		l1.setLatitude(0);
+		l1.setLongitude(0.001);
+		l2.setLatitude(0);
+		l2.setLongitude(2);
+		l3.setLatitude(0);
+		l3.setLongitude(0.008);
+		
+		CommentModel tlc1 = new CommentModel("I am indestructable!!", "Superman", "Info about superman", l1);
+		try {
+		    Thread.sleep(10);
+		} catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
+		}
+		CommentModel tlc2 = new CommentModel("I am a pansy", "Spiderman", "Info about spiderman", l2);
+		try {
+		    Thread.sleep(10);
+		} catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
+		}
+		CommentModel tlc3 = new CommentModel("I can't feel my legs guys", "Professor X", "Info about Professor X", l3);
 		
 		tlc1.addReply(new CommentModel("Not if I have Kryptonite!", "Anonymoose"));
 		tlc2.addReply(new CommentModel("I am sure someone loves you", "Green Goblin"));
 		
-		mHistory.add(tlc1);
-		mHistory.add(tlc2);
 		mHistory.add(tlc3);
+		mHistory.add(tlc2);
+		mHistory.add(tlc1);
 	}
 
 	// Stubb. Will write the my comments array to disk
