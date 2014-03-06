@@ -1,8 +1,11 @@
 package ca.ualberta.cs.team5geotopics;
 
-import io.searchbox.client.JestClient;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
+
+import io.searchbox.client.JestClient;
+
+
 
 //https://github.com/abramhindle/FillerCreepForAndroid/blob/master/src/es/softwareprocess/fillercreep/FillerCreepApplication.java
 //josh said not to extend Application

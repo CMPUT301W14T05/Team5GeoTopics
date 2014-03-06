@@ -70,7 +70,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements OnC
 			
 				// Creates new top level comment.
 				CommentModel topLevel = new CommentModel(mGeolocation, mBody, mAuthor, mPicture, mTitle);
-				topLevel.setmEsID(USER.readInstallIDFile() + USER.readPostCount());
+				topLevel.setmEsID(USER.readInstallIDFile() + " " + USER.readPostCount());
 				topLevel.setmEsType(USER.readInstallIDFile());
 				PutIndexService.pushComment(getApplicationContext(), "TopLevel", topLevel);
 				finish();

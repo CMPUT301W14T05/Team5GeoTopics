@@ -12,7 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import ca.ualberta.cs.team5geotopics.EsTestActivity.CommentReciever;
+
 
 public class GetAllService extends IntentService {
 	final private static String 
@@ -56,14 +56,14 @@ public class GetAllService extends IntentService {
 		}
 		
 		client.shutdownClient();
-		
-		Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction(CommentReciever.ACCEPT_COMMENTS);
-        broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("comments", (ArrayList<CommentModel>)commentList);
-        broadcastIntent.putExtras(bundle);
-        sendBroadcast(broadcastIntent);
+//		
+//		Intent broadcastIntent = new Intent();
+//        broadcastIntent.setAction(CommentReciever.ACCEPT_COMMENTS);
+//        broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("comments", (ArrayList<CommentModel>)commentList);
+//        broadcastIntent.putExtras(bundle);
+//        sendBroadcast(broadcastIntent);
 	}
 
 }
