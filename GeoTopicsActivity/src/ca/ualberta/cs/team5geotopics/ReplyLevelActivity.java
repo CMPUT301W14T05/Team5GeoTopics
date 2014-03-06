@@ -13,8 +13,13 @@ import android.widget.TextView;
 import com.example.team5geotopics.R;
 
 
-public class ReplyLevelActivity extends BrowseActivity
+public class ReplyLevelActivity extends BrowseActivity implements AView<CommentModel>
 {
+	private TextView title;
+	private TextView body;
+	private ImageView image;
+	private View divider;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,37 +40,26 @@ public class ReplyLevelActivity extends BrowseActivity
 		viewingComment = application.getCurrentViewingComment();
 		//Construct the model
 		this.clm = new CommentListModel();
-		
-		//REMOVE THIS AFTER TESTING
-		//Fill the model with test data
-		this.clm.add(new CommentModel("This is a my body", "Tyler", "This is a my Title"));
-		this.clm.add(new CommentModel("This is a Really Really Really Really Really Really Really Really(8)" +
-				" Really Really(10) Really Really(12) Really Really(14) Really Really Really Really Really Really(20) Really" +
-				" Really Really Really Really Really Really Really Really Really Really" +
-				" Really Really Really Really Really Really Really Really Really(40) Really Really Really Really Really Really" +
-				" Really Really Really Really Really Really Really Really Really Really Really Really Really Really Really" +
-				" Really(62) long body", "Matt", "Title, this is."));
-		//***********************************************************************************************************
+		this.clm.setList(viewingComment.getReplies());
 		
 		//Construct the View
 		this.myView = new BrowseView(this, R.layout.comment_list_item, clm.getList());
-		//Register the view with the model
+		//Register the adapter view with the model
 		this.clm.addView(this.myView);
+		//Register myself with the viewing comment
+		this.viewingComment.addView(this);	
 		
 		//Attach the list view to myView
 		browseListView = (ListView) findViewById(R.id.reply_level_listView);
 		browseListView.setAdapter(myView);
 		
-		//Find the Views and set them appropiratly
-		TextView title = (TextView)findViewById(R.id.reply_comment_title);
-		TextView body = (TextView)findViewById(R.id.reply_comment_body);
-		ImageView image = (ImageView)findViewById(R.id.reply_comment_image);
+		//Find the Views
+		title = (TextView)findViewById(R.id.reply_comment_title);
+		body = (TextView)findViewById(R.id.reply_comment_body);
+		image = (ImageView)findViewById(R.id.reply_comment_image);
+		divider = (View)findViewById(R.id.reply_divider1);
 		
-		title.setText(viewingComment.getmTitle());
-		body.setText(viewingComment.getmBody());
-		if(viewingComment.hasPicture()){
-			image.setImageBitmap(viewingComment.getPicture());
-		}
+		this.update(viewingComment);
 		
 	}
 	
@@ -82,5 +76,21 @@ public class ReplyLevelActivity extends BrowseActivity
 			
 		});
 		super.onResume();
-	}	
+	}
+	
+	public void update(CommentModel comment) {
+		if(viewingComment.isTopLevel()) {
+			title.setText(viewingComment.getmTitle());
+		}else{
+			title.setVisibility(View.GONE);
+			divider.setVisibility(View.GONE);
+		}
+		
+		body.setText(viewingComment.getmBody());
+		if(viewingComment.hasPicture()){
+			image.setImageBitmap(viewingComment.getPicture());
+		}else{
+			image.setVisibility(View.GONE);
+		}
+	}
 }

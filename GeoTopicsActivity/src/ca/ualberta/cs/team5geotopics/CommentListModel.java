@@ -18,4 +18,9 @@ public class CommentListModel extends AModel<AView>{
 		mComments.add(comment);
 		this.notifyViews();
 	}
+	
+	public void setList(ArrayList<CommentModel> mComments) {
+		this.mComments = mComments;
+		this.notifyViews();
+	}
 }

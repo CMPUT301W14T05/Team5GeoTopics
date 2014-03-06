@@ -11,16 +11,18 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.team5geotopics.R;
 
-public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<CommentListModel> {
+public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AModel> {
 	
 	private List<CommentModel> mCommentList;
 	private int mLayoutResourceId;
 	private Context mContext;
 	private DateFormat dateFormat; 
 	private DateFormat timeFormat;
+	private Cache mCache;
 	
 	public BrowseView(Context context, int layoutResourceId, List<CommentModel> mCommentList){
 		super(context, layoutResourceId, mCommentList);
@@ -29,6 +31,10 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<Com
 		this.mCommentList = mCommentList;
 		this.dateFormat = android.text.format.DateFormat.getDateFormat(mContext);
 		this.timeFormat = android.text.format.DateFormat.getTimeFormat(mContext);
+		
+		//Testing this idea, registering with the cache so we know when new comments are added.
+		mCache = Cache.getInstance();
+		mCache.addView(this);
 	}
 	
 	/*
@@ -65,7 +71,6 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<Com
 		}
 		// we need to call the findViewById to get the views
 		if(view == null){
-			if(isTopLevel){
 				// fill row with TopLevelComment layout
 				view = LayoutInflater.from(mContext).inflate(R.layout.comment_list_item,
 															null, false);
@@ -78,10 +83,6 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<Com
 				holder.time = (TextView)view.findViewById(R.id.top_level_time_list_item);
 				holder.picture = (ImageView)view.findViewById(R.id.top_level_thumbnail);
 				view.setTag(holder);
-			}
-			else{
-				//here we can set view to a reply_list_item or w/e
-			}
 		}
 		// we don't need to call findViewById to get views, because we already did.
 		else{
@@ -91,7 +92,13 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<Com
 		Date date = comment.getDate();
 		DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(mContext);
 		DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(mContext);
-		holder.title.setText(comment.getmTitle());
+
+		if(isTopLevel){
+			holder.title.setText(comment.getmTitle());
+		}else{
+			holder.title.setVisibility(View.GONE);
+		}
+		
 		holder.body.setText(comment.getmBody());
 		holder.author.setText("By " + comment.getmAuthor());
 		holder.date.setText(dateFormat.format(date));
@@ -103,7 +110,7 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<Com
 	}
 
 	@Override
-	public void update(CommentListModel model) {
+	public void update(AModel model) {
 		this.notifyDataSetChanged();
 	}
 }
