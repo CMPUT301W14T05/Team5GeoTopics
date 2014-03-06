@@ -13,6 +13,8 @@ import android.widget.ImageButton;
 
 
 public class CreateCommentActivity extends InspectCommentActivity implements OnClickListener {
+	
+	protected Cache mCache;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,8 @@ public class CreateCommentActivity extends InspectCommentActivity implements OnC
 				// Adds comment to top level browse
 				// This will most likely change
 				BrowseActivity.clm.add(topLevel);
+				mCache.addToHistory(topLevel, getApplicationContext());
+				mCache.addToMyComments(topLevel, getApplicationContext());
 				
 				finish();
 		}
