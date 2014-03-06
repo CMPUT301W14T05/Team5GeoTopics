@@ -1,8 +1,6 @@
 package ca.ualberta.cs.team5geotopics;
 
 
-import com.example.team5geotopics.R;
-
 import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,6 +8,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import ca.ualberta.cs.team5geotopics.Cache;
+
+import com.example.team5geotopics.R;
 
 
 public class CreateCommentActivity extends InspectCommentActivity implements OnClickListener {
@@ -88,8 +89,8 @@ public class CreateCommentActivity extends InspectCommentActivity implements OnC
 				// Adds comment to top level browse
 				// This will most likely change
 				BrowseActivity.clm.add(topLevel);
-				mCache.addToHistory(topLevel, getApplicationContext());
-				mCache.addToMyComments(topLevel, getApplicationContext());
+				//mCache.addToHistory(topLevel, getApplicationContext());
+				//mCache.addToMyComments(topLevel, getApplicationContext());
 				
 				finish();
 		}
