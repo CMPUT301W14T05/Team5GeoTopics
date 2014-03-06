@@ -52,13 +52,14 @@ public abstract class BrowseActivity extends Activity {
 
 		// User has selected sorting options
 		if (i == 0) {
-			String options[] = new String[5];
+			String options[] = new String[6];
 
 			options[0] = "Sort by proximity to me";
 			options[1] = "Sort by proximity to location";
-			options[2] = "Sort by proximity to picture";
-			options[3] = "Sort by scoring system";
-			options[4] = "Sort by time";
+			options[2] = "Sort by freshness";
+			options[3] = "Sort by proximity to picture";
+			options[4] = "Sort by scoring system";
+			options[5] = "Sort by time";
 
 			builder.setTitle("Select Option").setItems(options,
 					new DialogInterface.OnClickListener() {
@@ -66,40 +67,46 @@ public abstract class BrowseActivity extends Activity {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							// Which option to sort by?
-							if (which == 0) { // Proximity to me
+							Location myLoc = new Location("myLoc");
+							switch (which) {
+							case 0: // Proximity to me
 								/*
 								 * Here is where we would have to get the current location
 								 * Defaulting to lat= 0, long = 0
 								 */
-								Location myLoc = new Location("myLoc");
 								myLoc.setLatitude(0);
 								myLoc.setLongitude(0);
 								clm.sortCommentsByProximityToLoc(myLoc);
-							}
-							if (which == 1) { // Proximity to location
+								break;
+							case 1: // Proximity to location
 								/*
 								 * Here is where we would have to get the users desired location
 								 * Defaulting to lat= 0, long = 0
 								 */
-								Location myLoc = new Location("myLoc");
 								myLoc.setLatitude(0);
 								myLoc.setLongitude(0);
 								clm.sortCommentsByProximityToLoc(myLoc);
-							}
-							if (which == 2) { // Proximity to picture
+								break;
+							case 2: // Sort By freshness
+								myLoc.setLatitude(0);
+								myLoc.setLongitude(0);
+								clm.sortCommentsByFreshness(myLoc);
+								break;
+							case 3: // Proximity to picture
 								clm.sortCommentsByPicture();
-							}
-							if (which == 3) { // Scoring system
+								break;
+							case 4: // Scoring system
 								/*
 								 * we are just default sorting by date right now
 								 */
 								clm.sortAllCommentsByDate();
-							}
-							if (which == 4) { // Time
+								break;
+							case 5: // Time
 								/*
 								 * not sure if this is supposed to be part of the scoring system
 								 */
 								clm.sortAllCommentsByDate();
+								break;
 							}
 						}
 					});
