@@ -24,7 +24,7 @@ public class StartActivity extends Activity {
 		setContentView(R.layout.activity_geo_topics);
 		application =GeoTopicsApplication.getInstance();
 		
-		setUpEsTestButton();
+		// setUpEsTestButton();
 		setUpBrowseButton();
 		setUpFavouritesButton();
 		setUpMyCommentsButton();
@@ -32,7 +32,7 @@ public class StartActivity extends Activity {
 	}
 	
 	private void setUpEsTestButton() {
-		mTestEsBtn = (Button)findViewById(R.id.start_test_es);
+		// mTestEsBtn = (Button)findViewById(R.id.start_test_es);
 		mTestEsBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
