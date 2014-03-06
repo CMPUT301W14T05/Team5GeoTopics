@@ -14,9 +14,10 @@
         <ImageView
         android:id="@+id/imageView1"
         android:layout_width="fill_parent"
-        android:layout_height="260dp"
+        android:layout_height="220dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="40dp"
         android:src="@drawable/start_graphic" />
         
     </RelativeLayout>
@@ -29,48 +30,61 @@
         android:layout_alignParentLeft="true"
         android:gravity="bottom"
         android:orientation="horizontal"
-        android:padding="5dp" >
-
-        <View
-            android:id="@+id/vert1"
-            android:layout_width="3dp"
-            android:layout_height="200dp"
-            android:layout_centerHorizontal="true"
-            android:background="@android:color/darker_gray" />
+        android:paddingBottom="20dp"
+        >
 
           <ImageButton
             android:id="@+id/start_browse_top_level"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/vert2"
-            android:background="@drawable/start_browse" />
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:background="@null"
+            android:scaleType="fitXY"
+            android:src="@drawable/start_browse" />
           
            <ImageButton
                android:id="@+id/start_my_comments"
                android:layout_width="fill_parent"
                android:layout_height="wrap_content"
                android:layout_toRightOf="@+id/vert2"
-               android:background="@drawable/start_mine"/>
+               android:background="@null"
+               android:paddingLeft="25dp"
+               android:paddingRight="20dp"
+               android:scaleType="fitXY"
+               android:src="@drawable/start_mine" />
           
         <ImageButton
             android:id="@+id/start_favourite"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/horizontal_line"
-            android:layout_toLeftOf="@+id/vert2"
-            android:background="@drawable/start_favourite" />
+            android:layout_toLeftOf="@+id/vert1"
+            android:background="@null" 
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            
+            android:scaleType="fitXY"
+            android:src="@drawable/start_favourite" />
 
         <ImageButton
             android:id="@+id/start_bookmark"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/start_my_comments"
             android:layout_below="@+id/horizontal_line"
-            android:layout_toRightOf="@+id/vert2"
-            android:background="@drawable/start_bookmark" />
+            android:layout_marginTop="5dp"
+            android:background="@null" 
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+
+            android:scaleType="fitXY"
+            android:src="@drawable/start_bookmark" />
 
         <View
             android:id="@+id/vert2"
-            android:layout_width="3dp"
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_above="@+id/start_favourite"
             android:layout_centerHorizontal="true"
@@ -79,10 +93,17 @@
         <View
             android:id="@+id/horizontal_line"
             android:layout_width="wrap_content"
-            android:layout_height="3dp"
-            android:layout_alignTop="@+id/vert1"
+            android:layout_height="1dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="92dp"
+            android:background="@android:color/darker_gray" />
+
+        <View
+            android:id="@+id/vert1"
+            android:layout_width="1dp"
+            android:layout_height="100dp"
+            android:layout_alignLeft="@+id/vert2"
+            android:layout_below="@+id/vert2"
             android:background="@android:color/darker_gray" />
 
     </RelativeLayout>

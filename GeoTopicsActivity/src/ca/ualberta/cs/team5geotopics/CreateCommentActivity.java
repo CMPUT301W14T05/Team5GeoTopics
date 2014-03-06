@@ -48,6 +48,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements OnC
 	@SuppressWarnings("deprecation")
 	public void onClick(View v){
 		if (v == locationBtn){
+			showDialog(1);
 			/*
 			 * SIMPLY HERE FOR TESTING PURPOSES:
 			 * 

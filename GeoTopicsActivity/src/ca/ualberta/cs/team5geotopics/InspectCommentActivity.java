@@ -81,6 +81,9 @@ public class InspectCommentActivity extends Activity {
 	
 	protected Dialog onCreateDialog(int i) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		
+		// Add Photo was pressed
+		if(i == 0){
 		String options[] = new String[2];
 		
 		options[0] = "Take new photo";
@@ -102,7 +105,33 @@ public class InspectCommentActivity extends Activity {
 						}
 					}
 				});
-		return builder.create();
+		}
+		
+		// Location was pressed
+		if(i == 1){
+		String options[] = new String[2];
+				
+		options[0] = "Get current location";
+		options[1] = "Set location";
+				
+				
+		builder.setTitle("Select Option")
+				.setItems(options, new DialogInterface.OnClickListener() {
+							
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// Which is option 0 or 1
+						if(which == 0){
+							
+						}
+						
+						if(which == 1){
+			                 
+						}
+					}
+				});
+		}
+		return builder.create();	
 	}
 
 	
