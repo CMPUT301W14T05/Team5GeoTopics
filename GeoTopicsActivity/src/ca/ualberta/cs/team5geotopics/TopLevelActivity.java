@@ -32,17 +32,11 @@ public class TopLevelActivity extends BrowseActivity {
 		
 		//Construct the model
 		this.clm = new CommentListModel();
+		this.mCache = Cache.getInstance();
 		
-		//REMOVE THIS AFTER TESTING
-		//Fill the model with test data
-		this.clm.add(new CommentModel("This is a my body", "Tyler", "This is a my Title"));
-		this.clm.add(new CommentModel("This is a Really Really Really Really Really Really Really Really(8)" +
-				" Really Really(10) Really Really(12) Really Really(14) Really Really Really Really Really Really(20) Really" +
-				" Really Really Really Really Really Really Really Really Really Really" +
-				" Really Really Really Really Really Really Really Really Really(40) Really Really Really Really Really Really" +
-				" Really Really Really Really Really Really Really Really Really Really Really Really Really Really Really" +
-				" Really(62) long body", "Matt", "Title, this is."));
-		//***********************************************************************************************************
+		//Set my view to the history cache
+		//This is a temporary fix
+		this.clm.setList(mCache.getHistory());
 		
 		//Construct the View
 		this.myView = new BrowseView(this, R.layout.comment_list_item, clm.getList());
@@ -68,6 +62,6 @@ public class TopLevelActivity extends BrowseActivity {
 			
 		});
 		super.onResume();
-	}	
+	}
 
 }

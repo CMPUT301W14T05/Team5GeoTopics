@@ -117,4 +117,9 @@ public class CommentListModel extends AModel<AView>{
 		});
 		return cList;
 	}
+
+	public void setList(ArrayList<CommentModel> mComments) {
+		this.mComments = mComments;
+		this.notifyViews();
+	}
 }

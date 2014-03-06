@@ -1,27 +1,15 @@
 package ca.ualberta.cs.team5geotopics;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.team5geotopics.R;
 
@@ -31,6 +19,7 @@ public abstract class BrowseActivity extends Activity {
 	protected ListView browseListView;
 	protected CommentModel viewingComment;
 	protected GeoTopicsApplication application;
+	protected Cache mCache;
 
 	// Creates the options menu using the layout in menu.
 	public boolean onCreateOptionsMenu(Menu menu) {
