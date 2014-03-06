@@ -104,7 +104,9 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AMo
 		holder.date.setText(dateFormat.format(date));
 		holder.time.setText(timeFormat.format(date));
 		if(comment.getPicture() != null)
-		holder.picture.setImageBitmap(comment.getPicture());
+			holder.picture.setImageBitmap(comment.getPicture());
+		else
+			holder.picture.setImageResource(R.drawable.ic_action_uploadedphoto);
 		return view;
 		
 	}

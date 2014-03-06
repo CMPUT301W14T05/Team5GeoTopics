@@ -5,12 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.example.team5geotopics.R;
-import android.location.Location;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,9 +12,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.Menu;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
+import com.example.team5geotopics.R;
 
 public class InspectCommentActivity extends Activity {
 
@@ -41,7 +43,12 @@ public class InspectCommentActivity extends Activity {
 	ImageButton photoBtn;
 	ImageButton cancelBtn;
 	ImageButton postBtn;
-		
+	
+	//The views to pull data from
+	EditText title;
+	EditText author;
+	EditText body;
+	
 	GeoTopicsApplication application;
 	
 	@Override

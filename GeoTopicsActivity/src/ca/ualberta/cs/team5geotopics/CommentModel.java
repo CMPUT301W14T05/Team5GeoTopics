@@ -72,9 +72,9 @@ public class CommentModel extends AModel<AView> implements Serializable {
 	}
 
 	// Test Constructor for replies
-	public CommentModel(String mBody, String mAuthor) {
+	public CommentModel(Location mGeolocation, String mBody, String mAuthor) {
 		super();
-		this.mGeolocation = null;
+		this.mGeolocation = mGeolocation;
 		this.mBody = mBody;
 		this.mAuthor = mAuthor;
 		this.mTitle = null;
@@ -181,6 +181,7 @@ public class CommentModel extends AModel<AView> implements Serializable {
 	public void addReply(CommentModel comment) {
 		comment.setParent(this);
 		mReplies.add(comment);
+		this.notifyViews();
 	}
 
 	public void setParent(CommentModel comment) {

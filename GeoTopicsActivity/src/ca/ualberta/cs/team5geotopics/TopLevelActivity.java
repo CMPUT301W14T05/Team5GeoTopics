@@ -51,6 +51,9 @@ public class TopLevelActivity extends BrowseActivity {
 	
 	@Override
 	protected void onResume(){
+		//Reset the current viewing comment
+		application.setCurrentViewingComment(viewingComment);
+
 		browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> myView, View view, int position,
