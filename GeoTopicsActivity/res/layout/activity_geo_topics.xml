@@ -1,65 +1,90 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:gravity="center_horizontal" >
-
+    android:gravity="top"
+    android:orientation="horizontal" >
+    
+    <RelativeLayout
+    android:id="@+id/top_image"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+    
+        <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="fill_parent"
+        android:layout_height="260dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/start_graphic" />
+        
+    </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/bottom_buttons"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:padding="5dp" >
 
+        <View
+            android:id="@+id/vert1"
+            android:layout_width="3dp"
+            android:layout_height="200dp"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/darker_gray" />
+
+          <ImageButton
+            android:id="@+id/start_browse_top_level"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/vert2"
+            android:background="@drawable/start_browse" />
+          
+           <ImageButton
+               android:id="@+id/start_my_comments"
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content"
+               android:layout_toRightOf="@+id/vert2"
+               android:background="@drawable/start_mine"/>
+          
         <ImageButton
             android:id="@+id/start_favourite"
-            android:layout_width="160dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:background="@null"
-            android:src="@drawable/start_favourite" />
-
-        <ImageButton
-            android:id="@+id/start_my_comments"
-            android:layout_width="210dp"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/start_favourite"
-            android:layout_toRightOf="@+id/start_browse_top_level"
-            android:background="@null"
-            android:src="@drawable/start_mine" />
-
-        <ImageButton
-            android:id="@+id/start_browse_top_level"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/start_favourite"
-            android:layout_alignParentLeft="true"
-            android:background="@null"
-            android:src="@drawable/start_browse" />
-
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="300dp"
-            android:src="@drawable/start_graphic" />
+            android:layout_below="@+id/horizontal_line"
+            android:layout_toLeftOf="@+id/vert2"
+            android:background="@drawable/start_favourite" />
 
         <ImageButton
             android:id="@+id/start_bookmark"
-            android:layout_width="180dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignRight="@+id/start_my_comments"
-            android:background="@null"
-            android:src="@drawable/start_bookmark" />
+            android:layout_below="@+id/horizontal_line"
+            android:layout_toRightOf="@+id/vert2"
+            android:background="@drawable/start_bookmark" />
 
-        <Button
-            android:id="@+id/start_test_es"
-            android:layout_width="wrap_content"
+        <View
+            android:id="@+id/vert2"
+            android:layout_width="3dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="27dp"
-            android:layout_marginTop="23dp"
-            android:text="es_test" />
+            android:layout_above="@+id/start_favourite"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/darker_gray" />
+
+        <View
+            android:id="@+id/horizontal_line"
+            android:layout_width="wrap_content"
+            android:layout_height="3dp"
+            android:layout_alignTop="@+id/vert1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="92dp"
+            android:background="@android:color/darker_gray" />
 
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>
