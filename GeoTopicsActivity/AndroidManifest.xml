@@ -48,12 +48,20 @@
             android:label="@string/title_top_level_activity" >
         </activity>
         <activity
-            android:name="ca.ualberta.cs.team5geotopics.InspectCommentActivity"
+            android:name="ca.ualberta.cs.team5geotopics.CreateCommentActivity"
             android:label="@string/title_activity_inspect_comment" >
         </activity>
         <activity
             android:name="ca.ualberta.cs.team5geotopics.ReplyLevelActivity"
             android:label="@string/title_activity_browse_relpy" >
+        </activity>
+        <activity
+            android:name="ca.ualberta.cs.team5geotopics.CreateCommentActivity"
+            android:label="@string/title_activity_create_comment" >
+        </activity>
+        <activity
+            android:name="ca.ualberta.cs.team5geotopics.EditCommentActivity"
+            android:label="@string/title_activity_edit_comment" >
         </activity>
     </application>
 

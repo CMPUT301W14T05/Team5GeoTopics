@@ -35,7 +35,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 
-public class InspectCommentActivity extends Activity implements OnClickListener {
+public class CreateCommentActivity extends Activity implements OnClickListener {
 	
 	// Buttons for the 4 options at the bottom
 	ImageButton locationBtn;
@@ -59,7 +59,7 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_inspect_comment);
+		setContentView(R.layout.activity_create_comment);
 		setTitle("Create Comment");
 		// Associates the button with their ID.
 		locationBtn = (ImageButton)findViewById(R.id.imageButtonLocation);
@@ -74,22 +74,6 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 		photoBtn.setOnClickListener(this);
 		cancelBtn.setOnClickListener(this);
 		postBtn.setOnClickListener(this);
-		
-		// If comments already exists, put in the data to fields
-		if(application.getCurrentViewingComment() != null){
-			setTitle("Edit Comment");
-			EditText editText = (EditText)findViewById(R.id.editCommentTitle);
-			editText.setText(application.getCurrentViewingComment().getmTitle());
-			
-			editText = (EditText)findViewById(R.id.editCommentAuthor);
-			editText.setText(application.getCurrentViewingComment().getmAuthor());
-			
-			editText = (EditText)findViewById(R.id.editCommentBody);
-			editText.setText(application.getCurrentViewingComment().getmBody());
-			
-			ImageView uploadedImage = (ImageView)findViewById(R.id.imageViewPicture);
-            uploadedImage.setImageBitmap(application.getCurrentViewingComment().getPicture());
-		}
 	}
 
 	@Override
@@ -141,7 +125,6 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 		}
 		// Gets all the data from the text boxes and submits it as a new comment
 		if (v == postBtn){
-			if(application.getCurrentViewingComment() == null){
 				EditText editText = (EditText)findViewById(R.id.editCommentTitle);
 				mTitle = editText.getText().toString();
 				editText = (EditText)findViewById(R.id.editCommentAuthor);
@@ -156,19 +139,6 @@ public class InspectCommentActivity extends Activity implements OnClickListener 
 				BrowseActivity.clm.add(topLevel);
 				
 				finish();
-			}
-			if(application.getCurrentViewingComment() != null){
-				EditText editText = (EditText)findViewById(R.id.editCommentTitle);
-				application.getCurrentViewingComment().setmTitle(editText.getText().toString());
-				editText = (EditText)findViewById(R.id.editCommentAuthor);
-				application.getCurrentViewingComment().setmAuthor(editText.getText().toString());
-				editText = (EditText)findViewById(R.id.editCommentBody);
-				application.getCurrentViewingComment().setmBody(editText.getText().toString());
-			
-				application.getCurrentViewingComment().setmPicture(mPicture);
-				application.getCurrentViewingComment().setmGeolocation(mGeolocation);
-				finish();
-			}
 		}
 	}
 	public static String imageFilePath;

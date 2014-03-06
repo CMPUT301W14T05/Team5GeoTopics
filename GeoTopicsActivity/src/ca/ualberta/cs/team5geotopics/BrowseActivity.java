@@ -44,7 +44,7 @@ public abstract class BrowseActivity extends Activity {
 		switch (item.getItemId()) {
 		// User clicks new comment button.
 		case R.id.new_top_level_comment:
-			Intent intent = new Intent(this, InspectCommentActivity.class);
+			Intent intent = new Intent(this, CreateCommentActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.action_sort:
