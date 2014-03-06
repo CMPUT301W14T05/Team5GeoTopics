@@ -1,6 +1,9 @@
 package ca.ualberta.cs.team5geotopics;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
+
+import com.google.gson.Gson;
 
 import android.location.Location;
 
@@ -73,7 +76,7 @@ public class Cache extends AModel<AView> {
 
 	// Stubb. Will write the my comments array to disk
 	private void writeMyComments() {
-
+		
 	}
 
 	// Stubb. Will write the my history array to disk

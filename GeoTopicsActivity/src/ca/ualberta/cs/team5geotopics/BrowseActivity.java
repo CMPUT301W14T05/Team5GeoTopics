@@ -93,7 +93,9 @@ public abstract class BrowseActivity extends Activity {
 								clm.sortCommentsByFreshness(myLoc);
 								break;
 							case 3: // Proximity to picture
-								clm.sortCommentsByPicture();
+								myLoc.setLatitude(0);
+								myLoc.setLongitude(0);
+								clm.sortCommentsByPicture(myLoc);
 								break;
 							case 4: // Scoring system
 								/*

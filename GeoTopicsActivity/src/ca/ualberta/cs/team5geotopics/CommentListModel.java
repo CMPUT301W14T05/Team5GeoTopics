@@ -38,7 +38,7 @@ public class CommentListModel extends AModel<AView>{
 		this.notifyViews();
 	}
 	
-	public static List<CommentModel> sortCommentsByProximity(final List<CommentModel> cList, final Location myLoc) {
+	public static ArrayList<CommentModel> sortCommentsByProximity(final ArrayList<CommentModel> cList, final Location myLoc) {
 	
 		Collections.sort(cList, new Comparator<CommentModel>() {
 			public int compare(CommentModel a, CommentModel b) {
@@ -69,11 +69,11 @@ public class CommentListModel extends AModel<AView>{
 	 * 
 	 * take in the array of current TopLevelComments and splits it up into list of 
 	 * replies containing photos, and a reply list with no photos. Sorts them both
-	 * by date and then adds them to the comment list again.
+	 * by proximity and then adds them to the comment list again.
 	 * 
 	 *  NOTE: As of right now does  NOT consider location
 	 */
-	public void sortCommentsByPicture() {
+	public void sortCommentsByPicture(Location loc) {
 		ArrayList<CommentModel> picList = new ArrayList<CommentModel>();
 		ArrayList<CommentModel> noPicList = new ArrayList<CommentModel>();
 		
@@ -87,8 +87,8 @@ public class CommentListModel extends AModel<AView>{
 			}
 		}
 		
-		picList = sortCommentsByDate(picList);
-		noPicList = sortCommentsByDate(noPicList);
+		picList = sortCommentsByProximity(picList, loc);
+		noPicList = sortCommentsByProximity(noPicList, loc);
 		
 		for (int i = 0; i < picList.size(); i++) {
 			mComments.add(picList.get(i));
@@ -111,8 +111,8 @@ public class CommentListModel extends AModel<AView>{
 		 */
 		Collections.sort(cList, new Comparator<CommentModel>() {
 			public int compare(CommentModel a, CommentModel b) {
-				return (int) (a.getDate().getTime() - 
-						b.getDate().getTime());
+				return (int) (b.getDate().getTime() - 
+						a.getDate().getTime());
 			}
 		});
 		return cList;

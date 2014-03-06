@@ -3,6 +3,7 @@ package ca.ualberta.cs.team5geotopics;
 
 import com.example.team5geotopics.R;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -44,7 +45,17 @@ public class CreateCommentActivity extends InspectCommentActivity implements OnC
 	@SuppressWarnings("deprecation")
 	public void onClick(View v){
 		if (v == locationBtn){
-			
+			/*
+			 * SIMPLY HERE FOR TESTING PURPOSES:
+			 * 
+			 * generates a different location than default.
+			 * TODO: For next part of project, let users choose a custom location
+			 */
+			Location loc = new Location("loc");
+			loc.setLongitude(0.1);
+			loc.setLatitude(0);
+			mGeolocation = loc;
+			/*------------------------------------------------------------------*/
 		}
 		if (v == photoBtn){
 			showDialog(0);
@@ -60,6 +71,15 @@ public class CreateCommentActivity extends InspectCommentActivity implements OnC
 				mAuthor = editText.getText().toString();
 				editText = (EditText)findViewById(R.id.editCommentBody);
 				mBody = editText.getText().toString();
+				if (mGeolocation == null) {
+					/* 
+					 * For Now we just set a default location
+					 * TODO: (next part) auto retrieve location using Mock Provider */
+					Location loc = new Location("loc");
+					loc.setLongitude(0.005);
+					loc.setLatitude(0);
+					mGeolocation = loc;
+				}
 			
 				// Creates new top level comment.
 				CommentModel topLevel = new CommentModel(mGeolocation, mBody, mAuthor, mPicture, mTitle);
