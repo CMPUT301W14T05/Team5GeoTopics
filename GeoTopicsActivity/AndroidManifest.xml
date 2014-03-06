@@ -47,7 +47,6 @@
             android:name="ca.ualberta.cs.team5geotopics.TopLevelActivity"
             android:label="@string/title_top_level_activity" >
         </activity>
-        
         <activity
             android:name="ca.ualberta.cs.team5geotopics.ReplyLevelActivity"
             android:label="@string/title_activity_browse_relpy" >

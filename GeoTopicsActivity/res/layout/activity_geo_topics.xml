@@ -14,7 +14,7 @@
         <ImageView
         android:id="@+id/imageView1"
         android:layout_width="fill_parent"
-        android:layout_height="260dp"
+        android:layout_height="240dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:src="@drawable/start_graphic" />
@@ -58,6 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/horizontal_line"
             android:layout_toLeftOf="@+id/vert2"
+            android:layout_marginTop="5dp"
             android:background="@drawable/start_favourite" />
 
         <ImageButton
@@ -66,6 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/horizontal_line"
             android:layout_toRightOf="@+id/vert2"
+            android:layout_marginTop="5dp"
             android:background="@drawable/start_bookmark" />
 
         <View
