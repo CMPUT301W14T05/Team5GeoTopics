@@ -19,9 +19,8 @@ public class CommentModel extends AModel<AView> implements Serializable {
 	// elastic search id variables
 	private String mEsID;
 	private String mParentID;
-	/**
-	 * 
-	 */
+	private String mEsType;
+	
 	private static final long serialVersionUID = 1L;
 	private Location mGeolocation;
 	private String mBody;
@@ -112,11 +111,30 @@ public class CommentModel extends AModel<AView> implements Serializable {
 
 	}
 
-	public void setmEsID(String ID) {
-		this.mEsID = ID;
-		this.notifyViews();
+	public String getmEsID() {
+		return mEsID;
 	}
 
+	public void setmEsID(String mEsID) {
+		this.mEsID = mEsID;
+	}
+
+	public String getmParentID() {
+		return mParentID;
+	}
+
+	public void setmParentID(String mParentID) {
+		this.mParentID = mParentID;
+	}
+
+	public String getmEsType() {
+		return mEsType;
+	}
+
+	public void setmEsType(String mEsType) {
+		this.mEsType = mEsType;
+		this.notifyViews();
+	}
 	public String getmBody() {
 		return mBody;
 	}
@@ -190,4 +208,6 @@ public class CommentModel extends AModel<AView> implements Serializable {
 	public ArrayList<CommentModel> getReplies() {
 		return this.mReplies;
 	}
+
+	
 }

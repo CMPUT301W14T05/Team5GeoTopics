@@ -24,6 +24,11 @@ public class StartActivity extends Activity {
 		setContentView(R.layout.activity_geo_topics);
 		application =GeoTopicsApplication.getInstance();
 		
+		User user = new User(getApplicationContext());
+		if(!user.installFilesExist()){
+			user.writeInstallFiles();
+		}
+		
 		setUpEsTestButton();
 		setUpBrowseButton();
 		setUpFavouritesButton();

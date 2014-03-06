@@ -53,8 +53,7 @@ public class EsTestActivity extends Activity {
 
 				CommentModel comment = new CommentModel(null, "body", "author",
 						null, "title");
-				PutIndexService.putComment(getApplicationContext(), "TopLevel", "Comment", null,
-						comment);
+				PutIndexService.pushComment(getApplicationContext(), "TopLevel", comment);
 
 			}
 		});

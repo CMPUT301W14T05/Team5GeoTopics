@@ -19,7 +19,8 @@ public class GeoTopicsApplication {
 	private CommentModel currentlyViewingComment;
 	private static GeoTopicsApplication myself = new GeoTopicsApplication();
 	private JestClient mClient = null;
-
+	private String mID;
+	
 	private GeoTopicsApplication() {
 	}
 

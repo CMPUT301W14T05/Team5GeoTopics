@@ -1,18 +1,23 @@
 package ca.ualberta.cs.team5geotopics;
 
 
-import com.example.team5geotopics.R;
-
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import com.example.team5geotopics.R;
+
 
 public class CreateCommentActivity extends InspectCommentActivity implements OnClickListener {
-
+	private static User USER = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,6 +36,8 @@ public class CreateCommentActivity extends InspectCommentActivity implements OnC
 		photoBtn.setOnClickListener(this);
 		cancelBtn.setOnClickListener(this);
 		postBtn.setOnClickListener(this);
+		
+		USER = new User(getApplicationContext());
 	}
 
 	@Override
@@ -63,11 +70,12 @@ public class CreateCommentActivity extends InspectCommentActivity implements OnC
 			
 				// Creates new top level comment.
 				CommentModel topLevel = new CommentModel(mGeolocation, mBody, mAuthor, mPicture, mTitle);
-				// Adds comment to top level browse
-				// This will most likely change
-				BrowseActivity.clm.add(topLevel);
-				
+				topLevel.setmEsID(USER.readInstallIDFile() + USER.readPostCount());
+				topLevel.setmEsType(USER.readInstallIDFile());
+				PutIndexService.pushComment(getApplicationContext(), "TopLevel", topLevel);
 				finish();
 		}
 	}
+	
+	
 }
