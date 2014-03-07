@@ -35,6 +35,7 @@ public class InspectCommentActivity extends Activity {
 	protected Cache mCache;
 	protected CommentModel newComment;
 	protected User myUser;
+	protected CommentController controller;
 	
 	// Variables for comment/edit comment.
 	Location mGeolocation; 

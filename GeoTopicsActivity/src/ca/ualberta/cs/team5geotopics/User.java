@@ -24,6 +24,10 @@ public class User extends AModel<AView> {
 	private boolean isLoaded = false;
 	private static User myself = new User();
 
+	/*This part here needs to be updated as we are currently both a singleton and not
+	 * Will have to do some research into how we can solve this at a later time.
+	 */
+	//***********************************************************************************
 	public User(Context context) {
 		mInstallation = new File(context.getFilesDir(), INSTALLATION_ID);
 		mPostCount = new File(context.getFilesDir(), POST_COUNT);
@@ -38,7 +42,7 @@ public class User extends AModel<AView> {
 	public static User getInstance() {
 		return myself;
 	}
-
+	//***********************************************************************************
 	/*
 	 * messages to read and write dependent files
 	 */

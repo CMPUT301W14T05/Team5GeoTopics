@@ -25,10 +25,12 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_comment);
 
+		//Look into pushing this  init code up into inspect comment as its duplicated in edit comment
 		this.application = GeoTopicsApplication.getInstance();
 		this.mCache = Cache.getInstance();
 		this.viewingComment = application.getCurrentViewingComment();
 		this.myUser = User.getInstance();
+		this.controller = new CommentController();
 
 		setTitle("Create Comment");
 		// Associates the button with their ID.
@@ -117,19 +119,12 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 				// Creates new top level comment.
 				newComment = new CommentModel(mGeolocation, mBody,
 						mAuthor, mPicture, mTitle);
-				mCache.addToHistory(newComment, this);
-				// CommentModel topLevel = new CommentModel(mGeolocation, mBody,
-				// mAuthor, mPicture, mTitle);
-				// Adds comment to top level browse
-				// This will most likely change
-				// BrowseActivity.clm.add(topLevel);
+				controller.newTopLevel(newComment, this);
 			} else {
 				newComment = new CommentModel(mGeolocation, mBody,
 						mAuthor, mPicture, mTitle);
-				viewingComment.addReply(newComment);	
+				controller.newReply(viewingComment, newComment, this);
 			}
-			//Add the new comment to my comments.
-			myUser.addToMyComments(newComment, this);
 
 			CommentModel topLevel = new CommentModel(mGeolocation, mBody,
 					mAuthor, mPicture, mTitle);
