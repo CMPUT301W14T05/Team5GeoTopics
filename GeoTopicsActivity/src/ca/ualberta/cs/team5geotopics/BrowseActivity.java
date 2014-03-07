@@ -20,6 +20,8 @@ public abstract class BrowseActivity extends Activity {
 	protected CommentModel viewingComment;
 	protected GeoTopicsApplication application;
 	protected Cache mCache;
+	protected User myUser;
+	protected Intent intent;
 
 	// Creates the options menu using the layout in menu.
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -33,11 +35,15 @@ public abstract class BrowseActivity extends Activity {
 		switch (item.getItemId()) {
 		// User clicks new comment button.
 		case R.id.new_top_level_comment:
-			Intent intent = new Intent(this, CreateCommentActivity.class);
+			intent = new Intent(this, CreateCommentActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.action_sort:
 			showDialog(0);
+			break;
+		case R.id.action_my_comments:
+			intent = new Intent(this, MyCommentsActivity.class);
+			startActivity(intent);
 			break;
 		default:
 			return super.onOptionsItemSelected(item);

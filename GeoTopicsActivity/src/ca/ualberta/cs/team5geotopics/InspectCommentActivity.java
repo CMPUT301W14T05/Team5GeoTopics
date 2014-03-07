@@ -30,6 +30,11 @@ public class InspectCommentActivity extends Activity {
 	public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	public static final int GET_PHOTO = 105;
 	public static Uri imageFileUri;
+	protected CommentModel viewingComment;
+	protected GeoTopicsApplication application;
+	protected Cache mCache;
+	protected CommentModel newComment;
+	protected User myUser;
 	
 	// Variables for comment/edit comment.
 	Location mGeolocation; 
@@ -49,7 +54,7 @@ public class InspectCommentActivity extends Activity {
 	EditText author;
 	EditText body;
 	
-	GeoTopicsApplication application;
+	ImageView uploadedImage;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -162,7 +167,7 @@ public class InspectCommentActivity extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			       // Rotates normal baxk camera photo
+			       // Rotates normal back camera photo
 			       //Matrix m = new Matrix();
 			       //m.postRotate(90);
 			       //mPicture = Bitmap.createBitmap(mPicture, 0, 0, mPicture.getWidth(), mPicture.getHeight(), m, true);
@@ -190,7 +195,8 @@ public class InspectCommentActivity extends Activity {
 	              // Set mPicture with Bitmap image.
 	              mPicture = returnBitmapImage(image);
 	              mPicture = Bitmap.createScaledBitmap(mPicture, 200, 200, true);
-	              ImageView uploadedImage = (ImageView)findViewById(R.id.imageViewPicture);
+	              
+	              
 	              uploadedImage.setImageBitmap(mPicture);
 	          }
 	    }

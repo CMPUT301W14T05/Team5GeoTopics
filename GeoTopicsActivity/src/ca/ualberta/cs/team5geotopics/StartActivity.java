@@ -58,7 +58,7 @@ public class StartActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent myIntent = new Intent(StartActivity.this, TopLevelActivity.class);
+				Intent myIntent = new Intent(StartActivity.this, MyCommentsActivity.class);
 				//This lets the browse activity know that we are viewing top level comments
 				application.setCurrentViewingComment(null);
 				startActivity(myIntent);

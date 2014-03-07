@@ -12,43 +12,33 @@ import java.util.List;
 
 import android.content.Context;
 import android.location.Location;
+import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 public class Cache extends AModel<AView> {
 	private ArrayList<CommentModel> mHistory;
-	private ArrayList<CommentModel> mBookMarks;
-	private ArrayList<CommentModel> mFavorites;
-	private ArrayList<CommentModel> mComments; // My created comments
 	private boolean isLoaded = false;
 
 	private static Cache myself = new Cache();
 
 	private Cache() {
 		this.mHistory = new ArrayList<CommentModel>();
-		this.mBookMarks = new ArrayList<CommentModel>();
-		this.mFavorites = new ArrayList<CommentModel>();
-		this.mComments = new ArrayList<CommentModel>();
 		this.dummyData();
 	}
 
 	public static Cache getInstance() {
 		return myself;
 	}
-
-	public void addToMyComments(CommentModel comment, Context context) {
-		mComments.add(comment);
-		this.notifyViews();
-		this.writeComments("myComments", context);
-	}
 	
 	public void addToHistory(CommentModel comment, Context context) {
 		mHistory.add(comment);
 		this.notifyViews();
-		this.writeComments("myHistory", context);
+		this.writeMyHistory(context);
 	}
 	
 	//Load the cache with dummy data
@@ -102,13 +92,21 @@ public class Cache extends AModel<AView> {
 	 * we could probably write on function to do the writing.
 	 */
 	private void writeComments(String name, Context context) {
-		Gson gson = new Gson();
-		String myCommentsData = gson.toJson(mComments);
+		/*use of GraphAdapterBuilder adapted from http://stackoverflow.com/questions/10036958/the-easiest-way-to-remove-the-bidirectional-recursive-relationships
+		 by Jesse Wilson taken 2014-03-07 */
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		new GraphAdapterBuilder()
+		    .addType(CommentModel.class)
+		    .registerOn(gsonBuilder);
+		Gson gson = gsonBuilder.create();
+		
+		String myCommentsData = gson.toJson(mHistory);
 		
 		FileOutputStream fos = null;
 		try {
 			fos = context.openFileOutput(name, Context.MODE_PRIVATE);
 			fos.write(myCommentsData.getBytes());
+			Log.w("Cache-write myCommentsData", myCommentsData);
 		} catch (FileNotFoundException e) {
 			/*
 			 * handle the exception
@@ -123,25 +121,22 @@ public class Cache extends AModel<AView> {
 					fos.close();
 			} catch (IOException e) {
 				/*
-				 * do sumthing
+				 * do something
 				 */
 			}
 		}
 	}
 
-	// Stubb. Will write the my history array to disk
 	private void writeMyHistory(Context context) {
-		
+		writeComments("history.sav", context);
 	}
 
-	// Stubb. Will write the my bookmarks array to disk
-	private void writeMyBookmarks() {
-
+	private void writeMyBookmarks(Context context) {
+		writeComments("bookmarks.sav", context);
 	}
 
-	// Stubb. Will write the my favourites array to disk
-	private void writeMyFavourites() {
-
+	private void writeMyFavourites(Context context) {
+		writeComments("favourites.sav", context);
 	}
 	
 	public void loadCache(Context context) {
@@ -160,7 +155,7 @@ public class Cache extends AModel<AView> {
 	 * 
 	 * 
 	 * NOTE FOR JAMES: I figured this would at least lay out a base for you, I didn't do 
-	 * this write on the assignment I don't think that's why I have little confidence in this code.
+	 * this right on the assignment I don't think that's why I have little confidence in this code.
 	 * the below only read myComments.
 	 */
 	@SuppressWarnings("unchecked")
@@ -172,7 +167,7 @@ public class Cache extends AModel<AView> {
 	        Type collectionType = new TypeToken<Collection<CommentModel>>(){}.getType(); //3 
 	        List myComments= gson.fromJson(new InputStreamReader(fis), collectionType); //4
 	        if(myComments != null) { 
-	            this.mComments.addAll(myComments);
+	            this.mHistory.addAll(myComments);
 	        }
 	    }
 	    catch(JsonIOException e) { 
