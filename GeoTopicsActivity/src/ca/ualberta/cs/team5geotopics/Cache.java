@@ -38,7 +38,7 @@ public class Cache extends AModel<AView> {
 	public void addToHistory(CommentModel comment, Context context) {
 		mHistory.add(comment);
 		this.notifyViews();
-		this.writeMyHistory(context);
+//		this.writeMyHistory(context);
 	}
 	
 	//Load the cache with dummy data
