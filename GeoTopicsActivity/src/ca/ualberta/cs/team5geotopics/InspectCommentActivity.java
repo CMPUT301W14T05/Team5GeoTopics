@@ -30,6 +30,11 @@ public class InspectCommentActivity extends Activity {
 	public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	public static final int GET_PHOTO = 105;
 	public static Uri imageFileUri;
+	protected CommentModel viewingComment;
+	protected GeoTopicsApplication application;
+	protected Cache mCache;
+	protected CommentModel newComment;
+	protected User myUser;
 	
 	// Variables for comment/edit comment.
 	Location mGeolocation; 
@@ -48,8 +53,6 @@ public class InspectCommentActivity extends Activity {
 	EditText title;
 	EditText author;
 	EditText body;
-	
-	GeoTopicsApplication application;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

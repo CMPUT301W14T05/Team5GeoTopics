@@ -18,9 +18,6 @@ import android.widget.ImageButton;
 
 public class CreateCommentActivity extends InspectCommentActivity implements
 		OnClickListener {
-	protected CommentModel viewingComment;
-	protected GeoTopicsApplication application;
-	protected Cache mCache;
 
 	private static User USER = null;
 
@@ -32,6 +29,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 		this.application = GeoTopicsApplication.getInstance();
 		this.mCache = Cache.getInstance();
 		this.viewingComment = application.getCurrentViewingComment();
+		this.myUser = User.getInstance();
 
 		setTitle("Create Comment");
 		// Associates the button with their ID.
@@ -117,19 +115,21 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 
 			if (viewingComment == null) {
 				// Creates new top level comment.
-
-				mCache.addToHistory(new CommentModel(mGeolocation, mBody,
-						mAuthor, mPicture, mTitle), this);
-				// CommentModel topLevel = new CommentModel(mGeolocation,
-				// mBody,
+				newComment = new CommentModel(mGeolocation, mBody,
+						mAuthor, mPicture, mTitle);
+				mCache.addToHistory(newComment, this);
+				// CommentModel topLevel = new CommentModel(mGeolocation, mBody,
 				// mAuthor, mPicture, mTitle);
 				// Adds comment to top level browse
 				// This will most likely change
 				// BrowseActivity.clm.add(topLevel);
 			} else {
-				viewingComment.addReply(new CommentModel(mGeolocation, mBody,
-						mAuthor, mPicture, mTitle));
+				newComment = new CommentModel(mGeolocation, mBody,
+						mAuthor, mPicture, mTitle);
+				viewingComment.addReply(newComment);	
 			}
+			//Add the new comment to my comments.
+			myUser.addToMyComments(newComment, this);
 
 			CommentModel topLevel = new CommentModel(mGeolocation, mBody,
 					mAuthor, mPicture, mTitle);
