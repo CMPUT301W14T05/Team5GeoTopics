@@ -12,8 +12,10 @@ import java.util.List;
 
 import android.content.Context;
 import android.location.Location;
+import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
@@ -36,7 +38,7 @@ public class Cache extends AModel<AView> {
 	public void addToHistory(CommentModel comment, Context context) {
 		mHistory.add(comment);
 		this.notifyViews();
-		//this.writeComments("myHistory", context);
+		this.writeMyHistory(context);
 	}
 	
 	//Load the cache with dummy data
@@ -90,13 +92,21 @@ public class Cache extends AModel<AView> {
 	 * we could probably write on function to do the writing.
 	 */
 	private void writeComments(String name, Context context) {
-		Gson gson = new Gson();
+		/*use of GraphAdapterBuilder adapted from http://stackoverflow.com/questions/10036958/the-easiest-way-to-remove-the-bidirectional-recursive-relationships
+		 by Jesse Wilson taken 2014-03-07 */
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		new GraphAdapterBuilder()
+		    .addType(CommentModel.class)
+		    .registerOn(gsonBuilder);
+		Gson gson = gsonBuilder.create();
+		
 		String myCommentsData = gson.toJson(mHistory);
 		
 		FileOutputStream fos = null;
 		try {
 			fos = context.openFileOutput(name, Context.MODE_PRIVATE);
 			fos.write(myCommentsData.getBytes());
+			Log.w("Cache-write myCommentsData", myCommentsData);
 		} catch (FileNotFoundException e) {
 			/*
 			 * handle the exception
@@ -111,25 +121,22 @@ public class Cache extends AModel<AView> {
 					fos.close();
 			} catch (IOException e) {
 				/*
-				 * do sumthing
+				 * do something
 				 */
 			}
 		}
 	}
 
-	// Stubb. Will write the my history array to disk
 	private void writeMyHistory(Context context) {
-		
+		writeComments("history.sav", context);
 	}
 
-	// Stubb. Will write the my bookmarks array to disk
-	private void writeMyBookmarks() {
-
+	private void writeMyBookmarks(Context context) {
+		writeComments("bookmarks.sav", context);
 	}
 
-	// Stubb. Will write the my favourites array to disk
-	private void writeMyFavourites() {
-
+	private void writeMyFavourites(Context context) {
+		writeComments("favourites.sav", context);
 	}
 	
 	public void loadCache(Context context) {
