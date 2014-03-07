@@ -7,19 +7,31 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".BrowseTopLevelView" >
-     <TextView
+
+    <TextView
         android:id="@+id/top_level_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="true"
         android:text="@string/title_top_level_activity"
         android:textSize="20sp" />
+
+    <View
+        android:id="@+id/top_level_divider1"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/top_level_title"
+        android:background="@android:color/darker_gray"
+        android:paddingBottom="2dp"
+        android:paddingTop="1dp" />
+
     <ListView
         android:id="@+id/browse_top_level_listView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/top_level_title"
-        tools:listitem="@layout/comment_list_item"
-        android:minHeight="500dp" >
+        android:layout_below="@id/top_level_divider1"
+        android:minHeight="500dp"
+        tools:listitem="@layout/comment_list_item" >
     </ListView>
+
 </RelativeLayout>

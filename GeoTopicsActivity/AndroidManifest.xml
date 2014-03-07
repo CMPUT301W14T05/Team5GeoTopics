@@ -63,6 +63,10 @@
             android:name="ca.ualberta.cs.team5geotopics.InspectCommentActivity"
             android:label="@string/title_activity_inspect_comment" >
         </activity>
+        <activity
+            android:name="ca.ualberta.cs.team5geotopics.MyCommentsActivity"
+            android:label="@string/title_activity_inspect_comment" >
+        </activity>
     </application>
 
 </manifest>

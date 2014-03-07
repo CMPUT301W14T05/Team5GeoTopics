@@ -77,7 +77,7 @@ public class CommentModel extends AModel<AView> implements Serializable {
 		this.mBody = mBody;
 		this.mAuthor = mAuthor;
 		this.mTitle = null;
-		this.mPicture = mPicture;
+		this.mPicture = null;
 		putTimeStamp();
 		this.mEsID = null;
 		this.mParentID = null;
