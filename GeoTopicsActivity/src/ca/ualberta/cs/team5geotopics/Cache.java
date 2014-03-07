@@ -100,7 +100,7 @@ public class Cache extends AModel<AView> {
 		    .registerOn(gsonBuilder);
 		Gson gson = gsonBuilder.create();
 		
-		String myCommentsData = gson.toJson(mHistory);
+		String myCommentsData = gson.toJson(mHistory.get(1));
 		
 		FileOutputStream fos = null;
 		try {
