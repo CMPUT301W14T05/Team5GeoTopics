@@ -47,11 +47,12 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 		// This is a temporary fix
 		this.clm.setList(myComments);
 		
+		/*Using a different solution for now
 		//Register with all the comments in the list to get 
 		for(CommentModel comment : myComments){
 			comment.addView(this);
 		}
-		
+		*/
 		// Construct the View
 		this.myView = new BrowseView(this, R.layout.comment_list_item,
 				clm.getList());
@@ -68,7 +69,8 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 	protected void onResume(){
 		//Reset the current viewing comment
 		application.setCurrentViewingComment(viewingComment);
-
+		myView.notifyDataSetChanged(); //Ensure the view is up to date.
+		
 		browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> myView, View view, int position,
