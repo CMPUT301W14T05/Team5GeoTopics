@@ -39,7 +39,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		viewingComment = application.getCurrentViewingComment();
 		//Construct the model
 		this.clm = new CommentListModel();
-//		this.clm.setList(viewingComment.getReplies());
+		this.clm.setList(viewingComment.getReplies());
 		
 		//Construct the View
 		this.myView = new BrowseView(this, R.layout.comment_list_item, clm.getList());

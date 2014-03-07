@@ -34,8 +34,8 @@ public class CommentModel extends AModel<AView> implements Serializable {
 	 * We still need these as Josh said we still need to reference comments this
 	 * way when they are hot (In the application)
 	 */
-//	private ArrayList<CommentModel> mReplies;
-//	private CommentModel mParent;
+	private ArrayList<CommentModel> mReplies;
+	private CommentModel mParent;
 
 	// Test Constructor for Top Level Comments
 
@@ -50,7 +50,7 @@ public class CommentModel extends AModel<AView> implements Serializable {
 		putTimeStamp();
 		this.mEsID = null;
 		this.mParentID = null;
-//		this.mReplies = new ArrayList<CommentModel>();
+		this.mReplies = new ArrayList<CommentModel>();
 
 	}
 
@@ -66,7 +66,7 @@ public class CommentModel extends AModel<AView> implements Serializable {
 		putTimeStamp();
 		this.mEsID = null;
 		this.mParentID = null;
-//		this.mReplies = new ArrayList<CommentModel>();
+		this.mReplies = new ArrayList<CommentModel>();
 
 	}
 
@@ -81,8 +81,8 @@ public class CommentModel extends AModel<AView> implements Serializable {
 		putTimeStamp();
 		this.mEsID = null;
 		this.mParentID = null;
-//		this.mParent = null;
-//		this.mReplies = new ArrayList<CommentModel>();
+		this.mParent = null;
+		this.mReplies = new ArrayList<CommentModel>();
 	}
 
 	// Constructor for replies
@@ -97,8 +97,8 @@ public class CommentModel extends AModel<AView> implements Serializable {
 		putTimeStamp();
 		this.mEsID = null;
 		this.mParentID = null;
-//		this.mParent = null;
-//		this.mReplies = new ArrayList<CommentModel>();
+		this.mParent = null;
+		this.mReplies = new ArrayList<CommentModel>();
 	}
 
 	protected void putTimeStamp() {
@@ -197,18 +197,18 @@ public class CommentModel extends AModel<AView> implements Serializable {
 	}
 
 	public void addReply(CommentModel comment) {
-//		comment.setParent(this);
-//		mReplies.add(comment);
+		comment.setParent(this);
+		mReplies.add(comment);
 		this.notifyViews();
 	}
 
-//	public void setParent(CommentModel comment) {
-//		this.mParent = comment;
-//	}
+	public void setParent(CommentModel comment) {
+		this.mParent = comment;
+	}
 	
-//	public ArrayList<CommentModel> getReplies() {
-//		return this.mReplies;
-//	}
+	public ArrayList<CommentModel> getReplies() {
+		return this.mReplies;
+	}
 
 	
 }
