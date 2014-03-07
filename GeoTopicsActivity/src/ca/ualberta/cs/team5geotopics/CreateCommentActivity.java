@@ -1,10 +1,8 @@
 package ca.ualberta.cs.team5geotopics;
 
-
 import com.example.team5geotopics.R;
 
 import android.location.Location;
-
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,20 +16,14 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-
 public class CreateCommentActivity extends InspectCommentActivity implements
 		OnClickListener {
 	protected CommentModel viewingComment;
 	protected GeoTopicsApplication application;
 	protected Cache mCache;
 
-
-
-
-
-public class CreateCommentActivity extends InspectCommentActivity implements OnClickListener {
 	private static User USER = null;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,35 +48,35 @@ public class CreateCommentActivity extends InspectCommentActivity implements OnC
 		cancelBtn.setOnClickListener(this);
 		postBtn.setOnClickListener(this);
 
-
-		//Find the edit text views
+		// Find the edit text views
 		title = (EditText) findViewById(R.id.editCommentTitle);
 		author = (EditText) findViewById(R.id.editCommentAuthor);
 		body = (EditText) findViewById(R.id.editCommentBody);
 
-		// Replies do not have titles and thus we should disable it OR make a
+		// Replies do not have titles and thus we should disable it OR make
+		// a
 		// new activity/layout
 		if (viewingComment != null) {
 			title.setVisibility(View.GONE);
 			findViewById(R.id.textViewTitle).setVisibility(View.GONE);
 		}
 
-		
 		USER = new User(getApplicationContext());
 
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
+		// Inflate the menu; this adds items to the action bar if it is
+		// present.
 		getMenuInflater().inflate(R.menu.create_comment, menu);
 		return true;
 	}
 
 	// This function will check for which button was clicked.
 	@SuppressWarnings("deprecation")
-	public void onClick(View v){
-		if (v == locationBtn){
+	public void onClick(View v) {
+		if (v == locationBtn) {
 			showDialog(1);
 			/*
 			 * SIMPLY HERE FOR TESTING PURPOSES:
@@ -104,11 +96,12 @@ public class CreateCommentActivity extends InspectCommentActivity implements OnC
 		if (v == cancelBtn) {
 			finish();
 		}
-		// Gets all the data from the text boxes and submits it as a new comment
+		// Gets all the data from the text boxes and submits it as a new
+		// comment
 		if (v == postBtn) {
 			if (viewingComment == null)
 				mTitle = title.getText().toString();
-			
+
 			mAuthor = author.getText().toString();
 			mBody = body.getText().toString();
 			if (mGeolocation == null) {
@@ -127,7 +120,8 @@ public class CreateCommentActivity extends InspectCommentActivity implements OnC
 
 				mCache.addToHistory(new CommentModel(mGeolocation, mBody,
 						mAuthor, mPicture, mTitle), this);
-				// CommentModel topLevel = new CommentModel(mGeolocation, mBody,
+				// CommentModel topLevel = new CommentModel(mGeolocation,
+				// mBody,
 				// mAuthor, mPicture, mTitle);
 				// Adds comment to top level browse
 				// This will most likely change
@@ -137,12 +131,15 @@ public class CreateCommentActivity extends InspectCommentActivity implements OnC
 						mAuthor, mPicture, mTitle));
 			}
 
-			CommentModel topLevel = new CommentModel(mGeolocation, mBody, mAuthor, mPicture, mTitle);
-			topLevel.setmEsID(USER.readInstallIDFile() + " " + USER.readPostCount());
+			CommentModel topLevel = new CommentModel(mGeolocation, mBody,
+					mAuthor, mPicture, mTitle);
+			topLevel.setmEsID(USER.readInstallIDFile() + " "
+					+ USER.readPostCount());
 			topLevel.setmEsType(USER.readInstallIDFile());
-			PutIndexService.pushComment(getApplicationContext(), "TopLevel", topLevel);
+			PutIndexService.pushComment(getApplicationContext(), "TopLevel",
+					topLevel);
 			finish();
-			finish();
+
 		}
 	}
 }
