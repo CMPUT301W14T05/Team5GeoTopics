@@ -26,7 +26,7 @@
             android:enabled="true" >
         </service>
         <service
-            android:name="ca.ualberta.cs.team5geotopics.GetAllService"
+            android:name="ca.ualberta.cs.team5geotopics.GetTopLevel"
             android:enabled="true" >
         </service>
 
