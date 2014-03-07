@@ -38,7 +38,7 @@ public class Cache extends AModel<AView> {
 	public void addToHistory(CommentModel comment, Context context) {
 		mHistory.add(comment);
 		this.notifyViews();
-//		this.writeMyHistory(context);
+		this.writeMyHistory(context, mHistory);
 	}
 	
 	//Load the cache with dummy data
@@ -91,7 +91,8 @@ public class Cache extends AModel<AView> {
 	 * NOTE FOR JAMES: I figured if they are all using roughly the same code for writing 
 	 * we could probably write on function to do the writing.
 	 */
-	private void writeComments(String name, Context context) {
+	private void writeComments(String name, Context context, ArrayList<CommentModel> savedList) {
+//-----------------------------------------------------
 		/*use of GraphAdapterBuilder adapted from http://stackoverflow.com/questions/10036958/the-easiest-way-to-remove-the-bidirectional-recursive-relationships
 		 by Jesse Wilson taken 2014-03-07 */
 		GsonBuilder gsonBuilder = new GsonBuilder();
@@ -99,14 +100,19 @@ public class Cache extends AModel<AView> {
 		    .addType(CommentModel.class)
 		    .registerOn(gsonBuilder);
 		Gson gson = gsonBuilder.create();
+//-----------------------------------------------------
 		
-		String myCommentsData = gson.toJson(mHistory.get(1));
+		String myCommentsData;
 		
 		FileOutputStream fos = null;
 		try {
 			fos = context.openFileOutput(name, Context.MODE_PRIVATE);
-			fos.write(myCommentsData.getBytes());
-			Log.w("Cache-write myCommentsData", myCommentsData);
+			for (int i=0; i<mHistory.size(); i++){
+				myCommentsData = gson.toJson(mHistory.get(i)) + "\n"; //delineate comment model elements with newline
+				fos.write(myCommentsData.getBytes());
+				Log.w("Cache-write myCommentsData", myCommentsData);
+			}
+			
 		} catch (FileNotFoundException e) {
 			/*
 			 * handle the exception
@@ -127,16 +133,16 @@ public class Cache extends AModel<AView> {
 		}
 	}
 
-	private void writeMyHistory(Context context) {
-		writeComments("history.sav", context);
+	private void writeMyHistory(Context context, ArrayList<CommentModel> mHistory) {
+		writeComments("history.sav", context, mHistory);
 	}
 
-	private void writeMyBookmarks(Context context) {
-		writeComments("bookmarks.sav", context);
+	private void writeMyBookmarks(Context context, ArrayList<CommentModel> mBookmarks) {
+		writeComments("bookmarks.sav", context, mBookmarks);
 	}
 
-	private void writeMyFavourites(Context context) {
-		writeComments("favourites.sav", context);
+	private void writeMyFavourites(Context context, ArrayList<CommentModel> mFavourites) {
+		writeComments("favourites.sav", context, mFavourites);
 	}
 	
 	public void loadCache(Context context) {
