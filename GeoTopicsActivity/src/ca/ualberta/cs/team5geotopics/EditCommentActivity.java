@@ -60,9 +60,11 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 	@SuppressWarnings("deprecation")
 	public void onClick(View v){
 		if (v == locationBtn){
+			showDialog(1);
 			
 		}
 		if (v == photoBtn){
+			uploadedImage = (ImageView)findViewById(R.id.imageViewPictureE);
 			showDialog(0);
 		}
 		if (v == cancelBtn){
@@ -76,7 +78,6 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 				application.getCurrentViewingComment().setmAuthor(editText.getText().toString());
 				editText = (EditText)findViewById(R.id.editCommentBodyE);
 				application.getCurrentViewingComment().setmBody(editText.getText().toString());
-			
 				application.getCurrentViewingComment().setmPicture(mPicture);
 				application.getCurrentViewingComment().setmGeolocation(mGeolocation);
 				finish();
