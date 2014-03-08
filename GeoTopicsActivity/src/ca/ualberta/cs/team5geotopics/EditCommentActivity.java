@@ -45,8 +45,11 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		body = (EditText)findViewById(R.id.editCommentBodyE);
 		body.setText(application.getCurrentViewingComment().getmBody());
 			
-		uploadedImage = (ImageView)findViewById(R.id.imageViewPictureE);    
+		uploadedImage = (ImageView)findViewById(R.id.imageViewPicture);    
 		uploadedImage.setImageBitmap(application.getCurrentViewingComment().getPicture());
+		mPicture = application.getCurrentViewingComment().getPicture();
+		
+		mGeolocation =  application.getCurrentViewingComment().getGeoLocation();
 		
 	}
 
@@ -65,7 +68,7 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 			
 		}
 		if (v == photoBtn){
-			uploadedImage = (ImageView)findViewById(R.id.imageViewPictureE);
+			uploadedImage = (ImageView)findViewById(R.id.imageViewPicture);
 			showDialog(0);
 		}
 		if (v == cancelBtn){
@@ -76,11 +79,11 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 				title = (EditText)findViewById(R.id.editCommentTitleE);
 				author = (EditText)findViewById(R.id.editCommentAuthorE);
 				body = (EditText)findViewById(R.id.editCommentBodyE);
-				/*
-				application.getCurrentViewingComment().setmPicture(mPicture);
-				application.getCurrentViewingComment().setmGeolocation(mGeolocation);
-				*/
-				controller.updateComment(application.getCurrentViewingComment(), title.getText().toString(), author.getText().toString(), body.getText().toString());
+				
+				//application.getCurrentViewingComment().setmPicture(mPicture);
+				//application.getCurrentViewingComment().setmGeolocation(mGeolocation);
+				
+				controller.updateComment(application.getCurrentViewingComment(), title.getText().toString(), author.getText().toString(), body.getText().toString(), mPicture, mGeolocation);
 				finish();
 		}
 	}
