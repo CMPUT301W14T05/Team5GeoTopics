@@ -122,7 +122,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 			} else {
 				newComment = new CommentModel(mGeolocation, mBody,
 						mAuthor, mPicture, mTitle);
-				controller.newReply(viewingComment, newComment, this);
+				controller.newReply(newComment, viewingComment, this);
 			}
 			finish();
 		}

@@ -3,6 +3,7 @@ package ca.ualberta.cs.team5geotopics;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.util.Log;
 
 public class CommentController {
 	private Cache mCache;

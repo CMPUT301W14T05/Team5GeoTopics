@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,9 +39,6 @@ public class TopLevelActivity extends BrowseActivity {
 		this.clm = new CommentListModel();
 		this.mCache = Cache.getInstance();
 		
-		//Set my view to the history cache
-		//This is a temporary fix
-		this.clm.setList(mCache.getHistory());
 		//setting up controller
 		this.topLevelFilter = new IntentFilter(CommentListController.RECIEVE_TOP_LEVEL_COMMENTS);
 		this.topLevelFilter.addCategory(Intent.CATEGORY_DEFAULT);
@@ -56,7 +55,12 @@ public class TopLevelActivity extends BrowseActivity {
 		browseListView = (ListView) findViewById(R.id.browse_top_level_listView);
 		browseListView.setAdapter(myView);
 		
-		GetTopLevel.getAll(getApplicationContext());
+		//Get from Internet if available else get from cache
+		if(isNetworkAvailable()){
+			GetTopLevel.getAll(getApplicationContext());
+		}else{
+			this.clm.setList(mCache.getHistory());
+		}
 	}
 	
 	@Override
@@ -99,7 +103,7 @@ public class TopLevelActivity extends BrowseActivity {
 					.getParcelableArrayList(TOP_LEVEL_KEY);
 			Log.w("CommentListController", Integer.valueOf(newTopLevel.size())
 					.toString());
-			browseModel.refreshAddAll(newTopLevel);
+			browseModel.refreshAddAll(newTopLevel, getApplicationContext());
 
 		}
 
@@ -108,4 +112,5 @@ public class TopLevelActivity extends BrowseActivity {
 			this.browseModel = browseModel;
 		}
 	}
+
 }

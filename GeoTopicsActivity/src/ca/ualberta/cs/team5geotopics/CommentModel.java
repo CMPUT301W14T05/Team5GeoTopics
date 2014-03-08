@@ -70,23 +70,6 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	private Date mDate;
 	private Location mGeolocation;
 	
-	// Test Constructor for Top Level Comments
-
-	public CommentModel(Location geoLoc, String mBody, String mAuthor, String mTitle) {
-
-		super();
-		this.mGeolocation = geoLoc;
-		this.mBody = mBody;
-		this.mAuthor = mAuthor;
-		this.mTitle = mTitle;
-		this.mPicture = null;
-		putTimeStamp();
-		this.mEsID = null;
-		this.mParentID = null;
-		this.mReplies = new ArrayList<CommentModel>();
-
-	}
-
 	// Constructor for Top Level Comments
 	public CommentModel(Location mGeolocation, String mBody, String mAuthor,
 			Bitmap mPicture, String mTitle) {
@@ -102,22 +85,6 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.mReplies = new ArrayList<CommentModel>();
 
 	}
-
-	// Test Constructor for replies
-	public CommentModel(Location mGeolocation, String mBody, String mAuthor) {
-		super();
-		this.mGeolocation = mGeolocation;
-		this.mBody = mBody;
-		this.mAuthor = mAuthor;
-		this.mTitle = null;
-		this.mPicture = null;
-		putTimeStamp();
-		this.mEsID = null;
-		this.mParentID = null;
-		this.mParent = null;
-		this.mReplies = new ArrayList<CommentModel>();
-	}
-
 	// Constructor for replies
 	public CommentModel(Location mGeolocation, String mBody, String mAuthor,
 			Bitmap mPicture) {
@@ -205,7 +172,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	public void setmEsID(String mEsID) {
 		this.mEsID = mEsID;
 	}
-
+	
 	public String getmParentID() {
 		return mParentID;
 	}
@@ -283,6 +250,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 
 	public void addReply(CommentModel comment) {
 		comment.setParent(this);
+		comment.setmParentID(this.mParentID);
 		mReplies.add(comment);
 		this.notifyViews();
 	}

@@ -1,9 +1,8 @@
 package ca.ualberta.cs.team5geotopics;
 
-import java.util.ArrayList;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;

@@ -23,11 +23,21 @@ public class Cache extends AModel<AView> {
 
 	private Cache() {
 		this.mHistory = new ArrayList<CommentModel>();
-		this.dummyData();
 	}
 
 	public static Cache getInstance() {
 		return myself;
+	}
+	
+	public void clearHistory() {
+		mHistory.clear();
+	}
+	
+	public void replaceHistory(ArrayList<CommentModel> mHistory, Context context){
+		this.mHistory = mHistory;
+		this.notifyViews();
+		Log.w("Cache-write myCommentsData", "Replace History First");
+		this.writeMyHistory(context, mHistory);
 	}
 	
 	public void addToHistory(CommentModel comment, Context context) {
@@ -36,39 +46,7 @@ public class Cache extends AModel<AView> {
 		this.writeMyHistory(context, mHistory);
 	}
 	
-	//Load the cache with dummy data
-	private void dummyData() {
-		Location l1 = new Location("l1");
-		Location l2 = new Location("l2");
-		Location l3 = new Location("l3");
-		l1.setLatitude(0);
-		l1.setLongitude(0.001);
-		l2.setLatitude(0);
-		l2.setLongitude(2);
-		l3.setLatitude(0);
-		l3.setLongitude(0.008);
-		
-		CommentModel tlc1 = new CommentModel(l1, "I am indestructable!!", "Superman", "Info about superman");
-		try {
-		    Thread.sleep(10);
-		} catch(InterruptedException ex) {
-		    Thread.currentThread().interrupt();
-		}
-		CommentModel tlc2 = new CommentModel(l2, "I am a pansy", "Spiderman", "Info about spiderman");
-		try {
-		    Thread.sleep(10);
-		} catch(InterruptedException ex) {
-		    Thread.currentThread().interrupt();
-		}
-		CommentModel tlc3 = new CommentModel(l3, "I can't feel my legs guys", "Professor X", "Info about Professor X");
-		
-		tlc1.addReply(new CommentModel(l2, "Not if I have Kryptonite!", "Anonymoose"));
-		tlc2.addReply(new CommentModel(l1, "I am sure someone loves you", "Green Goblin"));
-		
-		mHistory.add(tlc3);
-		mHistory.add(tlc2);
-		mHistory.add(tlc1);
-	}
+	
 
 	// Stubb. Will write the my comments array to disk
 
@@ -172,4 +150,43 @@ public class Cache extends AModel<AView> {
 	public ArrayList<CommentModel> getHistory() {
 		return this.mHistory;
 	}
+	
+	/*
+	 * No Longer need this dummy data but keeping it around just in case we need it again.
+	 * Can delete once we no longer feel we need it for testing anything.
+	 */
+	/*
+	//Load the cache with dummy data
+		private void dummyData() {
+			Location l1 = new Location("l1");
+			Location l2 = new Location("l2");
+			Location l3 = new Location("l3");
+			l1.setLatitude(0);
+			l1.setLongitude(0.001);
+			l2.setLatitude(0);
+			l2.setLongitude(2);
+			l3.setLatitude(0);
+			l3.setLongitude(0.008);
+			
+			CommentModel tlc1 = new CommentModel(l1, "I am indestructable!!", "Superman", "Info about superman");
+			try {
+			    Thread.sleep(10);
+			} catch(InterruptedException ex) {
+			    Thread.currentThread().interrupt();
+			}
+			CommentModel tlc2 = new CommentModel(l2, "I am a pansy", "Spiderman", "Info about spiderman");
+			try {
+			    Thread.sleep(10);
+			} catch(InterruptedException ex) {
+			    Thread.currentThread().interrupt();
+			}
+			CommentModel tlc3 = new CommentModel(l3, "I can't feel my legs guys", "Professor X", "Info about Professor X");
+			
+			tlc1.addReply(new CommentModel(l2, "Not if I have Kryptonite!", "Anonymoose"));
+			tlc2.addReply(new CommentModel(l1, "I am sure someone loves you", "Green Goblin"));
+			
+			mHistory.add(tlc3);
+			mHistory.add(tlc2);
+			mHistory.add(tlc1);
+		*/
 }
