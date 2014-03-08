@@ -89,6 +89,7 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AMo
 			holder = (Holder) view.getTag();
 		}
 		CommentModel comment = mCommentList.get(position);
+		// errorrr is right here.....
 		Date date = comment.getDate();
 		DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(mContext);
 		DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(mContext);

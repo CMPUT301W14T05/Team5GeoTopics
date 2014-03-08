@@ -1,11 +1,17 @@
 package ca.ualberta.cs.team5geotopics;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,7 +28,8 @@ public abstract class BrowseActivity extends Activity {
 	protected Cache mCache;
 	protected User myUser;
 	protected Intent intent;
-
+	
+	
 	// Creates the options menu using the layout in menu.
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar

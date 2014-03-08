@@ -112,28 +112,19 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 				loc.setLatitude(0);
 				mGeolocation = loc;
 			}
-
+			User user = new User(getApplicationContext());
 			if (viewingComment == null) {
 				// Creates new top level comment.
-				newComment = new CommentModel(mGeolocation, mBody,
-						mAuthor, mPicture, mTitle);
+				newComment = new CommentModel(String.valueOf(mGeolocation.getLatitude()), String.valueOf(mGeolocation.getLongitude()),
+						mBody, mAuthor, mTitle, mPicture, "TopLevel");
+				newComment.setES(user.readInstallIDFile() + user.readPostCount(), "-1", user.readInstallIDFile());
 				controller.newTopLevel(newComment, this);
 			} else {
 				newComment = new CommentModel(mGeolocation, mBody,
 						mAuthor, mPicture, mTitle);
 				controller.newReply(viewingComment, newComment, this);
 			}
-			/*
-			CommentModel topLevel = new CommentModel(mGeolocation, mBody,
-					mAuthor, mPicture, mTitle);
-			topLevel.setmEsID(USER.readInstallIDFile() + " "
-					+ USER.readPostCount());
-			topLevel.setmEsType(USER.readInstallIDFile());
-			PutIndexService.pushComment(getApplicationContext(), "TopLevel",
-					topLevel);
-			*/
 			finish();
-
 		}
 	}
 }

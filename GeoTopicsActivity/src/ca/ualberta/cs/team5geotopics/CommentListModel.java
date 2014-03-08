@@ -24,6 +24,8 @@ public class CommentListModel extends AModel<AView>{
 		this.notifyViews();
 	}
 	
+	
+
 	/*
 	 * Handles Used Cases 1, 2:
 	 * SortByProximityToMe
@@ -121,5 +123,12 @@ public class CommentListModel extends AModel<AView>{
 	public void setList(ArrayList<CommentModel> mComments) {
 		this.mComments = mComments;
 		this.notifyViews();
+	}
+
+	public void refreshAddAll(ArrayList<CommentModel> newTopLevel) {
+		this.mComments.removeAll(mComments);
+		this.mComments.addAll(newTopLevel);
+		this.notifyViews();
+		
 	}
 }

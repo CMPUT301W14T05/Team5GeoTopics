@@ -1,12 +1,14 @@
 package ca.ualberta.cs.team5geotopics;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import ca.ualberta.cs.team5geotopics.AModel;
 import ca.ualberta.cs.team5geotopics.AView;
 
@@ -15,28 +17,59 @@ import ca.ualberta.cs.team5geotopics.AView;
  * and ReplyLevelModel.
  */
 
-public class CommentModel extends AModel<AView> implements Serializable {
-	// elastic search id variables
+public class CommentModel extends AModel<AView> implements Parcelable {
+	// elastic search dependent variables
 	private String mEsID;
 	private String mParentID;
 	private String mEsType;
-	
-	private static final long serialVersionUID = 1L;
-	private Location mGeolocation;
+	private String type;
+	private String lat;
+	private String lon;
+	private long epochTime; 
 	private String mBody;
 	private String mAuthor;
 	private String mTitle;
 	private Bitmap mPicture;
-	private Date mDate;
-	private String mDMYFormatedDate;
-	private String mHrSecFormatedDate;
+	
+	// elastic search comment constructor
+	
+	public CommentModel(String lat, String lon, String body, String author,
+						String title, Bitmap image, String type){
+		super();
+		this.lat = lat;
+		this.lon = lon;
+		this.epochTime = System.currentTimeMillis();
+		this.mBody = body;
+		this.mAuthor = author;
+		this.mTitle = title;
+		this.mPicture = image;
+		this.type = type;
+		this.mParentID = "-1";
+		this.mReplies = new ArrayList<CommentModel>();
+		this.mParent = null;
+		this.mDate = new Date(epochTime);
+	}
+	
+	public void setES(String id, String parent, String type){
+		this.mEsID = id;
+		this.mParentID = parent;
+		this.mEsType = type;
+	}
+	
+	public boolean isTopLevel() {
+		return (mParent == null);
+	}
+	
+	//local variables
 	/*
 	 * We still need these as Josh said we still need to reference comments this
 	 * way when they are hot (In the application)
 	 */
 	private ArrayList<CommentModel> mReplies;
 	private CommentModel mParent;
-
+	private Date mDate;
+	private Location mGeolocation;
+	
 	// Test Constructor for Top Level Comments
 
 	public CommentModel(Location geoLoc, String mBody, String mAuthor, String mTitle) {
@@ -100,15 +133,69 @@ public class CommentModel extends AModel<AView> implements Serializable {
 		this.mParent = null;
 		this.mReplies = new ArrayList<CommentModel>();
 	}
+	
+	/*
+	 * parcable stuff
+	 */
+	private void readFromParcel(Parcel in) {
+		this.mGeolocation = in.readParcelable(Location.class.getClassLoader());
+		this.mPicture = in.readParcelable(Bitmap.class.getClassLoader());
+		this.mTitle = in.readString();
+		this.mAuthor = in.readString();
+		this.mBody = in.readString();
+		this.lat = in.readString();
+		this.lon = in.readString();
+		this.epochTime = in.readLong();
+		this.mEsID = in.readString();
+		this.mEsType = in.readString();
+		this.mParentID = in.readString();
+		this.mReplies = new ArrayList<CommentModel>();
+		this.mParent = null;
+		this.mDate = new Date(this.epochTime);
+	}
+	
+	// parcable constructor
+	public CommentModel(Parcel in) {  
+	     readFromParcel(in);  
+	}  
+	
+	@Override  
+    public void writeToParcel(Parcel out, int flags) {  
+        out.writeParcelable(mGeolocation, flags);
+		out.writeParcelable(mPicture, flags);
+		out.writeString(mTitle);
+		out.writeString(mAuthor);
+		out.writeString(mBody);
+		out.writeString(lat);
+		out.writeString(lon);
+		out.writeLong(epochTime);
+		out.writeString(mEsID);
+		out.writeString(mEsType);
+		out.writeString(mParentID);
+	}  
+	
+	public static final Parcelable.Creator<CommentModel> CREATOR = new Parcelable.Creator<CommentModel>() {  
+	    
+        public CommentModel createFromParcel(Parcel in) {  
+            return new CommentModel(in);  
+        }  
+   
+        public CommentModel[] newArray(int size) {  
+            return new CommentModel[size];  
+        }  
+          
+    }; 
+    
+    @Override  
+    public int describeContents() {  
+        return 0;  
+    }  
 
+    /*
+     * end of parcable stuff
+     */
 	protected void putTimeStamp() {
 		this.mDate = new Date(System.currentTimeMillis());
-		SimpleDateFormat dmy = new SimpleDateFormat("dd/MM/yyy");
-		SimpleDateFormat hrSec = new SimpleDateFormat("hh:mm a");
-
-		this.mDMYFormatedDate = dmy.format(mDate);
-		this.mHrSecFormatedDate = hrSec.format(mDate);
-
 	}
 
 	public String getmEsID() {
@@ -172,9 +259,7 @@ public class CommentModel extends AModel<AView> implements Serializable {
 		return mGeolocation;
 	}
 
-	public boolean isTopLevel() {
-		return this.mParent == null;
-	}
+	
 
 	public CharSequence getmTitle() {
 		return this.mTitle;
@@ -210,5 +295,60 @@ public class CommentModel extends AModel<AView> implements Serializable {
 		return this.mReplies;
 	}
 
+	public String getLat() {
+		return lat;
+	}
+
+	public void setLat(String lat) {
+		this.lat = lat;
+	}
+
+	public String getLon() {
+		return lon;
+	}
+
+	public void setLon(String lon) {
+		this.lon = lon;
+	}
+
+	public long getEpochTime() {
+		return epochTime;
+	}
+
+	public void setEpochTime(long epochTime) {
+		this.epochTime = epochTime;
+	}
+
+	public Date getmDate() {
+		return mDate;
+	}
+
+	public void setmDate(Date mDate) {
+		this.mDate = mDate;
+	}
+
+	public ArrayList<CommentModel> getmReplies() {
+		return mReplies;
+	}
+
+	public void setmReplies(ArrayList<CommentModel> mReplies) {
+		this.mReplies = mReplies;
+	}
+
+	public CommentModel getmParent() {
+		return mParent;
+	}
+
+	public void setmParent(CommentModel mParent) {
+		this.mParent = mParent;
+	}
+
+	public Bitmap getmPicture() {
+		return mPicture;
+	}
+
+	public Location getmGeolocation() {
+		return mGeolocation;
+	}
 	
 }

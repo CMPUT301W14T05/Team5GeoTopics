@@ -16,6 +16,7 @@ public class CommentController {
 	public void newTopLevel(CommentModel newComment, Context context) {
 		mCache.addToHistory(newComment, context);
 		myUser.addToMyComments(newComment, context);
+		PutIndexService.pushComment(context, "TopLevel", newComment);
 	}
 
 	public void newReply(CommentModel newComment, CommentModel parentComment,
