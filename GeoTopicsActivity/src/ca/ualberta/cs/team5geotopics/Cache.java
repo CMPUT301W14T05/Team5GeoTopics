@@ -1,14 +1,12 @@
 package ca.ualberta.cs.team5geotopics;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import android.content.Context;
 import android.location.Location;
@@ -16,13 +14,10 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 
 public class Cache extends AModel<AView> {
 	private ArrayList<CommentModel> mHistory;
-	private boolean isLoaded = false;
 
 	private static Cache myself = new Cache();
 
@@ -82,14 +77,8 @@ public class Cache extends AModel<AView> {
 	}
 	
 	/*
-	 * I'm not too familiar with how to actually write arrays of Objects but I am going off
-	 * of the following Article: 
-	 * 
 	 * Author: Kevin Tambascio
 	 * URL: https://www.tambascio.org/kevin/android/gson-and-android/ (March 6th, 2014)
-	 * 
-	 * NOTE FOR JAMES: I figured if they are all using roughly the same code for writing 
-	 * we could probably write on function to do the writing.
 	 */
 	private void writeComments(String name, Context context, ArrayList<CommentModel> savedList) {
 //-----------------------------------------------------
@@ -114,23 +103,57 @@ public class Cache extends AModel<AView> {
 			}
 			
 		} catch (FileNotFoundException e) {
-			/*
-			 * handle the exception
-			 */
+			e.printStackTrace();
 		} catch (IOException e) {
-			/*
-			 * handle the exception
-			 */
+			e.printStackTrace();
 		} finally {
 			try {
 				if (fos != null)
 					fos.close();
 			} catch (IOException e) {
-				/*
-				 * do something
-				 */
+				e.printStackTrace();
 			}
 		}
+	}
+	
+	/*
+	 * Make sure filename is correct (history.sav, bookmarks.sav or favourites.sav) and this will return an arraylist
+	 * of the contents of the cache.
+	 * 
+     * Modified from LonelyTwitter Author:Joshua Campbell 2014-01-24
+	 */
+	public ArrayList<CommentModel> loadFromCache(Context context, String filename) {
+	    Gson gson = new Gson(); 
+	    ArrayList<CommentModel> resultList = new ArrayList<CommentModel>();
+	    FileInputStream fis = null; 
+	    try { 
+	        fis = context.openFileInput(filename); 
+	        BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+	        String line = in.readLine();
+	        while (line != null) {
+				resultList.add(gson.fromJson(line, CommentModel.class));
+				line = in.readLine();
+	        }
+	    }
+	    catch(JsonSyntaxException e) { 
+	    	e.printStackTrace();
+	    }
+	    catch (FileNotFoundException e) { 
+	    	e.printStackTrace();
+	    } 
+	    catch (IOException e) {
+			e.printStackTrace();
+		}
+	    finally { 
+	        try { 
+	            if(fis != null)
+	                fis.close();
+	        }
+	        catch (IOException e)  { 
+	        	e.printStackTrace();
+	        }
+	    }
+		return resultList;
 	}
 
 	private void writeMyHistory(Context context, ArrayList<CommentModel> mHistory) {
@@ -145,64 +168,13 @@ public class Cache extends AModel<AView> {
 		writeComments("favourites.sav", context, mFavourites);
 	}
 	
-	public void loadCache(Context context) {
-		if(!isLoaded) {
-			this.loadAll(context);
-		}
-	}
+//	public void loadCache(Context context) {
+//		if(!isLoaded) {
+//			this.loadAll(context);
+//		}
+//	}
 	
-	//Stubb. This will load all the caches from disk
-	/*
-	 * I'm not too familiar with how to actually write arrays of Objects but I am going off
-	 * of the following Article: 
-	 * 
-	 * Author: Kevin Tambascio
-	 * URL: https://www.tambascio.org/kevin/android/gson-and-android/ (March 6th, 2014)
-	 * 
-	 * 
-	 * NOTE FOR JAMES: I figured this would at least lay out a base for you, I didn't do 
-	 * this right on the assignment I don't think that's why I have little confidence in this code.
-	 * the below only read myComments.
-	 */
-	@SuppressWarnings("unchecked")
-	private void loadAll(Context context) {
-	    Gson gson = new Gson(); //1
-	    FileInputStream fis = null; 
-	    try { 
-	        fis = context.openFileInput("myComments"); //2
-	        Type collectionType = new TypeToken<Collection<CommentModel>>(){}.getType(); //3 
-	        List myComments= gson.fromJson(new InputStreamReader(fis), collectionType); //4
-	        if(myComments != null) { 
-	            this.mHistory.addAll(myComments);
-	        }
-	    }
-	    catch(JsonIOException e) { 
-	    	/*
-	    	 * Handle Exception
-	    	 */
-	    }
-	    catch(JsonSyntaxException e) { 
-	    	/*
-	    	 * Handle Exception
-	    	 */
-	    }
-	    catch (FileNotFoundException e) { 
-	    	/*
-	    	 * Handle Exception
-	    	 */
-	    }
-	    finally { 
-	        try { 
-	            if(fis != null)
-	                fis.close(); //5
-	        }
-	        catch (IOException e)  { 
-		    	/*
-		    	 * Handle Exception
-		    	 */
-	        }
-	    }
-	}
+
 	
 	public ArrayList<CommentModel> getHistory() {
 		return this.mHistory;
