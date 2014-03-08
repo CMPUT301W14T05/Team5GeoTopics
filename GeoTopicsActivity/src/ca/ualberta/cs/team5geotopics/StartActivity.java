@@ -34,7 +34,7 @@ public class StartActivity extends Activity {
 		setUpBrowseBookmarks();
 	}
 
-
+	
 	private void setUpBrowseButton() {
 		mBrowseTopLevel = (ImageButton)findViewById(R.id.start_browse_top_level);
 		mBrowseTopLevel.setOnClickListener(new View.OnClickListener() 
@@ -98,4 +98,5 @@ public class StartActivity extends Activity {
 			}
 		});
 	}
+	
 }
