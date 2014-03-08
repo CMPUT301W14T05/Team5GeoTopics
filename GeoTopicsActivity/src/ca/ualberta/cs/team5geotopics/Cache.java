@@ -137,6 +137,7 @@ public class Cache extends AModel<AView> {
 	    }
 	    catch(JsonSyntaxException e) { 
 	    	e.printStackTrace();
+	    	//TODO: print from system.err stream in LogCat
 	    }
 	    catch (FileNotFoundException e) { 
 	    	e.printStackTrace();
@@ -167,14 +168,6 @@ public class Cache extends AModel<AView> {
 	private void writeMyFavourites(Context context, ArrayList<CommentModel> mFavourites) {
 		writeComments("favourites.sav", context, mFavourites);
 	}
-	
-//	public void loadCache(Context context) {
-//		if(!isLoaded) {
-//			this.loadAll(context);
-//		}
-//	}
-	
-
 	
 	public ArrayList<CommentModel> getHistory() {
 		return this.mHistory;
