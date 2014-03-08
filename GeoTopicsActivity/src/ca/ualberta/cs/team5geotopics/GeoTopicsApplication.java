@@ -19,7 +19,7 @@ public class GeoTopicsApplication {
 	@SuppressWarnings("unused")
 	private static final String CMPUT301_CLUSTER = "http://cmput301.softwareprocess.es:8080/testing/";
 
-	private CommentModel currentlyViewingComment;
+	private CommentModel currentlyViewingComment = null;
 	private static GeoTopicsApplication myself = new GeoTopicsApplication();
 	private JestClient mClient = null;
 	private String mID;

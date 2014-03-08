@@ -1,11 +1,6 @@
 package ca.ualberta.cs.team5geotopics;
 
-import com.example.team5geotopics.R;
-
 import android.location.Location;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,6 +9,9 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.example.team5geotopics.R;
 
 public class CreateCommentActivity extends InspectCommentActivity implements
 		OnClickListener {
@@ -125,7 +123,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 						mAuthor, mPicture, mTitle);
 				controller.newReply(viewingComment, newComment, this);
 			}
-
+			/*
 			CommentModel topLevel = new CommentModel(mGeolocation, mBody,
 					mAuthor, mPicture, mTitle);
 			topLevel.setmEsID(USER.readInstallIDFile() + " "
@@ -133,6 +131,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 			topLevel.setmEsType(USER.readInstallIDFile());
 			PutIndexService.pushComment(getApplicationContext(), "TopLevel",
 					topLevel);
+			*/
 			finish();
 
 		}

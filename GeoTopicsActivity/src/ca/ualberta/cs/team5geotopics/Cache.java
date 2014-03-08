@@ -48,21 +48,21 @@ public class Cache extends AModel<AView> {
 		l3.setLatitude(0);
 		l3.setLongitude(0.008);
 		
-		CommentModel tlc1 = new CommentModel("I am indestructable!!", "Superman", "Info about superman", l1);
+		CommentModel tlc1 = new CommentModel(l1, "I am indestructable!!", "Superman", "Info about superman");
 		try {
 		    Thread.sleep(10);
 		} catch(InterruptedException ex) {
 		    Thread.currentThread().interrupt();
 		}
-		CommentModel tlc2 = new CommentModel("I am a pansy", "Spiderman", "Info about spiderman", l2);
+		CommentModel tlc2 = new CommentModel(l2, "I am a pansy", "Spiderman", "Info about spiderman");
 		try {
 		    Thread.sleep(10);
 		} catch(InterruptedException ex) {
 		    Thread.currentThread().interrupt();
 		}
-		CommentModel tlc3 = new CommentModel("I can't feel my legs guys", "Professor X", "Info about Professor X", l3);
+		CommentModel tlc3 = new CommentModel(l3, "I can't feel my legs guys", "Professor X", "Info about Professor X");
 		
-		tlc1.addReply(new CommentModel(l3, "Not if I have Kryptonite!", "Anonymoose"));
+		tlc1.addReply(new CommentModel(l2, "Not if I have Kryptonite!", "Anonymoose"));
 		tlc2.addReply(new CommentModel(l1, "I am sure someone loves you", "Green Goblin"));
 		
 		mHistory.add(tlc3);

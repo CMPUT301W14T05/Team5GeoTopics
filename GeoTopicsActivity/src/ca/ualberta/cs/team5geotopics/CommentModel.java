@@ -39,7 +39,7 @@ public class CommentModel extends AModel<AView> implements Serializable {
 
 	// Test Constructor for Top Level Comments
 
-	public CommentModel(String mBody, String mAuthor, String mTitle, Location geoLoc) {
+	public CommentModel(Location geoLoc, String mBody, String mAuthor, String mTitle) {
 
 		super();
 		this.mGeolocation = geoLoc;
@@ -173,7 +173,7 @@ public class CommentModel extends AModel<AView> implements Serializable {
 	}
 
 	public boolean isTopLevel() {
-		return this.mParentID == null;
+		return this.mParent == null;
 	}
 
 	public CharSequence getmTitle() {
