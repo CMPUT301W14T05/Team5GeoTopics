@@ -65,6 +65,9 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<CommentM
 	
 	@Override
 	protected void onResume(){
+		//Reset the current viewing comment
+		application.setCurrentViewingComment(viewingComment);
+		
 		browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> myView, View view, int position,
@@ -79,6 +82,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<CommentM
 	}
 	
 	public void update(CommentModel comment) {
+		myView.notifyDataSetChanged();
 		if(viewingComment.isTopLevel()) {
 			title.setText(viewingComment.getmTitle());
 		}else{

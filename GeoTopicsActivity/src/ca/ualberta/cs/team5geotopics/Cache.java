@@ -77,8 +77,8 @@ public class Cache extends AModel<AView> {
 		}
 		CommentModel tlc3 = new CommentModel("I can't feel my legs guys", "Professor X", "Info about Professor X", l3);
 		
-		tlc1.addReply(new CommentModel("Not if I have Kryptonite!", "Anonymoose"));
-		tlc2.addReply(new CommentModel("I am sure someone loves you", "Green Goblin"));
+		tlc1.addReply(new CommentModel(l3, "Not if I have Kryptonite!", "Anonymoose"));
+		tlc2.addReply(new CommentModel(l1, "I am sure someone loves you", "Green Goblin"));
 		
 		mHistory.add(tlc3);
 		mHistory.add(tlc2);
