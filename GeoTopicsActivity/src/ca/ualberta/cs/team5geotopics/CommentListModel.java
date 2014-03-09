@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 import android.content.Context;
 import android.location.Location;
+import android.util.Log;
 
 public class CommentListModel extends AModel<AView>{
 	private ArrayList<CommentModel> mComments;
@@ -127,8 +128,8 @@ public class CommentListModel extends AModel<AView>{
 	public void refreshAddAll(ArrayList<CommentModel> newTopLevel, Context context) {
 		this.mComments.removeAll(mComments);
 		this.mComments.addAll(newTopLevel);
-		this.mCache.replaceHistory(mComments, context);
+		Log.w("refreshAddAll" , Integer.valueOf(mComments.size()).toString());
 		this.notifyViews();
-		
+		this.mCache.replaceHistory(mComments, context);
 	}
 }

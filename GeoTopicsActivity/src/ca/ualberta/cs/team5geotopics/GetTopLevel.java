@@ -8,7 +8,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import ca.ualberta.cs.team5geotopics.TopLevelActivity.CommentListController;
+//import ca.ualberta.cs.team5geotopics.TopLevelActivity.CommentListController;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -76,13 +76,12 @@ public class GetTopLevel extends IntentService {
 		client.shutdownClient();
 		// broadcast intent containing bundle of commentmodels
 		Intent resultIntent = new Intent();
-		resultIntent.setAction(CommentListController.RECIEVE_TOP_LEVEL_COMMENTS);
+		//resultIntent.setAction(CommentListController.RECIEVE_TOP_LEVEL_COMMENTS);
 		resultIntent.addCategory(Intent.CATEGORY_DEFAULT);
 		Bundle bundle = new Bundle();
 		bundle.putParcelableArrayList(COMMENT_KEY, (ArrayList<? extends Parcelable>) commentList);
 		resultIntent.putExtras(bundle);
 		sendBroadcast(resultIntent);
-		
 	}
 	
 	/**

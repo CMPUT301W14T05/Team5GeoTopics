@@ -22,7 +22,6 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	private String mEsID;
 	private String mParentID;
 	private String mEsType;
-	private String type;
 	private String lat;
 	private String lon;
 	private long epochTime; 
@@ -34,7 +33,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	// elastic search comment constructor
 	
 	public CommentModel(String lat, String lon, String body, String author,
-						String title, Bitmap image, String type){
+						String title, Bitmap image){
 		super();
 		this.lat = lat;
 		this.lon = lon;
@@ -43,7 +42,6 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.mAuthor = author;
 		this.mTitle = title;
 		this.mPicture = image;
-		this.type = type;
 		this.mParentID = "-1";
 		this.mReplies = new ArrayList<CommentModel>();
 		this.mParent = null;
