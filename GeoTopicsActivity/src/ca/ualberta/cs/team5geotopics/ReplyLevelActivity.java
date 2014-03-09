@@ -1,9 +1,8 @@
 package ca.ualberta.cs.team5geotopics;
 
-import java.util.ArrayList;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -13,8 +12,7 @@ import android.widget.TextView;
 import com.example.team5geotopics.R;
 
 
-public class ReplyLevelActivity extends BrowseActivity implements AView<CommentModel>
-{
+public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> {
 	private TextView title;
 	private TextView body;
 	private ImageView image;
@@ -67,6 +65,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<CommentM
 	protected void onResume(){
 		//Reset the current viewing comment
 		application.setCurrentViewingComment(viewingComment);
+		myView.notifyDataSetChanged(); //Ensure the view is up to date.
 		
 		browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -81,7 +80,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<CommentM
 		super.onResume();
 	}
 	
-	public void update(CommentModel comment) {
+	public void update(AModel model) {
 		myView.notifyDataSetChanged();
 		if(viewingComment.isTopLevel()) {
 			title.setText(viewingComment.getmTitle());
@@ -97,4 +96,5 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<CommentM
 			image.setVisibility(View.GONE);
 		}
 	}
+
 }

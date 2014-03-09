@@ -26,6 +26,7 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		postBtn = (ImageButton)findViewById(R.id.imageButtonPostE);
 		
 		application = GeoTopicsApplication.getInstance();
+		this.controller = new CommentController();
 		
 		// Allows the buttons to be checked for a click event.
 		locationBtn.setOnClickListener(this);
@@ -35,17 +36,20 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		
 		// Comments already exists, put in the data to fields
 		setTitle("Edit Comment");
-		EditText editText = (EditText)findViewById(R.id.editCommentTitleE);
-		editText.setText(application.getCurrentViewingComment().getmTitle());
+		title = (EditText)findViewById(R.id.editCommentTitleE);
+		title.setText(application.getCurrentViewingComment().getmTitle());
 			
-		editText = (EditText)findViewById(R.id.editCommentAuthorE);
-		editText.setText(application.getCurrentViewingComment().getmAuthor());
+		author = (EditText)findViewById(R.id.editCommentAuthorE);
+		author.setText(application.getCurrentViewingComment().getmAuthor());
 			
-		editText = (EditText)findViewById(R.id.editCommentBodyE);
-		editText.setText(application.getCurrentViewingComment().getmBody());
+		body = (EditText)findViewById(R.id.editCommentBodyE);
+		body.setText(application.getCurrentViewingComment().getmBody());
 			
-		ImageView uploadedImage = (ImageView)findViewById(R.id.imageViewPictureE);    
+		uploadedImage = (ImageView)findViewById(R.id.imageViewPicture);    
 		uploadedImage.setImageBitmap(application.getCurrentViewingComment().getPicture());
+		mPicture = application.getCurrentViewingComment().getPicture();
+		
+		mGeolocation =  application.getCurrentViewingComment().getGeoLocation();
 		
 	}
 
@@ -60,9 +64,11 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 	@SuppressWarnings("deprecation")
 	public void onClick(View v){
 		if (v == locationBtn){
+			showDialog(1);
 			
 		}
 		if (v == photoBtn){
+			uploadedImage = (ImageView)findViewById(R.id.imageViewPicture);
 			showDialog(0);
 		}
 		if (v == cancelBtn){
@@ -70,15 +76,14 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		}
 		// Gets all the data from the text boxes and submits it as a edited comment
 		if (v == postBtn){
-				EditText editText = (EditText)findViewById(R.id.editCommentTitleE);
-				application.getCurrentViewingComment().setmTitle(editText.getText().toString());
-				editText = (EditText)findViewById(R.id.editCommentAuthorE);
-				application.getCurrentViewingComment().setmAuthor(editText.getText().toString());
-				editText = (EditText)findViewById(R.id.editCommentBodyE);
-				application.getCurrentViewingComment().setmBody(editText.getText().toString());
-			
-				application.getCurrentViewingComment().setmPicture(mPicture);
-				application.getCurrentViewingComment().setmGeolocation(mGeolocation);
+				title = (EditText)findViewById(R.id.editCommentTitleE);
+				author = (EditText)findViewById(R.id.editCommentAuthorE);
+				body = (EditText)findViewById(R.id.editCommentBodyE);
+				
+				//application.getCurrentViewingComment().setmPicture(mPicture);
+				//application.getCurrentViewingComment().setmGeolocation(mGeolocation);
+				
+				controller.updateComment(application.getCurrentViewingComment(), title.getText().toString(), author.getText().toString(), body.getText().toString(), mPicture, mGeolocation);
 				finish();
 		}
 	}

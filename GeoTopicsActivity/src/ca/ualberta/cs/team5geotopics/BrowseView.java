@@ -89,11 +89,16 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AMo
 			holder = (Holder) view.getTag();
 		}
 		CommentModel comment = mCommentList.get(position);
+		// errorrr is right here.....
 		Date date = comment.getDate();
 		DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(mContext);
 		DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(mContext);
 
+		//TODO Reference: 
+		//Need to align body up higher on non top level
+		//http://stackoverflow.com/questions/4638832/how-to-programmatically-set-the-layout-align-parent-right-attribute-of-a-button
 		if(isTopLevel){
+			holder.title.setVisibility(View.VISIBLE);
 			holder.title.setText(comment.getmTitle());
 		}else{
 			holder.title.setVisibility(View.GONE);

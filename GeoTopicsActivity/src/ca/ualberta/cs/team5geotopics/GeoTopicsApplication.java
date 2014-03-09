@@ -1,8 +1,11 @@
 package ca.ualberta.cs.team5geotopics;
 
-import io.searchbox.client.JestClient;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
+
+import io.searchbox.client.JestClient;
+
+
 
 //https://github.com/abramhindle/FillerCreepForAndroid/blob/master/src/es/softwareprocess/fillercreep/FillerCreepApplication.java
 //josh said not to extend Application
@@ -16,10 +19,11 @@ public class GeoTopicsApplication {
 	@SuppressWarnings("unused")
 	private static final String CMPUT301_CLUSTER = "http://cmput301.softwareprocess.es:8080/testing/";
 
-	private CommentModel currentlyViewingComment;
+	private CommentModel currentlyViewingComment = null;
 	private static GeoTopicsApplication myself = new GeoTopicsApplication();
 	private JestClient mClient = null;
-
+	private String mID;
+	
 	private GeoTopicsApplication() {
 	}
 

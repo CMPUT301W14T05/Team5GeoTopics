@@ -3,16 +3,17 @@ package ca.ualberta.cs.team5geotopics;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
+import android.content.Context;
 import android.location.Location;
 
 public class CommentListModel extends AModel<AView>{
-	ArrayList<CommentModel> mComments;
+	private ArrayList<CommentModel> mComments;
+	private Cache mCache;
 	
 	public CommentListModel(){
-		this.mComments = new ArrayList<CommentModel>();
-		
+		this.mComments = new ArrayList<CommentModel>();	
+		this.mCache = Cache.getInstance();
 	}
 	
 	public ArrayList<CommentModel> getList() {
@@ -121,5 +122,13 @@ public class CommentListModel extends AModel<AView>{
 	public void setList(ArrayList<CommentModel> mComments) {
 		this.mComments = mComments;
 		this.notifyViews();
+	}
+
+	public void refreshAddAll(ArrayList<CommentModel> newTopLevel, Context context) {
+		this.mComments.removeAll(mComments);
+		this.mComments.addAll(newTopLevel);
+		this.mCache.replaceHistory(mComments, context);
+		this.notifyViews();
+		
 	}
 }

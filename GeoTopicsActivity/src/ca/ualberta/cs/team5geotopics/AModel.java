@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class AModel<V extends AView>{
 	// the list of Views that we will update when model changes
-	private ArrayList<V> views;
+	private transient ArrayList<V> views;
 	
 	// just in case
 	public ArrayList<V> getViews() {

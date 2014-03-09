@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -26,7 +27,7 @@
             android:enabled="true" >
         </service>
         <service
-            android:name="ca.ualberta.cs.team5geotopics.GetAllService"
+            android:name="ca.ualberta.cs.team5geotopics.GetTopLevel"
             android:enabled="true" >
         </service>
 
@@ -39,10 +40,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="ca.ualberta.cs.team5geotopics.EsTestActivity"
-            android:label="@string/es_test_activity" >
-        </activity>
+        
         <activity
             android:name="ca.ualberta.cs.team5geotopics.TopLevelActivity"
             android:label="@string/title_top_level_activity" >
@@ -61,6 +59,10 @@
         </activity>
         <activity
             android:name="ca.ualberta.cs.team5geotopics.InspectCommentActivity"
+            android:label="@string/title_activity_inspect_comment" >
+        </activity>
+        <activity
+            android:name="ca.ualberta.cs.team5geotopics.MyCommentsActivity"
             android:label="@string/title_activity_inspect_comment" >
         </activity>
     </application>

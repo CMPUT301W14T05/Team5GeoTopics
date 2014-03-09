@@ -1,11 +1,19 @@
 package ca.ualberta.cs.team5geotopics;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +28,8 @@ public abstract class BrowseActivity extends Activity {
 	protected CommentModel viewingComment;
 	protected GeoTopicsApplication application;
 	protected Cache mCache;
+	protected User myUser;
+	protected Intent intent;
 
 	// Creates the options menu using the layout in menu.
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -33,11 +43,15 @@ public abstract class BrowseActivity extends Activity {
 		switch (item.getItemId()) {
 		// User clicks new comment button.
 		case R.id.new_top_level_comment:
-			Intent intent = new Intent(this, CreateCommentActivity.class);
+			intent = new Intent(this, CreateCommentActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.action_sort:
 			showDialog(0);
+			break;
+		case R.id.action_my_comments:
+			intent = new Intent(this, MyCommentsActivity.class);
+			startActivity(intent);
 			break;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -71,8 +85,9 @@ public abstract class BrowseActivity extends Activity {
 							switch (which) {
 							case 0: // Proximity to me
 								/*
-								 * Here is where we would have to get the current location
-								 * Defaulting to lat= 0, long = 0
+								 * Here is where we would have to get the
+								 * current location Defaulting to lat= 0, long =
+								 * 0
 								 */
 								myLoc.setLatitude(0);
 								myLoc.setLongitude(0);
@@ -80,8 +95,9 @@ public abstract class BrowseActivity extends Activity {
 								break;
 							case 1: // Proximity to location
 								/*
-								 * Here is where we would have to get the users desired location
-								 * Defaulting to lat= 0, long = 0
+								 * Here is where we would have to get the users
+								 * desired location Defaulting to lat= 0, long =
+								 * 0
 								 */
 								myLoc.setLatitude(0);
 								myLoc.setLongitude(0);
@@ -105,7 +121,8 @@ public abstract class BrowseActivity extends Activity {
 								break;
 							case 5: // Time
 								/*
-								 * not sure if this is supposed to be part of the scoring system
+								 * not sure if this is supposed to be part of
+								 * the scoring system
 								 */
 								clm.sortAllCommentsByDate();
 								break;
@@ -114,6 +131,18 @@ public abstract class BrowseActivity extends Activity {
 					});
 			return builder.create();
 		}
-			return null;
-		}
+		return null;
+	}
+
+	/*
+	 * Credit to Alexandre Jasmin for this code. Link:
+	 * http://stackoverflow.com/questions
+	 * /4238921/android-detect-whether-there-is-an-internet-connection-available
+	 */
+	protected boolean isNetworkAvailable() {
+		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetworkInfo = connectivityManager
+				.getActiveNetworkInfo();
+		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+	}
 }
