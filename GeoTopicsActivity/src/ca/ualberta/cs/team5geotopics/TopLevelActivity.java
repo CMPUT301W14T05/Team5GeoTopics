@@ -17,8 +17,7 @@ import android.widget.ListView;
 import com.example.team5geotopics.R;
 
 public class TopLevelActivity extends BrowseActivity {
-	private CommentListController commentListController;
-	private IntentFilter topLevelFilter;
+	private CommentListController modelController;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -39,11 +38,7 @@ public class TopLevelActivity extends BrowseActivity {
 		this.clm = new CommentListModel();
 		this.mCache = Cache.getInstance();
 		
-		//setting up controller
-		this.topLevelFilter = new IntentFilter(CommentListController.RECIEVE_TOP_LEVEL_COMMENTS);
-		this.topLevelFilter.addCategory(Intent.CATEGORY_DEFAULT);
-		this.commentListController = new CommentListController();
-		commentListController.addModel(this.clm);
+		
 		
 		
 		//Construct the View
@@ -55,12 +50,12 @@ public class TopLevelActivity extends BrowseActivity {
 		browseListView = (ListView) findViewById(R.id.browse_top_level_listView);
 		browseListView.setAdapter(myView);
 		
+		modelController = new CommentListController(this.clm);
+		modelController.getTopLevel(this);
+		
 		//Get from Internet if available else get from cache
-		if(isNetworkAvailable()){
-			GetTopLevel.getAll(getApplicationContext());
-		}else{
-			this.clm.setList(mCache.getHistory());
-		}
+		//this.clm.setList(mCache.getHistory());
+		
 	}
 	
 	@Override
@@ -79,38 +74,14 @@ public class TopLevelActivity extends BrowseActivity {
 			}
 			
 		});
-		registerReceiver(commentListController, topLevelFilter);
+		
 		super.onResume();
 	}
 
 	
 	@Override
 	protected void onPause() {
-		unregisterReceiver(commentListController);
+		
 		super.onPause();
 	}
-	public class CommentListController extends BroadcastReceiver {
-		public static final String RECIEVE_TOP_LEVEL_COMMENTS = "ca.ualberta.cs.team5geotopics.ACTIONS.RECIEVE_COMMENTS";
-		private static final String TOP_LEVEL_KEY = "NEW_TOP_LEVEL";
-		private CommentListModel browseModel;
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			Log.w("CommentListController", "in onRecieve");
-
-			Bundle bundle = intent.getExtras();
-			ArrayList<CommentModel> newTopLevel = bundle
-					.getParcelableArrayList(TOP_LEVEL_KEY);
-			Log.w("CommentListController", Integer.valueOf(newTopLevel.size())
-					.toString());
-			browseModel.refreshAddAll(newTopLevel, getApplicationContext());
-
-		}
-
-		public void addModel(CommentListModel browseModel) {
-			Log.w("CommentListController", "adding model to controller");
-			this.browseModel = browseModel;
-		}
-	}
-
 }

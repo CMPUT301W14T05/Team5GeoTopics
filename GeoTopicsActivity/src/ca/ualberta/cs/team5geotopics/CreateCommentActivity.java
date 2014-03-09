@@ -116,7 +116,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 			if (viewingComment == null) {
 				// Creates new top level comment.
 				newComment = new CommentModel(String.valueOf(mGeolocation.getLatitude()), String.valueOf(mGeolocation.getLongitude()),
-						mBody, mAuthor, mTitle, mPicture, "TopLevel");
+						mBody, mAuthor, mTitle, mPicture);
 				newComment.setES(user.readInstallIDFile() + user.readPostCount(), "-1", user.readInstallIDFile());
 				controller.newTopLevel(newComment, this);
 			} else {
