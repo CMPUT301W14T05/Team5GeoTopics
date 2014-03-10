@@ -35,12 +35,14 @@ public class CreateNewTLComment extends ActivityInstrumentationTestCase2<Inspect
 	
 	mPicture = Bitmap.createBitmap(10,10 ,Bitmap.Config.ARGB_8888);
 	
-	CommentModel topLevel = new CommentModel(mGeolocation, mBody, mAuthor, mPicture, mTitle);
+	CommentModel topLevel = new CommentModel("30.6282", "55.3116", mBody, mAuthor, mPicture, mTitle);
 	
 	assertTrue("Comment Body is correct", topLevel.getmBody() == "BODY");
 	assertTrue("Comment Author is correct", topLevel.getmAuthor() == "AUTHOR");
 	assertTrue("Comment Title is correct", topLevel.getmTitle() == "TITLE");
 	assertTrue("Comment Picture is correct", topLevel.getPicture() == mPicture);
-	assertTrue("Comment Geolocation is correct", topLevel.getGeoLocation() == mGeolocation);
+	assertTrue("Comment latitude is correct", topLevel.getGeoLocation().getLatitude() == 30.6282);
+	assertTrue("Comment Longitude is correct", topLevel.getGeoLocation().getLongitude() == 55.3116);
+	
 	}
 }

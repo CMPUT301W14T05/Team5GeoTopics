@@ -31,7 +31,7 @@ public class EditTLComment extends ActivityInstrumentationTestCase2<InspectComme
 		
 		mPicture = Bitmap.createBitmap(10,10 ,Bitmap.Config.ARGB_8888);
 		
-		CommentModel topLevel = new CommentModel(mGeolocation, mBody, mAuthor, mPicture, mTitle);
+		CommentModel topLevel = new CommentModel("30.6282", "55.3116", mBody, mAuthor, mPicture, mTitle);
 		
 		// New data for comment
 		mBody = "BODY_MODIFIED";
@@ -53,6 +53,7 @@ public class EditTLComment extends ActivityInstrumentationTestCase2<InspectComme
 		assertTrue("Edit Comment Author is correct", topLevel.getmAuthor() == "AUTHOR_MODIFIED");
 		assertTrue("Edit Comment Title is correct", topLevel.getmTitle() == "TITLE_MODIFIED");
 		assertTrue("Edit Comment Picture is correct", topLevel.getPicture() == mPicture);
-		assertTrue("Edit Comment Geolocation is correct", topLevel.getGeoLocation() == mGeolocation);
+		assertEquals("Comment latitude is correct", 35.0 , topLevel.getGeoLocation().getLatitude());
+		assertEquals("Comment Longitude is correct", 65.0, topLevel.getGeoLocation().getLongitude());
 		}
 	}

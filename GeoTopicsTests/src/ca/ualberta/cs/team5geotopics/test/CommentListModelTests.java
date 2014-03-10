@@ -125,37 +125,37 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<Brow
 	
 	public List<CommentModel> prepCommentList(double latA, double latB, double latC,
 			boolean hasPhoto) {
-		Location locA = new Location("A");
-		Location locB = new Location("B");
-		Location locC = new Location("C");
+//		Location locA = new Location("A");
+//		Location locB = new Location("B");
+//		Location locC = new Location("C");
 		Bitmap bm = null;
 		
 		if (hasPhoto) {
 			bm = Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888);
 		} 
 		
-		locC.setLatitude(latC);
-		locC.setLongitude(0);
+//		locC.setLatitude(latC);
+//		locC.setLongitude(0);
+//		
+//		locB.setLatitude(latB);
+//		locB.setLongitude(0);
+//		
+//		locA.setLatitude(latA);
+//		locA.setLongitude(0);
 		
-		locB.setLatitude(latB);
-		locB.setLongitude(0);
-		
-		locA.setLatitude(latA);
-		locA.setLongitude(0);
-		
-		CommentModel cA = new CommentModel(locA, "A", "A", bm, "A");
+		CommentModel cA = new CommentModel(Double.toString(latA), "0", "A", "A", bm, "A");
 		try {
 		    Thread.sleep(10);
 		} catch(InterruptedException ex) {
 		    Thread.currentThread().interrupt();
 		}
-		CommentModel cB = new CommentModel(locB, "B", "B", null, "B");
+		CommentModel cB = new CommentModel(Double.toString(latB), "0", "B", "B", null, "B");
 		try {
 		    Thread.sleep(10);
 		} catch(InterruptedException ex) {
 		    Thread.currentThread().interrupt();
 		}
-		CommentModel cC = new CommentModel(locC, "C", "C", bm, "C");
+		CommentModel cC = new CommentModel(Double.toString(latC), "0", "C", "C", bm, "C");
 		
 		List<CommentModel> lc = new ArrayList<CommentModel>();
 		lc.add(cC);

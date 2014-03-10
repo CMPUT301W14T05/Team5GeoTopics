@@ -65,13 +65,14 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	private ArrayList<CommentModel> mReplies;
 	//private CommentModel mParent;
 	private Date mDate;
-	private Location mGeolocation;
+	//private Location mGeolocation;
 	
 	// Constructor for Top Level Comments
-	public CommentModel(Location mGeolocation, String mBody, String mAuthor,
+	public CommentModel(String lat, String lon, String mBody, String mAuthor,
 			Bitmap mPicture, String mTitle) {
 		super();
-		this.mGeolocation = mGeolocation;
+		this.lat = lat;
+		this.lon = lon;
 		this.mBody = mBody;
 		this.mAuthor = mAuthor;
 		this.mTitle = mTitle;
@@ -84,10 +85,11 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	}
 	// Constructor for replies
 	//Think this constructor is redundant
-	public CommentModel(Location mGeolocation, String mBody, String mAuthor,
+	public CommentModel(String lat, String lon, String mBody, String mAuthor,
 			Bitmap mPicture) {
 		super();
-		this.mGeolocation = mGeolocation;
+		this.lat = lat;
+		this.lon = lon;
 		this.mBody = mBody;
 		this.mAuthor = mAuthor;
 		this.mTitle = null;
@@ -102,7 +104,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	 * parcable stuff
 	 */
 	private void readFromParcel(Parcel in) {
-		this.mGeolocation = in.readParcelable(Location.class.getClassLoader());
+		//this.mGeolocation = in.readParcelable(Location.class.getClassLoader());
 		this.mPicture = in.readParcelable(Bitmap.class.getClassLoader());
 		this.mTitle = in.readString();
 		this.mAuthor = in.readString();
@@ -125,7 +127,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	
 	@Override  
     public void writeToParcel(Parcel out, int flags) {  
-        out.writeParcelable(mGeolocation, flags);
+        //out.writeParcelable(mGeolocation, flags);
 		out.writeParcelable(mPicture, flags);
 		out.writeString(mTitle);
 		out.writeString(mAuthor);
@@ -209,8 +211,15 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.notifyViews();
 	}
 
-	public void setmGeolocation(Location mGeolocation) {
-		this.mGeolocation = mGeolocation;
+	public void setmGeolocation(Location geolocation) {
+		this.lat = Double.toString(geolocation.getLatitude());
+		this.lon = Double.toString(geolocation.getLongitude());
+		this.notifyViews();
+	}
+	
+	public void setmGeolocation(double lat, double lon) {
+		this.lat = Double.toString(lat);
+		this.lon = Double.toString(lon);
 		this.notifyViews();
 	}
 
@@ -220,7 +229,10 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	}
 
 	public Location getGeoLocation() {
-		return mGeolocation;
+		Location loc = new Location("loc");
+		loc.setLatitude(Double.parseDouble(this.lat));
+		loc.setLongitude(Double.parseDouble(this.lon));
+		return loc;
 	}
 
 	
@@ -299,8 +311,4 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		return mPicture;
 	}
 
-	public Location getmGeolocation() {
-		return mGeolocation;
-	}
-	
 }

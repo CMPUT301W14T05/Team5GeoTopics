@@ -14,16 +14,12 @@ public class AddPictureToComment extends ActivityInstrumentationTestCase2<Inspec
 	}
 
 	public void testAddPictureToComment(){
-		Location mGeolocation = new Location("");
 		String mBody = "Body"; 
 		String mAuthor = "James";
 		Bitmap mPicture = Bitmap.createBitmap(10,10 ,Bitmap.Config.ARGB_8888);;
 		String mTitle = "Title";
-		
-		mGeolocation.setLatitude(30.6282);
-		mGeolocation.setLongitude(55.3116);
 
-		CommentModel comment = new CommentModel(mGeolocation, mBody, mAuthor, mPicture, mTitle);
+		CommentModel comment = new CommentModel("30.6282", "55.3116", mBody, mAuthor, mPicture, mTitle);
 		
 		assertTrue("Picture is inside the model", comment.getmPicture() == mPicture);
 	}

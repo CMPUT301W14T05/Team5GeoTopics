@@ -12,12 +12,12 @@ public class ReplyToComment extends ActivityInstrumentationTestCase2<InspectComm
 	
 	public void testReplyToComment() {
 		
-		Location mGeolocation = new Location("");
-		mGeolocation.setLatitude(30.6282);
-		mGeolocation.setLongitude(55.3116);
+//		Location mGeolocation = new Location("");
+//		mGeolocation.setLatitude(30.6282);
+//		mGeolocation.setLongitude(55.3116);
 		
-		CommentModel parent = new CommentModel (mGeolocation, "Parent Body", "Parent Author", null);
-		CommentModel reply = new CommentModel (mGeolocation, "Reply Body", "Reply Author", null);
+		CommentModel parent = new CommentModel ("30.6282", "55.3116", "Parent Body", "Parent Author", null);
+		CommentModel reply = new CommentModel ("30.6282", "55.3116", "Reply Body", "Reply Author", null);
 		
 		parent.addReply(reply);
 		
