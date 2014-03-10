@@ -16,50 +16,23 @@ import com.example.team5geotopics.R;
 public class CreateCommentActivity extends InspectCommentActivity implements
 		OnClickListener {
 
-	private static User USER = null;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_comment);
 
-		//Look into pushing this  init code up into inspect comment as its duplicated in edit comment
-		this.application = GeoTopicsApplication.getInstance();
-		this.mCache = Cache.getInstance();
-		this.viewingComment = application.getCurrentViewingComment();
-		this.myUser = User.getInstance();
-		this.controller = new CommentController();
-
 		setTitle("Create Comment");
+
 		// Associates the button with their ID.
 		locationBtn = (ImageButton) findViewById(R.id.imageButtonLocation);
 		photoBtn = (ImageButton) findViewById(R.id.imageButtonImage);
 		cancelBtn = (ImageButton) findViewById(R.id.imageButtonCancel);
 		postBtn = (ImageButton) findViewById(R.id.imageButtonPost);
-
-		application = GeoTopicsApplication.getInstance();
-
 		// Allows the buttons to be checked for a click event.
 		locationBtn.setOnClickListener(this);
 		photoBtn.setOnClickListener(this);
 		cancelBtn.setOnClickListener(this);
 		postBtn.setOnClickListener(this);
-
-		// Find the edit text views
-		title = (EditText) findViewById(R.id.editCommentTitle);
-		author = (EditText) findViewById(R.id.editCommentAuthor);
-		body = (EditText) findViewById(R.id.editCommentBody);
-
-		// Replies do not have titles and thus we should disable it OR make
-		// a
-		// new activity/layout
-		if (viewingComment != null) {
-			title.setVisibility(View.GONE);
-			findViewById(R.id.textViewTitle).setVisibility(View.GONE);
-		}
-
-		USER = new User(getApplicationContext());
-
 	}
 
 	@Override
@@ -88,7 +61,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 			/*------------------------------------------------------------------*/
 		}
 		if (v == photoBtn) {
-			uploadedImage = (ImageView)findViewById(R.id.imageViewPicture);
+			uploadedImage = (ImageView) findViewById(R.id.imageViewPicture);
 			showDialog(0);
 		}
 		if (v == cancelBtn) {
@@ -115,13 +88,16 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 			User user = new User(getApplicationContext());
 			if (viewingComment == null) {
 				// Creates new top level comment.
-				newComment = new CommentModel(String.valueOf(mGeolocation.getLatitude()), String.valueOf(mGeolocation.getLongitude()),
-						mBody, mAuthor, mTitle, mPicture);
-				newComment.setES(user.readInstallIDFile() + user.readPostCount(), "-1", user.readInstallIDFile());
+				newComment = new CommentModel(String.valueOf(mGeolocation
+						.getLatitude()), String.valueOf(mGeolocation
+						.getLongitude()), mBody, mAuthor, mTitle, mPicture);
+				newComment.setES(
+						user.readInstallIDFile() + user.readPostCount(), "-1",
+						user.readInstallIDFile());
 				controller.newTopLevel(newComment, this);
 			} else {
-				newComment = new CommentModel(mGeolocation, mBody,
-						mAuthor, mPicture, mTitle);
+				newComment = new CommentModel(mGeolocation, mBody, mAuthor,
+						mPicture, mTitle);
 				controller.newReply(newComment, viewingComment, this);
 			}
 			finish();
