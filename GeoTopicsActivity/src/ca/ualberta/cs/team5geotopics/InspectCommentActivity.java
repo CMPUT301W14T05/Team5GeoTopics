@@ -168,7 +168,7 @@ public class InspectCommentActivity extends Activity {
 					Bitmap image = MediaStore.Images.Media.getBitmap(
 							this.getContentResolver(), imageFileUri);
 					mPicture = returnBitmapImage(image);
-					mPicture = Bitmap.createScaledBitmap(mPicture, 200, 200,
+					mPicture = Bitmap.createScaledBitmap(mPicture, 100, 100,
 							true);
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
@@ -205,7 +205,7 @@ public class InspectCommentActivity extends Activity {
 				Bitmap image = BitmapFactory.decodeStream(imageStream);
 				// Set mPicture with Bitmap image.
 				mPicture = returnBitmapImage(image);
-				mPicture = Bitmap.createScaledBitmap(mPicture, 200, 200, true);
+				mPicture = Bitmap.createScaledBitmap(mPicture, 100, 100, true);
 
 				uploadedImage.setImageBitmap(mPicture);
 			}
