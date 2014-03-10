@@ -23,29 +23,19 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.reply_level_activity);
-
-		// Remove the title and logo from the action bar
-		// TODO: Look for a better way to do this, this feels like a hack.
-		// Has to be a better way to do this in xml. (James)
-		getActionBar().setDisplayShowTitleEnabled(false);
-		// Gives us the left facing caret. Need to drop the app icon however OR
-		// change it to something other than the android guy OR remove software back
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		
-
-		//Get the current viewing comment
-		application = GeoTopicsApplication.getInstance();
+		//Set the Viewing Comment
 		viewingComment = application.getCurrentViewingComment();
-		//Construct the model
-		this.clm = new CommentListModel();
+		//Setup the Model
 		this.clm.setList(viewingComment.getReplies());
 		
 		//Construct the View
 		this.myView = new BrowseView(this, R.layout.comment_list_item, clm.getList());
 		//Register the adapter view with the model
 		this.clm.addView(this.myView);
+		
 		//Register myself with the viewing comment
-		this.viewingComment.addView(this);	
+		//TODO: Figure out why this is not working
+		//this.viewingComment.addView(this);	
 		
 		//Attach the list view to myView
 		browseListView = (ListView) findViewById(R.id.reply_level_listView);
@@ -56,7 +46,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		body = (TextView)findViewById(R.id.reply_comment_body);
 		image = (ImageView)findViewById(R.id.reply_comment_image);
 		divider = (View)findViewById(R.id.reply_divider1);
-		
+		//Update myself
 		this.update(viewingComment);
 		
 	}
@@ -65,6 +55,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	protected void onResume(){
 		//Reset the current viewing comment
 		application.setCurrentViewingComment(viewingComment);
+		this.update(viewingComment);
 		myView.notifyDataSetChanged(); //Ensure the view is up to date.
 		
 		browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

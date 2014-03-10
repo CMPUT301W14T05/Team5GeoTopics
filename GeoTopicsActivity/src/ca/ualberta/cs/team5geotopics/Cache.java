@@ -37,7 +37,7 @@ public class Cache extends AModel<AView> {
 		this.mHistory = mHistory;
 		this.notifyViews();
 		Log.w("Cache-write myCommentsData", "Replace History First");
-		this.writeMyHistory(context, mHistory);
+		//this.writeMyHistory(context, mHistory);
 	}
 	
 	public void addToHistory(CommentModel comment, Context context) {
