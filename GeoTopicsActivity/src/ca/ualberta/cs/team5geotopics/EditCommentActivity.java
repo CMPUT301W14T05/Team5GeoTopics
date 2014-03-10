@@ -48,6 +48,13 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		
 		mGeolocation =  application.getCurrentViewingComment().getGeoLocation();
 		
+		// Replies do not have titles and thus we should disable it OR make
+		// a new activity/layout
+		if (viewingComment != null) {
+			this.title.setVisibility(View.GONE);
+			findViewById(R.id.textViewTitle).setVisibility(View.GONE);
+		}
+		
 	}
 
 	@Override

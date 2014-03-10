@@ -38,7 +38,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 		photoBtn.setOnClickListener(this);
 		cancelBtn.setOnClickListener(this);
 		postBtn.setOnClickListener(this);
-
+		
 		// Replies do not have titles and thus we should disable it OR make
 		// a new activity/layout
 		if (viewingComment != null) {
