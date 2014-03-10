@@ -23,6 +23,11 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 
 		setTitle("Create Comment");
 
+		// Find the edit text views
+		this.title = (EditText) findViewById(R.id.editCommentTitle);
+		this.author = (EditText) findViewById(R.id.editCommentAuthor);
+		this.body = (EditText) findViewById(R.id.editCommentBody);
+
 		// Associates the button with their ID.
 		locationBtn = (ImageButton) findViewById(R.id.imageButtonLocation);
 		photoBtn = (ImageButton) findViewById(R.id.imageButtonImage);
@@ -33,6 +38,13 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 		photoBtn.setOnClickListener(this);
 		cancelBtn.setOnClickListener(this);
 		postBtn.setOnClickListener(this);
+
+		// Replies do not have titles and thus we should disable it OR make
+		// a new activity/layout
+		if (viewingComment != null) {
+			this.title.setVisibility(View.GONE);
+			findViewById(R.id.textViewTitle).setVisibility(View.GONE);
+		}
 	}
 
 	@Override
@@ -71,10 +83,10 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 		// comment
 		if (v == postBtn) {
 			if (viewingComment == null)
-				mTitle = title.getText().toString();
+				this.mTitle = title.getText().toString();
 
-			mAuthor = author.getText().toString();
-			mBody = body.getText().toString();
+			this.mAuthor = author.getText().toString();
+			this.mBody = body.getText().toString();
 			if (mGeolocation == null) {
 				/*
 				 * For Now we just set a default location TODO: (next part) auto

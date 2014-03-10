@@ -39,22 +39,22 @@ public class InspectCommentActivity extends Activity {
 	protected CommentController controller;
 
 	// Variables for comment/edit comment.
-	Location mGeolocation;
-	String mBody;
-	String mAuthor;
-	Bitmap mPicture;
-	String mTitle;
+	protected Location mGeolocation;
+	protected String mBody;
+	protected String mAuthor;
+	protected Bitmap mPicture;
+	protected String mTitle;
 
 	// Buttons for the 4 options at the bottom
-	ImageButton locationBtn;
-	ImageButton photoBtn;
-	ImageButton cancelBtn;
-	ImageButton postBtn;
+	protected ImageButton locationBtn;
+	protected ImageButton photoBtn;
+	protected ImageButton cancelBtn;
+	protected ImageButton postBtn;
 
 	// The views to pull data from
-	EditText title;
-	EditText author;
-	EditText body;
+	protected EditText title;
+	protected EditText author;
+	protected EditText body;
 
 	ImageView uploadedImage;
 
@@ -68,18 +68,6 @@ public class InspectCommentActivity extends Activity {
 		this.myUser = User.getInstance();
 		this.application = GeoTopicsApplication.getInstance();
 		this.controller = new CommentController();
-
-		// Find the edit text views
-		title = (EditText) findViewById(R.id.editCommentTitle);
-		author = (EditText) findViewById(R.id.editCommentAuthor);
-		body = (EditText) findViewById(R.id.editCommentBody);
-
-		// Replies do not have titles and thus we should disable it OR make
-		// a new activity/layout
-		if (viewingComment != null) {
-			title.setVisibility(View.GONE);
-			findViewById(R.id.textViewTitle).setVisibility(View.GONE);
-		}
 
 	}
 
