@@ -85,7 +85,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 				loc.setLatitude(0);
 				mGeolocation = loc;
 			}
-			User user = new User(getApplicationContext());
+			User user = User.getInstance();
 			if (viewingComment == null) {
 				// Creates new top level comment.
 				newComment = new CommentModel(String.valueOf(mGeolocation

@@ -1,9 +1,10 @@
 package ca.ualberta.cs.team5geotopics;
 
+import io.searchbox.client.JestClient;
+import android.content.Context;
+
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
-
-import io.searchbox.client.JestClient;
 
 
 
@@ -23,6 +24,7 @@ public class GeoTopicsApplication {
 	private static GeoTopicsApplication myself = new GeoTopicsApplication();
 	private JestClient mClient = null;
 	private String mID;
+	private Context context;
 	
 	private GeoTopicsApplication() {
 	}
@@ -55,6 +57,14 @@ public class GeoTopicsApplication {
 	// Sets the current Viewing Comment
 	public void setCurrentViewingComment(CommentModel comment) {
 		this.currentlyViewingComment = comment;
+	}
+	
+	public void setContext(Context context) {
+		this.context = context;
+	}
+	
+	public Context getContext() {
+		return this.context;
 	}
 
 }

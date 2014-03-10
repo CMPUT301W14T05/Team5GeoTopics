@@ -22,9 +22,14 @@ public class StartActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_geo_topics);
-		application =GeoTopicsApplication.getInstance();
+		//Get the application
+		application = GeoTopicsApplication.getInstance();
+		//Set the application context such that we can get
+		//it from anywhere
+		application.setContext(getApplicationContext());
+		//Get the user
+		User user = User.getInstance();
 		
-		User user = new User(getApplicationContext());
 		if(!user.installFilesExist()){
 			user.writeInstallFiles();
 		}

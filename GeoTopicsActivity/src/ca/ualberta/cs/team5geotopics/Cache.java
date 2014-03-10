@@ -18,6 +18,7 @@ import com.google.gson.JsonSyntaxException;
 
 public class Cache extends AModel<AView> {
 	private ArrayList<CommentModel> mHistory;
+	private Context context;
 
 	private static Cache myself = new Cache();
 
