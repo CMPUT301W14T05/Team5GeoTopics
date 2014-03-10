@@ -18,11 +18,15 @@ import com.google.gson.JsonSyntaxException;
 
 public class Cache extends AModel<AView> {
 	private ArrayList<CommentModel> mHistory;
+	private Context context;
+	private GeoTopicsApplication application;
 
 	private static Cache myself = new Cache();
 
 	private Cache() {
 		this.mHistory = new ArrayList<CommentModel>();
+		this.application = GeoTopicsApplication.getInstance();
+		context = application.getContext();
 	}
 
 	public static Cache getInstance() {
@@ -33,17 +37,17 @@ public class Cache extends AModel<AView> {
 		mHistory.clear();
 	}
 	
-	public void replaceHistory(ArrayList<CommentModel> mHistory, Context context){
+	public void replaceHistory(ArrayList<CommentModel> mHistory){
 		this.mHistory = mHistory;
 		this.notifyViews();
 		Log.w("Cache-write myCommentsData", "Replace History First");
-		this.writeMyHistory(context, mHistory);
+		//this.writeMyHistory(mHistory);
 	}
 	
-	public void addToHistory(CommentModel comment, Context context) {
+	public void addToHistory(CommentModel comment) {
 		mHistory.add(comment);
 		this.notifyViews();
-		this.writeMyHistory(context, mHistory);
+		this.writeMyHistory(mHistory);
 	}
 	
 	
@@ -58,7 +62,7 @@ public class Cache extends AModel<AView> {
 	 * Author: Kevin Tambascio
 	 * URL: https://www.tambascio.org/kevin/android/gson-and-android/ (March 6th, 2014)
 	 */
-	private void writeComments(String name, Context context, ArrayList<CommentModel> savedList) {
+	private void writeComments(String name, ArrayList<CommentModel> savedList) {
 //-----------------------------------------------------
 		/*use of GraphAdapterBuilder adapted from http://stackoverflow.com/questions/10036958/the-easiest-way-to-remove-the-bidirectional-recursive-relationships
 		 by Jesse Wilson taken 2014-03-07 */
@@ -135,16 +139,16 @@ public class Cache extends AModel<AView> {
 		return resultList;
 	}
 
-	private void writeMyHistory(Context context, ArrayList<CommentModel> mHistory) {
-		writeComments("history.sav", context, mHistory);
+	private void writeMyHistory( ArrayList<CommentModel> mHistory) {
+		writeComments("history.sav", mHistory);
 	}
 
 	private void writeMyBookmarks(Context context, ArrayList<CommentModel> mBookmarks) {
-		writeComments("bookmarks.sav", context, mBookmarks);
+		//writeComments("bookmarks.sav", context, mBookmarks);
 	}
 
 	private void writeMyFavourites(Context context, ArrayList<CommentModel> mFavourites) {
-		writeComments("favourites.sav", context, mFavourites);
+		//writeComments("favourites.sav", context, mFavourites);
 	}
 	
 	public ArrayList<CommentModel> getHistory() {

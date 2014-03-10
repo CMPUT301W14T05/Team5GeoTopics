@@ -49,9 +49,9 @@ public class EditTLComment extends ActivityInstrumentationTestCase2<InspectComme
 		topLevel.setmGeolocation(mGeolocation);
 		topLevel.setmPicture(mPicture);
 		
-		assertTrue("Edit Comment Body is correct", topLevel.getmBody() == "BODY");
-		assertTrue("Edit Comment Author is correct", topLevel.getmAuthor() == "AUTHOR");
-		assertTrue("Edit Comment Title is correct", topLevel.getmTitle() == "TITLE");
+		assertTrue("Edit Comment Body is correct", topLevel.getmBody() == "BODY_MODIFIED");
+		assertTrue("Edit Comment Author is correct", topLevel.getmAuthor() == "AUTHOR_MODIFIED");
+		assertTrue("Edit Comment Title is correct", topLevel.getmTitle() == "TITLE_MODIFIED");
 		assertTrue("Edit Comment Picture is correct", topLevel.getPicture() == mPicture);
 		assertTrue("Edit Comment Geolocation is correct", topLevel.getGeoLocation() == mGeolocation);
 		}

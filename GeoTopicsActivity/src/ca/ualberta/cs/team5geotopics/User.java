@@ -23,20 +23,26 @@ public class User extends AModel<AView> {
 	private ArrayList<CommentModel> mComments; // My created comments
 	private boolean isLoaded = false;
 	private static User myself = new User();
+	private GeoTopicsApplication application;
 
 	/*This part here needs to be updated as we are currently both a singleton and not
 	 * Will have to do some research into how we can solve this at a later time.
 	 */
 	//***********************************************************************************
+	/*
 	public User(Context context) {
 		mInstallation = new File(context.getFilesDir(), INSTALLATION_ID);
 		mPostCount = new File(context.getFilesDir(), POST_COUNT);
 	}
-
+	*/
+	
 	private User() {
+		this.application = GeoTopicsApplication.getInstance();
 		this.mBookMarks = new ArrayList<CommentModel>();
 		this.mFavorites = new ArrayList<CommentModel>();
 		this.mComments = new ArrayList<CommentModel>();
+		mInstallation = new File(application.getContext().getFilesDir(), INSTALLATION_ID);
+		mPostCount = new File(application.getContext().getFilesDir(), POST_COUNT);
 	}
 
 	public static User getInstance() {
@@ -135,10 +141,10 @@ public class User extends AModel<AView> {
 		return (mInstallation.exists()) && (mPostCount.exists());
 	}
 
-	public void addToMyComments(CommentModel comment, Context context) {
+	public void addToMyComments(CommentModel comment) {
 		mComments.add(comment);
 		this.notifyViews();
-		// this.writeComments("myComments", context);
+		//this.writeComments("myComments");
 	}
 
 	public ArrayList<CommentModel> getMyComments() {

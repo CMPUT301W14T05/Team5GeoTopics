@@ -49,7 +49,7 @@ public class PutIndexService extends IntentService {
 			constructGson();
 		}
 		if (USER == null){
-			USER = new User(context);
+			USER = User.getInstance();
 		}
 			
 		Bundle bundle = new Bundle();
@@ -104,7 +104,7 @@ public class PutIndexService extends IntentService {
 		// if the post was successful the increment the value
 		// stored in the post count file. 
 		if(exception == null){
-			User user = new User(getApplicationContext());
+			User user = User.getInstance();
 			user.updatePostCountFile();
 		}
 		

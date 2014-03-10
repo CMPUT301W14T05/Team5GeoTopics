@@ -17,29 +17,10 @@ import android.widget.ListView;
 import com.example.team5geotopics.R;
 
 public class TopLevelActivity extends BrowseActivity {
-	private CommentListController modelController;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.top_level_activity);
-
-		// Remove the title and logo from the action bar
-		// TODO: Look for a better way to do this, this feels like a hack.
-		// Has to be a better way to do this in xml. (James)
-		getActionBar().setDisplayShowTitleEnabled(false);
-		// Gives us the left facing caret. Need to drop the app icon however OR
-		// change it to something other than the android guy OR remove software back
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		
-		//Get the application
-		application = GeoTopicsApplication.getInstance();
-		
-		//Construct the model
-		this.clm = new CommentListModel();
-		this.mCache = Cache.getInstance();
-		
-		
-		
+		setContentView(R.layout.top_level_activity);	
 		
 		//Construct the View
 		this.myView = new BrowseView(this, R.layout.comment_list_item, clm.getList());

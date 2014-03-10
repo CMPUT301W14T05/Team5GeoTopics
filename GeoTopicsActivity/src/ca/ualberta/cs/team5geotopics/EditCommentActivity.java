@@ -25,9 +25,6 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		cancelBtn = (ImageButton)findViewById(R.id.imageButtonCancelE);
 		postBtn = (ImageButton)findViewById(R.id.imageButtonPostE);
 		
-		application = GeoTopicsApplication.getInstance();
-		this.controller = new CommentController();
-		
 		// Allows the buttons to be checked for a click event.
 		locationBtn.setOnClickListener(this);
 		photoBtn.setOnClickListener(this);
@@ -50,6 +47,13 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		mPicture = application.getCurrentViewingComment().getPicture();
 		
 		mGeolocation =  application.getCurrentViewingComment().getGeoLocation();
+		
+		// Replies do not have titles and thus we should disable it OR make
+		// a new activity/layout
+		if (viewingComment != null) {
+			this.title.setVisibility(View.GONE);
+			findViewById(R.id.textViewTitle).setVisibility(View.GONE);
+		}
 		
 	}
 

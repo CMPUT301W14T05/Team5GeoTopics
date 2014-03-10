@@ -26,16 +26,16 @@ public class CommentController {
 		this.mGson = builder.create();
 	}
 
-	public void newTopLevel(CommentModel newComment, Context context) {
-		mCache.addToHistory(newComment, context);
-		myUser.addToMyComments(newComment, context);
+	public void newTopLevel(CommentModel newComment) {
+		mCache.addToHistory(newComment);
+		myUser.addToMyComments(newComment);
 		
 	}
 
 	public void newReply(CommentModel newComment, CommentModel parentComment,
 			Context context) {
 		parentComment.addReply(newComment);
-		myUser.addToMyComments(newComment, context);
+		myUser.addToMyComments(newComment);
 	}
 
 	public void updateComment(CommentModel comment, String title,

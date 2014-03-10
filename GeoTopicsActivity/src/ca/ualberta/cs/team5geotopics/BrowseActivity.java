@@ -30,6 +30,29 @@ public abstract class BrowseActivity extends Activity {
 	protected Cache mCache;
 	protected User myUser;
 	protected Intent intent;
+	protected CommentListController modelController;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// Remove the title and logo from the action bar
+		// TODO: Look for a better way to do this, this feels like a hack.
+		// Has to be a better way to do this in xml. (James)
+		getActionBar().setDisplayShowTitleEnabled(false);
+		// Gives us the left facing caret. Need to drop the app icon however OR
+		// change it to something other than the android guy OR remove software back
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		
+		//Get the singletons we may need.
+		this.application = GeoTopicsApplication.getInstance();
+		this.mCache = Cache.getInstance();
+		this.myUser = User.getInstance();
+		this.mCache = Cache.getInstance();
+		
+		//Construct the model
+		this.clm = new CommentListModel();		
+	}
 
 	// Creates the options menu using the layout in menu.
 	public boolean onCreateOptionsMenu(Menu menu) {
