@@ -55,7 +55,7 @@ public class CommentListController {
 				Runnable updateModel = new Runnable(){
 					@Override
 					public void run() {
-						browseModel.refreshAddAll( (ArrayList<CommentModel>) esResponse.getSources(), topLevelActivity);
+						browseModel.refreshAddAll( (ArrayList<CommentModel>) esResponse.getSources());
 					}
 				};
 				topLevelActivity.runOnUiThread(updateModel);

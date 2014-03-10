@@ -44,7 +44,6 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.mPicture = image;
 		this.mParentID = "-1";
 		this.mReplies = new ArrayList<CommentModel>();
-		this.mParent = null;
 		this.mDate = new Date(epochTime);
 	}
 	
@@ -55,7 +54,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	}
 	
 	public boolean isTopLevel() {
-		return (mParent == null);
+		return mParentID == "-1";
 	}
 	
 	//local variables
@@ -64,7 +63,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	 * way when they are hot (In the application)
 	 */
 	private ArrayList<CommentModel> mReplies;
-	private CommentModel mParent;
+	//private CommentModel mParent;
 	private Date mDate;
 	private Location mGeolocation;
 	
@@ -95,7 +94,6 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		putTimeStamp();
 		this.mEsID = null;
 		this.mParentID = null;
-		this.mParent = null;
 		this.mReplies = new ArrayList<CommentModel>();
 	}
 	
@@ -115,7 +113,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.mEsType = in.readString();
 		this.mParentID = in.readString();
 		this.mReplies = new ArrayList<CommentModel>();
-		this.mParent = null;
+		//this.mParent = null;
 		this.mDate = new Date(this.epochTime);
 	}
 	
@@ -247,14 +245,9 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	}
 
 	public void addReply(CommentModel comment) {
-		comment.setParent(this);
 		comment.setmParentID(this.mParentID);
 		mReplies.add(comment);
 		this.notifyViews();
-	}
-
-	public void setParent(CommentModel comment) {
-		this.mParent = comment;
 	}
 	
 	public ArrayList<CommentModel> getReplies() {
@@ -300,15 +293,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	public void setmReplies(ArrayList<CommentModel> mReplies) {
 		this.mReplies = mReplies;
 	}
-
-	public CommentModel getmParent() {
-		return mParent;
-	}
-
-	public void setmParent(CommentModel mParent) {
-		this.mParent = mParent;
-	}
-
+	
 	public Bitmap getmPicture() {
 		return mPicture;
 	}

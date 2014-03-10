@@ -141,10 +141,10 @@ public class User extends AModel<AView> {
 		return (mInstallation.exists()) && (mPostCount.exists());
 	}
 
-	public void addToMyComments(CommentModel comment, Context context) {
+	public void addToMyComments(CommentModel comment) {
 		mComments.add(comment);
 		this.notifyViews();
-		// this.writeComments("myComments", context);
+		//this.writeComments("myComments");
 	}
 
 	public ArrayList<CommentModel> getMyComments() {

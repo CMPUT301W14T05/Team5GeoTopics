@@ -106,7 +106,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 				newComment.setES(
 						user.readInstallIDFile() + user.readPostCount(), "-1",
 						user.readInstallIDFile());
-				controller.newTopLevel(newComment, this);
+				controller.newTopLevel(newComment);
 			} else {
 				newComment = new CommentModel(mGeolocation, mBody, mAuthor,
 						mPicture, mTitle);
