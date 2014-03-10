@@ -83,6 +83,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 
 	}
 	// Constructor for replies
+	//Think this constructor is redundant
 	public CommentModel(Location mGeolocation, String mBody, String mAuthor,
 			Bitmap mPicture) {
 		super();
