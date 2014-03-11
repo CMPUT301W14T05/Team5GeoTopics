@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -18,12 +17,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.Menu;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-
 import com.example.team5geotopics.R;
+
+// Code used from Camera Demo on eClass
 
 public class InspectCommentActivity extends Activity {
 
@@ -118,10 +117,11 @@ public class InspectCommentActivity extends Activity {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							// Which is option 0 or 1
+							// Take a photo with the phone's camera
 							if (which == 0) {
 								takePhoto();
 							}
-
+							// Get photo from phone's gallery
 							if (which == 1) {
 								getPhoto();
 							}
@@ -142,12 +142,14 @@ public class InspectCommentActivity extends Activity {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							// Which is option 0 or 1
+							// Get current location
 							if (which == 0) {
-
+								//GET CURRENT LOCATION
 							}
-
+							
+							// Open up Google maps to select location
 							if (which == 1) {
-
+								// SET LOCATION VIA GOOGLE MAP
 							}
 						}
 					});
@@ -158,18 +160,16 @@ public class InspectCommentActivity extends Activity {
 	// After camera takes photo, goto here to deal with it.
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		// Took photo
+		// Took photo, deal with it and get Bitmap
 		if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
 			// Photo was taken successfully.
 			if (resultCode == RESULT_OK) {
-				// Gets image from /GeoTopics path.
+				// Gets image from '/GeoTopics' path.
 				ImageView uploadedImage = (ImageView) findViewById(R.id.imageViewPicture);
 				try {
 					Bitmap image = MediaStore.Images.Media.getBitmap(
 							this.getContentResolver(), imageFileUri);
-					mPicture = returnBitmapImage(image);
-					mPicture = Bitmap.createScaledBitmap(mPicture, 100, 100,
-							true);
+					mPicture = returnBitmapImage(image);	
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -177,11 +177,8 @@ public class InspectCommentActivity extends Activity {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				// Rotates normal back camera photo
-				// Matrix m = new Matrix();
-				// m.postRotate(90);
-				// mPicture = Bitmap.createBitmap(mPicture, 0, 0,
-				// mPicture.getWidth(), mPicture.getHeight(), m, true);
+				
+				// Set image as Bitmap
 				uploadedImage.setImageBitmap(mPicture);
 
 			} else if (resultCode == RESULT_CANCELED) {
@@ -191,6 +188,8 @@ public class InspectCommentActivity extends Activity {
 			}
 
 		}
+		
+		// Get photo from internal storage
 		if (requestCode == GET_PHOTO) {
 			if (resultCode == RESULT_OK) {
 				// Gets image from /GeoTopics path.
@@ -205,8 +204,6 @@ public class InspectCommentActivity extends Activity {
 				Bitmap image = BitmapFactory.decodeStream(imageStream);
 				// Set mPicture with Bitmap image.
 				mPicture = returnBitmapImage(image);
-				mPicture = Bitmap.createScaledBitmap(mPicture, 100, 100, true);
-
 				uploadedImage.setImageBitmap(mPicture);
 			}
 		}
@@ -219,8 +216,8 @@ public class InspectCommentActivity extends Activity {
 		startActivityForResult(getPhotoFromGallery, GET_PHOTO);
 	}
 
-	// Returns the image as a Bitmap
+	// Returns the image as a Bitmap (resized to 200x200px)
 	public Bitmap returnBitmapImage(Bitmap image) {
-		return image;
+		return image = Bitmap.createScaledBitmap(image, 200, 200, false);
 	}
 }
