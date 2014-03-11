@@ -18,6 +18,8 @@ public class StartActivity extends Activity {
 	private ImageButton mBrowseBookmarks;
 	private Button mTestEsBtn;
 	private GeoTopicsApplication application;
+	private User user;
+	private Cache mCache;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,7 +30,9 @@ public class StartActivity extends Activity {
 		//it from anywhere
 		application.setContext(getApplicationContext());
 		//Get the user
-		User user = User.getInstance();
+		user = User.getInstance();
+		mCache = Cache.getInstance();
+		mCache.loadCache();
 		
 		if(!user.installFilesExist()){
 			user.writeInstallFiles();

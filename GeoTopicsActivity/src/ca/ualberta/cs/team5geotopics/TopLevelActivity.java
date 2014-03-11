@@ -31,12 +31,20 @@ public class TopLevelActivity extends BrowseActivity {
 		browseListView = (ListView) findViewById(R.id.browse_top_level_listView);
 		browseListView.setAdapter(myView);
 		
-		modelController = new CommentListController(this.clm);
-		modelController.getTopLevel(this);
-		
-		//Get from Internet if available else get from cache
-		//this.clm.setList(mCache.getHistory());
-		
+		if(isNetworkAvailable()){
+			modelController = new CommentListController(this.clm);
+			modelController.getTopLevel(this);
+			Log.w("Cache", "Have Internet");
+		}else{
+			Log.w("Cache", "No Internet");
+			Log.w("Cache",Integer.toString( mCache.getHistory().size()));
+			if(mCache.isCacheLoaded()){
+				this.clm.replaceList(mCache.getHistory());
+				Log.w("Cache", "Got History");
+			}else{
+				Log.w("Cache", "Not loaded");
+			}
+		}	
 	}
 	
 	@Override
