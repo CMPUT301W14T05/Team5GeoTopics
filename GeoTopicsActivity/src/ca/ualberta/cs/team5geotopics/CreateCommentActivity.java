@@ -106,7 +106,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 						.getLongitude()), mBody, mAuthor, mTitle, mPicture);
 				newComment.setES(
 						user.readInstallIDFile() + user.readPostCount(), "-1",
-						user.readInstallIDFile());
+						"TopLevel");
 				controller.newTopLevel(newComment);
 			} else {
 				newComment = new CommentModel(Double.toString(mGeolocation.getLatitude()), 

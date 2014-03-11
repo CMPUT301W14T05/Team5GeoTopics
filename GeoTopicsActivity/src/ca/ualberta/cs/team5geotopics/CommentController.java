@@ -29,7 +29,7 @@ public class CommentController {
 	public void newTopLevel(CommentModel newComment) {
 		mCache.addToHistory(newComment);
 		myUser.addToMyComments(newComment);
-		
+		pushComment(newComment, newComment.getmEsType());
 	}
 
 	public void newReply(CommentModel newComment, CommentModel parentComment,
