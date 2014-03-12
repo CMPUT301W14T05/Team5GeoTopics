@@ -132,4 +132,10 @@ public class CommentListModel extends AModel<AView>{
 		this.notifyViews();
 		this.mCache.replaceHistory(mComments);
 	}
+	
+	public void replaceList(ArrayList<CommentModel> comments){
+		this.mComments.removeAll(mComments);
+		this.mComments.addAll(comments);
+		this.notifyViews();
+	}
 }

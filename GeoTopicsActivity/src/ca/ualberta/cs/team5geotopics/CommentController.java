@@ -34,7 +34,7 @@ public class CommentController {
 
 	public void newReply(CommentModel newComment, CommentModel parentComment,
 			Context context) {
-		parentComment.addReply(newComment);
+		newComment.setmParentID(parentComment.getmParentID());
 		myUser.addToMyComments(newComment);
 	}
 

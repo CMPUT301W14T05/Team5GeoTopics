@@ -67,8 +67,6 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 	
 	@Override
 	protected void onResume(){
-		//Reset the current viewing comment
-		application.setCurrentViewingComment(viewingComment);
 		myView.notifyDataSetChanged(); //Ensure the view is up to date.
 		
 		browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -76,7 +74,7 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 			public void onItemClick(AdapterView<?> myView, View view, int position,
 					long arg3) {
 				Intent intent = new Intent(MyCommentsActivity.this, EditCommentActivity.class);
-				application.setCurrentViewingComment((CommentModel)browseListView.getItemAtPosition(position));
+				intent.putExtra("ViewingComment",(CommentModel)browseListView.getItemAtPosition(position));
 				startActivity(intent);
 			}
 			

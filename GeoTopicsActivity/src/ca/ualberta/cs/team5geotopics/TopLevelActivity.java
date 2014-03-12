@@ -31,26 +31,32 @@ public class TopLevelActivity extends BrowseActivity {
 		browseListView = (ListView) findViewById(R.id.browse_top_level_listView);
 		browseListView.setAdapter(myView);
 		
-		modelController = new CommentListController(this.clm);
-		modelController.getTopLevel(this);
-		
-		//Get from Internet if available else get from cache
-		//this.clm.setList(mCache.getHistory());
-		
+		if(isNetworkAvailable()){
+			modelController = new CommentListController(this.clm);
+			modelController.getTopLevel(this);
+			Log.w("Cache", "Have Internet");
+		}else{
+			Log.w("Cache", "No Internet");
+			Log.w("Cache",Integer.toString( mCache.getHistory().size()));
+			if(mCache.isCacheLoaded()){
+				this.clm.replaceList(mCache.getHistory());
+				Log.w("Cache", "Got History");
+			}else{
+				Log.w("Cache", "Not loaded");
+			}
+		}	
 	}
 	
 	@Override
 	protected void onResume(){
 		//Reset the current viewing comment
-		application.setCurrentViewingComment(viewingComment);
 		myView.notifyDataSetChanged(); //Ensure the view is up to date.
-
 		browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> myView, View view, int position,
 					long arg3) {
 				Intent intent = new Intent(TopLevelActivity.this, ReplyLevelActivity.class);
-				application.setCurrentViewingComment((CommentModel)browseListView.getItemAtPosition(position));
+				intent.putExtra("ViewingComment",(CommentModel)browseListView.getItemAtPosition(position));
 				startActivity(intent);
 			}
 			

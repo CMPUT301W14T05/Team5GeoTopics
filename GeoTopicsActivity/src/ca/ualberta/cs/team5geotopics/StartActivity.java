@@ -18,6 +18,8 @@ public class StartActivity extends Activity {
 	private ImageButton mBrowseBookmarks;
 	private Button mTestEsBtn;
 	private GeoTopicsApplication application;
+	private User user;
+	private Cache mCache;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,7 +30,9 @@ public class StartActivity extends Activity {
 		//it from anywhere
 		application.setContext(getApplicationContext());
 		//Get the user
-		User user = User.getInstance();
+		user = User.getInstance();
+		mCache = Cache.getInstance();
+		mCache.loadCache();
 		
 		if(!user.installFilesExist()){
 			user.writeInstallFiles();
@@ -48,8 +52,6 @@ public class StartActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent myIntent = new Intent(StartActivity.this, TopLevelActivity.class);
-				//This lets the browse activity know that we are viewing top level comments
-				application.setCurrentViewingComment(null);
 				startActivity(myIntent);
 				
 			}
@@ -64,8 +66,6 @@ public class StartActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent myIntent = new Intent(StartActivity.this, MyCommentsActivity.class);
-				//This lets the browse activity know that we are viewing top level comments
-				application.setCurrentViewingComment(null);
 				startActivity(myIntent);
 				
 			}
@@ -80,8 +80,6 @@ public class StartActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent myIntent = new Intent(StartActivity.this, TopLevelActivity.class);
-				//This lets the browse activity know that we are viewing top level comments
-				application.setCurrentViewingComment(null);
 				startActivity(myIntent);
 				
 			}
@@ -96,8 +94,6 @@ public class StartActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent myIntent = new Intent(StartActivity.this, TopLevelActivity.class);
-				//This lets the browse activity know that we are viewing top level comments
-				application.setCurrentViewingComment(null);
 				startActivity(myIntent);
 				
 			}

@@ -24,9 +24,10 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.reply_level_activity);
 		//Set the Viewing Comment
-		viewingComment = application.getCurrentViewingComment();
+		Bundle b = getIntent().getExtras();
+		viewingComment = b.getParcelable("ViewingComment");
 		//Setup the Model
-		this.clm.setList(viewingComment.getReplies());
+		//this.clm.setList(viewingComment.getReplies());
 		
 		//Construct the View
 		this.myView = new BrowseView(this, R.layout.comment_list_item, clm.getList());
@@ -53,8 +54,6 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	
 	@Override
 	protected void onResume(){
-		//Reset the current viewing comment
-		application.setCurrentViewingComment(viewingComment);
 		this.update(viewingComment);
 		myView.notifyDataSetChanged(); //Ensure the view is up to date.
 		
@@ -63,7 +62,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 			public void onItemClick(AdapterView<?> myView, View view, int position,
 					long arg3) {
 				Intent intent = new Intent(ReplyLevelActivity.this, ReplyLevelActivity.class);
-				application.setCurrentViewingComment((CommentModel)browseListView.getItemAtPosition(position));
+				intent.putExtra("ViewingComment",(CommentModel)browseListView.getItemAtPosition(position));
 				startActivity(intent);
 			}
 			

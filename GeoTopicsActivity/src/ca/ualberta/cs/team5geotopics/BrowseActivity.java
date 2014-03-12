@@ -67,6 +67,7 @@ public abstract class BrowseActivity extends Activity {
 		// User clicks new comment button.
 		case R.id.new_top_level_comment:
 			intent = new Intent(this, CreateCommentActivity.class);
+			intent.putExtra("ViewingComment", viewingComment);
 			startActivity(intent);
 			break;
 		case R.id.action_sort:
@@ -166,6 +167,6 @@ public abstract class BrowseActivity extends Activity {
 		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetworkInfo = connectivityManager
 				.getActiveNetworkInfo();
-		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+		return (activeNetworkInfo != null && activeNetworkInfo.isConnected());
 	}
 }
