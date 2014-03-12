@@ -225,7 +225,9 @@ public class Cache extends AModel<AView> {
 		if (!isLoaded){
 			Log.w("Cache","Loading File");
 			this.mHistory = loadFromCache("history.sav");
-		}	
+		}else{
+			Log.w("Cache","Loaded");
+		}
 	}
 
 	/*
