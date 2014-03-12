@@ -43,7 +43,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.mTitle = title;
 		this.mPicture = image;
 		this.mParentID = "-1";
-		this.mReplies = new ArrayList<CommentModel>();
+		//this.mReplies = new ArrayList<CommentModel>();
 		this.mDate = new Date(epochTime);
 	}
 	
@@ -62,7 +62,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	 * We still need these as Josh said we still need to reference comments this
 	 * way when they are hot (In the application)
 	 */
-	private ArrayList<CommentModel> mReplies;
+	//private ArrayList<CommentModel> mReplies;
 	//private CommentModel mParent;
 	private Date mDate;
 	//private Location mGeolocation;
@@ -80,7 +80,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		putTimeStamp();
 		this.mEsID = null;
 		this.mParentID = null;
-		this.mReplies = new ArrayList<CommentModel>();
+		//this.mReplies = new ArrayList<CommentModel>();
 
 	}
 	// Constructor for replies
@@ -97,7 +97,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		putTimeStamp();
 		this.mEsID = null;
 		this.mParentID = null;
-		this.mReplies = new ArrayList<CommentModel>();
+		//this.mReplies = new ArrayList<CommentModel>();
 	}
 	
 	/*
@@ -115,7 +115,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.mEsID = in.readString();
 		this.mEsType = in.readString();
 		this.mParentID = in.readString();
-		this.mReplies = new ArrayList<CommentModel>();
+		//this.mReplies = new ArrayList<CommentModel>();
 		//this.mParent = null;
 		this.mDate = new Date(this.epochTime);
 	}
@@ -256,17 +256,18 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	public boolean hasTitle() {
 		return mTitle != null;
 	}
-
+/*
 	public void addReply(CommentModel comment) {
 		comment.setmParentID(this.mParentID);
 		mReplies.add(comment);
 		this.notifyViews();
 	}
+
 	
 	public ArrayList<CommentModel> getReplies() {
 		return this.mReplies;
 	}
-
+*/
 	public String getLat() {
 		return lat;
 	}
@@ -299,6 +300,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.mDate = mDate;
 	}
 
+/*
 	public ArrayList<CommentModel> getmReplies() {
 		return mReplies;
 	}
@@ -306,7 +308,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	public void setmReplies(ArrayList<CommentModel> mReplies) {
 		this.mReplies = mReplies;
 	}
-	
+*/	
 	public Bitmap getmPicture() {
 		return mPicture;
 	}

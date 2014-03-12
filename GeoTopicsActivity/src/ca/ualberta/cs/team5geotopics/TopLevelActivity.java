@@ -50,15 +50,13 @@ public class TopLevelActivity extends BrowseActivity {
 	@Override
 	protected void onResume(){
 		//Reset the current viewing comment
-		application.setCurrentViewingComment(viewingComment);
 		myView.notifyDataSetChanged(); //Ensure the view is up to date.
-
 		browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> myView, View view, int position,
 					long arg3) {
 				Intent intent = new Intent(TopLevelActivity.this, ReplyLevelActivity.class);
-				application.setCurrentViewingComment((CommentModel)browseListView.getItemAtPosition(position));
+				intent.putExtra("ViewingComment",(CommentModel)browseListView.getItemAtPosition(position));
 				startActivity(intent);
 			}
 			

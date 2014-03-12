@@ -44,20 +44,6 @@ public class GeoTopicsApplication {
 		}
 		return this.mClient;
 	}
-
-	// This allows us to pass the comment around between activities without
-	// putExtra
-	// Might need to implement this as a push and pop stack if activities are
-	// having
-	// Issues with it.
-	public CommentModel getCurrentViewingComment() {
-		return this.currentlyViewingComment;
-	}
-
-	// Sets the current Viewing Comment
-	public void setCurrentViewingComment(CommentModel comment) {
-		this.currentlyViewingComment = comment;
-	}
 	
 	public void setContext(Context context) {
 		this.context = context;

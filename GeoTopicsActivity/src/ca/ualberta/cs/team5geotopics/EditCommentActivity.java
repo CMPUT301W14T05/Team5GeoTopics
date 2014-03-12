@@ -19,6 +19,9 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_comment);
 		setTitle("Edit Comment");
+		
+		Bundle b = getIntent().getExtras();
+		viewingComment = b.getParcelable("ViewingComment");
 		// Associates the button with their ID.
 		locationBtn = (ImageButton)findViewById(R.id.imageButtonLocationE);
 		photoBtn = (ImageButton)findViewById(R.id.imageButtonImageE);
@@ -34,19 +37,19 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		// Comments already exists, put in the data to fields
 		setTitle("Edit Comment");
 		title = (EditText)findViewById(R.id.editCommentTitleE);
-		title.setText(application.getCurrentViewingComment().getmTitle());
+		title.setText(viewingComment.getmTitle());
 			
 		author = (EditText)findViewById(R.id.editCommentAuthorE);
-		author.setText(application.getCurrentViewingComment().getmAuthor());
+		author.setText(viewingComment.getmAuthor());
 			
 		body = (EditText)findViewById(R.id.editCommentBodyE);
-		body.setText(application.getCurrentViewingComment().getmBody());
+		body.setText(viewingComment.getmBody());
 			
 		uploadedImage = (ImageView)findViewById(R.id.imageViewPicture);    
-		uploadedImage.setImageBitmap(application.getCurrentViewingComment().getPicture());
-		mPicture = application.getCurrentViewingComment().getPicture();
+		uploadedImage.setImageBitmap(viewingComment.getPicture());
+		mPicture = viewingComment.getPicture();
 		
-		mGeolocation =  application.getCurrentViewingComment().getGeoLocation();
+		mGeolocation =  viewingComment.getGeoLocation();
 		
 		// Replies do not have titles and thus we should disable it OR make
 		// a new activity/layout
@@ -87,7 +90,7 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 				//application.getCurrentViewingComment().setmPicture(mPicture);
 				//application.getCurrentViewingComment().setmGeolocation(mGeolocation);
 				
-				controller.updateComment(application.getCurrentViewingComment(), title.getText().toString(), author.getText().toString(), body.getText().toString(), mPicture, mGeolocation);
+				controller.updateComment(viewingComment, title.getText().toString(), author.getText().toString(), body.getText().toString(), mPicture, mGeolocation);
 				finish();
 		}
 	}
