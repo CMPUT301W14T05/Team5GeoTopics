@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.team5geotopics.R;
 
@@ -169,4 +170,43 @@ public abstract class BrowseActivity extends Activity {
 				.getActiveNetworkInfo();
 		return (activeNetworkInfo != null && activeNetworkInfo.isConnected());
 	}
+	
+	public void handleCommentLoad(){
+		if (isNetworkAvailable()) {
+			modelController = new CommentListController(this.clm);
+			modelController.getTopLevel(this);
+			Log.w("Cache", "Have Internet");
+		} else {
+			Log.w("Cache", "No Internet");
+			// Need a spinner here
+			if (mCache.isCacheLoaded()) {
+				Log.w("Cache", "Cache is loaded");
+				this.clm.replaceList(mCache.getHistory());
+				Log.w("Cache", "Got History");
+			} else {
+				// Waiting for a few seconds then trying to cache again in case
+				// its still loading.
+				// This may casue the UI thread to become none responsive not
+				// sure so may want to find a better
+				// way to do this. Maybe a loop with a small wait, One that will
+				// not freeze the ui thread.
+				// ---------------------------------------------------------------------------------------------
+				// wait(3000);
+				if (mCache.isCacheLoaded()) {
+					Log.w("Cache", "Cache is loaded");
+					this.clm.replaceList(mCache.getHistory());
+				} else {
+					// Should put the toast string inside the strings xml
+					Toast toast = Toast.makeText(this,
+							"Unable to load the cache, Please try again later",
+							5);
+					toast.show();
+					Log.w("Cache", "Not loaded");
+				}
+			}
+		}
+		
+	}
 }
+
+
