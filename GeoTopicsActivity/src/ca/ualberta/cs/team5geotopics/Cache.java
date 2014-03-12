@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.location.Location;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -38,20 +37,84 @@ public class Cache extends AModel<AView> {
 	public void clearHistory() {
 		mHistory.clear();
 	}
-
+	
+	//Removed the write because it will make add to history hard to test
 	public void replaceHistory(ArrayList<CommentModel> mHistory) {
 		this.mHistory = mHistory;
 		this.notifyViews();
 		Log.w("Cache-write myCommentsData", "Replace History First");
-		this.writeMyHistory(mHistory);
 		this.isLoaded = true;
 	}
 
+	//Removed the write because it will make add to history hard to test
 	public void addToHistory(CommentModel comment) {
-		mHistory.add(comment);
+		this.mHistory.add(comment);
 		this.notifyViews();
-		this.writeMyHistory(mHistory);
+		this.isLoaded = true;
 	}
+	
+	public void writeMyHistory() {
+		writeComments("history.sav", mHistory);
+	}
+
+	public ArrayList<CommentModel> getHistory() {
+		return this.mHistory;
+	}
+	
+	public boolean isCacheLoaded() {
+		return isLoaded;
+	}
+	
+	public void loadCache(){
+		if (!isLoaded){
+			Log.w("Cache","Loading File");
+			this.mHistory = loadFromCache("history.sav");
+		}else{
+			Log.w("Cache","Loaded");
+		}
+	}
+	
+	//Populate a comment list model with replies
+	//I return the thread in case you ever want to wait on it to finish.
+	//This is mostly to ensure the test cases pass as they some times execute faster 
+	//the thread.
+	//- James
+	public Thread getReplies(final CommentListModel clm, CommentModel parent) {
+		final String mEsID = parent.getmEsID();
+		clm.clearList();
+		
+		Thread thread = new Thread(){
+			@Override
+			public void run() {
+				for(CommentModel comment : mHistory){
+					if(!comment.isTopLevel()){
+						if(comment.getmParentID().equals(mEsID))
+							clm.add(comment);
+					}
+				}
+			}
+		};
+		thread.start();
+		return thread;
+	}
+	
+	//Populate a comment list model with top level comments
+		public Thread getTopLevel(final CommentListModel clm) {
+			clm.clearList();
+			Thread thread = new Thread(){
+				@Override
+				public void run() {
+					for(CommentModel comment :mHistory){
+						if(comment.isTopLevel()){
+							Log.w("Tests", comment.getmBody());
+							clm.add(comment);
+						}
+					}
+				}
+			};	
+			thread.start();
+			return thread;
+		}
 
 	/*
 	 * Author: Kevin Tambascio URL:
@@ -147,13 +210,10 @@ public class Cache extends AModel<AView> {
 	}
 	
 	/*
-	 * Make sure filename is correct (history.sav, bookmarks.sav or
-	 * favourites.sav) and this will return an arraylist of the contents of the
-	 * cache.
-	 * 
-	 * Modified from LonelyTwitter Author:Joshua Campbell 2014-01-24
-	 */
-	/*
+	//This is the commented out version that I tried to thread
+	//-James
+
+
 	public void loadFromCache(final String filename, final ArrayList<CommentModel> resultList) {
 			
 		Thread thread = new Thread() {
@@ -198,63 +258,4 @@ public class Cache extends AModel<AView> {
 		this.isLoaded = true;
 	}
 	*/
-
-	private void writeMyHistory(ArrayList<CommentModel> mHistory) {
-		writeComments("history.sav", mHistory);
-	}
-
-	private void writeMyBookmarks(Context context,
-			ArrayList<CommentModel> mBookmarks) {
-		// writeComments("bookmarks.sav", context, mBookmarks);
-	}
-
-	private void writeMyFavourites(Context context,
-			ArrayList<CommentModel> mFavourites) {
-		// writeComments("favourites.sav", context, mFavourites);
-	}
-
-	public ArrayList<CommentModel> getHistory() {
-		return this.mHistory;
-	}
-	
-	public boolean isCacheLoaded() {
-		return isLoaded;
-	}
-	
-	public void loadCache(){
-		if (!isLoaded){
-			Log.w("Cache","Loading File");
-			this.mHistory = loadFromCache("history.sav");
-		}else{
-			Log.w("Cache","Loaded");
-		}
-	}
-
-	/*
-	 * No Longer need this dummy data but keeping it around just in case we need
-	 * it again. Can delete once we no longer feel we need it for testing
-	 * anything.
-	 */
-	/*
-	 * //Load the cache with dummy data private void dummyData() { Location l1 =
-	 * new Location("l1"); Location l2 = new Location("l2"); Location l3 = new
-	 * Location("l3"); l1.setLatitude(0); l1.setLongitude(0.001);
-	 * l2.setLatitude(0); l2.setLongitude(2); l3.setLatitude(0);
-	 * l3.setLongitude(0.008);
-	 * 
-	 * CommentModel tlc1 = new CommentModel(l1, "I am indestructable!!",
-	 * "Superman", "Info about superman"); try { Thread.sleep(10); }
-	 * catch(InterruptedException ex) { Thread.currentThread().interrupt(); }
-	 * CommentModel tlc2 = new CommentModel(l2, "I am a pansy", "Spiderman",
-	 * "Info about spiderman"); try { Thread.sleep(10); }
-	 * catch(InterruptedException ex) { Thread.currentThread().interrupt(); }
-	 * CommentModel tlc3 = new CommentModel(l3, "I can't feel my legs guys",
-	 * "Professor X", "Info about Professor X");
-	 * 
-	 * tlc1.addReply(new CommentModel(l2, "Not if I have Kryptonite!",
-	 * "Anonymoose")); tlc2.addReply(new CommentModel(l1,
-	 * "I am sure someone loves you", "Green Goblin"));
-	 * 
-	 * mHistory.add(tlc3); mHistory.add(tlc2); mHistory.add(tlc1);
-	 */
 }

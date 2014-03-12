@@ -78,6 +78,9 @@ public abstract class BrowseActivity extends Activity {
 			intent = new Intent(this, MyCommentsActivity.class);
 			startActivity(intent);
 			break;
+		case R.id.action_refresh:
+			this.handleCommentLoad();
+			break;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -184,25 +187,12 @@ public abstract class BrowseActivity extends Activity {
 				this.clm.replaceList(mCache.getHistory());
 				Log.w("Cache", "Got History");
 			} else {
-				// Waiting for a few seconds then trying to cache again in case
-				// its still loading.
-				// This may casue the UI thread to become none responsive not
-				// sure so may want to find a better
-				// way to do this. Maybe a loop with a small wait, One that will
-				// not freeze the ui thread.
-				// ---------------------------------------------------------------------------------------------
-				// wait(3000);
-				if (mCache.isCacheLoaded()) {
-					Log.w("Cache", "Cache is loaded");
-					this.clm.replaceList(mCache.getHistory());
-				} else {
 					// Should put the toast string inside the strings xml
 					Toast toast = Toast.makeText(this,
 							"Unable to load the cache, Please try again later",
 							5);
 					toast.show();
 					Log.w("Cache", "Not loaded");
-				}
 			}
 		}
 		

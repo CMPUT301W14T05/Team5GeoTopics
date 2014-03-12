@@ -19,8 +19,8 @@ public class ReplyToComment extends ActivityInstrumentationTestCase2<InspectComm
 		CommentModel parent = new CommentModel ("30.6282", "55.3116", "Parent Body", "Parent Author", null);
 		CommentModel reply = new CommentModel ("30.6282", "55.3116", "Reply Body", "Reply Author", null);
 		
-		parent.addReply(reply);
+		reply.setmParentID(parent.getmEsID());
 		
-		assertTrue("Reply exists inside parent", parent.getmReplies().contains(reply));
+		assertTrue("Reply references parent", reply.getmParentID() == parent.getmEsID());
 	}
 }
