@@ -16,7 +16,7 @@ public class AddPictureToComment extends ActivityInstrumentationTestCase2<Inspec
 	public void testAddPictureToComment(){
 		String mBody = "Body"; 
 		String mAuthor = "James";
-		Bitmap mPicture = Bitmap.createBitmap(10,10 ,Bitmap.Config.ARGB_8888);;
+		Bitmap mPicture = Bitmap.createBitmap(10,10 ,Bitmap.Config.ARGB_8888);
 		String mTitle = "Title";
 
 		CommentModel comment = new CommentModel("30.6282", "55.3116", mBody, mAuthor, mPicture, mTitle);

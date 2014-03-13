@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.team5geotopics.R;
 
@@ -76,6 +77,9 @@ public abstract class BrowseActivity extends Activity {
 		case R.id.action_my_comments:
 			intent = new Intent(this, MyCommentsActivity.class);
 			startActivity(intent);
+			break;
+		case R.id.action_refresh:
+			this.handleCommentLoad();
 			break;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -169,4 +173,30 @@ public abstract class BrowseActivity extends Activity {
 				.getActiveNetworkInfo();
 		return (activeNetworkInfo != null && activeNetworkInfo.isConnected());
 	}
+	
+	public void handleCommentLoad(){
+		if (isNetworkAvailable()) {
+			modelController = new CommentListController(this.clm);
+			modelController.getTopLevel(this);
+			Log.w("Cache", "Have Internet");
+		} else {
+			Log.w("Cache", "No Internet");
+			// Need a spinner here
+			if (mCache.isCacheLoaded()) {
+				Log.w("Cache", "Cache is loaded");
+				this.clm.replaceList(mCache.getHistory());
+				Log.w("Cache", "Got History");
+			} else {
+					// Should put the toast string inside the strings xml
+					Toast toast = Toast.makeText(this,
+							"Unable to load the cache, Please try again later",
+							5);
+					toast.show();
+					Log.w("Cache", "Not loaded");
+			}
+		}
+		
+	}
 }
+
+

@@ -18,12 +18,16 @@ public class CommentListModel extends AModel<AView>{
 	}
 	
 	public ArrayList<CommentModel> getList() {
-		return mComments;
+		return this.mComments;
 	}
 	
 	public void add(CommentModel comment) {
 		mComments.add(comment);
 		this.notifyViews();
+	}
+	
+	public void clearList(){
+		this.mComments.clear();
 	}
 	
 	/*

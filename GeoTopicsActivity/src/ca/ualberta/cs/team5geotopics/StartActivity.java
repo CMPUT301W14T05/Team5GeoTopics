@@ -3,6 +3,7 @@ package ca.ualberta.cs.team5geotopics;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -32,7 +33,9 @@ public class StartActivity extends Activity {
 		//Get the user
 		user = User.getInstance();
 		mCache = Cache.getInstance();
+		Log.w("Cache", "About to load");
 		mCache.loadCache();
+		Log.w("Cache", "After load");
 		
 		if(!user.installFilesExist()){
 			user.writeInstallFiles();
@@ -53,7 +56,6 @@ public class StartActivity extends Activity {
 			public void onClick(View v) {
 				Intent myIntent = new Intent(StartActivity.this, TopLevelActivity.class);
 				startActivity(myIntent);
-				
 			}
 		});
 	}

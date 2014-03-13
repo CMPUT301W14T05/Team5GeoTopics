@@ -57,15 +57,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		return mParentID == "-1";
 	}
 	
-	//local variables
-	/*
-	 * We still need these as Josh said we still need to reference comments this
-	 * way when they are hot (In the application)
-	 */
-	//private ArrayList<CommentModel> mReplies;
-	//private CommentModel mParent;
 	private Date mDate;
-	//private Location mGeolocation;
 	
 	// Constructor for Top Level Comments
 	public CommentModel(String lat, String lon, String mBody, String mAuthor,
@@ -79,7 +71,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.mPicture = mPicture;
 		putTimeStamp();
 		this.mEsID = null;
-		this.mParentID = null;
+		this.mParentID = "-1";
 		//this.mReplies = new ArrayList<CommentModel>();
 
 	}
@@ -235,8 +227,6 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		return loc;
 	}
 
-	
-
 	public CharSequence getmTitle() {
 		return this.mTitle;
 	}
@@ -256,18 +246,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	public boolean hasTitle() {
 		return mTitle != null;
 	}
-/*
-	public void addReply(CommentModel comment) {
-		comment.setmParentID(this.mParentID);
-		mReplies.add(comment);
-		this.notifyViews();
-	}
-
 	
-	public ArrayList<CommentModel> getReplies() {
-		return this.mReplies;
-	}
-*/
 	public String getLat() {
 		return lat;
 	}
@@ -300,15 +279,6 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.mDate = mDate;
 	}
 
-/*
-	public ArrayList<CommentModel> getmReplies() {
-		return mReplies;
-	}
-
-	public void setmReplies(ArrayList<CommentModel> mReplies) {
-		this.mReplies = mReplies;
-	}
-*/	
 	public Bitmap getmPicture() {
 		return mPicture;
 	}
