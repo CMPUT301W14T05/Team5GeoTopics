@@ -55,7 +55,7 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		// a new activity/layout
 		if (viewingComment != null) {
 			this.title.setVisibility(View.GONE);
-			findViewById(R.id.textViewTitle).setVisibility(View.GONE);
+			//findViewById(R.id.textViewTitle).setVisibility(View.GONE);
 		}
 		
 	}

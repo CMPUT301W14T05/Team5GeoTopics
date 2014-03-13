@@ -1,27 +1,20 @@
 package ca.ualberta.cs.team5geotopics;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -29,7 +22,7 @@ import com.example.team5geotopics.R;
 
 public abstract class BrowseActivity extends Activity {
 	protected BrowseView myView;
-	public static CommentListModel clm;
+	public CommentListModel clm;
 	protected ListView browseListView;
 	protected CommentModel viewingComment;
 	protected GeoTopicsApplication application;
@@ -53,17 +46,7 @@ public abstract class BrowseActivity extends Activity {
 		getActionBar().setDisplayShowTitleEnabled(false);
 		// Gives us the left facing caret. Need to drop the app icon however OR
 		// change it to something other than the android guy OR remove software back
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		
-		//Get the singletons we may need.
-		this.application = GeoTopicsApplication.getInstance();
-		this.application.setContext(getApplicationContext());
-		this.mCache = Cache.getInstance();
-		this.myUser = User.getInstance();
-		this.mCache = Cache.getInstance();
-		
-		//Construct the model
-		this.clm = new CommentListModel();		
+		getActionBar().setDisplayHomeAsUpEnabled(true);		
 	}
 
 	// Creates the options menu using the layout in menu.
@@ -178,7 +161,6 @@ public abstract class BrowseActivity extends Activity {
 					Log.w("Cache", "Not loaded");
 			}
 		}
-		
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -189,11 +171,15 @@ public abstract class BrowseActivity extends Activity {
 				CommentModel newComment;
 				Bundle b = data.getExtras();
 				newComment = b.getParcelable("NewComment");
-				clm.add(newComment);
+				
+				Log.w("NewComment", Integer.toString(this.clm.getList().size()));
+				this.clm.add(newComment);
+				Log.w("NewComment", Integer.toString(this.clm.getList().size()));
+				Log.w("NewComment", newComment.getmBody());
+				this.myView.notifyDataSetChanged();
 			}
 		}
-	}
-			
+	}	
 }
 
 

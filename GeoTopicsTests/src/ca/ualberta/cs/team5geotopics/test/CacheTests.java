@@ -5,16 +5,17 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
+import ca.ualberta.cs.team5geotopics.BrowseActivity;
 import ca.ualberta.cs.team5geotopics.Cache;
 import ca.ualberta.cs.team5geotopics.CommentListModel;
 import ca.ualberta.cs.team5geotopics.CommentModel;
 import ca.ualberta.cs.team5geotopics.InspectCommentActivity;
 
 public class CacheTests extends
-		ActivityInstrumentationTestCase2<InspectCommentActivity> {
+		ActivityInstrumentationTestCase2<BrowseActivity> {
 
 	public CacheTests() {
-		super(InspectCommentActivity.class);
+		super(BrowseActivity.class);
 	}
 
 	public void testAddCommentToHistoryCache() {
@@ -39,6 +40,7 @@ public class CacheTests extends
 		//Create some dummy comments
 		CommentModel topLevel = new CommentModel("1", "1", "Tbody1", "Author1", null, "title");
 		topLevel.setmEsID("1234");
+		topLevel.setmEsType("TopLevel");
 		
 		CommentModel replyLevelOne = new CommentModel("1", "1", "Rbody1", "Author1", null);
 		replyLevelOne.setmParentID(topLevel.getmEsID());
