@@ -115,51 +115,8 @@ public abstract class BrowseActivity extends Activity {
 						public void onClick(DialogInterface dialog, int which) {
 							// Which option to sort by?
 							Location myLoc = new Location("myLoc");
-							switch (which) {
-							case 0: // Proximity to me
-								/*
-								 * Here is where we would have to get the
-								 * current location Defaulting to lat= 0, long =
-								 * 0
-								 */
-								myLoc.setLatitude(0);
-								myLoc.setLongitude(0);
-								clm.sortCommentsByProximityToLoc(myLoc);
-								break;
-							case 1: // Proximity to location
-								/*
-								 * Here is where we would have to get the users
-								 * desired location Defaulting to lat= 0, long =
-								 * 0
-								 */
-								myLoc.setLatitude(0);
-								myLoc.setLongitude(0);
-								clm.sortCommentsByProximityToLoc(myLoc);
-								break;
-							case 2: // Sort By freshness
-								myLoc.setLatitude(0);
-								myLoc.setLongitude(0);
-								clm.sortCommentsByFreshness(myLoc);
-								break;
-							case 3: // Proximity to picture
-								myLoc.setLatitude(0);
-								myLoc.setLongitude(0);
-								clm.sortCommentsByPicture(myLoc);
-								break;
-							case 4: // Scoring system
-								/*
-								 * we are just default sorting by date right now
-								 */
-								clm.sortAllCommentsByDate();
-								break;
-							case 5: // Time
-								/*
-								 * not sure if this is supposed to be part of
-								 * the scoring system
-								 */
-								clm.sortAllCommentsByDate();
-								break;
-							}
+							clm.setSortFlag(which);
+							clm.sortOnUpdate();
 						}
 					});
 			return builder.create();

@@ -24,7 +24,8 @@ public class CommentListModel extends AModel<AView>{
 	
 	public void add(CommentModel comment) {
 		mComments.add(comment);
-		this.notifyViews();
+		sortOnUpdate();
+		//this.notifyViews();
 	}
 	
 	public void clearList(){
@@ -71,6 +72,7 @@ public class CommentListModel extends AModel<AView>{
 		default:
 			break;
 		}
+		this.notifyViews();
 	}
 	
 	/*
@@ -84,7 +86,7 @@ public class CommentListModel extends AModel<AView>{
 	 */
 	public void sortCommentsByProximityToLoc(Location myLoc) {
 		sortCommentsByProximity(mComments, myLoc);
-		this.notifyViews();
+		//this.notifyViews();
 	}
 	
 	public static ArrayList<CommentModel> sortCommentsByProximity(final ArrayList<CommentModel> cList, final Location myLoc) {
@@ -109,7 +111,7 @@ public class CommentListModel extends AModel<AView>{
 		}
     	mComments = sortCommentsByDate(mComments);
     	
-		this.notifyViews();
+		//this.notifyViews();
 	}
 	
 	/*
@@ -146,12 +148,12 @@ public class CommentListModel extends AModel<AView>{
 			mComments.add(noPicList.get(i));
 		}
 		
-		this.notifyViews();
+		//this.notifyViews();
 	}
 	
 	public void sortAllCommentsByDate() {
 		mComments = sortCommentsByDate(mComments);
-		this.notifyViews();
+		//this.notifyViews();
 	}
 	
 	public ArrayList<CommentModel> sortCommentsByDate(final ArrayList<CommentModel> cList) {
@@ -169,20 +171,23 @@ public class CommentListModel extends AModel<AView>{
 
 	public void setList(ArrayList<CommentModel> mComments) {
 		this.mComments = mComments;
-		this.notifyViews();
+		sortOnUpdate();
+		//this.notifyViews();
 	}
 
 	public void refreshAddAll(ArrayList<CommentModel> newTopLevel) {
 		this.mComments.removeAll(mComments);
 		this.mComments.addAll(newTopLevel);
 		Log.w("refreshAddAll" , Integer.valueOf(mComments.size()).toString());
-		this.notifyViews();
+		sortOnUpdate();
+		//this.notifyViews();
 		this.mCache.replaceHistory(mComments);
 	}
 	
 	public void replaceList(ArrayList<CommentModel> comments){
 		this.mComments.removeAll(mComments);
 		this.mComments.addAll(comments);
-		this.notifyViews();
+		sortOnUpdate();
+		//this.notifyViews();
 	}
 }
