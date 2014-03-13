@@ -50,7 +50,6 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	}
 	
 	public boolean isTopLevel() {
-		//return mParentID == "-1";
 		return mEsType.equals("TopLevel");
 	}
 	
@@ -69,6 +68,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		putTimeStamp();
 		this.mEsID = null;
 		this.mParentID = "-1";
+		this.mEsType = "TopLevel";
 		//this.mReplies = new ArrayList<CommentModel>();
 
 	}
@@ -85,6 +85,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		putTimeStamp();
 		this.mEsID = null;
 		this.mParentID = null;
+		this.mEsType = "ReplyLevel";
 		//this.mReplies = new ArrayList<CommentModel>();
 	}
 	

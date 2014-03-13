@@ -15,6 +15,16 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.top_level_activity);
+		
+		//Get the singletons we may need.
+		this.application = GeoTopicsApplication.getInstance();
+		this.application.setContext(getApplicationContext());
+		this.mCache = Cache.getInstance();
+		this.myUser = User.getInstance();
+		this.mCache = Cache.getInstance();
+		
+		//Construct the model
+		this.clm = new CommentListModel();
 
 		// Construct the View
 		this.myView = new BrowseView(this, R.layout.comment_list_item,

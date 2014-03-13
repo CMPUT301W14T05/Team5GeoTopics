@@ -56,6 +56,11 @@ public class CommentController {
 		comment.setmBody(body);
 		comment.setmPicture(picture);
 		comment.setmGeolocation(mGeolocation);
+		if(comment.isTopLevel()) {
+			pushComment(comment, "TopLevel");
+		}else{
+			pushComment(comment, "ReplyLevel");
+		}
 	}
 	
 	public Thread pushComment(final CommentModel comment, final String type){

@@ -1,5 +1,6 @@
 package ca.ualberta.cs.team5geotopics;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +18,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	private TextView body;
 	private ImageView image;
 	private View divider;
+	private Activity me;
 	
 	
 	@Override
@@ -28,6 +30,17 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		viewingComment = b.getParcelable("ViewingComment");
 		//Setup the Model
 		//this.clm.setList(viewingComment.getReplies());
+		
+		//Get the singletons we may need.
+		this.application = GeoTopicsApplication.getInstance();
+		this.application.setContext(getApplicationContext());
+		this.mCache = Cache.getInstance();
+		this.myUser = User.getInstance();
+		this.mCache = Cache.getInstance();
+		me = this;
+		
+		//Construct the model
+		this.clm = new CommentListModel();
 		
 		//Construct the View
 		this.myView = new BrowseView(this, R.layout.comment_list_item, clm.getList());
@@ -69,7 +82,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 				mCache.addToHistory(selected);
 				Intent intent = new Intent(ReplyLevelActivity.this, ReplyLevelActivity.class);
 				intent.putExtra("ViewingComment",selected);
-				startActivity(intent);
+				me.startActivity(intent);
 			}
 			
 		});
@@ -77,7 +90,8 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	}
 	
 	public void update(AModel model) {
-		myView.notifyDataSetChanged();
+		this.myView.notifyDataSetChanged();
+		Log.w("NewComment", "Notified list");
 		if(viewingComment.isTopLevel()) {
 			title.setText(viewingComment.getmTitle());
 		}else{

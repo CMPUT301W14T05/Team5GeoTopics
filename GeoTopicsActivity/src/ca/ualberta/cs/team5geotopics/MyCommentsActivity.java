@@ -68,7 +68,6 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 	@Override
 	protected void onResume(){
 		myView.notifyDataSetChanged(); //Ensure the view is up to date.
-		
 		browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> myView, View view, int position,
