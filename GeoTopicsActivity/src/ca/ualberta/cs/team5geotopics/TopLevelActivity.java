@@ -64,7 +64,6 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 
 	@Override
 	public void update(AModel model) {
-		// TODO Auto-generated method stub
 		myView.notifyDataSetChanged();
 	}
 }
