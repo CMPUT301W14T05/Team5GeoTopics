@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.example.team5geotopics.R;
 
-public class TopLevelActivity extends BrowseActivity {
+public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,5 +60,11 @@ public class TopLevelActivity extends BrowseActivity {
 	
 	public String getType(){
 		return "TopLevel";
+	}
+
+	@Override
+	public void update(AModel model) {
+		// TODO Auto-generated method stub
+		myView.notifyDataSetChanged();
 	}
 }

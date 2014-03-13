@@ -182,11 +182,5 @@ public class CommentListModel extends AModel<AView>{
 		sortOnUpdate();
 
 	}
-	
-	public void replaceList(ArrayList<CommentModel> comments){
-		this.mComments.removeAll(mComments);
-		this.mComments.addAll(comments);
-		sortOnUpdate();
-		//this.notifyViews();
-	}
+
 }
