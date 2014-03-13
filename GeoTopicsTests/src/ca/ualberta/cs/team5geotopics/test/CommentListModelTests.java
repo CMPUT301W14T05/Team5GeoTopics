@@ -61,7 +61,7 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<Brow
 		
 	}
 	
-	public void testSortRepliesByProximityToLoc() {
+	public void testSortCommentsByProximityToLoc() {
 		CommentListModel clm = new CommentListModel();
 		List<CommentModel> lc = prepCommentList(10, .03, 15, false);
 		
