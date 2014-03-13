@@ -17,17 +17,24 @@ public class CommentController {
 	private User myUser;
 	private JestClient mClient;
 	private Gson mGson;
+	private JestResult mResult;
 	
-	public CommentController() {
+	public CommentController(Context context) {
 		this.mCache = Cache.getInstance();
+		GeoTopicsApplication.getInstance().setContext(context);
 		this.myUser = User.getInstance();
 		this.mClient = GeoTopicsApplication.getInstance().getClient();
 		
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
 		this.mGson = builder.create();
+		this.mResult = new JestResult(mGson);
+		
 	}
 
+	public JestResult returnResult(){
+		return mResult;
+	}
 	public void newTopLevel(CommentModel newComment) {
 		mCache.addToHistory(newComment);
 		myUser.addToMyComments(newComment);
@@ -52,17 +59,16 @@ public class CommentController {
 		comment.setmGeolocation(mGeolocation);
 	}
 	
-	public void pushComment(final CommentModel comment, final String type){
+	public Thread pushComment(final CommentModel comment, final String type){
 		Thread thread = new Thread(){
 			@Override
 			public void run(){
-				JestResult result = null;
 				Exception e = null;
 				Index pushIndex = new Index.Builder(mGson.toJson(comment)).index(type)
 						.type(comment.getmEsType()).id(comment.getmEsID()).build();
 				
 				try{
-					result = mClient.execute(pushIndex);
+					mResult = mClient.execute(pushIndex);
 				}
 				catch (Exception e1){
 					e = e1;
@@ -73,12 +79,13 @@ public class CommentController {
 				if (e == null){
 					User user = User.getInstance();
 					user.updatePostCountFile();
-					Log.w("CommentController", result.getJsonString());
+					Log.w("CommentController", mResult.getJsonString());
 				}
 				
 				
 			}
 		};
 		thread.start();
+		return thread;
 	}
 }

@@ -1,20 +1,24 @@
 package ca.ualberta.cs.team5geotopics.test;
 
-import ca.ualberta.cs.team5geotopics.BrowseActivity;
-import ca.ualberta.cs.team5geotopics.CommentModel;
-import ca.ualberta.cs.team5geotopics.InspectCommentActivity;
+import io.searchbox.client.JestResult;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
-import junit.framework.TestCase;
+import ca.ualberta.cs.team5geotopics.CommentController;
+import ca.ualberta.cs.team5geotopics.CommentModel;
+import ca.ualberta.cs.team5geotopics.InspectCommentActivity;
 
 public class CreateNewTLComment extends ActivityInstrumentationTestCase2<InspectCommentActivity> {
-
+	
+	
+	
 	public CreateNewTLComment() {
 		super(InspectCommentActivity.class);
 	}
+	
+	
 	
 	@SuppressWarnings("null")
 	@SuppressLint("NewApi")

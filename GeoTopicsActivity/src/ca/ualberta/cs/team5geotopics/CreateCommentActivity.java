@@ -102,9 +102,8 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 			if (viewingComment == null) {
 				Log.w("CreateCommentActivity", "viewingComment == null");
 				// Creates new top level comment.
-				newComment = new CommentModel(String.valueOf(mGeolocation
-						.getLatitude()), String.valueOf(mGeolocation
-						.getLongitude()), mBody, mAuthor, mTitle, mPicture);
+				newComment = new CommentModel(Double.toString(mGeolocation.getLatitude()), 
+						Double.toString(mGeolocation.getLongitude()), mBody, mAuthor, mTitle, mPicture);
 				newComment.setES(
 						user.readInstallIDFile() + user.readPostCount(), "-1",
 						"TopLevel");

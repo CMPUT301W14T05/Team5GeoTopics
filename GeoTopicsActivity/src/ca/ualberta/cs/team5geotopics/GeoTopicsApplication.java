@@ -21,7 +21,7 @@ public class GeoTopicsApplication {
 	private static final String CMPUT301_CLUSTER = "http://cmput301.softwareprocess.es:8080/testing/";
 
 	private CommentModel currentlyViewingComment = null;
-	private static GeoTopicsApplication myself = new GeoTopicsApplication();
+	private static GeoTopicsApplication myself;
 	private JestClient mClient = null;
 	private String mID;
 	private Context context;
@@ -30,6 +30,9 @@ public class GeoTopicsApplication {
 	}
 
 	public static GeoTopicsApplication getInstance() {
+		if(myself == null){
+			myself = new GeoTopicsApplication();
+		}
 		return myself;
 	}
 

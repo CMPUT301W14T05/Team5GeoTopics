@@ -18,6 +18,7 @@ public class CommentSearch {
 	private CommentListModel browseModel;
 	private JestClient client;
 	private Gson gson;
+	private JestResult lastResult;
 	
 	private final static String MATCH_ALL_QUERY =	"{\n" +
 										  			"\"query\": {\n" +
@@ -34,45 +35,44 @@ public class CommentSearch {
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
 		this.gson = builder.create();
+		this.lastResult = new JestResult(this.gson);
 	}
 	
-	public void pullTopLevel(BrowseActivity topLevelActivity){
-		this.pull(topLevelActivity, MATCH_ALL_QUERY, "TopLevel");
+	public Thread pullTopLevel(BrowseActivity topLevelActivity){
+		return this.pull(topLevelActivity, MATCH_ALL_QUERY, "TopLevel");
 	}
 	
-	public void pullReplies(BrowseActivity replyLevelActivity, CommentModel comment){
-		String query = getReplyQuery(comment.getmEsID());
-		this.pull(replyLevelActivity, query, "ReplyLevel");
+	public Thread pullReplies(BrowseActivity replyLevelActivity, String commentID){
+		String query = getReplyQuery(commentID);
+		return this.pull(replyLevelActivity, query, "ReplyLevel");
 	}
 	
 	
 	private String getReplyQuery(String parentID){
-		return "{\n" + 					//closed
-				"\"filter\": {\n" + //closed
-				"\"type\":{\n" + //closed
-				"\"value\" : \"" + parentID +  "\"\n"  + //closed
+		return "{\n" + 					
+				"\"filter\": {\n" + 
+				"\"type\":{\n" + 
+				"\"value\" : \"" + parentID +  "\"\n"  + 
 				"}\n" +
 				"}\n" +
 				"}";
 	}
 	
-	private void pull(final BrowseActivity topLevelActivity, final String queryDSL, final String index){
+	private Thread pull(final BrowseActivity topLevelActivity, final String queryDSL, final String index){
 		Thread thread = new Thread(){
 			public void run(){
-				JestResult result = null;
-				ArrayList<CommentModel> inComments = new ArrayList<CommentModel>();
 				Search search = (Search) new Search.Builder(queryDSL).addIndex(
 						index).build();
 				try {
-					result = client.execute(search);
-					Log.w("CommentSearch", "result json string = " + result.getJsonString());
+					lastResult = client.execute(search);
+					Log.w("CommentSearch", "result json string = " + lastResult.getJsonString());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				client.shutdownClient();
 				
 				Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<CommentModel>>(){}.getType();
-				final ElasticSearchSearchResponse<CommentModel> esResponse = gson.fromJson(result.getJsonString(), elasticSearchSearchResponseType);
+				final ElasticSearchSearchResponse<CommentModel> esResponse = gson.fromJson(lastResult.getJsonString(), elasticSearchSearchResponseType);
 				// zjullion https://github.com/slmyers/PicPosterComplete/blob/master/src/ca/ualberta/cs/picposter/network/ElasticSearchOperations.java 
 				
 				try{
@@ -93,7 +93,11 @@ public class CommentSearch {
 			}
 		};
 		thread.start();
+		return thread;
 	}
 	
+	public JestResult returnResult(){
+		return lastResult;
+	}
 	
 }

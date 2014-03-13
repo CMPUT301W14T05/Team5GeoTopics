@@ -63,12 +63,18 @@ public class InspectCommentActivity extends Activity {
 
 		this.application = GeoTopicsApplication.getInstance();
 		this.mCache = Cache.getInstance();
+		this.application.setContext(getApplicationContext());
 		this.myUser = User.getInstance();
-		this.application = GeoTopicsApplication.getInstance();
-		this.controller = new CommentController();
 		
-		Bundle extras = this.getIntent().getExtras();
-		viewingComment = extras.getParcelable("ViewingComment");
+		this.controller = new CommentController(getApplicationContext());
+		
+		try{
+			Bundle extras = this.getIntent().getExtras();
+			viewingComment = extras.getParcelable("ViewingComment");
+		}
+		catch (NullPointerException e){
+			viewingComment = null;
+		}
 	}
 
 	@Override

@@ -49,6 +49,7 @@ public abstract class BrowseActivity extends Activity {
 		
 		//Get the singletons we may need.
 		this.application = GeoTopicsApplication.getInstance();
+		this.application.setContext(getApplicationContext());
 		this.mCache = Cache.getInstance();
 		this.myUser = User.getInstance();
 		this.mCache = Cache.getInstance();
@@ -185,7 +186,7 @@ public abstract class BrowseActivity extends Activity {
 				modelController.pullTopLevel(this);
 			}
 			else{
-				modelController.pullReplies(this, viewingComment);
+				modelController.pullReplies(this, viewingComment.getmEsID());
 			}
 			Log.w("Cache", "Have Internet");
 		} else {
