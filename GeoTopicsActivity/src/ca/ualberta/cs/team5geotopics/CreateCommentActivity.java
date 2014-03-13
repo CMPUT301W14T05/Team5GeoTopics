@@ -100,6 +100,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 			}
 			User user = User.getInstance();
 			if (viewingComment == null) {
+				Log.w("CreateCommentActivity", "viewingComment == null");
 				// Creates new top level comment.
 				newComment = new CommentModel(String.valueOf(mGeolocation
 						.getLatitude()), String.valueOf(mGeolocation
@@ -111,7 +112,10 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 			} else {
 				newComment = new CommentModel(Double.toString(mGeolocation.getLatitude()), 
 						Double.toString(mGeolocation.getLongitude()), 
-						mBody, mAuthor, mPicture, mTitle);
+						mBody, mAuthor, mTitle, mPicture);
+				newComment.setES(
+						user.readInstallIDFile() + user.readPostCount(), viewingComment.getmEsID(), 
+						viewingComment.getmEsID());
 				controller.newReply(newComment, viewingComment, this);
 			}
 			finish();

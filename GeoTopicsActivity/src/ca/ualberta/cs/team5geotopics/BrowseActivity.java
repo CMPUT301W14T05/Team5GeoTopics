@@ -31,7 +31,9 @@ public abstract class BrowseActivity extends Activity {
 	protected Cache mCache;
 	protected User myUser;
 	protected Intent intent;
-	protected CommentListController modelController;
+	protected CommentSearch modelController;
+	
+	public abstract String getType();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +70,9 @@ public abstract class BrowseActivity extends Activity {
 		// User clicks new comment button.
 		case R.id.new_top_level_comment:
 			intent = new Intent(this, CreateCommentActivity.class);
-			intent.putExtra("ViewingComment", viewingComment);
+			Bundle bundle = new Bundle();
+			bundle.putParcelable("ViewingComment", viewingComment);
+			intent.putExtras(bundle);
 			startActivity(intent);
 			break;
 		case R.id.action_sort:
@@ -176,8 +180,13 @@ public abstract class BrowseActivity extends Activity {
 	
 	public void handleCommentLoad(){
 		if (isNetworkAvailable()) {
-			modelController = new CommentListController(this.clm);
-			modelController.getTopLevel(this);
+			modelController = new CommentSearch(this.clm);
+			if(this.getType().equals("TopLevel")){
+				modelController.pullTopLevel(this);
+			}
+			else{
+				modelController.pullReplies(this, viewingComment);
+			}
 			Log.w("Cache", "Have Internet");
 		} else {
 			Log.w("Cache", "No Internet");

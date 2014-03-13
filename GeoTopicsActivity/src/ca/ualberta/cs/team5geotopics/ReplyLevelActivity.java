@@ -47,6 +47,8 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		body = (TextView)findViewById(R.id.reply_comment_body);
 		image = (ImageView)findViewById(R.id.reply_comment_image);
 		divider = (View)findViewById(R.id.reply_divider1);
+		
+		handleCommentLoad();
 		//Update myself
 		this.update(viewingComment);
 		
@@ -87,4 +89,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		}
 	}
 
+	public String getType(){
+		return "ReplyLevel";
+	}
 }

@@ -12,10 +12,6 @@ import android.os.Parcelable;
 import ca.ualberta.cs.team5geotopics.AModel;
 import ca.ualberta.cs.team5geotopics.AView;
 
-/*
- * This is the base class for the TopLevelModel 
- * and ReplyLevelModel.
- */
 
 public class CommentModel extends AModel<AView> implements Parcelable {
 	// elastic search dependent variables

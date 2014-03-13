@@ -55,4 +55,8 @@ public class TopLevelActivity extends BrowseActivity {
 	protected void onPause() {
 		super.onPause();
 	}
+	
+	public String getType(){
+		return "TopLevel";
+	}
 }

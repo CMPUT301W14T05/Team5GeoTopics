@@ -88,4 +88,9 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 		myView.notifyDataSetChanged();
 	}
 
+	@Override
+	public String getType() {
+		return "MyComments";
+	}
+
 }

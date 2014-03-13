@@ -66,7 +66,9 @@ public class InspectCommentActivity extends Activity {
 		this.myUser = User.getInstance();
 		this.application = GeoTopicsApplication.getInstance();
 		this.controller = new CommentController();
-
+		
+		Bundle extras = this.getIntent().getExtras();
+		viewingComment = extras.getParcelable("ViewingComment");
 	}
 
 	@Override
