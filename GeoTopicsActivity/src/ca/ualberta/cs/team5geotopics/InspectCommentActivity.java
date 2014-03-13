@@ -30,12 +30,16 @@ public class InspectCommentActivity extends Activity {
 	public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	public static final int GET_PHOTO = 105;
 	public static Uri imageFileUri;
-	protected CommentModel viewingComment;
 	protected GeoTopicsApplication application;
 	protected Cache mCache;
 	protected CommentModel newComment;
 	protected User myUser;
 	protected CommentController controller;
+	protected String commentType;
+	protected String parentID;
+	protected Bundle b;
+	protected CommentModel viewingComment;
+
 
 	// Variables for comment/edit comment.
 	protected Location mGeolocation;
@@ -68,13 +72,9 @@ public class InspectCommentActivity extends Activity {
 		
 		this.controller = new CommentController(getApplicationContext());
 		
-		try{
-			Bundle extras = this.getIntent().getExtras();
-			viewingComment = extras.getParcelable("ViewingComment");
-		}
-		catch (NullPointerException e){
-			viewingComment = null;
-		}
+		this.b = getIntent().getExtras();
+		commentType = b.getString("CommentType");
+		
 	}
 
 	@Override

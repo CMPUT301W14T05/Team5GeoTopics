@@ -1,5 +1,6 @@
 package ca.ualberta.cs.team5geotopics;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,13 +10,14 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.team5geotopics.R;
 
 
 public class CreateCommentActivity extends InspectCommentActivity implements
 		OnClickListener {
+	
+	Intent returnIntent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +41,12 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 		photoBtn.setOnClickListener(this);
 		cancelBtn.setOnClickListener(this);
 		postBtn.setOnClickListener(this);
+
+		parentID = b.getString("ParentID");
 		
 		// Replies do not have titles and thus we should disable it OR make
 		// a new activity/layout
-		if (viewingComment != null) {
+		if (commentType.equals("ReplyLevel")) {
 			this.title.setVisibility(View.GONE);
 			findViewById(R.id.textViewTitle).setVisibility(View.GONE);
 		}
@@ -83,7 +87,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 		// Gets all the data from the text boxes and submits it as a new
 		// comment
 		if (v == postBtn) {
-			if (viewingComment == null)
+			if (commentType.equals("TopLevel"))
 				this.mTitle = title.getText().toString();
 
 			this.mAuthor = author.getText().toString();
@@ -99,11 +103,11 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 				mGeolocation = loc;
 			}
 			User user = User.getInstance();
-			if (viewingComment == null) {
+			if (commentType.equals("TopLevel")) {
 				Log.w("CreateCommentActivity", "viewingComment == null");
 				// Creates new top level comment.
 				newComment = new CommentModel(Double.toString(mGeolocation.getLatitude()), 
-						Double.toString(mGeolocation.getLongitude()), mBody, mAuthor, mTitle, mPicture);
+						Double.toString(mGeolocation.getLongitude()), mBody, mAuthor, mPicture, mTitle);
 				newComment.setES(
 						user.readInstallIDFile() + user.readPostCount(), "-1",
 						"TopLevel");
@@ -111,12 +115,17 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 			} else {
 				newComment = new CommentModel(Double.toString(mGeolocation.getLatitude()), 
 						Double.toString(mGeolocation.getLongitude()), 
-						mBody, mAuthor, mTitle, mPicture);
+						mBody, mAuthor, mPicture);
 				newComment.setES(
-						user.readInstallIDFile() + user.readPostCount(), viewingComment.getmEsID(), 
-						viewingComment.getmEsID());
-				controller.newReply(newComment, viewingComment, this);
+						user.readInstallIDFile() + user.readPostCount(), this.parentID, 
+						this.parentID);
+				controller.newReply(newComment, this);
 			}
+			returnIntent = new Intent();
+			Bundle bundle = new Bundle();
+			bundle.putParcelable("NewComment", newComment);
+			returnIntent.putExtras(bundle);
+			setResult(RESULT_OK, returnIntent);
 			finish();
 		}
 	}

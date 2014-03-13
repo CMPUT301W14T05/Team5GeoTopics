@@ -134,7 +134,6 @@ public class CommentListModel extends AModel<AView>{
 		this.mComments.addAll(newTopLevel);
 		Log.w("refreshAddAll" , Integer.valueOf(mComments.size()).toString());
 		this.notifyViews();
-		this.mCache.replaceHistory(mComments);
 	}
 	
 	public void replaceList(ArrayList<CommentModel> comments){

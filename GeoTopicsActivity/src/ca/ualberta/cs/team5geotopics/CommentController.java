@@ -41,9 +41,8 @@ public class CommentController {
 		pushComment(newComment, "TopLevel");
 	}
 
-	public void newReply(CommentModel newComment, CommentModel parentComment,
-			Context context) {
-		
+	public void newReply(CommentModel newComment, Context context) {
+		mCache.addToHistory(newComment);
 		myUser.addToMyComments(newComment);
 		pushComment(newComment, "ReplyLevel");
 		Log.w("CommentController", "id: " + newComment.getmEsID() +"\n" 
