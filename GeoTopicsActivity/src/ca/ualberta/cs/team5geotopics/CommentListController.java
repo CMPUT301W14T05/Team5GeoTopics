@@ -40,7 +40,7 @@ public class CommentListController {
 						"TopLevel").build();
 				try {
 					result = client.execute(search);
-					//Log.w("CommentListController", "result json string = " + result.getJsonString());
+					Log.w("CommentListController", "result json string = " + result.getJsonString());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -50,7 +50,8 @@ public class CommentListController {
 				final ElasticSearchSearchResponse<CommentModel> esResponse = gson.fromJson(result.getJsonString(), elasticSearchSearchResponseType);
 				// zjullion https://github.com/slmyers/PicPosterComplete/blob/master/src/ca/ualberta/cs/picposter/network/ElasticSearchOperations.java 
 				
-				Log.w("CommentListController", Integer.valueOf(esResponse.getSources().size()).toString());
+				Log.w("CommentListController", "we have this many responses: " + 
+						Integer.valueOf(esResponse.getSources().size()).toString());
 				
 				Runnable updateModel = new Runnable(){
 					@Override
@@ -62,5 +63,21 @@ public class CommentListController {
 			}
 		};
 		thread.start();
+	}
+	
+	public void getReplies(final BrowseActivity replyLevelActivity, CommentModel comment){
+		final String QUERY_DSL =	"{\n" + 
+									"   \"query\": {\n" +
+									"		\"filtered\": {\n" +
+									"			\"query\": {\n" +
+									"				\"match all\": {}\n" +
+									"			\"filter\": {\n" +
+									"				\"type\": {\n" +
+									"					\"value\" : {\"" + comment.getmEsID() +  "\"}\n"  +
+									"			}\n" +
+									"		}\n" +
+									"	}\n" +
+									"}";
+									
 	}
 }
