@@ -180,7 +180,6 @@ public class CommentListModel extends AModel<AView>{
 		this.mComments.addAll(newTopLevel);
 		Log.w("refreshAddAll" , Integer.valueOf(mComments.size()).toString());
 		sortOnUpdate();
-		//this.notifyViews
 
 	}
 	
