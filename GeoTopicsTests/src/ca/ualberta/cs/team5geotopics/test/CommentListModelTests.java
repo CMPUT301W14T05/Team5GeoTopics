@@ -16,6 +16,15 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<Brow
 		super(BrowseActivity.class);
 	}
 	
+	public void testClearList() {
+		CommentListModel clm = new CommentListModel();
+		CommentModel comment = new CommentModel("0", "0", "hey", "Tyler", "testing", null);
+		clm.add(comment);
+		assertFalse("The list is not empty", clm.getList().isEmpty());
+		clm.clearList();
+		assertTrue("The list is empty", clm.getList().isEmpty());
+	}
+	
 	public void testSortRepliesByProximityToLoc() {
 		CommentListModel clm = new CommentListModel();
 		List<CommentModel> lc = prepCommentList(10, .03, 15, false);
@@ -125,23 +134,13 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<Brow
 	
 	public List<CommentModel> prepCommentList(double latA, double latB, double latC,
 			boolean hasPhoto) {
-//		Location locA = new Location("A");
-//		Location locB = new Location("B");
-//		Location locC = new Location("C");
+
 		Bitmap bm = null;
 		
 		if (hasPhoto) {
 			bm = Bitmap.createBitmap(10, 10, Bitmap.Config.ARGB_8888);
 		} 
 		
-//		locC.setLatitude(latC);
-//		locC.setLongitude(0);
-//		
-//		locB.setLatitude(latB);
-//		locB.setLongitude(0);
-//		
-//		locA.setLatitude(latA);
-//		locA.setLongitude(0);
 		
 		CommentModel cA = new CommentModel(Double.toString(latA), "0", "A", "A", bm, "A");
 		try {
