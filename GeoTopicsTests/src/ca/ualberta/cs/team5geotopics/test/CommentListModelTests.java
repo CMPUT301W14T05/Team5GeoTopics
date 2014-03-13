@@ -34,6 +34,17 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<Brow
 		assertEquals(comment, clm.getList().get(0));
 	}
 	
+	public void testSetList() {
+		CommentListModel clm = new CommentListModel();
+		ArrayList<CommentModel> lc = prepCommentList(10, .03, 15, false);
+		assertTrue(clm.getList().isEmpty());
+		clm.setList(lc);
+		assertFalse(clm.getList().isEmpty());
+		assertTrue("The first element should be C", clm.getList().get(0).getmBody().equals("C"));
+		assertTrue("The first element is originally B", clm.getList().get(1).getmBody().equals("B"));
+		assertTrue("The first element is originally A", clm.getList().get(2).getmBody().equals("A"));
+	}
+	
 	public void testSortRepliesByProximityToLoc() {
 		CommentListModel clm = new CommentListModel();
 		List<CommentModel> lc = prepCommentList(10, .03, 15, false);
@@ -141,7 +152,7 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<Brow
 		assertTrue("The first element is originally A", clm.getList().get(2).getmBody().equals("A"));
 	}
 	
-	public List<CommentModel> prepCommentList(double latA, double latB, double latC,
+	public ArrayList<CommentModel> prepCommentList(double latA, double latB, double latC,
 			boolean hasPhoto) {
 
 		Bitmap bm = null;
@@ -165,7 +176,7 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<Brow
 		}
 		CommentModel cC = new CommentModel(Double.toString(latC), "0", "C", "C", bm, "C");
 		
-		List<CommentModel> lc = new ArrayList<CommentModel>();
+		ArrayList<CommentModel> lc = new ArrayList<CommentModel>();
 		lc.add(cC);
 		lc.add(cB);
 		lc.add(cA);
