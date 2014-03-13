@@ -38,11 +38,13 @@ public class TopLevelActivity extends BrowseActivity {
 					@Override
 					public void onItemClick(AdapterView<?> myView, View view,
 							int position, long arg3) {
+						CommentModel selected = (CommentModel) browseListView
+								.getItemAtPosition(position);
+						//Add this to the cache
+						mCache.addToHistory(selected);
 						Intent intent = new Intent(TopLevelActivity.this,
 								ReplyLevelActivity.class);
-						intent.putExtra("ViewingComment",
-								(CommentModel) browseListView
-										.getItemAtPosition(position));
+						intent.putExtra("ViewingComment",selected);
 						startActivity(intent);
 					}
 

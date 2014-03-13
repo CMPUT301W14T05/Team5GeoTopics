@@ -48,9 +48,10 @@ public class Cache extends AModel<AView> {
 
 	//Removed the write because it will make add to history hard to test
 	public void addToHistory(CommentModel comment) {
-		this.mHistory.add(comment);
-		this.notifyViews();
-		this.isLoaded = true;
+		if(!mHistory.contains(comment)) {
+			this.mHistory.add(comment);
+			this.notifyViews();
+		}
 	}
 	
 	public void writeMyHistory() {

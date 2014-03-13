@@ -180,8 +180,8 @@ public class CommentListModel extends AModel<AView>{
 		this.mComments.addAll(newTopLevel);
 		Log.w("refreshAddAll" , Integer.valueOf(mComments.size()).toString());
 		sortOnUpdate();
-		//this.notifyViews();
-		this.mCache.replaceHistory(mComments);
+		//this.notifyViews
+
 	}
 	
 	public void replaceList(ArrayList<CommentModel> comments){

@@ -50,7 +50,8 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	}
 	
 	public boolean isTopLevel() {
-		return mParentID == "-1";
+		//return mParentID == "-1";
+		return mEsType.equals("TopLevel");
 	}
 	
 	private Date mDate;
@@ -72,7 +73,6 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 
 	}
 	// Constructor for replies
-	//Think this constructor is redundant
 	public CommentModel(String lat, String lon, String mBody, String mAuthor,
 			Bitmap mPicture) {
 		super();

@@ -1,5 +1,7 @@
 package ca.ualberta.cs.team5geotopics;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -9,14 +11,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,6 +38,9 @@ public abstract class BrowseActivity extends Activity {
 	protected Intent intent;
 	protected CommentSearch modelController;
 	
+	//New comment request codes
+	public static final int NEW_COMMENT = 1;
+
 	public abstract String getType();
 	
 	@Override
@@ -71,10 +79,13 @@ public abstract class BrowseActivity extends Activity {
 		// User clicks new comment button.
 		case R.id.new_top_level_comment:
 			intent = new Intent(this, CreateCommentActivity.class);
-			Bundle bundle = new Bundle();
-			bundle.putParcelable("ViewingComment", viewingComment);
-			intent.putExtras(bundle);
-			startActivity(intent);
+			if(this instanceof TopLevelActivity ){
+				intent.putExtra("CommentType", "TopLevel");
+			}else{
+				intent.putExtra("CommentType", "ReplyLevel");
+				intent.putExtra("ParentID", viewingComment.getmEsID());
+			}
+			startActivityForResult(intent, NEW_COMMENT);
 			break;
 		case R.id.action_sort:
 			showDialog(0);
@@ -151,7 +162,12 @@ public abstract class BrowseActivity extends Activity {
 			// Need a spinner here
 			if (mCache.isCacheLoaded()) {
 				Log.w("Cache", "Cache is loaded");
-				this.clm.replaceList(mCache.getHistory());
+				if(this.getType().equals("TopLevel")){
+					mCache.getTopLevel(this.clm);
+				}
+				else{
+					mCache.getReplies(this.clm, viewingComment);
+				}
 				Log.w("Cache", "Got History");
 			} else {
 					// Should put the toast string inside the strings xml
@@ -164,6 +180,20 @@ public abstract class BrowseActivity extends Activity {
 		}
 		
 	}
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		// Took photo, deal with it and get Bitmap
+		if (requestCode == NEW_COMMENT) {
+			if(resultCode == RESULT_OK){
+				CommentModel newComment;
+				Bundle b = data.getExtras();
+				newComment = b.getParcelable("NewComment");
+				clm.add(newComment);
+			}
+		}
+	}
+			
 }
 
 
