@@ -25,6 +25,15 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<Brow
 		assertTrue("The list is empty", clm.getList().isEmpty());
 	}
 	
+	public void testAddComment() {
+		CommentListModel clm = new CommentListModel();
+		CommentModel comment = new CommentModel("0", "0", "hey", "Tyler", "testing", null);
+		assertTrue("The list is empty", clm.getList().isEmpty());
+		clm.add(comment);
+		assertFalse("The list is not empty", clm.getList().isEmpty());
+		assertEquals(comment, clm.getList().get(0));
+	}
+	
 	public void testSortRepliesByProximityToLoc() {
 		CommentListModel clm = new CommentListModel();
 		List<CommentModel> lc = prepCommentList(10, .03, 15, false);
