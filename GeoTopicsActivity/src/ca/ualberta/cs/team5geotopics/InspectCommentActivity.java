@@ -72,8 +72,13 @@ public class InspectCommentActivity extends Activity {
 		
 		this.controller = new CommentController(getApplicationContext());
 		
-		this.b = getIntent().getExtras();
-		commentType = b.getString("CommentType");
+		try{
+			this.b = getIntent().getExtras();
+			commentType = b.getString("CommentType");
+		}
+		catch(NullPointerException e){
+			commentType = "notApplicable";
+		}
 		
 	}
 
