@@ -129,16 +129,10 @@ public class CommentListModel extends AModel<AView>{
 		this.notifyViews();
 	}
 
-	public void refreshAddAll(ArrayList<CommentModel> newTopLevel) {
-		this.mComments.removeAll(mComments);
-		this.mComments.addAll(newTopLevel);
-		Log.w("refreshAddAll" , Integer.valueOf(mComments.size()).toString());
-		this.notifyViews();
-	}
-	
-	public void replaceList(ArrayList<CommentModel> comments){
+	public void refreshAddAll(ArrayList<CommentModel> comments) {
 		this.mComments.removeAll(mComments);
 		this.mComments.addAll(comments);
+		Log.w("refreshAddAll" , Integer.valueOf(mComments.size()).toString());
 		this.notifyViews();
 	}
 }
