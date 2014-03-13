@@ -11,6 +11,7 @@ import android.util.Log;
 public class CommentListModel extends AModel<AView>{
 	private ArrayList<CommentModel> mComments;
 	private Cache mCache;
+	private int sortFlag = 5;
 	
 	public CommentListModel(){
 		this.mComments = new ArrayList<CommentModel>();	
@@ -28,6 +29,48 @@ public class CommentListModel extends AModel<AView>{
 	
 	public void clearList(){
 		this.mComments.clear();
+	}
+	
+	public void setSortFlag(int sortFlag) {
+		this.sortFlag = sortFlag;
+	}
+	
+	public void sortOnUpdate() {
+		/*
+		 * Since we do not have location functionality working right now
+		 * (its part of our part 4 release plan) I will set a single static
+		 * location that will be used for all the sorts that need a location
+		 * SortByProximityToMe
+		 * SortByProximityToLoc
+		 * SortByFreshness
+		 */
+		Location myLoc = new Location("myLoc");
+		myLoc.setLongitude(0);
+		myLoc.setLatitude(0);
+		
+		switch (sortFlag) {
+		case 0:
+			sortCommentsByProximityToLoc(myLoc);
+			break;
+		case 1:
+			sortCommentsByProximityToLoc(myLoc);
+			break;
+		case 2:
+			sortCommentsByFreshness(myLoc);
+			break;
+		case 3:
+			sortCommentsByPicture(myLoc);
+			break;
+		case 4:
+			// as of right now only sorts by date
+			sortCommentsByDate(mComments);
+			break;
+		case 5:
+			sortCommentsByDate(mComments);
+			break;
+		default:
+			break;
+		}
 	}
 	
 	/*
