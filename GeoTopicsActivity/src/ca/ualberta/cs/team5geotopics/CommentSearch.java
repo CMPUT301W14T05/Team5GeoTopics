@@ -61,14 +61,16 @@ public class CommentSearch {
 	private Thread pull(final BrowseActivity topLevelActivity, final String queryDSL, final String index){
 		Thread thread = new Thread(){
 			public void run(){
-				Search search = (Search) new Search.Builder(queryDSL).addIndex(
+				final Search search = (Search) new Search.Builder(queryDSL).addIndex(
 						index).build();
-				try {
+				try{
 					lastResult = client.execute(search);
 					Log.w("CommentSearch", "result json string = " + lastResult.getJsonString());
-				} catch (Exception e) {
+				}
+				catch (Exception e){
 					e.printStackTrace();
 				}
+					
 				
 				client.shutdownClient();
 				
@@ -87,7 +89,12 @@ public class CommentSearch {
 				Runnable updateModel = new Runnable(){
 					@Override
 					public void run() {
-						browseModel.addNew( (ArrayList<CommentModel>) esResponse.getSources());
+						try{
+							browseModel.addNew( (ArrayList<CommentModel>) esResponse.getSources());
+						}
+						catch (NullPointerException e){
+							// do nothing if the new comments are null
+						}
 					}
 				};
 				topLevelActivity.runOnUiThread(updateModel);
