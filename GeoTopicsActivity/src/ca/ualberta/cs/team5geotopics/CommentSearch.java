@@ -19,7 +19,7 @@ public class CommentSearch {
 	private JestClient client;
 	private Gson gson;
 	private JestResult lastResult;
-	protected Cache mCache;
+	protected Cache mCache = Cache.getInstance();
 	
 	private final static String MATCH_ALL_QUERY =	"{\n" +
 										  			"\"query\": {\n" +
