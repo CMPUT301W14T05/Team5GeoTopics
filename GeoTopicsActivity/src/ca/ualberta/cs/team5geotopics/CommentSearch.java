@@ -80,8 +80,8 @@ public class CommentSearch {
 				Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<CommentModel>>(){}.getType();
 				String lastResultJsonString = lastResult.getJsonString();
 				
-				//send comments pulled from Elasticsearch straight to disk for caching.
-					mCache.replaceFileHistory(lastResultJsonString, commentID);
+				//send comments pulled from Elasticsearch straight to disk for caching. (this can be placed on another thread if it slows things)
+				mCache.replaceFileHistory(lastResultJsonString, commentID);
 				
 				final ElasticSearchSearchResponse<CommentModel> esResponse = gson.fromJson(lastResultJsonString, elasticSearchSearchResponseType);
 				// zjullion https://github.com/slmyers/PicPosterComplete/blob/master/src/ca/ualberta/cs/picposter/network/ElasticSearchOperations.java 

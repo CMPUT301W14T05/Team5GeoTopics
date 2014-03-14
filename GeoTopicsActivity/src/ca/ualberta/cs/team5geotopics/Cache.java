@@ -16,6 +16,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
 public class Cache extends AModel<AView> {
 	private ArrayList<CommentModel> mHistory;
@@ -93,7 +94,7 @@ public class Cache extends AModel<AView> {
 					e.printStackTrace();
 				}
 			}
-	}
+	} 
 
 	//Removed the write because it will make add to history hard to test
 	public void addToHistory(CommentModel comment) {
@@ -103,10 +104,6 @@ public class Cache extends AModel<AView> {
 		}
 	}
 	
-	public void writeMyHistory() {
-		writeComments("history.sav", mHistory);
-	}
-
 	public ArrayList<CommentModel> getHistory() {
 		return this.mHistory;
 	}
@@ -166,99 +163,30 @@ public class Cache extends AModel<AView> {
 			return thread;
 		}
 
-	/*
-	 * Author: Kevin Tambascio URL:
-	 * https://www.tambascio.org/kevin/android/gson-and-android/ (March 6th,
-	 * 2014)
-	 */
-	private void writeComments(final String name,
-			final ArrayList<CommentModel> savedList) {
-
-		Thread thread = new Thread() {
-
-			@Override
-			public void run() {
-				// -----------------------------------------------------
-				/*
-				 * use of GraphAdapterBuilder adapted from
-				 * http://stackoverflow.com
-				 * /questions/10036958/the-easiest-way-to
-				 * -remove-the-bidirectional-recursive-relationships by Jesse
-				 * Wilson taken 2014-03-07
-				 */
-				GsonBuilder gsonBuilder = new GsonBuilder();
-				new GraphAdapterBuilder().addType(CommentModel.class)
-						.registerOn(gsonBuilder);
-				Gson gson = gsonBuilder.create();
-				// -----------------------------------------------------
-
-				String myCommentsData;
-
-				FileOutputStream fos = null;
-				try {
-					fos = context.openFileOutput(name, Context.MODE_PRIVATE);
-					for (int i = 0; i < mHistory.size(); i++) {
-						myCommentsData = gson.toJson(mHistory.get(i)) + "\n"; 
-						// delineate comment model elements with newline
-						fos.write(myCommentsData.getBytes());
-						Log.w("Cache-write myCommentsData", myCommentsData);
-					}
-
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				} finally {
-					try {
-						if (fos != null)
-							fos.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		};
-
-		thread.start();
-	}
 
 	public ArrayList<CommentModel> loadFromCache(String filename) {
 	    Gson gson = new Gson(); 
 	    ArrayList<CommentModel> resultList = new ArrayList<CommentModel>();
 	    FileInputStream fis = null; 
+	    
 	    try { 
-	        fis = context.openFileInput(filename); 
-	        BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-	        String line = in.readLine();
-	        while (line != null) {
-				resultList.add(gson.fromJson(line, CommentModel.class));
-				line = in.readLine();
-	        }
-	    }
-	    catch(JsonSyntaxException e) { 
-	    	e.printStackTrace();
-	    	//TODO: print from system.err stream in LogCat
-	    }
-	    catch (FileNotFoundException e) { 
-	    	e.printStackTrace();
-	    } 
-	    catch (IOException e) {
-			e.printStackTrace();
-		}
-	    finally { 
-	        try { 
-	            if(fis != null)
-	                fis.close();
-	        }
-	        catch (IOException e)  { 
-	        	e.printStackTrace();
-	        }
-	    }
+	    	File file = new File(path+"/history",filename);
+	    	fis = new FileInputStream(file);
+	    	BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+	    	String line = in.readLine(); //check that the whole file is read somehow
+	    	
+	    	Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<CommentModel>>(){}.getType();
+	    	resultList = gson.fromJson(line, elasticSearchSearchResponseType);
+	    	
+	    } catch (FileNotFoundException e) {
+	    	Log.w("Cache","ERROR: File not found (loading cache)");
+	    } catch (IOException e) {
+	    	Log.w("Cache","ERROR: Java IO error reading cache file");
+		} 
 	    Log.w("Cache","Loaded File");
 	    this.isLoaded = true;
 		return resultList;
 	}
-	
 	/*
 	//This is the commented out version that I tried to thread
 	//-James
