@@ -66,10 +66,16 @@ public class CommentListModel extends AModel<AView>{
 <<<<<<< HEAD
 			sortCommentsByDate(mComments);
 			break;
+<<<<<<< HEAD
 =======
 			// as of right now only sorts by date
 			sortCommentsByDate(mComments);
 			break;
+//		case 5:
+//			sortCommentsByDate(mComments);
+//			break;
+>>>>>>> cf6ebe1b3ad1864e36e695e9c08bbfe54e75bab4
+=======
 //		case 5:
 //			sortCommentsByDate(mComments);
 //			break;

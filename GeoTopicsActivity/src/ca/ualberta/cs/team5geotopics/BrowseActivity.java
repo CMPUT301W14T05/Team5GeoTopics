@@ -104,6 +104,9 @@ public abstract class BrowseActivity extends Activity {
 =======
 			options[4] = "Sort by scoring system";
 			//options[5] = "Sort by time";
+<<<<<<< HEAD
+>>>>>>> cf6ebe1b3ad1864e36e695e9c08bbfe54e75bab4
+=======
 >>>>>>> cf6ebe1b3ad1864e36e695e9c08bbfe54e75bab4
 
 			builder.setTitle("Select Option").setItems(options,
