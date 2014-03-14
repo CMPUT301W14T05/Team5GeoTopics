@@ -104,14 +104,36 @@ public class CommentListModel extends AModel<AView>{
 		/*
 		 *	This should remove any comment from the list that is further than 1 km away 
 		 */
-		for (int i = mComments.size() - 1; i >= 0; i--) {
-			if (mComments.get(i).getGeoLocation().distanceTo(myLoc) > 1000) {
-				mComments.remove(i);
-			}
+		sortCommentsByProximityToLoc(myLoc);
+		int weightPoint = mComments.size();
+		for (int i = 0; i < mComments.size(); i++) {
+			mComments.get(i).setSortWeight(weightPoint);
+			weightPoint -= 1;
 		}
-    	mComments = sortCommentsByDate(mComments);
+		sortCommentsByDate(mComments);
+		weightPoint = mComments.size();
+		for (int i = 0; i < mComments.size(); i++) {
+			mComments.get(i).setSortWeight(mComments.get(i).getSortWeight() + weightPoint);
+			weightPoint -= 1;
+		}
+		sortCommentsBySortWeight(mComments);
+//		for (int i = mComments.size() - 1; i >= 0; i--) {
+//			if (mComments.get(i).getGeoLocation().distanceTo(myLoc) > 1000) {
+//				mComments.remove(i);
+//			}
+//		}
+//    	mComments = sortCommentsByDate(mComments);
     	
 		//this.notifyViews();
+	}
+	
+	public void sortCommentsBySortWeight(final ArrayList<CommentModel> cList) {
+		Collections.sort(cList, new Comparator<CommentModel>() {
+			public int compare(CommentModel a, CommentModel b) {
+				return (int) (b.getSortWeight() - 
+						a.getSortWeight());
+			}
+		});
 	}
 	
 	/*
