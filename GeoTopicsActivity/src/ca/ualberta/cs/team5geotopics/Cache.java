@@ -34,6 +34,20 @@ public class Cache extends AModel<AView> {
 	public static Cache getInstance() {
 		return myself;
 	}
+	
+	public void updateComment(CommentModel updatedComment){
+		String commentId = updatedComment.getmEsID();
+		for(CommentModel comment : mHistory){
+			if(commentId.equals(comment.getmEsID())){
+				comment.setmAuthor(updatedComment.getmAuthor());
+				comment.setmTitle(updatedComment.getmTitle().toString());
+				comment.setmBody(updatedComment.getmBody());
+				comment.setmPicture(updatedComment.getmPicture());
+				comment.setLat(updatedComment.getLat());
+				comment.setLon(updatedComment.getLon());
+			}
+		}
+	}
 
 	public void clearHistory() {
 		mHistory.clear();

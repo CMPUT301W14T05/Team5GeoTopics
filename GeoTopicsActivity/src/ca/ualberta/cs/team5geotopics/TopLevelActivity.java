@@ -35,12 +35,12 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 		browseListView = (ListView) findViewById(R.id.browse_top_level_listView);
 		browseListView.setAdapter(myView);
 		
-		handleCommentLoad();
+		
 	}
 
 	@Override
 	protected void onResume() {
-		
+		handleCommentLoad();
 		// Reset the current viewing comment
 		myView.notifyDataSetChanged(); // Ensure the view is up to date.
 		browseListView

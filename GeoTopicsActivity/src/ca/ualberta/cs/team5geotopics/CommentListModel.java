@@ -175,10 +175,36 @@ public class CommentListModel extends AModel<AView>{
 		//this.notifyViews();
 	}
 
-	public void addNew(ArrayList<CommentModel> newTopLevel) {
-		this.mComments.removeAll(mComments);
-		this.mComments.addAll(newTopLevel);
-		Log.w("refreshAddAll" , Integer.valueOf(mComments.size()).toString());
+	public void addNew(ArrayList<CommentModel> newComments) {
+		ArrayList<CommentModel> filteredComments = new ArrayList<CommentModel>();
+		boolean inList = false;
+		try{
+			newComments.size();
+		}
+		catch (NullPointerException e){
+			return;
+		}
+		
+		for(CommentModel inComment : newComments){
+			for (CommentModel listComment : this.mComments){
+				if (listComment.getmEsID().equals(inComment.getmEsID())){
+					inList = true;
+					break;
+				}
+			}
+			
+			if(inList == false){
+				filteredComments.add(inComment);
+			}
+			else{
+				inList = false;
+			}
+		}
+		if( filteredComments.size() > 0){
+			this.mComments.addAll(filteredComments);
+		}
+		
+		Log.w("addNew" , Integer.valueOf(mComments.size()).toString());
 		sortOnUpdate();
 
 	}

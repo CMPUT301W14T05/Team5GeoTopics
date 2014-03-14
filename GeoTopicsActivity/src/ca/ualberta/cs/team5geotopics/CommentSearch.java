@@ -21,6 +21,7 @@ public class CommentSearch {
 	private JestResult lastResult;
 	protected Cache mCache = Cache.getInstance();
 	
+	// a simple match all query
 	private final static String MATCH_ALL_QUERY =	"{\n" +
 										  			"\"query\": {\n" +
 										  			"\"match_all\": {}\n" +
@@ -39,6 +40,7 @@ public class CommentSearch {
 		this.lastResult = new JestResult(this.gson);
 	}
 	
+	// this method pulls all TopLevel comments
 	public Thread pullTopLevel(BrowseActivity topLevelActivity){
 		return this.pull(topLevelActivity, MATCH_ALL_QUERY, "TopLevel");
 	}
@@ -62,14 +64,17 @@ public class CommentSearch {
 	private Thread pull(final BrowseActivity topLevelActivity, final String queryDSL, final String index){
 		Thread thread = new Thread(){
 			public void run(){
-				Search search = (Search) new Search.Builder(queryDSL).addIndex(
+				final Search search = (Search) new Search.Builder(queryDSL).addIndex(
 						index).build();
-				try {
+				try{
 					lastResult = client.execute(search);
 					Log.w("CommentSearch", "result json string = " + lastResult.getJsonString());
-				} catch (Exception e) {
+				}
+				catch (Exception e){
 					e.printStackTrace();
 				}
+					
+				
 				client.shutdownClient();
 				
 				Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<CommentModel>>(){}.getType();
@@ -91,7 +96,12 @@ public class CommentSearch {
 				Runnable updateModel = new Runnable(){
 					@Override
 					public void run() {
-						browseModel.addNew( (ArrayList<CommentModel>) esResponse.getSources());
+						try{
+							browseModel.addNew( (ArrayList<CommentModel>) esResponse.getSources());
+						}
+						catch (NullPointerException e){
+							// do nothing if the new comments are null
+						}
 					}
 				};
 				topLevelActivity.runOnUiThread(updateModel);

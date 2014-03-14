@@ -91,6 +91,9 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 				this.mTitle = title.getText().toString();
 
 			this.mAuthor = author.getText().toString();
+			if(mAuthor.isEmpty()){
+				mAuthor = "Anonymous";
+			}
 			this.mBody = body.getText().toString();
 			if (mGeolocation == null) {
 				/*

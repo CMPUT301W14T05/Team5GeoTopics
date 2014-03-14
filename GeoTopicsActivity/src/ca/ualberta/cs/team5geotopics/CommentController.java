@@ -61,6 +61,8 @@ public class CommentController {
 		}else{
 			pushComment(comment, "ReplyLevel");
 		}
+		mCache.updateComment(comment);
+		myUser.updateMyComment(comment);
 	}
 	
 	public Thread pushComment(final CommentModel comment, final String type){
