@@ -45,21 +45,21 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<Brow
 		assertTrue("The first element is originally A", clm.getList().get(2).getmBody().equals("A"));
 	}
 	
-	public void testRefreshAddAll() {
-		CommentListModel clm = new CommentListModel();
-		ArrayList<CommentModel> lc = prepCommentList(10, .03, 15, false);
-		CommentModel comment = new CommentModel("0", "0", "hey", "Tyler", "testing", null);
-		assertTrue("The list is empty", clm.getList().isEmpty());
-		clm.add(comment);
-		assertFalse("The list is not empty", clm.getList().isEmpty());
-		assertEquals(comment, clm.getList().get(0));
-		clm.addNew(lc);
-		assertFalse(clm.getList().isEmpty());
-		assertTrue("The first element should be C", clm.getList().get(0).getmBody().equals("C"));
-		assertTrue("The first element is originally B", clm.getList().get(1).getmBody().equals("B"));
-		assertTrue("The first element is originally A", clm.getList().get(2).getmBody().equals("A"));
-		
-	}
+//	public void testRefreshAddAll() {
+//		CommentListModel clm = new CommentListModel();
+//		ArrayList<CommentModel> lc = prepCommentList(10, .03, 15, false);
+//		CommentModel comment = new CommentModel("0", "0", "hey", "Tyler", "testing", null);
+//		assertTrue("The list is empty", clm.getList().isEmpty());
+//		clm.add(comment);
+//		assertFalse("The list is not empty", clm.getList().isEmpty());
+//		assertEquals(comment, clm.getList().get(0));
+//		clm.addNew(lc);
+//		assertFalse(clm.getList().isEmpty());
+//		assertTrue("The first element should be C", clm.getList().get(0).getmBody().equals("C"));
+//		assertTrue("The first element is originally B", clm.getList().get(1).getmBody().equals("B"));
+//		assertTrue("The first element is originally A", clm.getList().get(2).getmBody().equals("A"));
+//		
+//	}
 	
 	public void testSortCommentsByProximityToLoc() {
 		CommentListModel clm = new CommentListModel();
@@ -104,9 +104,10 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<Brow
 		
 		clm.sortCommentsByFreshness(myLoc);
 		
-		assertEquals("The size of the array should now be 2", 2, clm.getList().size());
+		assertEquals("The size of the array should now be 3", 3, clm.getList().size());
 		assertTrue("The first element of the list is C", clm.getList().get(0).getmBody().equals("C"));
 		assertTrue("The second element of the list is A", clm.getList().get(1).getmBody().equals("A"));
+		assertTrue("The second element of the list is B", clm.getList().get(2).getmBody().equals("B"));
 	}
 
 	/*
