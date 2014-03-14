@@ -24,6 +24,13 @@ public class Cache extends AModel<AView> {
 
 	private static Cache myself = new Cache();
 
+	//test constructor
+	public Cache(Context context){
+		this.application = GeoTopicsApplication.getInstance();
+		application.setContext(context);
+		this.context = context;
+		isLoaded = false;
+	}
 	private Cache() {
 		this.mHistory = new ArrayList<CommentModel>();
 		this.application = GeoTopicsApplication.getInstance();

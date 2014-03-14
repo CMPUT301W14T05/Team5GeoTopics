@@ -19,7 +19,7 @@ public class CommentSearch {
 	private JestClient client;
 	private Gson gson;
 	private JestResult lastResult;
-	protected Cache mCache = Cache.getInstance();
+	protected Cache mCache;
 	
 	// a simple match all query
 	private final static String MATCH_ALL_QUERY =	"{\n" +
@@ -38,6 +38,18 @@ public class CommentSearch {
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
 		this.gson = builder.create();
 		this.lastResult = new JestResult(this.gson);
+		this.mCache = Cache.getInstance();
+	}
+	
+	public CommentSearch(CommentListModel listModel, Cache cache){
+		this.browseModel = listModel;
+		this.client = GeoTopicsApplication.getInstance().getClient();
+		
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
+		this.gson = builder.create();
+		this.lastResult = new JestResult(this.gson);
+		this.mCache = cache;
 	}
 	
 	// this method pulls all TopLevel comments
@@ -91,8 +103,13 @@ public class CommentSearch {
 				Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<CommentModel>>(){}.getType();
 				String lastResultJsonString = lastResult.getJsonString();
 				//send comments pulled from Elasticsearch straight to cache.
-				mCache.replaceHistory(lastResultJsonString);
-				
+				try{
+					mCache.replaceHistory(lastResultJsonString);
+				}
+				catch (NullPointerException e){
+					e.printStackTrace();
+					Log.w("Cache and pull", "cache error replaceHistory in CommentSearch");
+				}
 				final ElasticSearchSearchResponse<CommentModel> esResponse = gson.fromJson(lastResultJsonString, elasticSearchSearchResponseType);
 				// zjullion https://github.com/slmyers/PicPosterComplete/blob/master/src/ca/ualberta/cs/picposter/network/ElasticSearchOperations.java 
 				
