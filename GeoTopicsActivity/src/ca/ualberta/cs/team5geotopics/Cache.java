@@ -61,11 +61,13 @@ public class Cache extends AModel<AView> {
 		this.isLoaded = true;
 	}*/
 	
-	/*this will save the serialized comments retrieved from elasticsearch to disk
-	 * right now this just replaces the file on disk with the last elasticsearch query result.
-	 * TODO: introduce file system tree
-	 */
+	
+
 	public void replaceHistory(String jsonString) {
+		/*this will save the serialized comments retrieved from elasticsearch to disk
+		 * right now this just replaces the file on disk with the last elasticsearch query result.
+		 * TODO: introduce file system tree, by adding filename as arg.
+		 */
 		Log.w("Cache-write myCommentsData", "Replace History First");
 		FileOutputStream fos = null;
 		try {
