@@ -93,14 +93,13 @@ public abstract class BrowseActivity extends Activity {
 
 		// User has selected sorting options
 		if (i == 0) {
-			String options[] = new String[6];
+			String options[] = new String[5];
 
 			options[0] = "Sort by proximity to me";
 			options[1] = "Sort by proximity to location";
 			options[2] = "Sort by freshness";
 			options[3] = "Sort by proximity to picture";
-			options[4] = "Sort by scoring system";
-			options[5] = "Sort by time";
+			options[4] = "Sort by time";
 
 			builder.setTitle("Select Option").setItems(options,
 					new DialogInterface.OnClickListener() {

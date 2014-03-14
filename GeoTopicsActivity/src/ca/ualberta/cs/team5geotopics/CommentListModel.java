@@ -63,10 +63,6 @@ public class CommentListModel extends AModel<AView>{
 			sortCommentsByPicture(myLoc);
 			break;
 		case 4:
-			// as of right now only sorts by date
-			sortCommentsByDate(mComments);
-			break;
-		case 5:
 			sortCommentsByDate(mComments);
 			break;
 		default:
