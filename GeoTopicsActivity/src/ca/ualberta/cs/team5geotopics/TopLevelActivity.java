@@ -21,8 +21,7 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 		this.application.setContext(getApplicationContext());
 		this.mCache = Cache.getInstance();
 		this.myUser = User.getInstance();
-		this.mCache = Cache.getInstance();
-		
+
 		//Construct the model
 		this.clm = new CommentListModel();
 

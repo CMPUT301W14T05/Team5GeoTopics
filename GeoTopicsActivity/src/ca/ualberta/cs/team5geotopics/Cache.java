@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -33,17 +34,58 @@ public class Cache extends AModel<AView> {
 	public static Cache getInstance() {
 		return myself;
 	}
+	
+	public void updateComment(CommentModel updatedComment){
+		String commentId = updatedComment.getmEsID();
+		for(CommentModel comment : mHistory){
+			if(commentId.equals(comment.getmEsID())){
+				comment.setmAuthor(updatedComment.getmAuthor());
+				comment.setmTitle(updatedComment.getmTitle().toString());
+				comment.setmBody(updatedComment.getmBody());
+				comment.setmPicture(updatedComment.getmPicture());
+				comment.setLat(updatedComment.getLat());
+				comment.setLon(updatedComment.getLon());
+			}
+		}
+	}
 
 	public void clearHistory() {
 		mHistory.clear();
 	}
 	
-	//Removed the write because it will make add to history hard to test
+	/*//Removed the write because it will make add to history hard to test
 	public void replaceHistory(ArrayList<CommentModel> mHistory) {
 		this.mHistory = mHistory;
 		this.notifyViews();
 		Log.w("Cache-write myCommentsData", "Replace History First");
 		this.isLoaded = true;
+	}*/
+	
+	
+
+	public void replaceHistory(String jsonString) {
+		/*this will save the serialized comments retrieved from elasticsearch to disk
+		 * right now this just replaces the file on disk with the last elasticsearch query result.
+		 * TODO: introduce file system tree, by adding filename as arg.
+		 */
+		Log.w("Cache-write myCommentsData", "Replace History First");
+		FileOutputStream fos = null;
+		try {
+			fos = context.openFileOutput("history.sav", Context.MODE_PRIVATE);
+			fos.write(jsonString.getBytes());
+			Log.w("Cache-write myCommentsData", jsonString);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (fos != null)
+						fos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 	}
 
 	//Removed the write because it will make add to history hard to test

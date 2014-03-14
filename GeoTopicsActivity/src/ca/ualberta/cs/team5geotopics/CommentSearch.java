@@ -19,6 +19,7 @@ public class CommentSearch {
 	private JestClient client;
 	private Gson gson;
 	private JestResult lastResult;
+	protected Cache mCache = Cache.getInstance();
 	
 	// a simple match all query
 	private final static String MATCH_ALL_QUERY =	"{\n" +
@@ -88,7 +89,11 @@ public class CommentSearch {
 				client.shutdownClient();
 				
 				Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<CommentModel>>(){}.getType();
-				final ElasticSearchSearchResponse<CommentModel> esResponse = gson.fromJson(lastResult.getJsonString(), elasticSearchSearchResponseType);
+				String lastResultJsonString = lastResult.getJsonString();
+				//send comments pulled from Elasticsearch straight to cache.
+				mCache.replaceHistory(lastResultJsonString);
+				
+				final ElasticSearchSearchResponse<CommentModel> esResponse = gson.fromJson(lastResultJsonString, elasticSearchSearchResponseType);
 				// zjullion https://github.com/slmyers/PicPosterComplete/blob/master/src/ca/ualberta/cs/picposter/network/ElasticSearchOperations.java 
 				
 				try{

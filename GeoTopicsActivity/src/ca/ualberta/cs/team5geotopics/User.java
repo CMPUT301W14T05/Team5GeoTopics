@@ -25,28 +25,32 @@ public class User extends AModel<AView> {
 	private static User myself;
 	private GeoTopicsApplication application;
 
-	/*This part here needs to be updated as we are currently both a singleton and not
-	 * Will have to do some research into how we can solve this at a later time.
+	/*
+	 * This part here needs to be updated as we are currently both a singleton
+	 * and not Will have to do some research into how we can solve this at a
+	 * later time.
 	 */
-	//***********************************************************************************
-	
-	
+	// ***********************************************************************************
+
 	private User() {
 		this.application = GeoTopicsApplication.getInstance();
 		this.mBookMarks = new ArrayList<CommentModel>();
 		this.mFavorites = new ArrayList<CommentModel>();
 		this.mComments = new ArrayList<CommentModel>();
-		mInstallation = new File(application.getContext().getFilesDir(), INSTALLATION_ID);
-		mPostCount = new File(application.getContext().getFilesDir(), POST_COUNT);
+		mInstallation = new File(application.getContext().getFilesDir(),
+				INSTALLATION_ID);
+		mPostCount = new File(application.getContext().getFilesDir(),
+				POST_COUNT);
 	}
 
 	public static User getInstance() {
-		if(myself == null){
+		if (myself == null) {
 			myself = new User();
 		}
 		return myself;
 	}
-	//***********************************************************************************
+
+	// ***********************************************************************************
 	/*
 	 * messages to read and write dependent files
 	 */
@@ -67,6 +71,20 @@ public class User extends AModel<AView> {
 			}
 		}
 		return id;
+	}
+
+	public void updateMyComment(CommentModel updatedComment) {
+		String commentId = updatedComment.getmEsID();
+		for (CommentModel comment : mComments) {
+			if (commentId.equals(comment.getmEsID())) {
+				comment.setmAuthor(updatedComment.getmAuthor());
+				comment.setmTitle(updatedComment.getmTitle().toString());
+				comment.setmBody(updatedComment.getmBody());
+				comment.setmPicture(updatedComment.getmPicture());
+				comment.setLat(updatedComment.getLat());
+				comment.setLon(updatedComment.getLon());
+			}
+		}
 	}
 
 	public void writeInstallFiles() {
@@ -142,7 +160,7 @@ public class User extends AModel<AView> {
 	public void addToMyComments(CommentModel comment) {
 		mComments.add(comment);
 		this.notifyViews();
-		//this.writeComments("myComments");
+		// this.writeComments("myComments");
 	}
 
 	public ArrayList<CommentModel> getMyComments() {
