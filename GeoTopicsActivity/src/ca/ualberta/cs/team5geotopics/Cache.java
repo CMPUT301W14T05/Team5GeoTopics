@@ -48,7 +48,7 @@ public class Cache extends AModel<AView> {
 	}*/
 	
 	/*this will save the serialized comments retrieved from elasticsearch to disk
-	 * right now this just replaces the file on disk with the last elasticsearch query result
+	 * right now this just replaces the file on disk with the last elasticsearch query result.
 	 * TODO: introduce file system tree
 	 */
 	public void replaceHistory(String jsonString) {
@@ -58,13 +58,9 @@ public class Cache extends AModel<AView> {
 			fos = context.openFileOutput("history.sav", Context.MODE_PRIVATE);
 			fos.write(jsonString.getBytes());
 			Log.w("Cache-write myCommentsData", jsonString);
-			} catch (FileNotFoundException e)
-			{
-				// TODO Auto-generated catch block
+			} catch (FileNotFoundException e) {
 				e.printStackTrace();
-			} catch (IOException e)
-			{
-				// TODO Auto-generated catch block
+			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {
 				try {
