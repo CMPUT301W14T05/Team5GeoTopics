@@ -20,6 +20,7 @@ public class CommentSearch {
 	private Gson gson;
 	private JestResult lastResult;
 	
+	// a simple match all query
 	private final static String MATCH_ALL_QUERY =	"{\n" +
 										  			"\"query\": {\n" +
 										  			"\"match_all\": {}\n" +
@@ -38,6 +39,7 @@ public class CommentSearch {
 		this.lastResult = new JestResult(this.gson);
 	}
 	
+	// this method pulls all TopLevel comments
 	public Thread pullTopLevel(BrowseActivity topLevelActivity){
 		return this.pull(topLevelActivity, MATCH_ALL_QUERY, "TopLevel");
 	}

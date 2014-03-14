@@ -9,6 +9,7 @@ import java.util.ArrayList;
  * https://github.com/abramhindle/FillerCreepForAndroid/blob/master/src/es/softwareprocess/fillercreep/FModel.java
  */
 
+@SuppressWarnings("rawtypes")
 public class AModel<V extends AView>{
 	// the list of Views that we will update when model changes
 	private transient ArrayList<V> views;
@@ -33,6 +34,7 @@ public class AModel<V extends AView>{
         views.remove(view);
     }
 	
+	@SuppressWarnings("unchecked")
 	public void notifyViews() {
         for (V view : views) {
             view.update(this);
