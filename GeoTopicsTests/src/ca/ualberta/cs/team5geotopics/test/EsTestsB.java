@@ -2,18 +2,20 @@ package ca.ualberta.cs.team5geotopics.test;
 
 import io.searchbox.client.JestResult;
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
-import ca.ualberta.cs.team5geotopics.CommentController;
-import ca.ualberta.cs.team5geotopics.CommentModel;
-import ca.ualberta.cs.team5geotopics.InspectCommentActivity;
+import ca.ualberta.cs.team5geotopics.BrowseActivity;
+import ca.ualberta.cs.team5geotopics.CommentListModel;
+import ca.ualberta.cs.team5geotopics.CommentSearch;
+import ca.ualberta.cs.team5geotopics.TopLevelActivity;
 
-public class EsTestsB extends ActivityInstrumentationTestCase2<InspectCommentActivity> {
+
+public class EsTestsB extends ActivityInstrumentationTestCase2<TopLevelActivity> {
 	private Activity mActivity;
+	
 	public EsTestsB() {
-		super(InspectCommentActivity.class);
-		
+		super(TopLevelActivity.class);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -21,47 +23,36 @@ public class EsTestsB extends ActivityInstrumentationTestCase2<InspectCommentAct
 		super.setUp();
 		mActivity = getActivity();
 	}
-	public void testPushTopLevel(){
-		String mBody = "BODY";
-		String mAuthor = "AUTHOR";
-		String mTitle = "TITLE";
-		Bitmap mPicture = Bitmap.createBitmap(10,10 ,Bitmap.Config.ARGB_8888);
+	
+	public void testPullTopLevel(){
+		CommentListModel listModel = new CommentListModel();
+		CommentSearch search = new CommentSearch(listModel);
 		
-		CommentModel topLevel = new CommentModel("30.6282", "55.3116", mBody, mAuthor, mTitle, mPicture);
-		topLevel.setES("test id", "-1", "test type");
-		CommentController cc = new CommentController(mActivity.getApplicationContext());
-		
-		Thread thread = cc.pushComment(topLevel, "TopLevel");
-		try {
+		Thread thread = search.pullTopLevel((BrowseActivity) mActivity);
+		try{
 			thread.join();
 		} catch (InterruptedException e) {
 			Log.w("EsTestPush", "Thread interrupt");
 		}
-		JestResult result = cc.returnResult();
-		assertTrue("JestResult is not null", result != null);
-		Log.w("EsTestPush", result.getJsonString());
-		assertTrue("JestResult suceeded", cc.returnResult().isSucceeded());
+		
+		JestResult result = search.returnResult();
+		assertTrue("Result is not null", result != null);
+		assertTrue("Result is successful", result.isSucceeded());
 	}
 	
-	public void testPushReplyLevel(){
-		String mBody = "BODY";
-		String mAuthor = "AUTHOR";
-		String mTitle = "TITLE";
-		Bitmap mPicture = Bitmap.createBitmap(10,10 ,Bitmap.Config.ARGB_8888);
+	public void testPullReplies(){
+		CommentListModel listModel = new CommentListModel();
+		CommentSearch search = new CommentSearch(listModel);
 		
-		CommentModel topLevel = new CommentModel("30.6282", "55.3116", mBody, mAuthor, mTitle, mPicture);
-		topLevel.setES("test reply to test id", "test id", "test id");
-		CommentController cc = new CommentController(mActivity.getApplicationContext());
-		
-		Thread thread = cc.pushComment(topLevel, "ReplyLevel");
-		try {
+		Thread thread = search.pullReplies((BrowseActivity) mActivity, "test id");
+		try{
 			thread.join();
-		} catch (InterruptedException e) {
+		} catch (InterruptedException e){
 			Log.w("EsTestPush", "Thread interrupt");
 		}
-		JestResult result = cc.returnResult();
-		assertTrue("JestResult is not null", result != null);
-		Log.w("EsTestPush", result.getJsonString());
-		assertTrue("JestResult suceeded", cc.returnResult().isSucceeded());
+		
+		JestResult result = search.returnResult();
+		assertTrue("Result is not null", result != null);
+		assertTrue("Result is successful", result.isSucceeded());
 	}
 }
