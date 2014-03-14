@@ -36,7 +36,8 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<Brow
 	
 	public void testSetList() {
 		CommentListModel clm = new CommentListModel();
-		ArrayList<CommentModel> lc = prepCommentList(10, .03, 15, false);
+		ArrayList<CommentModel> lc = prepCommentList(10, .03, .001, false);
+		clm.setSortFlag(4);
 		assertTrue(clm.getList().isEmpty());
 		clm.setList(lc);
 		assertFalse(clm.getList().isEmpty());
@@ -65,6 +66,7 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<Brow
 		CommentListModel clm = new CommentListModel();
 		List<CommentModel> lc = prepCommentList(10, .03, 15, false);
 		
+		clm.setSortFlag(4);
 		for (int i = 0; i < lc.size(); i++) {
 			clm.add(lc.get(i));
 		}
@@ -89,9 +91,11 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<Brow
 		CommentListModel clm = new CommentListModel();
 		List<CommentModel> lc = prepCommentList(0.001, .02, 0.008, false);
 		
+		clm.setSortFlag(4);
 		for (int i = 0; i < lc.size(); i++) {
 			clm.add(lc.get(i));
 		}
+		
 		
 		Location myLoc = new Location("My Location");
 		myLoc.setLongitude(0);

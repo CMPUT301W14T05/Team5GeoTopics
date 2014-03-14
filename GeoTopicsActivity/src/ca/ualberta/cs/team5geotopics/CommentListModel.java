@@ -11,7 +11,7 @@ import android.util.Log;
 public class CommentListModel extends AModel<AView>{
 	private ArrayList<CommentModel> mComments;
 	private Cache mCache;
-	private int sortFlag = 5;
+	private int sortFlag = 2;
 	
 	public CommentListModel(){
 		this.mComments = new ArrayList<CommentModel>();	
@@ -66,9 +66,9 @@ public class CommentListModel extends AModel<AView>{
 			// as of right now only sorts by date
 			sortCommentsByDate(mComments);
 			break;
-		case 5:
-			sortCommentsByDate(mComments);
-			break;
+//		case 5:
+//			sortCommentsByDate(mComments);
+//			break;
 		default:
 			break;
 		}
