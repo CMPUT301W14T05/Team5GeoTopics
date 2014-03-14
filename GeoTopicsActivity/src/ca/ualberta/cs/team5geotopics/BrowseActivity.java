@@ -99,8 +99,7 @@ public abstract class BrowseActivity extends Activity {
 			options[1] = "Sort by proximity to location";
 			options[2] = "Sort by freshness";
 			options[3] = "Sort by proximity to picture";
-			options[4] = "Sort by scoring system";
-			//options[5] = "Sort by time";
+			options[4] = "Sort by time";
 
 			builder.setTitle("Select Option").setItems(options,
 					new DialogInterface.OnClickListener() {
