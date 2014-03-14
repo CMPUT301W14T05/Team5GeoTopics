@@ -45,12 +45,12 @@ public class CommentSearch {
 	}
 	
 	public Thread pullReplies(BrowseActivity replyLevelActivity, String commentID){
-		String query = getReplyQuery(commentID);
+		String query = getReplyFilter(commentID);
 		return this.pull(replyLevelActivity, query, "ReplyLevel");
 	}
 	
 	
-	private String getReplyQuery(String parentID){
+	private String getReplyFilter(String parentID){
 		return "{\n" + 					
 				"\"filter\": {\n" + 
 				"\"type\":{\n" + 
@@ -58,6 +58,17 @@ public class CommentSearch {
 				"}\n" +
 				"}\n" +
 				"}";
+	}
+	
+	// only time sort at the moment
+	private String getSortQuery(String type){
+		if(type.equals("time")){
+		return 	"\"sort\" : [\n" +
+				"{\"epochTime\" : {\"order\" : \"asc\", \"mode\" : \"avg\"}}\n" +
+				"],\n";
+		}
+		
+		return "ERROR";
 	}
 	
 	private Thread pull(final BrowseActivity topLevelActivity, final String queryDSL, final String index){
