@@ -69,6 +69,7 @@ public class CommentSearch {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				
 				client.shutdownClient();
 				
 				Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<CommentModel>>(){}.getType();

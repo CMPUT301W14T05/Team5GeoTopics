@@ -61,7 +61,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		image = (ImageView)findViewById(R.id.reply_comment_image);
 		divider = (View)findViewById(R.id.reply_divider1);
 		
-		handleCommentLoad();
+		
 		//Update myself
 		this.update(viewingComment);
 		
@@ -69,7 +69,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	
 	@Override
 	protected void onResume(){
-		
+		handleCommentLoad();
 		this.update(viewingComment);
 		myView.notifyDataSetChanged(); //Ensure the view is up to date.
 		

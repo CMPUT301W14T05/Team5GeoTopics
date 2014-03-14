@@ -53,6 +53,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		return mEsType.equals("TopLevel");
 	}
 	
+	
 	private Date mDate;
 	
 	// Constructor for Top Level Comments
