@@ -175,7 +175,7 @@ public class CommentListModel extends AModel<AView>{
 		//this.notifyViews();
 	}
 
-	public void refreshAddAll(ArrayList<CommentModel> newTopLevel) {
+	public void addNew(ArrayList<CommentModel> newTopLevel) {
 		this.mComments.removeAll(mComments);
 		this.mComments.addAll(newTopLevel);
 		Log.w("refreshAddAll" , Integer.valueOf(mComments.size()).toString());

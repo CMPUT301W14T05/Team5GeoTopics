@@ -86,7 +86,7 @@ public class CommentSearch {
 				Runnable updateModel = new Runnable(){
 					@Override
 					public void run() {
-						browseModel.refreshAddAll( (ArrayList<CommentModel>) esResponse.getSources());
+						browseModel.addNew( (ArrayList<CommentModel>) esResponse.getSources());
 					}
 				};
 				topLevelActivity.runOnUiThread(updateModel);

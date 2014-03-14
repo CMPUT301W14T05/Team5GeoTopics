@@ -53,7 +53,7 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<Brow
 		clm.add(comment);
 		assertFalse("The list is not empty", clm.getList().isEmpty());
 		assertEquals(comment, clm.getList().get(0));
-		clm.refreshAddAll(lc);
+		clm.addNew(lc);
 		assertFalse(clm.getList().isEmpty());
 		assertTrue("The first element should be C", clm.getList().get(0).getmBody().equals("C"));
 		assertTrue("The first element is originally B", clm.getList().get(1).getmBody().equals("B"));
