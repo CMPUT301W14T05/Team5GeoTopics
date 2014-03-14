@@ -42,12 +42,12 @@ public class CommentSearch {
 	
 	// this method pulls all TopLevel comments
 	public Thread pullTopLevel(BrowseActivity topLevelActivity){
-		return this.pull(topLevelActivity, MATCH_ALL_QUERY, "TopLevel");
+		return this.pull(topLevelActivity, MATCH_ALL_QUERY, "TopLevel", "history.sav");
 	}
 	
 	public Thread pullReplies(BrowseActivity replyLevelActivity, String commentID){
 		String query = getReplyQuery(commentID);
-		return this.pull(replyLevelActivity, query, "ReplyLevel");
+		return this.pull(replyLevelActivity, query, "ReplyLevel", commentID);
 	}
 	
 	
@@ -61,7 +61,7 @@ public class CommentSearch {
 				"}";
 	}
 	
-	private Thread pull(final BrowseActivity topLevelActivity, final String queryDSL, final String index){
+	private Thread pull(final BrowseActivity topLevelActivity, final String queryDSL, final String index, final String commentID){
 		Thread thread = new Thread(){
 			public void run(){
 				final Search search = (Search) new Search.Builder(queryDSL).addIndex(
@@ -79,8 +79,9 @@ public class CommentSearch {
 				
 				Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<CommentModel>>(){}.getType();
 				String lastResultJsonString = lastResult.getJsonString();
-				//send comments pulled from Elasticsearch straight to cache.
-				mCache.replaceHistory(lastResultJsonString);
+				
+				//send comments pulled from Elasticsearch straight to disk for caching.
+					mCache.replaceFileHistory(lastResultJsonString, commentID);
 				
 				final ElasticSearchSearchResponse<CommentModel> esResponse = gson.fromJson(lastResultJsonString, elasticSearchSearchResponseType);
 				// zjullion https://github.com/slmyers/PicPosterComplete/blob/master/src/ca/ualberta/cs/picposter/network/ElasticSearchOperations.java 

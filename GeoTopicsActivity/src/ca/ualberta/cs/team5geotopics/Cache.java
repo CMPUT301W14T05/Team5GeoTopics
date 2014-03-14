@@ -1,6 +1,7 @@
 package ca.ualberta.cs.team5geotopics;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -20,14 +21,19 @@ public class Cache extends AModel<AView> {
 	private ArrayList<CommentModel> mHistory;
 	private Context context;
 	private GeoTopicsApplication application;
+	private ArrayList<String> files;
 	boolean isLoaded;
-
+	private String path;
 	private static Cache myself = new Cache();
 
 	private Cache() {
 		this.mHistory = new ArrayList<CommentModel>();
 		this.application = GeoTopicsApplication.getInstance();
+		this.files = new ArrayList<String>();
 		context = application.getContext();
+		this.path = context.getFilesDir().getAbsolutePath();
+		File historyFolder = new File(path,"history");
+		historyFolder.mkdir();//makes a folder "history/" in our apps section of internal storage		
 		isLoaded = false;
 	}
 
@@ -53,25 +59,25 @@ public class Cache extends AModel<AView> {
 		mHistory.clear();
 	}
 	
-	/*//Removed the write because it will make add to history hard to test
+	//Removed the write because it will make add to history hard to test
 	public void replaceHistory(ArrayList<CommentModel> mHistory) {
 		this.mHistory = mHistory;
 		this.notifyViews();
 		Log.w("Cache-write myCommentsData", "Replace History First");
 		this.isLoaded = true;
-	}*/
+	}
 	
 	
 
-	public void replaceHistory(String jsonString) {
+	public void replaceFileHistory(String jsonString, String filename) {
 		/*this will save the serialized comments retrieved from elasticsearch to disk
-		 * right now this just replaces the file on disk with the last elasticsearch query result.
-		 * TODO: introduce file system tree, by adding filename as arg.
+		 * right now I think this just replaces the file on disk with the last elasticsearch query result which shares that esID
 		 */
 		Log.w("Cache-write myCommentsData", "Replace History First");
 		FileOutputStream fos = null;
 		try {
-			fos = context.openFileOutput("history.sav", Context.MODE_PRIVATE);
+			File file = new File(path+"/history",filename);
+			fos = new FileOutputStream(file);
 			fos.write(jsonString.getBytes());
 			Log.w("Cache-write myCommentsData", jsonString);
 			} catch (FileNotFoundException e) {
@@ -80,6 +86,7 @@ public class Cache extends AModel<AView> {
 				e.printStackTrace();
 			} finally {
 				try {
+					files.add(filename);
 					if (fos != null)
 						fos.close();
 				} catch (IOException e) {
