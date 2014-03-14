@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -38,12 +39,41 @@ public class Cache extends AModel<AView> {
 		mHistory.clear();
 	}
 	
-	//Removed the write because it will make add to history hard to test
+	/*//Removed the write because it will make add to history hard to test
 	public void replaceHistory(ArrayList<CommentModel> mHistory) {
 		this.mHistory = mHistory;
 		this.notifyViews();
 		Log.w("Cache-write myCommentsData", "Replace History First");
 		this.isLoaded = true;
+	}*/
+	
+	/*this will save the serialized comments retrieved from elasticsearch to disk
+	 * right now this just replaces the file on disk
+	 * TODO: introduce file system tree
+	 */
+	public void replaceHistory(String jsonString) {
+		Log.w("Cache-write myCommentsData", "Replace History First");
+		FileOutputStream fos = null;
+		try {
+			fos = context.openFileOutput("history.sav", Context.MODE_PRIVATE);
+			fos.write(jsonString.getBytes());
+			Log.w("Cache-write myCommentsData", jsonString);
+			} catch (FileNotFoundException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				try {
+					if (fos != null)
+						fos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 	}
 
 	//Removed the write because it will make add to history hard to test
