@@ -11,11 +11,11 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 public class Cache extends AModel<AView> {
@@ -23,8 +23,11 @@ public class Cache extends AModel<AView> {
 	private Context context;
 	private GeoTopicsApplication application;
 	private ArrayList<String> files;
-	boolean isLoaded;
+	private CommentListModel browseModel;
 	private String path;
+	
+	boolean isLoaded;
+	
 	private static Cache myself = new Cache();
 
 	private Cache() {
@@ -112,14 +115,14 @@ public class Cache extends AModel<AView> {
 		return isLoaded;
 	}
 	
-	public void loadCache(){
+/*	public void loadCache(){
 		if (!isLoaded){
 			Log.w("Cache","Loading File");
-			this.mHistory = loadFromCache("history.sav");
+			this.mHistory = loadFromCache("history.sav", this);
 		}else{
 			Log.w("Cache","Loaded");
 		}
-	}
+	}*/
 	
 	//Populate a comment list model with replies
 	//I return the thread in case you ever want to wait on it to finish.
@@ -164,9 +167,11 @@ public class Cache extends AModel<AView> {
 		}
 
 
-	public ArrayList<CommentModel> loadFromCache(String filename) {
-	    Gson gson = new Gson(); 
-	    ArrayList<CommentModel> resultList = new ArrayList<CommentModel>();
+	public void loadFromCache(String filename, final BrowseActivity currentActivity) {
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
+		Gson gson = builder.create();
+		
 	    FileInputStream fis = null; 
 	    
 	    try { 
@@ -176,7 +181,27 @@ public class Cache extends AModel<AView> {
 	    	String line = in.readLine(); //check that the whole file is read somehow
 	    	
 	    	Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<CommentModel>>(){}.getType();
-	    	resultList = gson.fromJson(line, elasticSearchSearchResponseType);
+	    	final ElasticSearchSearchResponse<CommentModel> esResponse = gson.fromJson(line, elasticSearchSearchResponseType);
+	    	try{
+				Log.w("cache", "we have this many responses: " + 
+					Integer.valueOf(esResponse.getSources().size()).toString());
+			}catch(NullPointerException e){
+				e.printStackTrace();
+				Log.w("cache", "the hits are null");
+			}
+	    	/*
+	    	Runnable updateModel = new Runnable(){
+				@Override
+				public void run() {
+					try{
+						browseModel.addNew((ArrayList<CommentModel>) esResponse.getSources());
+					}
+					catch (NullPointerException e){
+						// do nothing if the new comments are null
+					}
+				}
+			};
+			currentActivity.runOnUiThread(updateModel);*/
 	    	
 	    } catch (FileNotFoundException e) {
 	    	Log.w("Cache","ERROR: File not found (loading cache)");
@@ -185,7 +210,6 @@ public class Cache extends AModel<AView> {
 		} 
 	    Log.w("Cache","Loaded File");
 	    this.isLoaded = true;
-		return resultList;
 	}
 	/*
 	//This is the commented out version that I tried to thread

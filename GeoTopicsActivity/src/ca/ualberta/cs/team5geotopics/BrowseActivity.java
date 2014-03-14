@@ -143,10 +143,10 @@ public abstract class BrowseActivity extends Activity {
 		} else {
 			Log.w("Cache", "No Internet");
 			if(this.getType().equals("TopLevel")){
-				mCache.loadFromCache("history.sav");
+				mCache.loadFromCache("history.sav", this);
 			}
 			else{
-				mCache.loadFromCache(viewingComment.getmEsID());
+				mCache.loadFromCache(viewingComment.getmEsID(), this);
 			}
 			// Need a spinner here
 			
