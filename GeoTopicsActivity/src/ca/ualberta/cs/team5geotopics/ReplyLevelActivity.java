@@ -90,32 +90,37 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	}
 
 	public void update(AModel model) {
-		this.myView.notifyDataSetChanged();
 		if (model instanceof CommentModel) {
-			if (((CommentModel) model).getmEsID().equals(
-					viewingComment.getmEsID())) {
-				Log.w("ReplyLevel", "Updating viewing comment");
-				Log.w("ReplyLevel", viewingComment.getmBody());
-				Log.w("ReplyLevel", ((CommentModel) model).getmBody());
-				viewingComment = ((CommentModel) model);
-				if (viewingComment.isTopLevel()) {
-					title.setText(viewingComment.getmTitle());
-				} else {
-					title.setVisibility(View.GONE);
-					divider.setVisibility(View.GONE);
-				}
-
-				body.setText(viewingComment.getmBody());
-				if (viewingComment.hasPicture()) {
-					image.setImageBitmap(viewingComment.getPicture());
-				} else {
-					image.setVisibility(View.GONE);
-				}
-			}
+			updateViewingComment((CommentModel)model);
+			clm.updateComment((CommentModel)model);
 		}
+		this.myView.notifyDataSetChanged();
 	}
 
 	public String getType() {
 		return "ReplyLevel";
+	}
+	
+	private void updateViewingComment(CommentModel comment){
+		if (comment.getmEsID().equals(
+				viewingComment.getmEsID())) {
+			Log.w("ReplyLevel", "Updating viewing comment");
+			Log.w("ReplyLevel", viewingComment.getmBody());
+			Log.w("ReplyLevel", comment.getmBody());
+			viewingComment = comment;
+			if (viewingComment.isTopLevel()) {
+				title.setText(viewingComment.getmTitle());
+			} else {
+				title.setVisibility(View.GONE);
+				divider.setVisibility(View.GONE);
+			}
+
+			body.setText(viewingComment.getmBody());
+			if (viewingComment.hasPicture()) {
+				image.setImageBitmap(viewingComment.getPicture());
+			} else {
+				image.setVisibility(View.GONE);
+			}
+		}
 	}
 }

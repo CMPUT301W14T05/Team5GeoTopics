@@ -227,5 +227,18 @@ public class CommentListModel extends AModel<AView>{
 		sortOnUpdate();
 
 	}
+	//Replaces a comment in the list if it exists.
+	public void updateComment(CommentModel updatedComment){
+		String id =updatedComment.getmEsID();
+		int count = 0;
+		for(CommentModel comment : mComments){
+			if(id.equals(comment.getmEsID())){
+				Log.w("CLM", "Found a match");
+				mComments.set(count, updatedComment);
+				return;
+			}
+			count++;
+		}
+	}
 
 }
