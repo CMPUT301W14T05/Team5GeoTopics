@@ -103,6 +103,7 @@ public class Cache extends AModel<AView> {
 		 */
 		if (!this.fileDir.contains(filename) && !filename.equals("files.sav")){
 			this.fileDir.add(filename);
+			saveFileList();//saves to disk (may be a source of slowness)
 			Log.w("Cache", "added file to fileDir: "+filename);
 		}
 		FileOutputStream fos = null;
