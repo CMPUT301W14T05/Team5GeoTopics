@@ -125,10 +125,16 @@ public class CommentSearch {
 					@Override
 					public void run() {
 						try{
-							browseModel.addNew( (ArrayList<CommentModel>) esResponse.getSources());
+							ArrayList<CommentModel> acm = new ArrayList<CommentModel>();
+							acm.addAll((ArrayList<CommentModel>) esResponse.getSources());
+							browseModel.addNew(acm);
+							
+							String jsonString = gson.toJson(acm);
+							mCache.replaceFileHistory(jsonString, commentID);
 						}
 						catch (NullPointerException e){
 							// do nothing if the new comments are null
+							Log.w("CommentSearch", "new comments are null");
 						}
 					}
 				};

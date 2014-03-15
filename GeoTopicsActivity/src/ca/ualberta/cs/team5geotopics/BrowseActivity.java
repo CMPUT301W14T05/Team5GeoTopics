@@ -141,7 +141,16 @@ public abstract class BrowseActivity extends Activity {
 			Log.w("Cache", "Have Internet");
 		} else {
 			Log.w("Cache", "No Internet");
+			modelController = new CommentSearch(this.clm);
+			if(this.getType().equals("TopLevel")){
+				mCache.loadFromCache("history.sav", this);
+			}
+			else{
+				mCache.loadFromCache(viewingComment.getmEsID(), this);
+			}
 			// Need a spinner here
+			
+			/*
 			if (mCache.isCacheLoaded()) {
 				Log.w("Cache", "Cache is loaded");
 				if(this.getType().equals("TopLevel")){
@@ -158,7 +167,7 @@ public abstract class BrowseActivity extends Activity {
 							5);
 					toast.show();
 					Log.w("Cache", "Not loaded");
-			}
+			}*/
 		}
 	}
 	
