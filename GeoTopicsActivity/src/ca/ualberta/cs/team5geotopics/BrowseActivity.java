@@ -130,8 +130,9 @@ public abstract class BrowseActivity extends Activity {
 	}
 	
 	public void handleCommentLoad(){
+		modelController = new CommentSearch(this.clm);
 		if (isNetworkAvailable()) {
-			modelController = new CommentSearch(this.clm);
+			
 			if(this.getType().equals("TopLevel")){
 				modelController.pullTopLevel(this);
 			}
@@ -141,7 +142,7 @@ public abstract class BrowseActivity extends Activity {
 			Log.w("Cache", "Have Internet");
 		} else {
 			Log.w("Cache", "No Internet");
-			modelController = new CommentSearch(this.clm);
+			mCache.registerModel(clm);
 			if(this.getType().equals("TopLevel")){
 				mCache.loadFromCache("history.sav", this);
 			}

@@ -130,7 +130,7 @@ public class CommentSearch {
 							browseModel.addNew(acm);
 							
 							String jsonString = gson.toJson(acm);
-							mCache.replaceFileHistory(jsonString, commentID);
+							mCache.replaceFileHistory(jsonString, commentID); //send the retrieved comments to be saved on the disk
 						}
 						catch (NullPointerException e){
 							// do nothing if the new comments are null

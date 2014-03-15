@@ -166,9 +166,9 @@ public class Cache extends AModel<AView> {
 			return thread;
 		}
 		
-public void registerModel (CommentListModel listModel){
-	this.browseModel = listModel;
-}
+		public void registerModel (CommentListModel listModel){
+			this.browseModel = listModel;
+		}
 
 	public void loadFromCache(String filename, final BrowseActivity currentActivity) {
 		GsonBuilder builder = new GsonBuilder();
@@ -196,12 +196,16 @@ public void registerModel (CommentListModel listModel){
 						Log.w("cache", "this is the jsonString: " + jsonString);
 						Type acmType = new TypeToken<ArrayList<CommentModel>>(){}.getType();
 
-						ArrayList<CommentModel> testlist = gson.fromJson(jsonString, acmType);
-						for(CommentModel comment : testlist){
+						//test things to be removed ---------------------------------------
+						ArrayList<CommentModel> commentList = gson.fromJson(jsonString, acmType);
+						for(CommentModel comment : commentList){
 						Log.w("test",comment.getmTitle().toString());
 						}
+						int x = commentList.size();
+						Log.w("test",Integer.toString(x));
+						//-------------------------------------------------------------------------
 						
-						browseModel.addNew(testlist);
+						browseModel.addNew(commentList);
 
 						Log.w("Cache","added to browseModel");
 					}
