@@ -28,6 +28,14 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AMo
 	private DateFormat timeFormat;
 	private Cache mCache;
 	
+	/**
+	 * Constructor for a new comment browse view.
+	 *
+	 * @param  context	The activity context for which the view is being built
+	 * @param	layoutResourceId	The resource ID of the layout the view should use
+	 * @param	mCommentList	The list of comments the view should display
+	 * @return   The browseview
+	 */
 	public BrowseView(Context context, int layoutResourceId, List<CommentModel> mCommentList){
 		super(context, layoutResourceId, mCommentList);
 		this.mLayoutResourceId = layoutResourceId;
@@ -60,12 +68,17 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AMo
 		ImageView picture;
 	}
 	
-	// http://stackoverflow.com/questions/5177056/overriding-android-arrayadapter
-	// http://blog.ghatasheh.com/2012/11/android-array-adapter-viewholder.html
-	
-	/*
+	/**
 	 * This method returns the view associated with the row of the ListView the adapter 
 	 * is registered to. Basically it fills our ListView with the appropriate widgets.
+	 *
+	 *@author http://stackoverflow.com/questions/5177056/overriding-android-arrayadapter
+	 *http://blog.ghatasheh.com/2012/11/android-array-adapter-viewholder.html
+	 *
+	 * @param  position	The position of the view
+	 * @param	converView	The view we are converting
+	 * @param	parent	The views parent
+	 * @return  A view
 	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -124,6 +137,11 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AMo
 		
 	}
 
+	/**
+	 * The method a model will call if this view is registered with it.
+	 *
+	 * @param  model	The model that has changed
+	 */
 	@Override
 	public void update(AModel model) {
 		this.notifyDataSetChanged();

@@ -25,6 +25,12 @@ public class CommentController {
 	private Gson mGson;
 	private JestResult mResult;
 	
+	/**
+	 * Constructor
+	 *
+	 * @param context	The context of an activity.
+	 * @return      A comment controller
+	 */
 	public CommentController(Context context) {
 		this.mCache = Cache.getInstance();
 		GeoTopicsApplication.getInstance().setContext(context);
@@ -38,14 +44,33 @@ public class CommentController {
 		
 	}
 
+	/**
+	 * Returns a Jest result
+	 *
+	 * @return      The Jest result.
+	 */
 	public JestResult returnResult(){
 		return mResult;
 	}
+	
+	/**
+	 * Creates a new top level comment. The comment is pushed to the web
+	 * and added to the local my comments list.
+	 *
+	 * @param  newComment	The new top level comment.
+	 */
 	public void newTopLevel(CommentModel newComment) {
 		myUser.addToMyComments(newComment);
 		pushComment(newComment, "TopLevel");
 	}
 
+	/**
+	 * Creates a new top level comment. The comment is pushed to the web
+	 * and added to the local my comments list.
+	 *
+	 * @param  newComment  an absolute URL giving the base location of the image
+	 * @param	context	An activity context
+	 */
 	public void newReply(CommentModel newComment, Context context) {
 		myUser.addToMyComments(newComment);
 		pushComment(newComment, "ReplyLevel");
@@ -53,6 +78,17 @@ public class CommentController {
 				+ "type: " + newComment.getmEsType());
 	}
 
+	/**
+	 * Replaces the contents of a comment with new ones and pushes the new comment
+	 * online.
+	 *
+	 * @param  comment The comment with its old attributes.
+	 * @param	title	New title
+	 * @param	author	New author name
+	 * @param	body	New body
+	 * @param	picture	New picture
+	 * @param	mGeolocation	New comment location
+	 */
 	public void updateComment(CommentModel comment, String title,
 			String author, String body, Bitmap picture, Location mGeolocation) {
 		comment.setmTitle(title);
@@ -68,6 +104,14 @@ public class CommentController {
 		myUser.updateMyComment(comment);
 	}
 	
+	/**
+	 * Pushes a comment to the web.
+	 *
+	 * @param  commentModel  The comment we are pushing
+	 * @param	type	The type of comment we are pushing. Valid types are 
+	 * "TopLevel" and "ReplyLevel".
+	 * @return      The thread the push is running on.
+	 */
 	public Thread pushComment(final CommentModel comment, final String type){
 		Thread thread = new Thread(){
 			@Override

@@ -9,51 +9,81 @@ import android.location.Location;
 import android.util.Log;
 
 /**
- * CommentListModel holds the sorting data and the functions to add a comment within the list.
- * This list can then be cleared as needed and comments can be updated.
+ * CommentListModel holds the sorting data and the functions to add a comment
+ * within the list. This list can then be cleared as needed and comments can be
+ * updated.
  */
 
-public class CommentListModel extends AModel<AView>{
+public class CommentListModel extends AModel<AView> {
 	private ArrayList<CommentModel> mComments;
 	private Cache mCache;
 	private int sortFlag = 2;
-	
-	public CommentListModel(){
-		this.mComments = new ArrayList<CommentModel>();	
+
+	/**
+	 * Constructor
+	 * 
+	 * @return A comment list model
+	 */
+	public CommentListModel() {
+		this.mComments = new ArrayList<CommentModel>();
 		this.mCache = Cache.getInstance();
 	}
-	
+
+	/**
+	 * Returns The list of comments in the CLM.
+	 * 
+	 * @return List of comments
+	 */
 	public ArrayList<CommentModel> getList() {
 		return this.mComments;
 	}
-	
+
+	/**
+	 * Add a new comment to the list. This notifies and views registered with
+	 * the model.
+	 * 
+	 * @param comment	The comment to add to the list.
+	 */
 	public void add(CommentModel comment) {
 		mComments.add(comment);
 		sortOnUpdate();
-		//this.notifyViews();
+		// this.notifyViews();
 	}
-	
-	public void clearList(){
+
+	/**
+	 * Clears the list of comments in the CLM
+	 *
+	 */
+	public void clearList() {
 		this.mComments.clear();
 	}
-	
+
+	/**
+	 * Sets the sort flag for this CLM. This defines how the CLM will
+	 * be sorted by default.
+	 *
+	 * @param  sortFlag  The sort flag to set
+	 */
 	public void setSortFlag(int sortFlag) {
 		this.sortFlag = sortFlag;
 	}
-	
+
+	/**
+	 * Uses the sort flag to determine how to sort the list each
+	 * time it is updated. 
+	 *
+	 */
 	public void sortOnUpdate() {
 		/*
-		 * Since we do not have location functionality working right now
-		 * (its part of our part 4 release plan) I will set a single static
-		 * location that will be used for all the sorts that need a location
-		 * SortByProximityToMe
-		 * SortByProximityToLoc
-		 * SortByFreshness
+		 * Since we do not have location functionality working right now (its
+		 * part of our part 4 release plan) I will set a single static location
+		 * that will be used for all the sorts that need a location
+		 * SortByProximityToMe SortByProximityToLoc SortByFreshness
 		 */
 		Location myLoc = new Location("myLoc");
 		myLoc.setLongitude(0);
 		myLoc.setLatitude(0);
-		
+
 		switch (sortFlag) {
 		case 0:
 			sortCommentsByProximityToLoc(myLoc);
@@ -76,35 +106,39 @@ public class CommentListModel extends AModel<AView>{
 		}
 		this.notifyViews();
 	}
+
 	
-	/*
-	 * Handles Used Cases 1, 2:
-	 * SortByProximityToMe
-	 * SortByProximityToLoc
-	 * 
-	 * Simply pass the current comment list and the either the location you want or your location
-	 * 
-	 * NOTE: this is for TLC sorting
+	/**
+	 * Sort the comments by proximity to a location
+	 *
+	 * @param  myLoc  The location to sort by proximity to.
 	 */
 	public void sortCommentsByProximityToLoc(Location myLoc) {
 		sortCommentsByProximity(mComments, myLoc);
-		//this.notifyViews();
+		// this.notifyViews();
 	}
-	
-	public static ArrayList<CommentModel> sortCommentsByProximity(final ArrayList<CommentModel> cList, final Location myLoc) {
-	
+
+	public static ArrayList<CommentModel> sortCommentsByProximity(
+			final ArrayList<CommentModel> cList, final Location myLoc) {
+
 		Collections.sort(cList, new Comparator<CommentModel>() {
 			public int compare(CommentModel a, CommentModel b) {
-				return (int) (a.getGeoLocation().distanceTo(myLoc) - 
-						b.getGeoLocation().distanceTo(myLoc));
+				return (int) (a.getGeoLocation().distanceTo(myLoc) - b
+						.getGeoLocation().distanceTo(myLoc));
 			}
 		});
 		return cList;
 	}
-	
+
+	/**
+	 * Sorts comments by freshness 
+	 *
+	 * @param  myLoc  Location to use for the sort.
+	 */
 	public void sortCommentsByFreshness(Location myLoc) {
 		/*
-		 *	This should remove any comment from the list that is further than 1 km away 
+		 * This should remove any comment from the list that is further than 1
+		 * km away
 		 */
 		sortCommentsByProximityToLoc(myLoc);
 		int weightPoint = mComments.size();
@@ -115,43 +149,54 @@ public class CommentListModel extends AModel<AView>{
 		sortCommentsByDate(mComments);
 		weightPoint = mComments.size();
 		for (int i = 0; i < mComments.size(); i++) {
-			mComments.get(i).setSortWeight(mComments.get(i).getSortWeight() + weightPoint);
+			mComments.get(i).setSortWeight(
+					mComments.get(i).getSortWeight() + weightPoint);
 			weightPoint -= 1;
 		}
 		sortCommentsBySortWeight(mComments);
-//		for (int i = mComments.size() - 1; i >= 0; i--) {
-//			if (mComments.get(i).getGeoLocation().distanceTo(myLoc) > 1000) {
-//				mComments.remove(i);
-//			}
-//		}
-//    	mComments = sortCommentsByDate(mComments);
-    	
-		//this.notifyViews();
+		// for (int i = mComments.size() - 1; i >= 0; i--) {
+		// if (mComments.get(i).getGeoLocation().distanceTo(myLoc) > 1000) {
+		// mComments.remove(i);
+		// }
+		// }
+		// mComments = sortCommentsByDate(mComments);
+
+		// this.notifyViews();
 	}
-	
+
+	/**
+	 * Sort comments by their internal sort weight. 
+	 *
+	 * @param  cList	Comment list
+	 */
 	public void sortCommentsBySortWeight(final ArrayList<CommentModel> cList) {
 		Collections.sort(cList, new Comparator<CommentModel>() {
 			public int compare(CommentModel a, CommentModel b) {
-				return (int) (b.getSortWeight() - 
-						a.getSortWeight());
+				return (int) (b.getSortWeight() - a.getSortWeight());
 			}
 		});
 	}
-	
+
 	/*
-	 * Handles Used Case 3:
-	 * SortCommentsByPicture
+	 * Handles Used Case 3: SortCommentsByPicture
 	 * 
-	 * take in the array of current TopLevelComments and splits it up into list of 
-	 * replies containing photos, and a reply list with no photos. Sorts them both
-	 * by proximity and then adds them to the comment list again.
+	 * take in the array of current TopLevelComments and splits it up into list
+	 * of replies containing photos, and a reply list with no photos. Sorts them
+	 * both by proximity and then adds them to the comment list again.
 	 * 
-	 *  NOTE: As of right now does  NOT consider location
+	 * NOTE: As of right now does NOT consider location
+	 */
+	/**
+	 * Sorts comments by picture and location. Comments with pictures appear
+	 * at the top sorted by proximity and the same with the ones with
+	 * not pictures after. 
+	 *
+	 * @param  loc  Location for proximity sorting
 	 */
 	public void sortCommentsByPicture(Location loc) {
 		ArrayList<CommentModel> picList = new ArrayList<CommentModel>();
 		ArrayList<CommentModel> noPicList = new ArrayList<CommentModel>();
-		
+
 		for (int i = mComments.size() - 1; i >= 0; i--) {
 			if (mComments.get(i).getPicture() != null) {
 				picList.add(mComments.get(i));
@@ -161,83 +206,107 @@ public class CommentListModel extends AModel<AView>{
 				mComments.remove(i);
 			}
 		}
-		
+
 		picList = sortCommentsByProximity(picList, loc);
 		noPicList = sortCommentsByProximity(noPicList, loc);
-		
+
 		for (int i = 0; i < picList.size(); i++) {
 			mComments.add(picList.get(i));
 		}
 		for (int i = 0; i < noPicList.size(); i++) {
 			mComments.add(noPicList.get(i));
 		}
-		
-		//this.notifyViews();
+
+		// this.notifyViews();
 	}
 	
+	/**
+	 * Sorts all comments by their date.
+	 *
+	 */
 	public void sortAllCommentsByDate() {
 		mComments = sortCommentsByDate(mComments);
-		//this.notifyViews();
+		// this.notifyViews();
 	}
-	
-	public ArrayList<CommentModel> sortCommentsByDate(final ArrayList<CommentModel> cList) {
+
+	/**
+	 * Sorts Comments by date.
+	 *
+	 * @param  cList  The list of comments to sort
+	 * @return     An array of sorted comments
+	 */
+	public ArrayList<CommentModel> sortCommentsByDate(
+			final ArrayList<CommentModel> cList) {
 		/*
 		 * This should sort the comment list based on date
 		 */
 		Collections.sort(cList, new Comparator<CommentModel>() {
 			public int compare(CommentModel a, CommentModel b) {
-				return (int) (b.getDate().getTime() - 
-						a.getDate().getTime());
+				return (int) (b.getDate().getTime() - a.getDate().getTime());
 			}
 		});
 		return cList;
 	}
 
+	/**
+	 * Sets the comment list model to a specific list of comments 
+	 *
+	 * @param  mComments A list of comments.
+	 */
 	public void setList(ArrayList<CommentModel> mComments) {
 		this.mComments = mComments;
 		sortOnUpdate();
-		//this.notifyViews();
+		// this.notifyViews();
 	}
 
+	/**
+	 * Add new comments to the list.
+	 *
+	 * @param  newComments  A list of comments
+	 */
 	public void addNew(ArrayList<CommentModel> newComments) {
 		ArrayList<CommentModel> filteredComments = new ArrayList<CommentModel>();
 		boolean inList = false;
-		try{
+		try {
 			newComments.size();
-		}
-		catch (NullPointerException e){
+		} catch (NullPointerException e) {
 			return;
 		}
-		
-		for(CommentModel inComment : newComments){
-			for (CommentModel listComment : this.mComments){
-				if (listComment.getmEsID().equals(inComment.getmEsID())){
+
+		for (CommentModel inComment : newComments) {
+			for (CommentModel listComment : this.mComments) {
+				if (listComment.getmEsID().equals(inComment.getmEsID())) {
 					inList = true;
 					break;
 				}
 			}
-			
-			if(inList == false){
+
+			if (inList == false) {
 				filteredComments.add(inComment);
-			}
-			else{
+			} else {
 				inList = false;
 			}
 		}
-		if( filteredComments.size() > 0){
+		if (filteredComments.size() > 0) {
 			this.mComments.addAll(filteredComments);
 		}
-		
-		Log.w("addNew" , Integer.valueOf(mComments.size()).toString());
+
+		Log.w("addNew", Integer.valueOf(mComments.size()).toString());
 		sortOnUpdate();
 
 	}
-	//Replaces a comment in the list if it exists.
-	public void updateComment(CommentModel updatedComment){
-		String id =updatedComment.getmEsID();
+
+	/**
+	 * Replaces a comment in the list with a new version if an old
+	 * version exists in the list. 
+	 *
+	 * @param  updatedComment  An updated comment.
+	 */
+	public void updateComment(CommentModel updatedComment) {
+		String id = updatedComment.getmEsID();
 		int count = 0;
-		for(CommentModel comment : mComments){
-			if(id.equals(comment.getmEsID())){
+		for (CommentModel comment : mComments) {
+			if (id.equals(comment.getmEsID())) {
 				Log.w("CLM", "Found a match");
 				mComments.set(count, updatedComment);
 				return;
