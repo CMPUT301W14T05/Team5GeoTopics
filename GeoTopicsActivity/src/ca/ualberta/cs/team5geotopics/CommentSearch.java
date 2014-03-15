@@ -1,6 +1,7 @@
 package ca.ualberta.cs.team5geotopics;
 
 import io.searchbox.client.JestClient;
+
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Search;
 
@@ -13,6 +14,12 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
+/*
+ * CommentSearch is used with respect to ElasticSearch and is called upon to help in matching
+ * string queries to/from the server for sorting. This helps in maintaining the cache by sending 
+ * recently pulled comments from ES to the cache.
+ */
 
 public class CommentSearch {
 	private CommentListModel browseModel;
