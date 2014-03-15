@@ -80,7 +80,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 				CommentModel selected = (CommentModel) browseListView
 						.getItemAtPosition(position);
 				//Add this to the cache
-				mCache.addToHistory(selected);
+				//mCache.addToHistory(selected);
 				Intent intent = new Intent(ReplyLevelActivity.this, ReplyLevelActivity.class);
 				intent.putExtra("ViewingComment",selected);
 				me.startActivity(intent);

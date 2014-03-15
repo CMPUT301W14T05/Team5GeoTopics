@@ -36,13 +36,11 @@ public class CommentController {
 		return mResult;
 	}
 	public void newTopLevel(CommentModel newComment) {
-		mCache.addToHistory(newComment);
 		myUser.addToMyComments(newComment);
 		pushComment(newComment, "TopLevel");
 	}
 
 	public void newReply(CommentModel newComment, Context context) {
-		mCache.addToHistory(newComment);
 		myUser.addToMyComments(newComment);
 		pushComment(newComment, "ReplyLevel");
 		Log.w("CommentController", "id: " + newComment.getmEsID() +"\n" 
@@ -61,7 +59,6 @@ public class CommentController {
 		}else{
 			pushComment(comment, "ReplyLevel");
 		}
-		mCache.updateComment(comment);
 		myUser.updateMyComment(comment);
 	}
 	

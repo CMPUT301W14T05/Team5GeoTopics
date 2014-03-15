@@ -28,7 +28,6 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	private int mSortWeight;
 	
 	// elastic search comment constructor
-	
 	public CommentModel(String lat, String lon, String body, String author,
 						String title, Bitmap image){
 		super();
@@ -40,7 +39,6 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.mTitle = title;
 		this.mPicture = image;
 		this.mParentID = "-1";
-		//this.mReplies = new ArrayList<CommentModel>();
 		this.mDate = new Date(epochTime);
 	}
 	
@@ -71,8 +69,6 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.mEsID = null;
 		this.mParentID = "-1";
 		this.mEsType = "TopLevel";
-		//this.mReplies = new ArrayList<CommentModel>();
-
 	}
 	// Constructor for replies
 	public CommentModel(String lat, String lon, String mBody, String mAuthor,
@@ -88,14 +84,12 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.mEsID = null;
 		this.mParentID = null;
 		this.mEsType = "ReplyLevel";
-		//this.mReplies = new ArrayList<CommentModel>();
 	}
 	
 	/*
 	 * parcable stuff
 	 */
 	private void readFromParcel(Parcel in) {
-		//this.mGeolocation = in.readParcelable(Location.class.getClassLoader());
 		this.mPicture = in.readParcelable(Bitmap.class.getClassLoader());
 		this.mTitle = in.readString();
 		this.mAuthor = in.readString();
@@ -106,8 +100,6 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.mEsID = in.readString();
 		this.mEsType = in.readString();
 		this.mParentID = in.readString();
-		//this.mReplies = new ArrayList<CommentModel>();
-		//this.mParent = null;
 		this.mDate = new Date(this.epochTime);
 	}
 	
@@ -118,7 +110,6 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	
 	@Override  
     public void writeToParcel(Parcel out, int flags) {  
-        //out.writeParcelable(mGeolocation, flags);
 		out.writeParcelable(mPicture, flags);
 		out.writeString(mTitle);
 		out.writeString(mAuthor);

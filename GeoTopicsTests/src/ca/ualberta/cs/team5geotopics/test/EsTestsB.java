@@ -27,7 +27,7 @@ public class EsTestsB extends ActivityInstrumentationTestCase2<TopLevelActivity>
 	
 	public void testPullTopLevel(){
 		CommentListModel listModel = new CommentListModel();
-		Cache cache = new Cache(mActivity.getApplicationContext());
+		Cache cache = Cache.getInstance();
 		CommentSearch search = new CommentSearch(listModel, cache);
 		
 		Thread thread = search.pullTopLevel((BrowseActivity) mActivity);

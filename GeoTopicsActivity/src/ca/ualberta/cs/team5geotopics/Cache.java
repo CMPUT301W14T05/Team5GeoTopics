@@ -19,7 +19,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 public class Cache extends AModel<AView> {
-	private ArrayList<CommentModel> mHistory;
+	//private ArrayList<CommentModel> mHistory;
 	private Context context;
 	private GeoTopicsApplication application;
 	private ArrayList<String> fileDir;
@@ -31,7 +31,7 @@ public class Cache extends AModel<AView> {
 	private static Cache myself = new Cache();
 
 	private Cache() {
-		this.mHistory = new ArrayList<CommentModel>();
+		//this.mHistory = new ArrayList<CommentModel>();
 		this.application = GeoTopicsApplication.getInstance();
 		this.fileDir = new ArrayList<String>(); // this is a directory of the cache files
 		context = application.getContext();
@@ -72,7 +72,7 @@ public class Cache extends AModel<AView> {
 		String jsonString = gson.toJson(this.fileDir);
 		replaceFileHistory(jsonString, "files.sav");
 	}
-	
+	/*
 	public void updateComment(CommentModel updatedComment){
 		String commentId = updatedComment.getmEsID();
 		for(CommentModel comment : mHistory){
@@ -91,7 +91,7 @@ public class Cache extends AModel<AView> {
 		mHistory.clear();
 		//TODO: insert clear for fileDir
 	}
-	
+	*/
 	public boolean repliesExist(String filename) {
 		//returns true if there are replies in the cache
 		return this.fileDir.contains(filename);
@@ -126,7 +126,7 @@ public class Cache extends AModel<AView> {
 				}
 			}
 	} 
-
+/*
 	//Removed the write because it will make add to history hard to test
 	public void addToHistory(CommentModel comment) {
 		if(!mHistory.contains(comment)) {
@@ -134,7 +134,7 @@ public class Cache extends AModel<AView> {
 			this.notifyViews();
 		}
 	}
-	
+
 	public ArrayList<CommentModel> getHistory() {
 		return this.mHistory;
 	}
@@ -142,12 +142,13 @@ public class Cache extends AModel<AView> {
 	public boolean isCacheLoaded() {
 		return isLoaded;
 	}
-	
+	*/
 	//Populate a comment list model with replies
 	//I return the thread in case you ever want to wait on it to finish.
 	//This is mostly to ensure the test cases pass as they some times execute faster 
 	//the thread.
 	//- James
+	/*
 	public Thread getReplies(final CommentListModel clm, CommentModel parent) {
 		final String mEsID = parent.getmEsID();
 		clm.clearList();
@@ -166,7 +167,8 @@ public class Cache extends AModel<AView> {
 		thread.start();
 		return thread;
 	}
-	
+	*/
+	/*
 	//Populate a comment list model with top level comments
 		public Thread getTopLevel(final CommentListModel clm) {
 			clm.clearList();
@@ -184,7 +186,7 @@ public class Cache extends AModel<AView> {
 			thread.start();
 			return thread;
 		}
-		
+	*/	
 		public void registerModel (CommentListModel listModel){
 			this.browseModel = listModel;
 		}
