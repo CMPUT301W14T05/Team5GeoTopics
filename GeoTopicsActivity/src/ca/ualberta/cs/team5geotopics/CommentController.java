@@ -11,6 +11,12 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+/*
+ * The CommentController class is what helps distinguish between a new reply or a new top level
+ * comment. As well as it updates the data to and from the comment as it is modified and pushes
+ * it back to the server.
+ */
+
 public class CommentController {
 	public final static String TOP_LEVEL = "TopLevelTest";
 	private Cache mCache;

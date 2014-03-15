@@ -12,6 +12,12 @@ import android.widget.TextView;
 
 import com.example.team5geotopics.R;
 
+/*
+ * ReplyLevelActivity like TopLevelActivity is the view you see when you go to 
+ * view the replies once you click a top level comment and click a reply. It also
+ * updates replies as needed.
+ */
+
 public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> {
 	private TextView title;
 	private TextView body;

@@ -15,6 +15,10 @@ import android.widget.TextView;
 
 import com.example.team5geotopics.R;
 
+/*
+ * BrowswView is responsible for loading the view of the comments.
+ */
+
 public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AModel> {
 	
 	private List<CommentModel> mCommentList;
