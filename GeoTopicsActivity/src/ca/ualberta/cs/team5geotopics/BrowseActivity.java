@@ -144,7 +144,8 @@ public abstract class BrowseActivity extends Activity {
 			Log.w("Cache", "No Internet");
 			mCache.loadFileList(); //gets record of cache from previous session
 			mCache.registerModel(clm);
-			if(this.getType().equals("TopLevel")){
+			
+			if (this.getType().equals("TopLevel")) {
 				mCache.loadFromCache("history.sav", this);
 			}
 			else{
@@ -154,7 +155,7 @@ public abstract class BrowseActivity extends Activity {
 					Log.w("Cache", "load replies from cache");
 				}
 				else{
-					Toast toast = Toast.makeText(this,"Unable to load the cache, Please try again with internet",5);
+					Toast toast = Toast.makeText(this,"Unable to load from the cache, Please try again with internet",5);
 					toast.show();
 				}
 			}
@@ -176,7 +177,8 @@ public abstract class BrowseActivity extends Activity {
 				this.myView.notifyDataSetChanged();
 			}
 		}
-	}	
+	}
+	
 }
 
 

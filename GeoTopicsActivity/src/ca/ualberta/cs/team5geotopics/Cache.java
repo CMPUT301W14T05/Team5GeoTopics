@@ -42,6 +42,7 @@ public class Cache extends AModel<AView> {
 	public static Cache getInstance() {
 		return myself;
 	}
+	
 	//The repeated input code can probably be made into it's own method. 
 	public void loadFileList(){
 		File file = new File(path+"/history", "files.sav");
@@ -70,15 +71,14 @@ public class Cache extends AModel<AView> {
 		String jsonString = gson.toJson(this.fileDir);
 		replaceFileHistory(jsonString, "files.sav");
 	}
+	
 	public boolean repliesExist(String filename) {
 		//returns true if there are replies in the cache
 		return this.fileDir.contains(filename);
 	}
 	
 	public void replaceFileHistory(String jsonString, String filename) {
-		/*this will save the serialized comments retrieved from elasticsearch to disk
-		 * right now I think this just replaces the file on disk with the last elasticsearch query result which shares that esID
-		 */
+
 		if (!this.fileDir.contains(filename) && !filename.equals("files.sav")){
 			this.fileDir.add(filename);
 			saveFileList();//saves to disk (may be a source of slowness)
@@ -114,7 +114,6 @@ public class Cache extends AModel<AView> {
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
 		final Gson gson = builder.create();
 		
-		
 	    FileInputStream fis = null; 
 	    
 	    try { 
@@ -126,7 +125,7 @@ public class Cache extends AModel<AView> {
 				@Override
 				public void run() {
 					try{
-						String jsonString = ""; //empty string
+						String jsonString = "";
 						String line = in.readLine();
 						while (line != null) {
 							jsonString = jsonString.concat(line);
@@ -148,9 +147,7 @@ public class Cache extends AModel<AView> {
 	    	
 	    } catch (FileNotFoundException e) {
 	    	Log.w("Cache","ERROR: File not found (loading cache)");
-	    } catch (IOException e) {
-	    	Log.w("Cache","ERROR: Java IO error reading cache file");
-		} 
+	    }
 	    Log.w("Cache","Loaded File");
 	    this.isLoaded = true;
 	}
