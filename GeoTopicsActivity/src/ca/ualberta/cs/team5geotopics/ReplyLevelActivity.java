@@ -94,7 +94,10 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		if (model instanceof CommentModel) {
 			if (((CommentModel) model).getmEsID().equals(
 					viewingComment.getmEsID())) {
-				Log.w("NewComment", "Updating viewing comment");
+				Log.w("ReplyLevel", "Updating viewing comment");
+				Log.w("ReplyLevel", viewingComment.getmBody());
+				Log.w("ReplyLevel", ((CommentModel) model).getmBody());
+				viewingComment = ((CommentModel) model);
 				if (viewingComment.isTopLevel()) {
 					title.setText(viewingComment.getmTitle());
 				} else {

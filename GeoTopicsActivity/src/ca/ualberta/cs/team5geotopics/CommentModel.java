@@ -168,7 +168,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 
 	public void setmEsType(String mEsType) {
 		this.mEsType = mEsType;
-		this.notifyViews();
+		//this.notifyViews();
 	}
 	public String getmBody() {
 		return mBody;
@@ -176,7 +176,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 
 	public void setmBody(String mBody) {
 		this.mBody = mBody;
-		this.notifyViews();
+		//this.notifyViews();
 	}
 
 	public String getmAuthor() {
@@ -185,29 +185,29 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 
 	public void setmAuthor(String mAuthor) {
 		this.mAuthor = mAuthor;
-		this.notifyViews();
+		//this.notifyViews();
 	}
 
 	public void setmPicture(Bitmap mPicture) {
 		this.mPicture = mPicture;
-		this.notifyViews();
+		//this.notifyViews();
 	}
 
 	public void setmGeolocation(Location geolocation) {
 		this.lat = Double.toString(geolocation.getLatitude());
 		this.lon = Double.toString(geolocation.getLongitude());
-		this.notifyViews();
+		//this.notifyViews();
 	}
 	
 	public void setmGeolocation(double lat, double lon) {
 		this.lat = Double.toString(lat);
 		this.lon = Double.toString(lon);
-		this.notifyViews();
+		//this.notifyViews();
 	}
 
 	public void setmTitle(String mTitle) {
 		this.mTitle = mTitle;
-		this.notifyViews();
+		//this.notifyViews();
 	}
 
 	public Location getGeoLocation() {

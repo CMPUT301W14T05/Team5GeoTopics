@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
@@ -19,7 +18,6 @@ import android.util.Log;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonReader;
 
 // code adapted from http://android-developers.blogspot.ca/2011/03/identifying-app-installations.html
 
@@ -99,6 +97,7 @@ public class User extends AModel<AView> {
 				comment.setLon(updatedComment.getLon());
 				this.notifyViews(updatedComment);
 				Log.d("User", "Updated a comment");
+				this.saveMyComments();
 				return;
 			}
 		}
@@ -221,8 +220,6 @@ public class User extends AModel<AView> {
 		} catch (FileNotFoundException e) {
 			Log.w("User", "No file");
 			mComments = new ArrayList<CommentModel>();
-		} catch (IOException e) {
-			Log.w("User", "IO Error");
 		}
 	}
 }
