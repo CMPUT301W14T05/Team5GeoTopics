@@ -37,9 +37,9 @@ public class StartActivity extends Activity {
 		//Get the user
 		user = User.getInstance();
 		mCache = Cache.getInstance();
-		Log.w("Cache", "About to load");
+		/*Log.w("Cache", "About to load");
 		mCache.loadCache();
-		Log.w("Cache", "After load");
+		Log.w("Cache", "After load");*/
 		
 		if(!user.installFilesExist()){
 			user.writeInstallFiles();
