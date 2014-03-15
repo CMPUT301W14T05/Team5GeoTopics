@@ -9,11 +9,13 @@ import android.test.ActivityInstrumentationTestCase2;
 import ca.ualberta.cs.team5geotopics.BrowseActivity;
 import ca.ualberta.cs.team5geotopics.CommentListModel;
 import ca.ualberta.cs.team5geotopics.CommentModel;
+import ca.ualberta.cs.team5geotopics.GeoTopicsApplication;
+import ca.ualberta.cs.team5geotopics.TopLevelActivity;
 
-public class CommentListModelTests extends ActivityInstrumentationTestCase2<BrowseActivity> {
+public class CommentListModelTests extends ActivityInstrumentationTestCase2<TopLevelActivity> {
 
 	public CommentListModelTests() {
-		super(BrowseActivity.class);
+		super(TopLevelActivity.class);
 	}
 	
 	public void testClearList() {
@@ -26,6 +28,8 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<Brow
 	}
 	
 	public void testAddComment() {
+		GeoTopicsApplication application = GeoTopicsApplication.getInstance();
+		application.setContext(getActivity()); 
 		CommentListModel clm = new CommentListModel();
 		CommentModel comment = new CommentModel("0", "0", "hey", "Tyler", "testing", null);
 		assertTrue("The list is empty", clm.getList().isEmpty());

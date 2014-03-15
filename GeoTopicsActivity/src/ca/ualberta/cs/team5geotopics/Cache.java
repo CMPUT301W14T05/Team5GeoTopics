@@ -27,7 +27,7 @@ public class Cache extends AModel<AView> {
 	
 	boolean isLoaded;
 	
-	private static Cache myself = new Cache();
+	private static Cache myself;
 
 	private Cache() {
 		this.application = GeoTopicsApplication.getInstance();
@@ -40,6 +40,8 @@ public class Cache extends AModel<AView> {
 	}
 
 	public static Cache getInstance() {
+		if(myself == null)
+			myself = new Cache();
 		return myself;
 	}
 	

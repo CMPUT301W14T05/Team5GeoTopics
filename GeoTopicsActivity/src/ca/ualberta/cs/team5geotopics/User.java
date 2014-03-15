@@ -34,6 +34,7 @@ public class User extends AModel<AView> {
 	private ArrayList<CommentModel> mComments; // My created comments
 	private static User myself;
 	private GeoTopicsApplication application;
+	private boolean ioDisabled = false;
 
 	/*
 	 * This part here needs to be updated as we are currently both a singleton
@@ -59,6 +60,15 @@ public class User extends AModel<AView> {
 			myself = new User();
 		}
 		return myself;
+	}
+
+	public void testSetup() {
+		this.mComments = new ArrayList<CommentModel>();
+		ioDisabled = true;
+	};
+
+	public void clearLocalMyComments() {
+		mComments.clear();
 	}
 
 	// ***********************************************************************************
@@ -87,19 +97,16 @@ public class User extends AModel<AView> {
 	// Updates a comment currently stored in my comments
 	public void updateMyComment(CommentModel updatedComment) {
 		String commentId = updatedComment.getmEsID();
+		int count = 0;
 		for (CommentModel comment : mComments) {
 			if (commentId.equals(comment.getmEsID())) {
-				comment.setmAuthor(updatedComment.getmAuthor());
-				comment.setmTitle(updatedComment.getmTitle().toString());
-				comment.setmBody(updatedComment.getmBody());
-				comment.setmPicture(updatedComment.getmPicture());
-				comment.setLat(updatedComment.getLat());
-				comment.setLon(updatedComment.getLon());
+				mComments.set(count, updatedComment);
 				this.notifyViews(updatedComment);
 				Log.d("User", "Updated a comment");
 				this.saveMyComments();
 				return;
 			}
+			count++;
 		}
 	}
 
@@ -184,22 +191,25 @@ public class User extends AModel<AView> {
 	}
 
 	private void saveMyComments() {
-		try {
-			Gson gson = new Gson();
-			GsonBuilder builder = new GsonBuilder();
-			builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
-			gson = builder.create();
-			
-			FileOutputStream fos = application.getContext().openFileOutput(
-					MY_COMMENTS, Context.MODE_PRIVATE);
-			OutputStreamWriter osw = new OutputStreamWriter(fos);
-			gson.toJson(mComments, osw);
-			Log.w("User", gson.toJson(mComments));
-			osw.flush();
-			osw.close();
+		if (!ioDisabled) {
+			try {
+				Gson gson = new Gson();
+				GsonBuilder builder = new GsonBuilder();
+				builder.registerTypeAdapter(Bitmap.class,
+						new BitmapJsonConverter());
+				gson = builder.create();
 
-		} catch (Exception e) {
-			e.printStackTrace();
+				FileOutputStream fos = application.getContext().openFileOutput(
+						MY_COMMENTS, Context.MODE_PRIVATE);
+				OutputStreamWriter osw = new OutputStreamWriter(fos);
+				gson.toJson(mComments, osw);
+				Log.w("User", gson.toJson(mComments));
+				osw.flush();
+				osw.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -209,14 +219,15 @@ public class User extends AModel<AView> {
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
 		gson = builder.create();
-		
+
 		FileInputStream fis;
 		try {
 			fis = application.getContext().openFileInput(MY_COMMENTS);
 			InputStreamReader isr = new InputStreamReader(fis);
-			Type type = new TypeToken<ArrayList<CommentModel>>(){}.getType();
+			Type type = new TypeToken<ArrayList<CommentModel>>() {
+			}.getType();
 			mComments = gson.fromJson(isr, type);
-			
+
 		} catch (FileNotFoundException e) {
 			Log.w("User", "No file");
 			mComments = new ArrayList<CommentModel>();
