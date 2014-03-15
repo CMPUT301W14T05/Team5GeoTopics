@@ -76,6 +76,10 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 		super.onPause();
 	}
 	
+
+	/**
+	 * @return "TopLevel" The type of comment it is.
+	 */
 	public String getType(){
 		return "TopLevel";
 	}

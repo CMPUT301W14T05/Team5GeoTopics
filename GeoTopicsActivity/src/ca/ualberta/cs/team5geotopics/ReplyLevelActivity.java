@@ -102,6 +102,9 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		this.myView.notifyDataSetChanged();
 	}
 
+	/**
+	 * @return "ReplyLevel" The type of comment it is.
+	 */
 	public String getType() {
 		return "ReplyLevel";
 	}

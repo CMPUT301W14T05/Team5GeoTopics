@@ -18,7 +18,6 @@ import android.widget.ImageView;
  * This source code will allow the user to modify any field that he/she wishes
  * and even take a new photo if they want too.
  */
-
 public class EditCommentActivity extends InspectCommentActivity implements OnClickListener {
 
 	@Override

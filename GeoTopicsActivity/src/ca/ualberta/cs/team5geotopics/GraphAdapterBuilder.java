@@ -50,6 +50,11 @@ public final class GraphAdapterBuilder {
   private final Map<Type, InstanceCreator<?>> instanceCreators
       = new HashMap<Type, InstanceCreator<?>>();
 
+  /**
+   * Adds a type of object to be put into a new instance of the GraphAdapterBuilder.
+   * @param type The type of object
+   * @return objectConstructor.construct() New objectContructor.
+   */
   public GraphAdapterBuilder addType(Type type) {
     final ObjectConstructor<?> objectConstructor = constructorConstructor.get(TypeToken.get(type));
     InstanceCreator<Object> instanceCreator = new InstanceCreator<Object>() {
@@ -63,6 +68,12 @@ public final class GraphAdapterBuilder {
   //I moved this an passed instanceCreators as an argument since for unknown reasons the empty constructor wasn't working --Matt
   private final ConstructorConstructor constructorConstructor = new ConstructorConstructor(instanceCreators);
 
+  /**
+   * Adds a type of Object to a new GraphAdapterBuilder as well as a instanceCreator.
+   * @param type Type of object.
+   * @param instanceCreator The object of creating a new instance.
+   * @return this A new GraphAdapterBuilder.
+   */
   public GraphAdapterBuilder addType(Type type, InstanceCreator<?> instanceCreator) {
     if (type == null || instanceCreator == null) {
       throw new NullPointerException();
@@ -79,6 +90,7 @@ public final class GraphAdapterBuilder {
     }
   }
 
+
   static class Factory implements TypeAdapterFactory, InstanceCreator {
     private final Map<Type, InstanceCreator<?>> instanceCreators;
     private final ThreadLocal<Graph> graphThreadLocal = new ThreadLocal<Graph>();
@@ -87,6 +99,12 @@ public final class GraphAdapterBuilder {
       this.instanceCreators = instanceCreators;
     }
 
+    /**
+     * Creates a new TypeAdapter using a gson object and a type object.
+     * @param gson The gson object holding the data.
+     * @param type The TypeToken of the object.
+     * @return null
+     */
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
       if (!instanceCreators.containsKey(type.getType())) {
         return null;
@@ -95,7 +113,7 @@ public final class GraphAdapterBuilder {
       final TypeAdapter<T> typeAdapter = gson.getDelegateAdapter(this, type);
       final TypeAdapter<JsonElement> elementAdapter = gson.getAdapter(JsonElement.class);
       return new TypeAdapter<T>() {
-        @Override public void write(JsonWriter out, T value) throws IOException {
+          @Override public void write(JsonWriter out, T value) throws IOException {
           if (value == null) {
             out.nullValue();
             return;
@@ -144,6 +162,11 @@ public final class GraphAdapterBuilder {
           }
         }
 
+          /**
+           * Reads from a JsonReader object and returns null.
+           * @param in JsonReader
+           * @return null
+           */
         @Override public T read(JsonReader in) throws IOException {
           if (in.peek() == JsonToken.NULL) {
             in.nextNull();
@@ -215,6 +238,10 @@ public final class GraphAdapterBuilder {
      * <p>Gson should only ever call this method when we're expecting it to;
      * that is only when we've called back into Gson to deserialize a tree.
      */
+    /**
+     * @param type The type of the object.
+     * @return result Object of typecreator.createInstance(type)
+     */
     @SuppressWarnings("unchecked")
     public Object createInstance(Type type) {
       Graph graph = graphThreadLocal.get();
@@ -250,6 +277,9 @@ public final class GraphAdapterBuilder {
      */
     private Element nextCreate;
 
+    /**
+     * @param map The map of the graph
+     */
     private Graph(Map<Object, Element<?>> map) {
       this.map = map;
     }

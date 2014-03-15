@@ -98,7 +98,9 @@ public class InspectCommentActivity extends Activity {
 		return true;
 	}
 
-	// Method takes photo from camera and returns image.
+	/**
+	 * Method takes photo from camera and returns image.
+	 */
 	public void takePhoto() {
 
 		// Camera control intent
@@ -178,7 +180,9 @@ public class InspectCommentActivity extends Activity {
 		return builder.create();
 	}
 
-	// After camera takes photo, goto here to deal with it.
+	/**
+	 * After camera takes photo, goto here to deal with it.
+	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		// Took photo, deal with it and get Bitmap
@@ -230,14 +234,20 @@ public class InspectCommentActivity extends Activity {
 		}
 	}
 
-	// Method gets photo from gallery.
+	/**
+	 *  Method gets photo from gallery.
+	 */
 	public void getPhoto() {
 		Intent getPhotoFromGallery = new Intent(Intent.ACTION_PICK);
 		getPhotoFromGallery.setType("image/*");
 		startActivityForResult(getPhotoFromGallery, GET_PHOTO);
 	}
 
-	// Returns the image as a Bitmap (resized to 200x200px)
+	/**
+	 * Returns the image as a Bitmap (resized to 200x200px)
+	 * @param image The image to be resized.
+	 * @return image The scaled bitmap from the parameter image.
+	 */
 	public Bitmap returnBitmapImage(Bitmap image) {
 		return image = Bitmap.createScaledBitmap(image, 200, 200, false);
 	}

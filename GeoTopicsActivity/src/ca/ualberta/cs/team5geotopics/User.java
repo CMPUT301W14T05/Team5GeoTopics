@@ -25,6 +25,7 @@ import com.google.gson.GsonBuilder;
  * Holds all the data that the individual user whom is using the application creates/modifies.
  * This includes top-level comments and replies and makes the view availible when the user
  * goes to "My Comments" from the start screen.
+ * 
  */
 
 public class User extends AModel<AView> {
@@ -61,6 +62,10 @@ public class User extends AModel<AView> {
 				POST_COUNT);
 	}
 
+	/**
+	 * 
+	 * @return myself The instance of the current user
+	 */
 	public static User getInstance() {
 		if (myself == null) {
 			myself = new User();
@@ -77,9 +82,9 @@ public class User extends AModel<AView> {
 		mComments.clear();
 	}
 
-	// ***********************************************************************************
-	/*
-	 * messages to read and write dependent files
+	/**
+	 * Messages to read and write dependent files
+	 * @return id The ID of the file containing comment
 	 */
 	public String readInstallIDFile() {
 		byte[] bytes = null;
@@ -140,6 +145,9 @@ public class User extends AModel<AView> {
 		}
 	}
 
+	/**
+	 * @return postCount The post count of the user
+	 */
 	public String readPostCount() {
 		byte[] bytes = null;
 		String postCount = null;
@@ -182,6 +190,10 @@ public class User extends AModel<AView> {
 		}
 	}
 
+  /**
+   * 
+   * @return boolean If the installation and post count exist
+   */
 	public boolean installFilesExist() {
 		return (mInstallation.exists()) && (mPostCount.exists());
 	}
@@ -192,6 +204,10 @@ public class User extends AModel<AView> {
 		this.saveMyComments();
 	}
 
+	/**
+	 * 
+	 * @return this.mComments The ArrayList<CommentModel> of comments.
+	 */
 	public ArrayList<CommentModel> getMyComments() {
 		return this.mComments;
 	}

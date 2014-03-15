@@ -88,12 +88,19 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 		super.onResume();
 	}
 
+	/**
+	 * Updates the model.
+	 */
 	@Override
 	public void update(AModel model) {
 		// TODO Auto-generated method stub
 		myView.notifyDataSetChanged();
 	}
 
+	/**
+	 * Gets the current type of comment.
+	 * @return "MyComments" The type of comment it is.
+	 */
 	@Override
 	public String getType() {
 		return "MyComments";

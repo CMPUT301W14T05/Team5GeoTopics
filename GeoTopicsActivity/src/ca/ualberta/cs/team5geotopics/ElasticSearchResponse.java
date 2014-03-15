@@ -5,7 +5,6 @@ package ca.ualberta.cs.team5geotopics;
 /**
  * The ElasticSearchResponse helps in getting the correct source data for each comment. 
  */
-
 public class ElasticSearchResponse<T> {
 	String _index;
     String _type;
@@ -14,6 +13,9 @@ public class ElasticSearchResponse<T> {
     boolean exists;
     T _source;
     double max_score;
+    /**
+     * @return _source The source of the ElasticSearch data.
+     */
     public T getSource() {
         return _source;
     }
