@@ -18,6 +18,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+/*
+ * Cache is what is responsible for saving and loading data to and from the user's device.
+ * This file is the 'history' of the program.
+ */
+
 public class Cache extends AModel<AView> {
 	private Context context;
 	private GeoTopicsApplication application;

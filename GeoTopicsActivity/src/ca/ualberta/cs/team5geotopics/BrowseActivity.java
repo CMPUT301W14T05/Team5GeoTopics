@@ -20,6 +20,11 @@ import android.widget.Toast;
 
 import com.example.team5geotopics.R;
 
+/*
+ * BrowseActivity is responsible for mainly handling the load of the comments. 
+ * It is what is called when "Browse" is called from the main program screen.
+ */
+
 public abstract class BrowseActivity extends Activity {
 	protected BrowseView myView;
 	public CommentListModel clm;
