@@ -142,6 +142,7 @@ public abstract class BrowseActivity extends Activity {
 			Log.w("Cache", "Have Internet");
 		} else {
 			Log.w("Cache", "No Internet");
+			modelController = new CommentSearch(this.clm);
 			if(this.getType().equals("TopLevel")){
 				mCache.loadFromCache("history.sav", this);
 			}

@@ -81,7 +81,7 @@ public class CommentSearch {
 				String lastResultJsonString = lastResult.getJsonString();
 				
 				//send comments pulled from Elasticsearch straight to disk for caching. (this can be placed on another thread if it slows things)
-				mCache.replaceFileHistory(lastResultJsonString, commentID);
+				
 				
 				final ElasticSearchSearchResponse<CommentModel> esResponse = gson.fromJson(lastResultJsonString, elasticSearchSearchResponseType);
 				// zjullion https://github.com/slmyers/PicPosterComplete/blob/master/src/ca/ualberta/cs/picposter/network/ElasticSearchOperations.java 
@@ -98,10 +98,16 @@ public class CommentSearch {
 					@Override
 					public void run() {
 						try{
-							browseModel.addNew( (ArrayList<CommentModel>) esResponse.getSources());
+							ArrayList<CommentModel> acm = new ArrayList<CommentModel>();
+							acm.addAll((ArrayList<CommentModel>) esResponse.getSources());
+							browseModel.addNew(acm);
+							
+							String jsonString = gson.toJson(acm);
+							mCache.replaceFileHistory(jsonString, commentID);
 						}
 						catch (NullPointerException e){
 							// do nothing if the new comments are null
+							Log.w("CommentSearch", "new comments are null");
 						}
 					}
 				};

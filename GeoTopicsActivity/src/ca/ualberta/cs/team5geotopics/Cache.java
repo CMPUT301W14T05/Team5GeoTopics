@@ -165,43 +165,48 @@ public class Cache extends AModel<AView> {
 			thread.start();
 			return thread;
 		}
-
+		
+public void registerModel (CommentListModel listModel){
+	this.browseModel = listModel;
+}
 
 	public void loadFromCache(String filename, final BrowseActivity currentActivity) {
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
-		Gson gson = builder.create();
+		final Gson gson = builder.create();
+		
 		
 	    FileInputStream fis = null; 
 	    
 	    try { 
 	    	File file = new File(path+"/history",filename);
 	    	fis = new FileInputStream(file);
-	    	BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-	    	String line = in.readLine(); //check that the whole file is read somehow
+	    	final BufferedReader in = new BufferedReader(new InputStreamReader(fis));
 	    	
-	    	Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<CommentModel>>(){}.getType();
-	    	final ElasticSearchSearchResponse<CommentModel> esResponse = gson.fromJson(line, elasticSearchSearchResponseType);
-	    	try{
-				Log.w("cache", "we have this many responses: " + 
-					Integer.valueOf(esResponse.getSources().size()).toString());
-			}catch(NullPointerException e){
-				e.printStackTrace();
-				Log.w("cache", "the hits are null");
-			}
-	    	/*
 	    	Runnable updateModel = new Runnable(){
 				@Override
 				public void run() {
 					try{
-						browseModel.addNew((ArrayList<CommentModel>) esResponse.getSources());
+						String jsonString = ""; //empty string
+						String line = in.readLine();
+						while (line != null) {
+							jsonString = jsonString.concat(line);
+							line = in.readLine();
+						}
+						Log.w("cache", "this is the jsonString: " + jsonString);
+						Type acmType = new TypeToken<ArrayList<CommentModel>>(){}.getType();
+						browseModel.addNew((ArrayList<CommentModel>) gson.fromJson(jsonString, acmType));
+						Log.w("Cache","added to browseModel");
 					}
 					catch (NullPointerException e){
-						// do nothing if the new comments are null
+						Log.w("Cache","comments are null (WHY??)");
+					} catch (IOException e)
+					{
+						Log.w("Cache","IO exception in the thread");
 					}
 				}
 			};
-			currentActivity.runOnUiThread(updateModel);*/
+			currentActivity.runOnUiThread(updateModel);
 	    	
 	    } catch (FileNotFoundException e) {
 	    	Log.w("Cache","ERROR: File not found (loading cache)");
