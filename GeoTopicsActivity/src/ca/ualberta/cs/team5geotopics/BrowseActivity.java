@@ -142,12 +142,21 @@ public abstract class BrowseActivity extends Activity {
 			Log.w("Cache", "Have Internet");
 		} else {
 			Log.w("Cache", "No Internet");
+			mCache.loadFileList(); //gets record of cache from previous session
 			mCache.registerModel(clm);
 			if(this.getType().equals("TopLevel")){
 				mCache.loadFromCache("history.sav", this);
 			}
 			else{
-				mCache.loadFromCache(viewingComment.getmEsID(), this);
+				String filename = viewingComment.getmEsID();
+				if (mCache.repliesExist(filename)){
+					mCache.loadFromCache(filename, this);
+					Log.w("Cache", "load replies from cache");
+				}
+				else{
+					Toast toast = Toast.makeText(this,"Unable to load the cache, Please try again with internet",5);
+					toast.show();
+				}
 			}
 			// Need a spinner here
 			

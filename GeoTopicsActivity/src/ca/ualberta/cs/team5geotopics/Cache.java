@@ -22,7 +22,7 @@ public class Cache extends AModel<AView> {
 	private ArrayList<CommentModel> mHistory;
 	private Context context;
 	private GeoTopicsApplication application;
-	private ArrayList<String> files;
+	private ArrayList<String> fileDir;
 	private CommentListModel browseModel;
 	private String path;
 	
@@ -33,7 +33,7 @@ public class Cache extends AModel<AView> {
 	private Cache() {
 		this.mHistory = new ArrayList<CommentModel>();
 		this.application = GeoTopicsApplication.getInstance();
-		this.files = new ArrayList<String>();
+		this.fileDir = new ArrayList<String>(); // this is a directory of the cache files
 		context = application.getContext();
 		this.path = context.getFilesDir().getAbsolutePath();
 		File historyFolder = new File(path,"history");
@@ -43,6 +43,34 @@ public class Cache extends AModel<AView> {
 
 	public static Cache getInstance() {
 		return myself;
+	}
+	//The repeated input code can probably be made into it's own method. 
+	public void loadFileList(){
+		File file = new File(path+"/history", "files.sav");
+		if (file.exists()){
+			try{
+				FileInputStream fis = new FileInputStream(file);
+				final BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+				String jsonString = ""; //empty string
+				String line = in.readLine();
+				while (line != null) {
+					jsonString = jsonString.concat(line);
+					line = in.readLine();
+				}
+				Gson gson = new Gson();
+				Type type = new TypeToken<ArrayList<String>>(){}.getType();
+				this.fileDir = gson.fromJson(jsonString, type);
+			}catch (IOException e){
+				Log.w("Cache", "IO exception in reading fileDir");
+			}
+		}
+		
+	}
+	
+	public void saveFileList(){
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(this.fileDir);
+		replaceFileHistory(jsonString, "files.sav");
 	}
 	
 	public void updateComment(CommentModel updatedComment){
@@ -61,23 +89,22 @@ public class Cache extends AModel<AView> {
 
 	public void clearHistory() {
 		mHistory.clear();
+		//TODO: insert clear for fileDir
 	}
 	
-	//Removed the write because it will make add to history hard to test
-	public void replaceHistory(ArrayList<CommentModel> mHistory) {
-		this.mHistory = mHistory;
-		this.notifyViews();
-		Log.w("Cache-write myCommentsData", "Replace History First");
-		this.isLoaded = true;
+	public boolean repliesExist(String filename) {
+		//returns true if there are replies in the cache
+		return this.fileDir.contains(filename);
 	}
 	
-	
-
 	public void replaceFileHistory(String jsonString, String filename) {
 		/*this will save the serialized comments retrieved from elasticsearch to disk
 		 * right now I think this just replaces the file on disk with the last elasticsearch query result which shares that esID
 		 */
-		Log.w("Cache-write myCommentsData", "Replace History First");
+		if (!this.fileDir.contains(filename) && !filename.equals("files.sav")){
+			this.fileDir.add(filename);
+			Log.w("Cache", "added file to fileDir: "+filename);
+		}
 		FileOutputStream fos = null;
 		try {
 			File file = new File(path+"/history",filename);
@@ -90,7 +117,7 @@ public class Cache extends AModel<AView> {
 				e.printStackTrace();
 			} finally {
 				try {
-					files.add(filename);
+					fileDir.add(filename);
 					if (fos != null)
 						fos.close();
 				} catch (IOException e) {
@@ -114,15 +141,6 @@ public class Cache extends AModel<AView> {
 	public boolean isCacheLoaded() {
 		return isLoaded;
 	}
-	
-/*	public void loadCache(){
-		if (!isLoaded){
-			Log.w("Cache","Loading File");
-			this.mHistory = loadFromCache("history.sav", this);
-		}else{
-			Log.w("Cache","Loaded");
-		}
-	}*/
 	
 	//Populate a comment list model with replies
 	//I return the thread in case you ever want to wait on it to finish.
@@ -193,24 +211,12 @@ public class Cache extends AModel<AView> {
 							jsonString = jsonString.concat(line);
 							line = in.readLine();
 						}
-						Log.w("cache", "this is the jsonString: " + jsonString);
 						Type acmType = new TypeToken<ArrayList<CommentModel>>(){}.getType();
-
-						//test things to be removed ---------------------------------------
 						ArrayList<CommentModel> commentList = gson.fromJson(jsonString, acmType);
-						for(CommentModel comment : commentList){
-						Log.w("test",comment.getmTitle().toString());
-						}
-						int x = commentList.size();
-						Log.w("test",Integer.toString(x));
-						//-------------------------------------------------------------------------
-						
 						browseModel.addNew(commentList);
-
-						Log.w("Cache","added to browseModel");
 					}
 					catch (NullPointerException e){
-						Log.w("Cache","comments are null (WHY??)");
+						Log.w("Cache","comments are null or model not registered");
 					} catch (IOException e)
 					{
 						Log.w("Cache","IO exception in the thread");
@@ -227,6 +233,25 @@ public class Cache extends AModel<AView> {
 	    Log.w("Cache","Loaded File");
 	    this.isLoaded = true;
 	}
+	
+	/*	public void loadCache(){
+	if (!isLoaded){
+		Log.w("Cache","Loading File");
+		this.mHistory = loadFromCache("history.sav", this);
+	}else{
+		Log.w("Cache","Loaded");
+	}
+ }*/
+	
+	//Removed the write because it will make add to history hard to test
+/*	public void replaceHistory(ArrayList<CommentModel> mHistory) {
+		this.mHistory = mHistory;
+		this.notifyViews();
+		Log.w("Cache-write myCommentsData", "Replace History First");
+		this.isLoaded = true;
+	}*/
+	
+	
 	/*
 	//This is the commented out version that I tried to thread
 	//-James

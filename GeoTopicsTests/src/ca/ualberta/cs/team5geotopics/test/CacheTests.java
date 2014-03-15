@@ -119,5 +119,10 @@ public class CacheTests extends
 		assertTrue("Comment List Model has top Level comment in it", clm.getList().contains(topLevel));
 
 	}
+	
+	public void testRepliesExist(){
+		Cache cache = Cache.getInstance();
+		cache.
+	}
 
 }
