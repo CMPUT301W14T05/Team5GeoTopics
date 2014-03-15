@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import ca.ualberta.cs.team5geotopics.BrowseActivity;
+import ca.ualberta.cs.team5geotopics.Cache;
 import ca.ualberta.cs.team5geotopics.CommentListModel;
 import ca.ualberta.cs.team5geotopics.CommentSearch;
 import ca.ualberta.cs.team5geotopics.TopLevelActivity;
@@ -26,7 +27,8 @@ public class EsTestsB extends ActivityInstrumentationTestCase2<TopLevelActivity>
 	
 	public void testPullTopLevel(){
 		CommentListModel listModel = new CommentListModel();
-		CommentSearch search = new CommentSearch(listModel);
+		Cache cache = new Cache(mActivity.getApplicationContext());
+		CommentSearch search = new CommentSearch(listModel, cache);
 		
 		Thread thread = search.pullTopLevel((BrowseActivity) mActivity);
 		try{

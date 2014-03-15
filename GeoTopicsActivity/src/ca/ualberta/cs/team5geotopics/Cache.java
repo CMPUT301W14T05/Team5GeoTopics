@@ -11,19 +11,23 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
 public class Cache extends AModel<AView> {
 	private ArrayList<CommentModel> mHistory;
 	private Context context;
 	private GeoTopicsApplication application;
 	private ArrayList<String> files;
-	boolean isLoaded;
+	private CommentListModel browseModel;
 	private String path;
+	
+	boolean isLoaded;
+	
 	private static Cache myself = new Cache();
 
 	private Cache() {
@@ -93,7 +97,7 @@ public class Cache extends AModel<AView> {
 					e.printStackTrace();
 				}
 			}
-	}
+	} 
 
 	//Removed the write because it will make add to history hard to test
 	public void addToHistory(CommentModel comment) {
@@ -103,10 +107,6 @@ public class Cache extends AModel<AView> {
 		}
 	}
 	
-	public void writeMyHistory() {
-		writeComments("history.sav", mHistory);
-	}
-
 	public ArrayList<CommentModel> getHistory() {
 		return this.mHistory;
 	}
@@ -115,14 +115,14 @@ public class Cache extends AModel<AView> {
 		return isLoaded;
 	}
 	
-	public void loadCache(){
+/*	public void loadCache(){
 		if (!isLoaded){
 			Log.w("Cache","Loading File");
-			this.mHistory = loadFromCache("history.sav");
+			this.mHistory = loadFromCache("history.sav", this);
 		}else{
 			Log.w("Cache","Loaded");
 		}
-	}
+	}*/
 	
 	//Populate a comment list model with replies
 	//I return the thread in case you ever want to wait on it to finish.
@@ -165,100 +165,57 @@ public class Cache extends AModel<AView> {
 			thread.start();
 			return thread;
 		}
+		
+public void registerModel (CommentListModel listModel){
+	this.browseModel = listModel;
+}
 
-	/*
-	 * Author: Kevin Tambascio URL:
-	 * https://www.tambascio.org/kevin/android/gson-and-android/ (March 6th,
-	 * 2014)
-	 */
-	private void writeComments(final String name,
-			final ArrayList<CommentModel> savedList) {
-
-		Thread thread = new Thread() {
-
-			@Override
-			public void run() {
-				// -----------------------------------------------------
-				/*
-				 * use of GraphAdapterBuilder adapted from
-				 * http://stackoverflow.com
-				 * /questions/10036958/the-easiest-way-to
-				 * -remove-the-bidirectional-recursive-relationships by Jesse
-				 * Wilson taken 2014-03-07
-				 */
-				GsonBuilder gsonBuilder = new GsonBuilder();
-				new GraphAdapterBuilder().addType(CommentModel.class)
-						.registerOn(gsonBuilder);
-				Gson gson = gsonBuilder.create();
-				// -----------------------------------------------------
-
-				String myCommentsData;
-
-				FileOutputStream fos = null;
-				try {
-					fos = context.openFileOutput(name, Context.MODE_PRIVATE);
-					for (int i = 0; i < mHistory.size(); i++) {
-						myCommentsData = gson.toJson(mHistory.get(i)) + "\n"; 
-						// delineate comment model elements with newline
-						fos.write(myCommentsData.getBytes());
-						Log.w("Cache-write myCommentsData", myCommentsData);
+	public void loadFromCache(String filename, final BrowseActivity currentActivity) {
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
+		final Gson gson = builder.create();
+		
+		
+	    FileInputStream fis = null; 
+	    
+	    try { 
+	    	File file = new File(path+"/history",filename);
+	    	fis = new FileInputStream(file);
+	    	final BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+	    	
+	    	Runnable updateModel = new Runnable(){
+				@Override
+				public void run() {
+					try{
+						String jsonString = ""; //empty string
+						String line = in.readLine();
+						while (line != null) {
+							jsonString = jsonString.concat(line);
+							line = in.readLine();
+						}
+						Log.w("cache", "this is the jsonString: " + jsonString);
+						Type acmType = new TypeToken<ArrayList<CommentModel>>(){}.getType();
+						browseModel.addNew( (ArrayList<CommentModel>) gson.fromJson(jsonString, acmType));
+						Log.w("Cache","added to browseModel");
 					}
-
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				} finally {
-					try {
-						if (fos != null)
-							fos.close();
-					} catch (IOException e) {
-						e.printStackTrace();
+					catch (NullPointerException e){
+						Log.w("Cache","comments are null (WHY??)");
+					} catch (IOException e)
+					{
+						Log.w("Cache","IO exception in the thread");
 					}
 				}
-			}
-		};
-
-		thread.start();
-	}
-
-	public ArrayList<CommentModel> loadFromCache(String filename) {
-	    Gson gson = new Gson(); 
-	    ArrayList<CommentModel> resultList = new ArrayList<CommentModel>();
-	    FileInputStream fis = null; 
-	    try { 
-	        fis = context.openFileInput(filename); 
-	        BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-	        String line = in.readLine();
-	        while (line != null) {
-				resultList.add(gson.fromJson(line, CommentModel.class));
-				line = in.readLine();
-	        }
-	    }
-	    catch(JsonSyntaxException e) { 
-	    	e.printStackTrace();
-	    	//TODO: print from system.err stream in LogCat
-	    }
-	    catch (FileNotFoundException e) { 
-	    	e.printStackTrace();
-	    } 
-	    catch (IOException e) {
-			e.printStackTrace();
-		}
-	    finally { 
-	        try { 
-	            if(fis != null)
-	                fis.close();
-	        }
-	        catch (IOException e)  { 
-	        	e.printStackTrace();
-	        }
-	    }
+			};
+			currentActivity.runOnUiThread(updateModel);
+	    	
+	    } catch (FileNotFoundException e) {
+	    	Log.w("Cache","ERROR: File not found (loading cache)");
+	    } catch (IOException e) {
+	    	Log.w("Cache","ERROR: Java IO error reading cache file");
+		} 
 	    Log.w("Cache","Loaded File");
 	    this.isLoaded = true;
-		return resultList;
 	}
-	
 	/*
 	//This is the commented out version that I tried to thread
 	//-James

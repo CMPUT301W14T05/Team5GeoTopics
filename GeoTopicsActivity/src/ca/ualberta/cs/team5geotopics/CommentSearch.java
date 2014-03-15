@@ -1,6 +1,7 @@
 package ca.ualberta.cs.team5geotopics;
 
 import io.searchbox.client.JestClient;
+
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Search;
 
@@ -14,12 +15,18 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+/*
+ * CommentSearch is used with respect to ElasticSearch and is called upon to help in matching
+ * string queries to/from the server for sorting. This helps in maintaining the cache by sending 
+ * recently pulled comments from ES to the cache.
+ */
+
 public class CommentSearch {
 	private CommentListModel browseModel;
 	private JestClient client;
 	private Gson gson;
 	private JestResult lastResult;
-	protected Cache mCache = Cache.getInstance();
+	protected Cache mCache;
 	
 	// a simple match all query
 	private final static String MATCH_ALL_QUERY =	"{\n" +
@@ -38,6 +45,18 @@ public class CommentSearch {
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
 		this.gson = builder.create();
 		this.lastResult = new JestResult(this.gson);
+		this.mCache = Cache.getInstance();
+	}
+	
+	public CommentSearch(CommentListModel listModel, Cache cache){
+		this.browseModel = listModel;
+		this.client = GeoTopicsApplication.getInstance().getClient();
+		
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
+		this.gson = builder.create();
+		this.lastResult = new JestResult(this.gson);
+		this.mCache = cache;
 	}
 	
 	// this method pulls all TopLevel comments
@@ -46,12 +65,12 @@ public class CommentSearch {
 	}
 	
 	public Thread pullReplies(BrowseActivity replyLevelActivity, String commentID){
-		String query = getReplyQuery(commentID);
+		String query = getReplyFilter(commentID);
 		return this.pull(replyLevelActivity, query, "ReplyLevel", commentID);
 	}
 	
 	
-	private String getReplyQuery(String parentID){
+	private String getReplyFilter(String parentID){
 		return "{\n" + 					
 				"\"filter\": {\n" + 
 				"\"type\":{\n" + 
@@ -59,6 +78,17 @@ public class CommentSearch {
 				"}\n" +
 				"}\n" +
 				"}";
+	}
+	
+	// only time sort at the moment
+	private String getSortQuery(String type){
+		if(type.equals("time")){
+		return 	"\"sort\" : [\n" +
+				"{\"epochTime\" : {\"order\" : \"asc\", \"mode\" : \"avg\"}}\n" +
+				"],\n";
+		}
+		
+		return "ERROR";
 	}
 	
 	private Thread pull(final BrowseActivity topLevelActivity, final String queryDSL, final String index, final String commentID){
@@ -79,10 +109,7 @@ public class CommentSearch {
 				
 				Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<CommentModel>>(){}.getType();
 				String lastResultJsonString = lastResult.getJsonString();
-				
-				//send comments pulled from Elasticsearch straight to disk for caching.
-					mCache.replaceFileHistory(lastResultJsonString, commentID);
-				
+
 				final ElasticSearchSearchResponse<CommentModel> esResponse = gson.fromJson(lastResultJsonString, elasticSearchSearchResponseType);
 				// zjullion https://github.com/slmyers/PicPosterComplete/blob/master/src/ca/ualberta/cs/picposter/network/ElasticSearchOperations.java 
 				

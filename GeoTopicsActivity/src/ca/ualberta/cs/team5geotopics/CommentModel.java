@@ -25,6 +25,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	private String mAuthor;
 	private String mTitle;
 	private Bitmap mPicture;
+	private int mSortWeight;
 	
 	// elastic search comment constructor
 	
@@ -279,6 +280,14 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 
 	public Bitmap getmPicture() {
 		return mPicture;
+	}
+
+	public int getSortWeight() {
+		return mSortWeight;
+	}
+
+	public void setSortWeight(int mSortWeight) {
+		this.mSortWeight = mSortWeight;
 	}
 
 }

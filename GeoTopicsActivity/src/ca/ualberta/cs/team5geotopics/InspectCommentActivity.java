@@ -24,6 +24,14 @@ import com.example.team5geotopics.R;
 
 // Code used from Camera Demo on eClass
 
+/* This source file holds the methods for the CreateCommentActivity as well as
+ * the EditCommentActivity. These are both called when a user hits the '+' button
+ * to either create/edit a comment based on where they are in the software.
+ * 
+ * This source file can initiate the camera and load a image from the gallery
+ * (both tasks shrink the image file to 200x200px without filtering. 
+ */
+
 public class InspectCommentActivity extends Activity {
 
 	public static String imageFilePath;
