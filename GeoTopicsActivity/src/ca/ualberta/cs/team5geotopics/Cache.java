@@ -33,7 +33,11 @@ public class Cache extends AModel<AView> {
 		this.application = GeoTopicsApplication.getInstance();
 		this.fileDir = new ArrayList<String>(); // this is a directory of the cache files
 		context = application.getContext();
-		this.path = context.getFilesDir().getAbsolutePath();
+		try{
+			this.path = context.getFilesDir().getAbsolutePath();
+		}catch (NullPointerException e) {
+			//just go on. This is Null in the test
+		}
 		File historyFolder = new File(path,"history");
 		historyFolder.mkdir();//makes a folder "history/" in our apps section of internal storage		
 		isLoaded = false;
@@ -111,7 +115,9 @@ public class Cache extends AModel<AView> {
 			this.browseModel = listModel;
 		}
 
-	public void loadFromCache(String filename, final BrowseActivity currentActivity) {
+	public ArrayList<CommentModel> loadFromCache(String filename, final BrowseActivity currentActivity) {
+		ArrayList<CommentModel> commentList = null;
+		
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
 		final Gson gson = builder.create();
@@ -146,11 +152,25 @@ public class Cache extends AModel<AView> {
 				}
 			};
 			currentActivity.runOnUiThread(updateModel);
+			
+			String jsonString = "";
+			String line = in.readLine();
+			while (line != null) {
+				jsonString = jsonString.concat(line);
+				line = in.readLine();
+			}
+			Type acmType = new TypeToken<ArrayList<CommentModel>>(){}.getType();
+			commentList = gson.fromJson(jsonString, acmType);
 	    	
 	    } catch (FileNotFoundException e) {
 	    	Log.w("Cache","ERROR: File not found (loading cache)");
-	    }
+	    } catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    Log.w("Cache","Loaded File");
 	    this.isLoaded = true;
+	    return commentList;
 	}
 }
