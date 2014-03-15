@@ -35,6 +35,9 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 		browseListView = (ListView) findViewById(R.id.browse_top_level_listView);
 		browseListView.setAdapter(myView);
 		
+		// Register with the user
+		this.myUser.addView(this);
+		
 		
 	}
 
@@ -74,6 +77,9 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 
 	@Override
 	public void update(AModel model) {
-		myView.notifyDataSetChanged();
+		if (model instanceof CommentModel) {
+			clm.updateComment((CommentModel)model);
+		}
+		this.myView.notifyDataSetChanged();
 	}
 }
