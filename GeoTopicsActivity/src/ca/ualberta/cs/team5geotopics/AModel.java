@@ -41,6 +41,11 @@ public class AModel<V extends AView>{
         }
     }
 	
-	
+	@SuppressWarnings("unchecked")
+	public void notifyViews(AModel model) {
+        for (V view : views) {
+            view.update(model);
+        }
+    }
 
 }

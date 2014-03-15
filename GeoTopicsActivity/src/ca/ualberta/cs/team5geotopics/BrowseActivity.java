@@ -158,32 +158,11 @@ public abstract class BrowseActivity extends Activity {
 					toast.show();
 				}
 			}
-			// Need a spinner here
-			
-			/*
-			if (mCache.isCacheLoaded()) {
-				Log.w("Cache", "Cache is loaded");
-				if(this.getType().equals("TopLevel")){
-					mCache.getTopLevel(this.clm);
-				}
-				else{
-					mCache.getReplies(this.clm, viewingComment);
-				}
-				Log.w("Cache", "Got History");
-			} else {
-					// Should put the toast string inside the strings xml
-					Toast toast = Toast.makeText(this,
-							"Unable to load the cache, Please try again later",
-							5);
-					toast.show();
-					Log.w("Cache", "Not loaded");
-			}*/
 		}
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		// Took photo, deal with it and get Bitmap
 		if (requestCode == NEW_COMMENT) {
 			if(resultCode == RESULT_OK){
 				CommentModel newComment;

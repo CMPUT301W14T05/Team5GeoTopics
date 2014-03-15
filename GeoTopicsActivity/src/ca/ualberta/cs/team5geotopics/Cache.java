@@ -19,7 +19,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 public class Cache extends AModel<AView> {
-	//private ArrayList<CommentModel> mHistory;
 	private Context context;
 	private GeoTopicsApplication application;
 	private ArrayList<String> fileDir;
@@ -31,7 +30,6 @@ public class Cache extends AModel<AView> {
 	private static Cache myself = new Cache();
 
 	private Cache() {
-		//this.mHistory = new ArrayList<CommentModel>();
 		this.application = GeoTopicsApplication.getInstance();
 		this.fileDir = new ArrayList<String>(); // this is a directory of the cache files
 		context = application.getContext();
@@ -72,26 +70,6 @@ public class Cache extends AModel<AView> {
 		String jsonString = gson.toJson(this.fileDir);
 		replaceFileHistory(jsonString, "files.sav");
 	}
-	/*
-	public void updateComment(CommentModel updatedComment){
-		String commentId = updatedComment.getmEsID();
-		for(CommentModel comment : mHistory){
-			if(commentId.equals(comment.getmEsID())){
-				comment.setmAuthor(updatedComment.getmAuthor());
-				comment.setmTitle(updatedComment.getmTitle().toString());
-				comment.setmBody(updatedComment.getmBody());
-				comment.setmPicture(updatedComment.getmPicture());
-				comment.setLat(updatedComment.getLat());
-				comment.setLon(updatedComment.getLon());
-			}
-		}
-	}
-
-	public void clearHistory() {
-		mHistory.clear();
-		//TODO: insert clear for fileDir
-	}
-	*/
 	public boolean repliesExist(String filename) {
 		//returns true if there are replies in the cache
 		return this.fileDir.contains(filename);
@@ -126,67 +104,7 @@ public class Cache extends AModel<AView> {
 				}
 			}
 	} 
-/*
-	//Removed the write because it will make add to history hard to test
-	public void addToHistory(CommentModel comment) {
-		if(!mHistory.contains(comment)) {
-			this.mHistory.add(comment);
-			this.notifyViews();
-		}
-	}
 
-	public ArrayList<CommentModel> getHistory() {
-		return this.mHistory;
-	}
-	
-	public boolean isCacheLoaded() {
-		return isLoaded;
-	}
-	*/
-	//Populate a comment list model with replies
-	//I return the thread in case you ever want to wait on it to finish.
-	//This is mostly to ensure the test cases pass as they some times execute faster 
-	//the thread.
-	//- James
-	/*
-	public Thread getReplies(final CommentListModel clm, CommentModel parent) {
-		final String mEsID = parent.getmEsID();
-		clm.clearList();
-		
-		Thread thread = new Thread(){
-			@Override
-			public void run() {
-				for(CommentModel comment : mHistory){
-					if(!comment.isTopLevel()){
-						if(comment.getmParentID().equals(mEsID))
-							clm.add(comment);
-					}
-				}
-			}
-		};
-		thread.start();
-		return thread;
-	}
-	*/
-	/*
-	//Populate a comment list model with top level comments
-		public Thread getTopLevel(final CommentListModel clm) {
-			clm.clearList();
-			Thread thread = new Thread(){
-				@Override
-				public void run() {
-					for(CommentModel comment :mHistory){
-						if(comment.isTopLevel()){
-							Log.w("Tests", comment.getmBody());
-							clm.add(comment);
-						}
-					}
-				}
-			};	
-			thread.start();
-			return thread;
-		}
-	*/	
 		public void registerModel (CommentListModel listModel){
 			this.browseModel = listModel;
 		}
@@ -236,72 +154,4 @@ public class Cache extends AModel<AView> {
 	    Log.w("Cache","Loaded File");
 	    this.isLoaded = true;
 	}
-	
-	/*	public void loadCache(){
-	if (!isLoaded){
-		Log.w("Cache","Loading File");
-		this.mHistory = loadFromCache("history.sav", this);
-	}else{
-		Log.w("Cache","Loaded");
-	}
- }*/
-	
-	//Removed the write because it will make add to history hard to test
-/*	public void replaceHistory(ArrayList<CommentModel> mHistory) {
-		this.mHistory = mHistory;
-		this.notifyViews();
-		Log.w("Cache-write myCommentsData", "Replace History First");
-		this.isLoaded = true;
-	}*/
-	
-	
-	/*
-	//This is the commented out version that I tried to thread
-	//-James
-
-
-	public void loadFromCache(final String filename, final ArrayList<CommentModel> resultList) {
-			
-		Thread thread = new Thread() {
-
-			@Override
-			public void run() {
-		Gson gson = new Gson();
-		FileInputStream fis = null;
-		try {
-			fis = context.openFileInput(filename);
-			BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-			String line = in.readLine();
-			while (line != null) {
-				resultList.add(gson.fromJson(line, CommentModel.class));
-				line = in.readLine();
-			}
-		} catch (JsonSyntaxException e) {
-			e.printStackTrace();
-			// TODO: print from system.err stream in LogCat
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (fis != null)
-					fis.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-			}
-		};
-
-		thread.start();
-		try {
-			thread.join();
-		} catch (InterruptedException e) {
-			Log.w("Threaded load", e);
-		}
-		Log.w("Cache","Loaded File");
-		this.isLoaded = true;
-	}
-	*/
 }

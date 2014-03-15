@@ -1,13 +1,25 @@
 package ca.ualberta.cs.team5geotopics;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
-import java.util.ArrayList;
+
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
 
 // code adapted from http://android-developers.blogspot.ca/2011/03/identifying-app-installations.html
 
@@ -16,12 +28,12 @@ public class User extends AModel<AView> {
 	private String mID;
 	private static final String INSTALLATION_ID = "INSTALLATION";
 	private static final String POST_COUNT = "POSTCOUNT";
+	private static final String MY_COMMENTS = "myComments.save";
 	private File mInstallation;
 	private File mPostCount;
 	private ArrayList<CommentModel> mBookMarks;
 	private ArrayList<CommentModel> mFavorites;
 	private ArrayList<CommentModel> mComments; // My created comments
-	private boolean isLoaded = false;
 	private static User myself;
 	private GeoTopicsApplication application;
 
@@ -36,7 +48,8 @@ public class User extends AModel<AView> {
 		this.application = GeoTopicsApplication.getInstance();
 		this.mBookMarks = new ArrayList<CommentModel>();
 		this.mFavorites = new ArrayList<CommentModel>();
-		this.mComments = new ArrayList<CommentModel>();
+		// this.mComments = new ArrayList<CommentModel>();
+		loadMyComments();
 		mInstallation = new File(application.getContext().getFilesDir(),
 				INSTALLATION_ID);
 		mPostCount = new File(application.getContext().getFilesDir(),
@@ -73,6 +86,7 @@ public class User extends AModel<AView> {
 		return id;
 	}
 
+	// Updates a comment currently stored in my comments
 	public void updateMyComment(CommentModel updatedComment) {
 		String commentId = updatedComment.getmEsID();
 		for (CommentModel comment : mComments) {
@@ -83,6 +97,9 @@ public class User extends AModel<AView> {
 				comment.setmPicture(updatedComment.getmPicture());
 				comment.setLat(updatedComment.getLat());
 				comment.setLon(updatedComment.getLon());
+				this.notifyViews(updatedComment);
+				Log.d("User", "Updated a comment");
+				return;
 			}
 		}
 	}
@@ -160,10 +177,52 @@ public class User extends AModel<AView> {
 	public void addToMyComments(CommentModel comment) {
 		mComments.add(comment);
 		this.notifyViews();
-		// this.writeComments("myComments");
+		this.saveMyComments();
 	}
 
 	public ArrayList<CommentModel> getMyComments() {
 		return this.mComments;
+	}
+
+	private void saveMyComments() {
+		try {
+			Gson gson = new Gson();
+			GsonBuilder builder = new GsonBuilder();
+			builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
+			gson = builder.create();
+			
+			FileOutputStream fos = application.getContext().openFileOutput(
+					MY_COMMENTS, Context.MODE_PRIVATE);
+			OutputStreamWriter osw = new OutputStreamWriter(fos);
+			gson.toJson(mComments, osw);
+			Log.w("User", gson.toJson(mComments));
+			osw.flush();
+			osw.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("serial")
+	private void loadMyComments() {
+		Gson gson = new Gson();
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
+		gson = builder.create();
+		
+		FileInputStream fis;
+		try {
+			fis = application.getContext().openFileInput(MY_COMMENTS);
+			InputStreamReader isr = new InputStreamReader(fis);
+			Type type = new TypeToken<ArrayList<CommentModel>>(){}.getType();
+			mComments = gson.fromJson(isr, type);
+			
+		} catch (FileNotFoundException e) {
+			Log.w("User", "No file");
+			mComments = new ArrayList<CommentModel>();
+		} catch (IOException e) {
+			Log.w("User", "IO Error");
+		}
 	}
 }
