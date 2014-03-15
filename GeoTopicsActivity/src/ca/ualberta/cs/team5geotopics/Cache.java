@@ -196,7 +196,12 @@ public void registerModel (CommentListModel listModel){
 						Log.w("cache", "this is the jsonString: " + jsonString);
 						Type acmType = new TypeToken<ArrayList<CommentModel>>(){}.getType();
 
-						browseModel.addNew((ArrayList<CommentModel>) gson.fromJson(jsonString, acmType));
+						ArrayList<CommentModel> testlist = gson.fromJson(jsonString, acmType);
+						for(CommentModel comment : testlist){
+						Log.w("test",comment.getmTitle().toString());
+						}
+						
+						browseModel.addNew(testlist);
 
 						Log.w("Cache","added to browseModel");
 					}
