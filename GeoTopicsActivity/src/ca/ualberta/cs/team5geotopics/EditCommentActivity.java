@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-/*
+/**
  * EditCommentActivity is called when a user is in the "My Comments" activity and
  * selects that he/she wishes to edit a comment by clicking on it.
  * 

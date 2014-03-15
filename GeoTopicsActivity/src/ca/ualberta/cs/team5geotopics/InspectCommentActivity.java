@@ -24,7 +24,8 @@ import com.example.team5geotopics.R;
 
 // Code used from Camera Demo on eClass
 
-/* This source file holds the methods for the CreateCommentActivity as well as
+/**
+ * This source file holds the methods for the CreateCommentActivity as well as
  * the EditCommentActivity. These are both called when a user hits the '+' button
  * to either create/edit a comment based on where they are in the software.
  * 

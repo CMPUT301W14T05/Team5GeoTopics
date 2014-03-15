@@ -21,8 +21,8 @@ import com.google.gson.GsonBuilder;
 
 // code adapted from http://android-developers.blogspot.ca/2011/03/identifying-app-installations.html
 
-/*
- * User holds all the data that the individual user whom is using the application creates/modifies.
+/**
+ * Holds all the data that the individual user whom is using the application creates/modifies.
  * This includes top-level comments and replies and makes the view availible when the user
  * goes to "My Comments" from the start screen.
  */

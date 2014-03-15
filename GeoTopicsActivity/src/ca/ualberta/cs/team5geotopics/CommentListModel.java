@@ -8,7 +8,7 @@ import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
-/*
+/**
  * CommentListModel holds the sorting data and the functions to add a comment within the list.
  * This list can then be cleared as needed and comments can be updated.
  */

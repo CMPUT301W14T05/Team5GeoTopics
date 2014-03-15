@@ -4,7 +4,7 @@ import java.util.Collection;
 // taken from the following URL. Author chenlei
 //https://github.com/slmyers/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/Hits.java
 
-/*
+/**
  * Hits returns the score and hits from an ElasticSearch response.
  */
 

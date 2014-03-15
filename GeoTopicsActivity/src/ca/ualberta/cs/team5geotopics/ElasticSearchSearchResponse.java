@@ -5,9 +5,9 @@ import java.util.Collection;
 //taken from the following URL. Author chenlei
 //https://github.com/slmyers/ESDemo/blob/master/ESDemo/src/ca/ualberta/cs/CMPUT301/chenlei/Hits.java
 
-/*
- * ElasticSearchSearchResonse, unlike ElasticSearchResponse is responsible for getting the hits to a 
- * reference to a comment and gets the source of each comment from the CommentListController.
+/**
+ * Responsible for getting the hits to a reference to a comment 
+ * and gets the source of each comment from the CommentListController.
  */
 
 public class ElasticSearchSearchResponse<T> {

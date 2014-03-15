@@ -12,7 +12,7 @@ import android.os.Parcelable;
 import ca.ualberta.cs.team5geotopics.AModel;
 import ca.ualberta.cs.team5geotopics.AView;
 
-/*
+/**
  * CommentModel is the actual model for each and every comment.
  * This holdsall the data about a single comment for references later in the use
  * of the program.

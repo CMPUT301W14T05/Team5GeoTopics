@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.example.team5geotopics.R;
 
-/*
+/**
  * BrowswView is responsible for loading the view of the comments.
  */
 
@@ -47,6 +47,9 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AMo
 	 * http://www.javacodegeeks.com/2013/09/android-viewholder-pattern-example.html
 	 */
 	
+	/**
+	 * Basic holder for the BrowseView containing comment parameteres.
+	 */
 	public static class Holder{
 		CommentModel comment;
 		TextView title;

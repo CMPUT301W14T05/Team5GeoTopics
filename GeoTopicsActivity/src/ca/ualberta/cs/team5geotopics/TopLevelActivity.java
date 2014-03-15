@@ -10,8 +10,8 @@ import android.widget.Toast;
 
 import com.example.team5geotopics.R;
 
-/*
- * TopLevelActivity is the view you see when you go to "Browse" from the start screen.
+/**
+ * The view you see when you go to "Browse" from the start screen.
  * It holds all the top level comments and displays them to the user.
  */
 

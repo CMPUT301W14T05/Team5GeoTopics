@@ -2,7 +2,7 @@ package ca.ualberta.cs.team5geotopics;
 
 import java.util.ArrayList;
 
-/*
+/**
  * This is a generic Model class. The other Model classes
  * will be subclassed from this one. 
  * reference: 
