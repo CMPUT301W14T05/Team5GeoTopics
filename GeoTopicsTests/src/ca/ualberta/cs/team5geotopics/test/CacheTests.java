@@ -20,7 +20,7 @@ public class CacheTests extends
 	}
 
 	public void testFileIO(){
-	//	Cache cache = Cache.getInstance();
+		Cache cache = Cache.getInstance();
 		
 		Bitmap pic = Bitmap.createBitmap(10,10 ,Bitmap.Config.ARGB_8888);
 
