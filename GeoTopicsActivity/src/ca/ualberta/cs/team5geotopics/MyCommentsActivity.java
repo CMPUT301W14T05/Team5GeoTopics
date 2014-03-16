@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.example.team5geotopics.R;
 
-/*
- * MyCommentsActivity is shown when a user clicks on "My Comments" from the start screen of the application
+/**
+ * Shown when a user clicks on "My Comments" from the start screen of the application
  * In this activity, the user will be shown all of his/her comments including both top-level and reply comments.
  * Upon clicking a comment, EditCommentActivity will be shown and the user can edit the comment.
  * By clicking the '+' button, the user can create a new top-level comment. Sorting can also be done here.
@@ -88,12 +88,19 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 		super.onResume();
 	}
 
+	/**
+	 * Updates the model.
+	 */
 	@Override
 	public void update(AModel model) {
 		// TODO Auto-generated method stub
 		myView.notifyDataSetChanged();
 	}
 
+	/**
+	 * Gets the current type of comment.
+	 * @return "MyComments" The type of comment it is.
+	 */
 	@Override
 	public String getType() {
 		return "MyComments";

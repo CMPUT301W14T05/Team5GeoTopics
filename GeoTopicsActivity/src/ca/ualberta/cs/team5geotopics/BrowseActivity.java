@@ -20,8 +20,16 @@ import android.widget.Toast;
 
 import com.example.team5geotopics.R;
 
+/**
+ * BrowseActivity is responsible for mainly handling the load of the comments. 
+ * It is what is called when "Browse" is called from the main program screen.
+ */
+
 public abstract class BrowseActivity extends Activity {
 	protected BrowseView myView;
+	/**
+	 * The comment list model that the activity uses to store and display its comments
+	 */
 	public CommentListModel clm;
 	protected ListView browseListView;
 	protected CommentModel viewingComment;
@@ -31,11 +39,18 @@ public abstract class BrowseActivity extends Activity {
 	protected Intent intent;
 	protected CommentSearch modelController;
 	
-	//New comment request codes
+	/**
+	 * New comment request code. 
+	 */
 	public static final int NEW_COMMENT = 1;
 
 	public abstract String getType();
 	
+	/**
+	 * The necessary code for the creation of this activity.
+	 *
+	 * @param  Bundle	Any necessary state for the creation of the activity
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,7 +71,13 @@ public abstract class BrowseActivity extends Activity {
 		inflater.inflate(R.menu.browse_view, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-
+	
+	/**
+	 * The necessary code for what to do on a menu item select
+	 *
+	 * @param  item  The menu item that was selected
+	 * @return     If the selection was sucessfull.
+	 */
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		// User clicks new comment button.
@@ -85,8 +106,13 @@ public abstract class BrowseActivity extends Activity {
 		}
 		return true;
 	}
+	
 
-	// This creates the dialog for taking sorting
+	/**
+	 * The code for creating a custom dialogue box for sorting.
+	 *
+	 * @return     The dialog created
+	 */
 	@Override
 	protected Dialog onCreateDialog(int i) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -117,10 +143,12 @@ public abstract class BrowseActivity extends Activity {
 		return null;
 	}
 
-	/*
-	 * Credit to Alexandre Jasmin for this code. Link:
-	 * http://stackoverflow.com/questions
-	 * /4238921/android-detect-whether-there-is-an-internet-connection-available
+	/**
+	 * Returns an Image object that can then be painted on the screen. 
+	 *
+	 *@author Alexandre Jasmin
+	 *Link: http://stackoverflow.com/questions/4238921/android-detect-whether-there-is-an-internet-connection-available
+	 * @return  True is the network is available, false if not.
 	 */
 	protected boolean isNetworkAvailable() {
 		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -129,6 +157,11 @@ public abstract class BrowseActivity extends Activity {
 		return (activeNetworkInfo != null && activeNetworkInfo.isConnected());
 	}
 	
+	/**
+	 * Handles loading comments for the view into its comment list model. Attempts to load from the web else
+	 * it loads from the cache.
+	 *
+	 */
 	public void handleCommentLoad(){
 		modelController = new CommentSearch(this.clm);
 		if (isNetworkAvailable()) {
@@ -162,6 +195,13 @@ public abstract class BrowseActivity extends Activity {
 		}
 	}
 	
+	/**
+	 * Used to capture returned results from other activities/intents.
+	 *
+	 * @param  requestCode The request code for which this result is returning
+	 * @param	resultCode The result code for the result
+	 * @param	data The returned data from the intent
+	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == NEW_COMMENT) {

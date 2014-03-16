@@ -10,8 +10,8 @@ import android.widget.ImageButton;
 
 import com.example.team5geotopics.R;
 
-/*
- * This source file contains data for the start screen of the application.
+/**
+ * Contains data for the start screen of the application.
  * Upon launching, the user is given the option to view top-level comments, view
  * his/her comments, browse his/her favorites, and to browse his/her bookmarks.
  */

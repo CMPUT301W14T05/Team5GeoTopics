@@ -10,6 +10,11 @@ import android.widget.Toast;
 
 import com.example.team5geotopics.R;
 
+/**
+ * The view you see when you go to "Browse" from the start screen.
+ * It holds all the top level comments and displays them to the user.
+ */
+
 public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +76,10 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 		super.onPause();
 	}
 	
+
+	/**
+	 * @return "TopLevel" The type of comment it is.
+	 */
 	public String getType(){
 		return "TopLevel";
 	}

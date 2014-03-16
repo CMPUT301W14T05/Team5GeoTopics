@@ -6,13 +6,11 @@ import android.content.Context;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 
-
-
 //https://github.com/abramhindle/FillerCreepForAndroid/blob/master/src/es/softwareprocess/fillercreep/FillerCreepApplication.java
 //josh said not to extend Application
 
-/*
- * this is a collection of singletons
+/**
+ * This is a collection of singletons.
  */
 public class GeoTopicsApplication {
 	transient private static final String SEARCHLY_CLUSTER = "http://site:d87a47445dc808449dd78637d9031609@bombur-us-east-1.searchly.com";
@@ -29,6 +27,10 @@ public class GeoTopicsApplication {
 	private GeoTopicsApplication() {
 	}
 
+	/**
+	 * Gets a new instance of the application.
+	 * @return myself A new instance of GeoTopicsApplication()
+	 */
 	public static GeoTopicsApplication getInstance() {
 		if(myself == null){
 			myself = new GeoTopicsApplication();
@@ -36,6 +38,10 @@ public class GeoTopicsApplication {
 		return myself;
 	}
 
+	/**
+	 * Gets the client using the applciation.
+	 * @return this.mClient The client(user) of the application.
+	 */
 	public JestClient getClient() {
 		if (mClient == null) {
 			DroidClientConfig clientConfig = new DroidClientConfig.Builder(
@@ -52,6 +58,10 @@ public class GeoTopicsApplication {
 		this.context = context;
 	}
 	
+	/**
+	 * Returns the context of the application.
+	 * @return this.context The context of the application.
+	 */
 	public Context getContext() {
 		return this.context;
 	}
