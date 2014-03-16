@@ -1,6 +1,6 @@
 package ca.ualberta.cs.team5geotopics;
 
-/*
+/**
  * All Views implement this interface. This allows
  * for the view to update when the model changes.
  * 
@@ -8,5 +8,11 @@ package ca.ualberta.cs.team5geotopics;
  */
 @SuppressWarnings("hiding")
 public interface AView<AModel> {
+	/**
+	 * Anyone implementing this interface must provide an update methode to be called
+	 * when a model changes.
+	 * 
+	 *  @param 	model	The model that has changed
+	 */
 	public void update(AModel model);
 }

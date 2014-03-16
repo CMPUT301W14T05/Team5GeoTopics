@@ -13,11 +13,10 @@ import android.widget.ImageView;
 
 import com.example.team5geotopics.R;
 
-/*
- * This source file is the one that is called when a user hits the '+' button at
- * the top of any screen that has one. This action opens this activity which presents
- * the user with options to fill in a Author, Body, Title, and even attach a photo
- * via the camera or via the local storage image gallery. 
+/**
+ * Called when a user hits the '+' button at the top of any screen that has one.
+ * This action opens this activity which presents the user with options to fill in a Author,
+ * Body, Title, and even attach a photo via the camera or via the local storage image gallery. 
  */
 
 public class CreateCommentActivity extends InspectCommentActivity implements
