@@ -84,6 +84,11 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 		return "TopLevel";
 	}
 
+	
+	/**
+	 * The update code for the top level activity. Refreshes the 
+	 * list view and updates any comments in the clm.
+	 */
 	@Override
 	public void update(AModel model) {
 		if (model instanceof CommentModel) {

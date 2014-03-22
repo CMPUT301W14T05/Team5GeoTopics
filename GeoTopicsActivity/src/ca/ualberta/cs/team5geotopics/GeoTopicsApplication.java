@@ -28,8 +28,8 @@ public class GeoTopicsApplication {
 	}
 
 	/**
-	 * Gets a new instance of the application.
-	 * @return myself A new instance of GeoTopicsApplication()
+	 * Lazy implementation of a singleton that initialises when first requested.
+	 * @return myself A single instance of GeoTopicsApplication.
 	 */
 	public static GeoTopicsApplication getInstance() {
 		if(myself == null){
@@ -39,7 +39,7 @@ public class GeoTopicsApplication {
 	}
 
 	/**
-	 * Gets the client using the applciation.
+	 * Gets the jest client using the application.
 	 * @return this.mClient The client(user) of the application.
 	 */
 	public JestClient getClient() {
@@ -54,12 +54,21 @@ public class GeoTopicsApplication {
 		return this.mClient;
 	}
 	
+	
+	/**
+	 * Stores an application context in the application singleton. This is useful for 
+	 * save/load code that need a context to find the files to read/write too but do not 
+	 * need a specific context.
+	 * @param context
+	 */
 	public void setContext(Context context) {
 		this.context = context;
 	}
 	
 	/**
-	 * Returns the context of the application.
+	 * Returns the context of the application. This is useful for 
+	 * save/load code that need a context to find the files to read/write too but do not 
+	 * need a specific context.
 	 * @return this.context The context of the application.
 	 */
 	public Context getContext() {

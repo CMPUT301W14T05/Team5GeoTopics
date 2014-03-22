@@ -105,7 +105,8 @@ public class CommentController {
 	}
 	
 	/**
-	 * Pushes a comment to the web.
+	 * Pushes a comment to the web. If the web is unavailable will 
+	 * stash the comment and push it when Internet is available.
 	 *
 	 * @param  commentModel  The comment we are pushing
 	 * @param	type	The type of comment we are pushing. Valid types are 

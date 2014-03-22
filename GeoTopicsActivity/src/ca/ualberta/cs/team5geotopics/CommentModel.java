@@ -56,7 +56,9 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	}
 	
 	/**
-	 * Sets the ElasticSearch ID for the comment.
+	 * Sets the ElasticSearch ID for the comment. This string is used for storing
+	 * and retrieving the comment from elasisearch. It is also useful to determine
+	 * if two comment objects are the same.
 	 * @param id The id of the comment.
 	 * @param parent The parent of the comment.
 	 * @param type The type of comment.
@@ -74,7 +76,6 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	public boolean isTopLevel() {
 		return mEsType.equals("TopLevel");
 	}
-	
 	
 	private Date mDate;
 	
@@ -201,15 +202,17 @@ public class CommentModel extends AModel<AView> implements Parcelable {
         return 0;  
     }  
 
-    /*
-     * end of parcable stuff
+    /**
+     * Puts the current system time into the date field for the comment. Used 
+     * largely for new comments who need a post date associated with it.
      */
 	protected void putTimeStamp() {
 		this.mDate = new Date(System.currentTimeMillis());
 	}
 
 	/**
-	 * This function gets the ID of the ElasticSearch comment location.
+	 * This function gets the elastisearch ID of the comment. Useful for 
+	 * determining if two comment objects are the same or for elastisearch operations.
 	 * @return mEsID The ID of the ElasticSearch 
 	 */
 	public String getmEsID() {
@@ -217,7 +220,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	}
 
 	/**
-	 * Sets the ID of the ElasticSearch element.
+	 * Sets the elastisearch ID of the comment.
 	 * @param mEsID The ElasticSearch ID for the comment.
 	 */
 	public void setmEsID(String mEsID) {
@@ -225,7 +228,9 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	}
 	
 	/**
-	 * Gets the comments parent ID.
+	 * Gets the comments parent ID. Since comments do not keep a list of their 
+	 * children this field allows you to find the children of a comment by searching
+	 * for all comments who's mParentID field == parent EsID.
 	 * @return mParentID The ID of the comment's parent.
 	 */
 	public String getmParentID() {
@@ -233,7 +238,8 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	}
 
 	/**
-	 * Sets the parent's ID to that of another parent ID.
+	 * Sets the parent's ID to that of another parent ID. Used to link
+	 * a comment to a parent.
 	 * @param mParentID The ID of the comment's parent.
 	 */
 	public void setmParentID(String mParentID) {
@@ -241,7 +247,8 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	}
 
 	/**
-	 * Gets the ElasticSearch type of comment.
+	 * Gets the ElasticSearch type of comment. Will return either "TopLevel" 
+	 * or "ReplyLevel".
 	 * @return mEsType The type of comment from ElasticSearch.
 	 */
 	public String getmEsType() {
@@ -249,7 +256,8 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	}
 
 	/**
-	 * Sets the type of comment.
+	 * Sets the type of comment. Anything other than "TopLevel" or "ReplyLevel" will 
+	 * have un defined application behaviour. This function does not sanitise input.
 	 * @param mEsType The type of comment.
 	 */
 	public void setmEsType(String mEsType) {
@@ -301,7 +309,9 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	}
 
 	/**
-	 * Sets the geolocation for the comment.
+	 * Sets the geolocation for the comment. Used mostly when 
+	 * making a new comment however can be used to re-define the location
+	 * for a comment.
 	 * @param geolocation The geolocation to be set.
 	 */
 	public void setmGeolocation(Location geolocation) {
@@ -311,7 +321,8 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	}
 	
 	/**
-	 * Sets the geolocation for the comment given longitude and latitude.
+	 * Sets the geolocation for the comment given longitude and latitude. Allows 
+	 * one to set the location of a comment view lat and long directly.
 	 * @param lat The latitude for the comment.
 	 * @param lon The longitude for the comment.
 	 */
@@ -390,7 +401,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	}
 
 	/**
-	 * Sets the latitude of the comment/
+	 * Sets the latitude of the comment.
 	 * @param lat The latitude of the comment.
 	 */
 	public void setLat(String lat) {
@@ -414,7 +425,9 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	}
 
 	/**
-	 * Gets the epoch time of the comment.
+	 * Gets the epoch time of the comment. Useful mostly
+	 * for comment sorting and such where a raw number is 
+	 * more useful than a formatted date.
 	 * @return epochTime The epoch time of the comment.
 	 */
 	public long getEpochTime() {

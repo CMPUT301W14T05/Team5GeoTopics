@@ -172,7 +172,7 @@ public class Cache extends AModel<AView> {
 
 	/**
 	 * Loads comments from cache. Comments loaded get put into the registered
-	 * comment list model. Thus registration must pre-ceed the load.
+	 * comment list model. Thus registration must precede the load.
 	 * 
 	 * @param filename
 	 *            The filename where we are to load comments from

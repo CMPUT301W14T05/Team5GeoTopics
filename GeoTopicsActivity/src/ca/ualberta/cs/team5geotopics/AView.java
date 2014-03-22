@@ -9,7 +9,7 @@ package ca.ualberta.cs.team5geotopics;
 @SuppressWarnings("hiding")
 public interface AView<AModel> {
 	/**
-	 * Anyone implementing this interface must provide an update methode to be called
+	 * Anyone implementing this interface must provide an update method to be called
 	 * when a model changes.
 	 * 
 	 *  @param 	model	The model that has changed

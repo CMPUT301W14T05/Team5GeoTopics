@@ -51,7 +51,7 @@ public class CommentListModel extends AModel<AView> {
 	}
 
 	/**
-	 * Clears the list of comments in the CLM
+	 * Clears the list of comments in the CLM.
 	 *
 	 */
 	public void clearList() {
@@ -109,7 +109,7 @@ public class CommentListModel extends AModel<AView> {
 
 	
 	/**
-	 * Sort the comments by proximity to a location
+	 * Sort the comments by proximity to a location that we supply.
 	 *
 	 * @param  myLoc  The location to sort by proximity to.
 	 */
@@ -131,7 +131,7 @@ public class CommentListModel extends AModel<AView> {
 	}
 
 	/**
-	 * Sorts comments by freshness 
+	 * Sorts comments by freshness. 
 	 *
 	 * @param  myLoc  Location to use for the sort.
 	 */
@@ -221,7 +221,7 @@ public class CommentListModel extends AModel<AView> {
 	}
 	
 	/**
-	 * Sorts all comments by their date.
+	 * Sorts all comments in the CLM by their date.
 	 *
 	 */
 	public void sortAllCommentsByDate() {
@@ -260,7 +260,8 @@ public class CommentListModel extends AModel<AView> {
 	}
 
 	/**
-	 * Add new comments to the list.
+	 * Add new comments to the list. Will do a check to ensure the comment
+	 * does not already exist in the list. 
 	 *
 	 * @param  newComments  A list of comments
 	 */
