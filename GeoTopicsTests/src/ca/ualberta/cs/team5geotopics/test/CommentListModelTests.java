@@ -50,22 +50,6 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<TopL
 		assertTrue("The first element is originally A", clm.getList().get(2).getmBody().equals("A"));
 	}
 	
-//	public void testRefreshAddAll() {
-//		CommentListModel clm = new CommentListModel();
-//		ArrayList<CommentModel> lc = prepCommentList(10, .03, 15, false);
-//		CommentModel comment = new CommentModel("0", "0", "hey", "Tyler", "testing", null);
-//		assertTrue("The list is empty", clm.getList().isEmpty());
-//		clm.add(comment);
-//		assertFalse("The list is not empty", clm.getList().isEmpty());
-//		assertEquals(comment, clm.getList().get(0));
-//		clm.addNew(lc);
-//		assertFalse(clm.getList().isEmpty());
-//		assertTrue("The first element should be C", clm.getList().get(0).getmBody().equals("C"));
-//		assertTrue("The first element is originally B", clm.getList().get(1).getmBody().equals("B"));
-//		assertTrue("The first element is originally A", clm.getList().get(2).getmBody().equals("A"));
-//		
-//	}
-	
 	public void testSortCommentsByProximityToLoc() {
 		CommentListModel clm = new CommentListModel();
 		List<CommentModel> lc = prepCommentList(10, .03, 15, false);
@@ -91,32 +75,7 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<TopL
 		assertTrue("The first element of the list is C", clm.getList().get(2).getmBody().equals("C"));
 	}
 	
-	public void testSortCommentsByFreshness() {
-		CommentListModel clm = new CommentListModel();
-		List<CommentModel> lc = prepCommentList(0.001, .02, 0.008, false);
-		
-		clm.setSortFlag(4);
-		for (int i = 0; i < lc.size(); i++) {
-			clm.add(lc.get(i));
-		}
-		
-		
-		Location myLoc = new Location("My Location");
-		myLoc.setLongitude(0);
-		myLoc.setLatitude(0);
-		
-		assertEquals("The size of the array should now be 3", 3, clm.getList().size());
-		assertTrue("The first element of the list is C", clm.getList().get(0).getmBody().equals("C"));
-		assertTrue("The second element of the list is B", clm.getList().get(1).getmBody().equals("B"));
-		assertTrue("The third element of the list is A", clm.getList().get(2).getmBody().equals("A"));
-		
-		clm.sortCommentsByFreshness(myLoc);
-		
-		assertEquals("The size of the array should now be 3", 3, clm.getList().size());
-		assertTrue("The first element of the list is C", clm.getList().get(0).getmBody().equals("C"));
-		assertTrue("The second element of the list is A", clm.getList().get(1).getmBody().equals("A"));
-		assertTrue("The second element of the list is B", clm.getList().get(2).getmBody().equals("B"));
-	}
+
 
 	/*
 	 * Test SortTLCByPicture
@@ -151,6 +110,8 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<TopL
 	/*
 	 * This tests the functionality of sortCommentsByDate()
 	 * 
+	 * Part 1 of Use Case 4
+	 * 
 	 * This adds three Comments to a list. The three comments are created 
 	 * with a delay so that their dates are different. The comments are 
 	 * created in the order: A -> B -> C and are originally put into the 
@@ -175,6 +136,40 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<TopL
 		assertTrue("The first element should be C", clm.getList().get(0).getmBody().equals("C"));
 		assertTrue("The first element is originally B", clm.getList().get(1).getmBody().equals("B"));
 		assertTrue("The first element is originally A", clm.getList().get(2).getmBody().equals("A"));
+	}
+	
+	/*
+	 * This tests the functionality of sortCommentsByFreshness()
+	 * 
+	 * 
+	 * Part 2 of Use Case 4
+	 * weighted sort based on distance & post date
+	 */
+	public void testSortCommentsByFreshness() {
+		CommentListModel clm = new CommentListModel();
+		List<CommentModel> lc = prepCommentList(0.001, .02, 0.008, false);
+		
+		clm.setSortFlag(4);
+		for (int i = 0; i < lc.size(); i++) {
+			clm.add(lc.get(i));
+		}
+		
+		
+		Location myLoc = new Location("My Location");
+		myLoc.setLongitude(0);
+		myLoc.setLatitude(0);
+		
+		assertEquals("The size of the array should now be 3", 3, clm.getList().size());
+		assertTrue("The first element of the list is C", clm.getList().get(0).getmBody().equals("C"));
+		assertTrue("The second element of the list is B", clm.getList().get(1).getmBody().equals("B"));
+		assertTrue("The third element of the list is A", clm.getList().get(2).getmBody().equals("A"));
+		
+		clm.sortCommentsByFreshness(myLoc);
+		
+		assertEquals("The size of the array should now be 3", 3, clm.getList().size());
+		assertTrue("The first element of the list is C", clm.getList().get(0).getmBody().equals("C"));
+		assertTrue("The second element of the list is A", clm.getList().get(1).getmBody().equals("A"));
+		assertTrue("The second element of the list is B", clm.getList().get(2).getmBody().equals("B"));
 	}
 	
 	public ArrayList<CommentModel> prepCommentList(double latA, double latB, double latC,
