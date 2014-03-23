@@ -37,9 +37,8 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		// Get the singletons we may need.
 		this.application = GeoTopicsApplication.getInstance();
 		this.application.setContext(getApplicationContext());
-		this.mCache = Cache.getInstance();
 		this.myUser = User.getInstance();
-		this.mCache = Cache.getInstance();
+		this.manager = CommentManager.getInstance();
 		me = this;
 
 		// Construct the model
@@ -75,7 +74,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 
 	@Override
 	protected void onResume() {
-		handleCommentLoad();
+		manager.refresh(this.clm, this, viewingComment);
 		this.update(viewingComment);
 		browseListView
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {

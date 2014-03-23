@@ -32,12 +32,12 @@ public abstract class BrowseActivity extends Activity {
 	 */
 	public CommentListModel clm;
 	protected ListView browseListView;
-	protected CommentModel viewingComment;
+	protected CommentModel viewingComment = null;
 	protected GeoTopicsApplication application;
-	protected Cache mCache;
 	protected User myUser;
 	protected Intent intent;
 	protected CommentSearch modelController;
+	protected CommentManager manager;
 	
 	/**
 	 * New comment request code. 
@@ -61,7 +61,7 @@ public abstract class BrowseActivity extends Activity {
 		getActionBar().setDisplayShowTitleEnabled(false);
 		// Gives us the left facing caret. Need to drop the app icon however OR
 		// change it to something other than the android guy OR remove software back
-		getActionBar().setDisplayHomeAsUpEnabled(true);		
+		getActionBar().setDisplayHomeAsUpEnabled(true);	
 	}
 
 	// Creates the options menu using the layout in menu.
@@ -99,7 +99,7 @@ public abstract class BrowseActivity extends Activity {
 			startActivity(intent);
 			break;
 		case R.id.action_refresh:
-			this.handleCommentLoad();
+			manager.refresh(this.clm, this, viewingComment);
 			break;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -141,58 +141,6 @@ public abstract class BrowseActivity extends Activity {
 			return builder.create();
 		}
 		return null;
-	}
-
-	/**
-	 * Returns an Image object that can then be painted on the screen. 
-	 *
-	 *@author Alexandre Jasmin
-	 *Link: http://stackoverflow.com/questions/4238921/android-detect-whether-there-is-an-internet-connection-available
-	 * @return  True is the network is available, false if not.
-	 */
-	protected boolean isNetworkAvailable() {
-		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetworkInfo = connectivityManager
-				.getActiveNetworkInfo();
-		return (activeNetworkInfo != null && activeNetworkInfo.isConnected());
-	}
-	
-	/**
-	 * Handles loading comments for the view into its comment list model. Attempts to load from the web else
-	 * it loads from the cache.
-	 *
-	 */
-	public void handleCommentLoad(){
-		modelController = new CommentSearch(this.clm);
-		if (isNetworkAvailable()) {
-			
-			if(this.getType().equals("TopLevel")){
-				modelController.pullTopLevel(this);
-			}
-			else{
-				modelController.pullReplies(this, viewingComment.getmEsID());
-			}
-			Log.w("Cache", "Have Internet");
-		} else {
-			Log.w("Cache", "No Internet");
-			mCache.loadFileList(); //gets record of cache from previous session
-			mCache.registerModel(clm);
-			
-			if (this.getType().equals("TopLevel")) {
-				mCache.loadFromCache("history.sav", this);
-			}
-			else{
-				String filename = viewingComment.getmEsID();
-				if (mCache.repliesExist(filename)){
-					mCache.loadFromCache(filename, this);
-					Log.w("Cache", "load replies from cache");
-				}
-				else{
-					Toast toast = Toast.makeText(this,"Unable to load from the cache, Please try again with internet",5);
-					toast.show();
-				}
-			}
-		}
 	}
 	
 	/**

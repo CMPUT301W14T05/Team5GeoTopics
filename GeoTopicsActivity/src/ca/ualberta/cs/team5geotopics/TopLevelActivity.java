@@ -24,8 +24,8 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 		//Get the singletons we may need.
 		this.application = GeoTopicsApplication.getInstance();
 		this.application.setContext(getApplicationContext());
-		this.mCache = Cache.getInstance();
 		this.myUser = User.getInstance();
+		this.manager = CommentManager.getInstance();
 
 		//Construct the model
 		this.clm = new CommentListModel();
@@ -48,7 +48,9 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 
 	@Override
 	protected void onResume() {
-		handleCommentLoad();
+		
+		manager.refresh(this.clm, this, viewingComment);
+		Log.w("Refresh", "After manager refresh");
 		// Reset the current viewing comment
 		myView.notifyDataSetChanged(); // Ensure the view is up to date.
 		browseListView
@@ -59,7 +61,6 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 						CommentModel selected = (CommentModel) browseListView
 								.getItemAtPosition(position);
 						//Add this to the cache
-						//mCache.addToHistory(selected);
 						Intent intent = new Intent(TopLevelActivity.this,
 								ReplyLevelActivity.class);
 						intent.putExtra("ViewingComment",selected);
