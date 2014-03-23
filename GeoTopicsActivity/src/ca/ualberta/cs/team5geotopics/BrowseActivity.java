@@ -133,7 +133,6 @@ public abstract class BrowseActivity extends Activity {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							// Which option to sort by?
-							Location myLoc = new Location("myLoc");
 							clm.setSortFlag(which);
 							clm.sortOnUpdate();
 						}

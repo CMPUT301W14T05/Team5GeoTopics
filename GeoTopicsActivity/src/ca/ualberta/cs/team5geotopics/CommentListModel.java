@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import android.content.Context;
 import android.location.Location;
 import android.util.Log;
 
@@ -18,6 +17,7 @@ public class CommentListModel extends AModel<AView> {
 	private ArrayList<CommentModel> mComments;
 	private Cache mCache;
 	private int sortFlag = 2;
+	protected User myUser;
 
 	/**
 	 * Constructor
@@ -80,6 +80,7 @@ public class CommentListModel extends AModel<AView> {
 		 * that will be used for all the sorts that need a location
 		 * SortByProximityToMe SortByProximityToLoc SortByFreshness
 		 */
+		//Location myLoc = myUser.getCurrentLocation();
 		Location myLoc = new Location("myLoc");
 		myLoc.setLongitude(0);
 		myLoc.setLatitude(0);
@@ -154,14 +155,6 @@ public class CommentListModel extends AModel<AView> {
 			weightPoint -= 1;
 		}
 		sortCommentsBySortWeight(mComments);
-		// for (int i = mComments.size() - 1; i >= 0; i--) {
-		// if (mComments.get(i).getGeoLocation().distanceTo(myLoc) > 1000) {
-		// mComments.remove(i);
-		// }
-		// }
-		// mComments = sortCommentsByDate(mComments);
-
-		// this.notifyViews();
 	}
 
 	/**
