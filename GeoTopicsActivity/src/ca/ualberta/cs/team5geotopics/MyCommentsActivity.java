@@ -79,8 +79,10 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 			@Override
 			public void onItemClick(AdapterView<?> myView, View view, int position,
 					long arg3) {
+				CommentModel selected = (CommentModel) browseListView
+						.getItemAtPosition(position);
 				Intent intent = new Intent(MyCommentsActivity.this, EditCommentActivity.class);
-				intent.putExtra("ViewingComment",(CommentModel)browseListView.getItemAtPosition(position));
+				intent.putExtra("ViewingComment",selected.getmEsID());
 				startActivity(intent);
 			}
 			

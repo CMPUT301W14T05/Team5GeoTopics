@@ -24,6 +24,7 @@ public class CommentController {
 	private JestClient mClient;
 	private Gson mGson;
 	private JestResult mResult;
+	private CommentManager manager;
 	
 	/**
 	 * Constructor
@@ -41,6 +42,7 @@ public class CommentController {
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
 		this.mGson = builder.create();
 		this.mResult = new JestResult(mGson);
+		manager = CommentManager.getInstance();
 		
 	}
 
@@ -61,7 +63,7 @@ public class CommentController {
 	 */
 	public void newTopLevel(CommentModel newComment) {
 		myUser.addToMyComments(newComment);
-		pushComment(newComment, "TopLevel");
+		manager.newTopLevel(newComment);
 	}
 
 	/**
@@ -73,7 +75,7 @@ public class CommentController {
 	 */
 	public void newReply(CommentModel newComment, Context context) {
 		myUser.addToMyComments(newComment);
-		pushComment(newComment, "ReplyLevel");
+		manager.newReply(newComment);
 		Log.w("CommentController", "id: " + newComment.getmEsID() +"\n" 
 				+ "type: " + newComment.getmEsType());
 	}
@@ -96,50 +98,6 @@ public class CommentController {
 		comment.setmBody(body);
 		comment.setmPicture(picture);
 		comment.setmGeolocation(mGeolocation);
-		if(comment.isTopLevel()) {
-			pushComment(comment, "TopLevel");
-		}else{
-			pushComment(comment, "ReplyLevel");
-		}
-		myUser.updateMyComment(comment);
-	}
-	
-	/**
-	 * Pushes a comment to the web. If the web is unavailable will 
-	 * stash the comment and push it when Internet is available.
-	 *
-	 * @param  commentModel  The comment we are pushing
-	 * @param	type	The type of comment we are pushing. Valid types are 
-	 * "TopLevel" and "ReplyLevel".
-	 * @return      The thread the push is running on.
-	 */
-	public Thread pushComment(final CommentModel comment, final String type){
-		Thread thread = new Thread(){
-			@Override
-			public void run(){
-				Exception e = null;
-				Index pushIndex = new Index.Builder(mGson.toJson(comment)).index(type)
-						.type(comment.getmEsType()).id(comment.getmEsID()).build();
-				
-				try{
-					mResult = mClient.execute(pushIndex);
-				}
-				catch (Exception e1){
-					e = e1;
-					e1.printStackTrace();
-				}
-				mClient.shutdownClient();
-				
-				if (e == null){
-					User user = User.getInstance();
-					user.updatePostCountFile();
-					Log.w("CommentController", mResult.getJsonString());
-				}
-				
-				
-			}
-		};
-		thread.start();
-		return thread;
+		manager.updateComment(comment);
 	}
 }

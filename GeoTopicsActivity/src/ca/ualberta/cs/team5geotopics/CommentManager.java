@@ -10,10 +10,12 @@ public class CommentManager extends AModel<AView> {
 	private static CommentManager myself = null;
 	private Cache mCache;
 	private Context mContext;
+	private User mUser;
 
 	private CommentManager() {
 		this.mCache = Cache.getInstance();
 		this.mContext = GeoTopicsApplication.getInstance().getContext();
+		this.mUser = User.getInstance();
 	}
 
 	public static CommentManager getInstance() {
@@ -83,8 +85,84 @@ public class CommentManager extends AModel<AView> {
 			}
 		}
 	}
-	
-	public CommentModel getComment(String mParentID, String EsID){
+
+	/**
+	 * Retrieves a single comment from the cache.
+	 * 
+	 * @param mParentID
+	 *            The parent ID of the comment we want
+	 * @param EsID
+	 *            The ID of the comment we want
+	 * @return The comment if it exists otherwise expect null.
+	 */
+	public CommentModel getComment(String mParentID, String EsID) {
 		return mCache.loadComment(mParentID, EsID);
 	}
+
+	/**
+	 * Used to retrieve a comment from the myComments array in the user class.
+	 * Assumes that you somehow know the comment already exists in the array. If
+	 * it doesn't it returns null and you will get null pointer exceptions if
+	 * you do not account for this.
+	 * 
+	 * @param EsID
+	 *            The ID of the comment we want
+	 * @return The comment OR null if not found.
+	 */
+	public CommentModel getMyComment(String EsID) {
+		return mUser.getMyComment(EsID);
+	}
+	
+	/**
+	 * Handles updating a comment. This involves pushing the comment
+	 * to the Internet AND updating the cache.
+	 * @param comment The updated comment
+	 */
+	public void updateComment(CommentModel comment){
+		CommentPush pusher = new CommentPush();
+		if(comment.isTopLevel()) {
+			pusher.pushComment(comment, "TopLevel");
+		}else{
+			pusher.pushComment(comment, "ReplyLevel");
+		}
+		
+		mCache.updateCache(comment);
+	}
+	
+	/**
+	 * Handles adding a new reply. This involves pushing it to the Internet 
+	 * and into the cache.
+	 * 
+	 * @param comment The new replys
+	 * @return The thread the push is running on
+	 */
+	public Thread newReply(CommentModel comment){
+		Thread thread;
+		CommentPush pusher = new CommentPush();
+		
+		thread = pusher.pushComment(comment, "ReplyLevel");
+
+		mCache.updateCache(comment);
+		
+		return thread;
+	}
+	
+	/**
+	 * Handles adding a new Top level. This involves pushing it to the Internet 
+	 * and into the cache.
+	 * 
+	 * @param comment The new reply
+	 * @return The thread the push is running on
+	 */
+	public Thread newTopLevel(CommentModel comment){
+		Thread thread;
+		CommentPush pusher = new CommentPush();
+		
+		thread = pusher.pushComment(comment, "TopLevel");
+
+		mCache.updateCache(comment);
+		
+		return thread;
+	}
+	
 }

@@ -26,8 +26,10 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		setContentView(R.layout.activity_edit_comment);
 		setTitle("Edit Comment");
 		
+		this.manager = CommentManager.getInstance();
+		
 		Bundle b = getIntent().getExtras();
-		viewingComment = b.getParcelable("ViewingComment");
+		viewingComment = manager.getMyComment(b.getString("ViewingComment"));
 		// Associates the button with their ID.
 		locationBtn = (ImageButton)findViewById(R.id.imageButtonLocationE);
 		photoBtn = (ImageButton)findViewById(R.id.imageButtonImageE);

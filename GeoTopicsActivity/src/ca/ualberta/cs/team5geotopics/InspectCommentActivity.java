@@ -48,6 +48,7 @@ public class InspectCommentActivity extends Activity {
 	protected String parentID;
 	protected Bundle b;
 	protected CommentModel viewingComment;
+	protected CommentManager manager;
 
 
 	// Variables for comment/edit comment.

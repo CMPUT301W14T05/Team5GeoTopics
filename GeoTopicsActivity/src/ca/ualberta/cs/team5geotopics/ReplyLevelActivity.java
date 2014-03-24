@@ -49,6 +49,10 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 				clm.getList());
 		// Register the adapter view with the model
 		this.clm.addView(this.myView);
+		//Register with the manager
+		this.manager.addView(this);
+		// Register with the user
+		//this.myUser.addView(this);
 
 		// Register myself with the viewing comment
 		// TODO: Figure out why this is not working
@@ -64,17 +68,12 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		image = (ImageView) findViewById(R.id.reply_comment_image);
 		divider = (View) findViewById(R.id.reply_divider1);
 
-		// Register with the user
-		this.myUser.addView(this);
-
-		// Update myself
-		this.update(viewingComment);
-
 	}
 
 	@Override
 	protected void onResume() {
 		manager.refresh(this.clm, this, viewingComment);
+		this.updateViewingComment(viewingComment);
 		this.update(viewingComment);
 		browseListView
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -95,12 +94,9 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	}
 
 	public void update(AModel model) {
-		if (model instanceof CommentModel) {
-			updateViewingComment((CommentModel)model);
-			clm.updateComment((CommentModel)model);
-		}
-		this.myView.notifyDataSetChanged();
+		
 	}
+
 
 	/**
 	 * @return "ReplyLevel" The type of comment it is.

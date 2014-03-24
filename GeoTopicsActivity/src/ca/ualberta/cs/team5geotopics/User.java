@@ -309,4 +309,21 @@ public class User extends AModel<AView> {
 			mComments = new ArrayList<CommentModel>();
 		}
 	}
+	
+	/**
+	 * Used to retrieve a comment from the myComments array. Assumes that you 
+	 * somehow know the comment already exists in the array. If it doesn't
+	 * it returns null and you will get null pointer exceptions if you
+	 * do not account for this.
+	 * @param EsID The ID of the comment we want
+	 * @return The comment OR null if not found.
+	 */
+	public CommentModel getMyComment(String EsID){
+		for(CommentModel comment : mComments){
+			if(comment.getmEsID().equals(EsID)){
+				return comment;
+			}
+		}
+		return null;
+	}
 }

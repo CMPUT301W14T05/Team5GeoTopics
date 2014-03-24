@@ -166,10 +166,10 @@ public class Cache extends AModel<AView> {
 	}
 
 	/**
-	 * This will search the cache and return the requested comment. The EsID of the
-	 * parent is necessary as we catalogue comments based on their parent ID and thus
-	 * we need this to find the location in the file system to look. Will return null 
-	 * if we cannot find the comment in the cache.
+	 * This will search the cache and return the requested comment. The EsID of
+	 * the parent is necessary as we catalogue comments based on their parent ID
+	 * and thus we need this to find the location in the file system to look.
+	 * Will return null if we cannot find the comment in the cache.
 	 * 
 	 * @param mParent
 	 *            The EsID of the parent Comment.
@@ -198,6 +198,72 @@ public class Cache extends AModel<AView> {
 		}
 		return null;
 
+	}
+
+	/**
+	 * Will take a comment and either update a current version of it or add it
+	 * to the cache.
+	 * 
+	 * @param comment
+	 *            The comment to add/update in the cache
+	 */
+	public void updateCache(CommentModel comment) {
+		ArrayList<CommentModel> commentList;
+		String mParentID = comment.getmParentID();
+		String EsID = comment.getmEsID();
+		int i;
+		boolean findFlag = false;
+
+		this.loadFileList();
+		// If the parent folder exists search it
+		if (this.repliesExist(mParentID)) {
+			if (mParentID.equals("-1")) {
+				commentList = load("history.sav");
+			} else {
+				commentList = load(mParentID);
+			}
+			// Search the lost
+			for (i = 0; i < commentList.size(); i++) {
+				if (commentList.get(i).getmEsID().equals(EsID)) {
+					// We found a copy of it so lets replace it and
+					// flag that we found it.
+					commentList.set(i, comment);
+					findFlag = true;
+					break;
+				}
+			}
+			// We did not find a copy of this comment
+			// in its parents folder. Add it to the list then
+			if (!findFlag) {
+				commentList.add(comment);
+			}
+		} else {
+			// There was not folder for the parent so we
+			// Create a new empty list and add the comment to it.
+			commentList = new ArrayList<CommentModel>();
+			commentList.add(comment);
+		}
+
+		serializeAndWrite(commentList, mParentID);
+	}
+
+	/**
+	 * This will serialize the array list using JSON then write it to the
+	 * appropriate place on disk.
+	 * 
+	 * @param commentList
+	 *            The list to serialise and write to disk
+	 * @param filename
+	 *            The file to save the list too
+	 */
+	public void serializeAndWrite(ArrayList<CommentModel> commentList,
+			String filename) {
+		Gson gson = new Gson();
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
+		gson = builder.create();
+		
+		replaceFileHistory(gson.toJson(commentList), filename);
 	}
 
 	/**
