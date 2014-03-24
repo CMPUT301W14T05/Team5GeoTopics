@@ -5,17 +5,6 @@ import com.example.team5geotopics.R.id;
 import com.example.team5geotopics.R.layout;
 import com.example.team5geotopics.R.menu;
 
-import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
-
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
