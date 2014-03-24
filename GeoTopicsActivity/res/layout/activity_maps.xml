@@ -5,5 +5,3 @@
     android:layout_height="match_parent"
     tools:context="ca.ualberta.cs.team5geotopics.MapsActivity"
     tools:ignore="MergeRootFrame" />
-
-
