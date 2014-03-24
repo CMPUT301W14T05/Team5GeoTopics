@@ -59,7 +59,7 @@ public class CacheTests extends
 		cache.replaceFileHistory(jsonString, filename); //store to file 
 		acm.clear();
 		
-		acm = cache.loadFromCache(filename, activity); /*retrieve from cache (though the deserialization
+		acm = cache.load(filename); /*retrieve from cache (though the deserialization
 														is duplicated on ui thread of the calling activity) 
 														The cache needs to be modularized: one thing will be to change how it passes
 														this arraylist to the CommentListModel for the activity. It works but I can't

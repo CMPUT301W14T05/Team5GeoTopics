@@ -28,11 +28,6 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.reply_level_activity);
-		// Set the Viewing Comment
-		Bundle b = getIntent().getExtras();
-		viewingComment = b.getParcelable("ViewingComment");
-		// Setup the Model
-		// this.clm.setList(viewingComment.getReplies());
 
 		// Get the singletons we may need.
 		this.application = GeoTopicsApplication.getInstance();
@@ -40,6 +35,11 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		this.myUser = User.getInstance();
 		this.manager = CommentManager.getInstance();
 		me = this;
+		
+		Bundle b = getIntent().getExtras();
+		Log.w("ReplyLevel", b.getString("ViewingParent"));
+		Log.w("ReplyLevel", b.getString("ViewingComment"));
+		viewingComment = this.manager.getComment(b.getString("ViewingParent"), b.getString("ViewingComment"));
 
 		// Construct the model
 		this.clm = new CommentListModel();
@@ -85,8 +85,9 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 								.getItemAtPosition(position);
 						Intent intent = new Intent(ReplyLevelActivity.this,
 								ReplyLevelActivity.class);
-						intent.putExtra("ViewingComment", selected);
-						me.startActivity(intent);
+						intent.putExtra("ViewingComment",selected.getmEsID());
+						intent.putExtra("ViewingParent", selected.getmParentID());
+						startActivity(intent);
 					}
 
 				});

@@ -116,12 +116,12 @@ public class Cache extends AModel<AView> {
 	 */
 	public boolean repliesExist(String filename) {
 		// returns true if there are replies in the cache
-		if(filename != null){
+		if (!filename.equals("-1")) {
 			return this.fileDir.contains(filename);
-		}else{
+		} else {
 			return this.fileDir.contains("history.sav");
 		}
-		
+
 	}
 
 	/**
@@ -166,18 +166,56 @@ public class Cache extends AModel<AView> {
 	}
 
 	/**
-	 * Loads from the cache at the given filename location. Puts the results into the 
-	 * comment list model supplied.
-	 * @param filename The location to read. The file name is the EsID of the parent comment
-	 * for which you are looking for the list of replies. If we are looking for top levels then 
-	 * supply filename as null.
-	 * @param clm The comment list model we need to populate.
+	 * This will search the cache and return the requested comment. The EsID of the
+	 * parent is necessary as we catalogue comments based on their parent ID and thus
+	 * we need this to find the location in the file system to look. Will return null 
+	 * if we cannot find the comment in the cache.
+	 * 
+	 * @param mParent
+	 *            The EsID of the parent Comment.
+	 * @param EsID
+	 *            The EsID of the comment we want.
+	 * @return The comment we requested from the cache, null if not found.
 	 */
-	public void loadFromCache(String filename, CommentListModel clm){
+	public CommentModel loadComment(String mParentID, String EsID) {
 		ArrayList<CommentModel> commentList;
-		if(filename != null){
-		commentList = load(filename);
-		}else{
+
+		this.loadFileList();
+
+		if (this.repliesExist(mParentID)) {
+
+			if (mParentID.equals("-1")) {
+				commentList = load("history.sav");
+			} else {
+				commentList = load(mParentID);
+			}
+
+			for (CommentModel comment : commentList) {
+				if (comment.getmEsID().equals(EsID)) {
+					return comment;
+				}
+			}
+		}
+		return null;
+
+	}
+
+	/**
+	 * Loads from the cache at the given filename location. Puts the results
+	 * into the comment list model supplied.T he file name is the EsID of the
+	 * parent comment for which you are looking for the list of replies. If we
+	 * are looking for top levels then supply filename as null.
+	 * 
+	 * @param filename
+	 *            The location to read.
+	 * @param clm
+	 *            The comment list model we need to populate.
+	 */
+	public void loadFromCache(String filename, CommentListModel clm) {
+		ArrayList<CommentModel> commentList;
+		if (!filename.equals("-1")) {
+			commentList = load(filename);
+		} else {
 			commentList = load("history.sav");
 		}
 		clm.addNew(commentList);
@@ -228,6 +266,6 @@ public class Cache extends AModel<AView> {
 		} catch (IOException e) {
 			Log.w("Cache", "ERROR: Java IO error reading cache file");
 		}
-	return commentList;
-}
+		return commentList;
+	}
 }

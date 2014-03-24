@@ -63,7 +63,8 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 						//Add this to the cache
 						Intent intent = new Intent(TopLevelActivity.this,
 								ReplyLevelActivity.class);
-						intent.putExtra("ViewingComment",selected);
+						intent.putExtra("ViewingComment",selected.getmEsID());
+						intent.putExtra("ViewingParent", selected.getmParentID());
 						startActivity(intent);
 					}
 

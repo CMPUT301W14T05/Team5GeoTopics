@@ -51,7 +51,7 @@ public class CommentManager extends AModel<AView> {
 			CommentModel viewingComment) {
 		String EsID;
 		if (viewingComment == null) {
-			EsID = null;
+			EsID = "-1";
 		} else {
 			EsID = viewingComment.getmEsID();
 		}
@@ -82,5 +82,9 @@ public class CommentManager extends AModel<AView> {
 				toast.show();
 			}
 		}
+	}
+	
+	public CommentModel getComment(String mParentID, String EsID){
+		return mCache.loadComment(mParentID, EsID);
 	}
 }
