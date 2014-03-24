@@ -38,6 +38,7 @@ public abstract class BrowseActivity extends Activity {
 	protected Intent intent;
 	protected CommentSearch modelController;
 	protected CommentManager manager;
+	protected Bundle b;
 	
 	/**
 	 * New comment request code. 
