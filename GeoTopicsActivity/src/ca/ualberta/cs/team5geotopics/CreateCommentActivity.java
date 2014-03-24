@@ -75,11 +75,10 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 			 * 
 			 * generates a different location than default. TODO: For next part
 			 * of project, let users choose a custom location
-			 */
-			Location loc = new Location("loc");
-			loc.setLongitude(0.1);
-			loc.setLatitude(0);
-			mGeolocation = loc;
+			 */			///Location loc = new Location("loc");
+			//loc.setLongitude(0.1);
+			//loc.setLatitude(0);
+			//mGeolocation = loc;
 			/*------------------------------------------------------------------*/
 		}
 		if (v == photoBtn) {

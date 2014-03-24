@@ -1,6 +1,7 @@
 package ca.ualberta.cs.team5geotopics;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import com.example.team5geotopics.R;
 import com.example.team5geotopics.R.id;
@@ -19,17 +20,29 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
-
-public class MapsActivity extends Activity {
+/**
+ * This file is activated once the user selects that he/she wishes to manually set a location.
+ * Upon entering this file, a map is displayed and a user can select a location on the map.
+ * Submitting the location changes the mGeolocation's longitude and latitude and tags it into the comment.
+ *
+ */
+public class MapsActivity extends InspectCommentActivity {
 	 
     // Google Map
     private GoogleMap googleMap;
+    private LatLng geoPoint;
+    private Marker marker;
  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +66,7 @@ public class MapsActivity extends Activity {
             googleMap = ((MapFragment) getFragmentManager().findFragmentById(
                     R.id.map)).getMap();
             googleMap.setMyLocationEnabled(true);
-         
- 
+            
             // check if map is created successfully or not
             if (googleMap == null) {
                 Toast.makeText(getApplicationContext(),
@@ -66,18 +78,45 @@ public class MapsActivity extends Activity {
             
             @Override
             public void onMapClick(LatLng point) {
-                Log.d("Map","Map clicked");
+            	if(marker != null){
+	    			marker.remove();
+	    		}
+                geoPoint = point;
                 DecimalFormat form = new DecimalFormat("0.00000");
+                String lat = form.format(point.latitude);
+                String longit = form.format(point.longitude);
                 Toast.makeText(getBaseContext(), 
                 		form.format(point.latitude)  + "," + 
                 		form.format(point.longitude)  , 
                         Toast.LENGTH_SHORT).show();
-                googleMap.addMarker(new MarkerOptions().position(point).title("Clicked!"));
+                marker = googleMap.addMarker(new MarkerOptions().position(point).title("Latitude:" + lat  + " Longitude:" + longit));
             	}
             });
              
             
         }
+        
+        Button button = new Button(this);
+        button.setText("Set Location");
+        addContentView(button, new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+
+        button.setOnClickListener(new View.OnClickListener() {
+
+        @Override
+        	 public void onClick(View v) {
+        	    	if(geoPoint != null){
+        	    	DecimalFormat form = new DecimalFormat("0.0000");
+        	    	form.format(geoPoint.latitude);
+        	    	form.format(geoPoint.longitude);
+        	    	Location loc = new Location("loc");
+        	    	loc.setLatitude(geoPoint.latitude);
+        	    	loc.setLongitude(geoPoint.longitude);
+        	    	mGeolocation = loc;
+        	    	finish();
+        	    	}
+        	finish();
+        	}
+       });
 	        
     }
  
@@ -88,8 +127,8 @@ public class MapsActivity extends Activity {
         super.onResume();
         initilizeMap();
     }
- 
-    
+
+        
 }
 
 

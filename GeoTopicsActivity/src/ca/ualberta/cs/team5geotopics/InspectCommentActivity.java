@@ -4,10 +4,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ActionBar.LayoutParams;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,12 +20,21 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.team5geotopics.R;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 // Code used from Camera Demo on eClass
 
@@ -50,6 +62,7 @@ public class InspectCommentActivity extends Activity {
 	protected String parentID;
 	protected Bundle b;
 	protected CommentModel viewingComment;
+	
 
 
 	// Variables for comment/edit comment.
@@ -58,6 +71,8 @@ public class InspectCommentActivity extends Activity {
 	protected String mAuthor;
 	protected Bitmap mPicture;
 	protected String mTitle;
+	protected GoogleMap googleMap;
+	public  LatLng geoPoint;
 
 	// Buttons for the 4 options at the bottom
 	protected ImageButton locationBtn;
@@ -177,6 +192,8 @@ public class InspectCommentActivity extends Activity {
 								// SET LOCATION VIA GOOGLE MAP
 								Intent myIntent = new Intent(InspectCommentActivity.this, MapsActivity.class);
 								startActivity(myIntent);
+								
+								
 							}
 						}
 					});
@@ -255,4 +272,7 @@ public class InspectCommentActivity extends Activity {
 	public Bitmap returnBitmapImage(Bitmap image) {
 		return image = Bitmap.createScaledBitmap(image, 200, 200, false);
 	}
+	
+	
+	
 }
