@@ -33,14 +33,14 @@
 
         <activity
             android:name="ca.ualberta.cs.team5geotopics.StartActivity"
-            android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar">
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name="ca.ualberta.cs.team5geotopics.TopLevelActivity"
             android:label="@string/title_top_level_activity" >
@@ -64,6 +64,15 @@
         <activity
             android:name="ca.ualberta.cs.team5geotopics.MyCommentsActivity"
             android:label="@string/title_activity_inspect_comment" >
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDBYElu8jy3IxKl94tfQUgerdoBdO6mhx0" />
+
+        <activity
+            android:name="ca.ualberta.cs.team5geotopics.MapsActivity"
+            android:label="@string/title_activity_maps" >
         </activity>
     </application>
 

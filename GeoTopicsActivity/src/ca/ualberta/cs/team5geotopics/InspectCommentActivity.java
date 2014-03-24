@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -20,6 +21,7 @@ import android.view.Menu;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
 import com.example.team5geotopics.R;
 
 // Code used from Camera Demo on eClass
@@ -173,6 +175,8 @@ public class InspectCommentActivity extends Activity {
 							// Open up Google maps to select location
 							if (which == 1) {
 								// SET LOCATION VIA GOOGLE MAP
+								Intent myIntent = new Intent(InspectCommentActivity.this, MapsActivity.class);
+								startActivity(myIntent);
 							}
 						}
 					});
