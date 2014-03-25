@@ -36,7 +36,7 @@ public class User extends AModel<AView> {
 	private static final String MY_COMMENTS = "myComments.save";
 	private File mInstallation;
 	private File mPostCount;
-	private ArrayList<CommentModel> mBookMarks;
+	private ArrayList<String> mBookMarks;
 	private ArrayList<CommentModel> mFavorites;
 	private ArrayList<CommentModel> mComments; // My created comments
 	private static User myself;
@@ -45,9 +45,8 @@ public class User extends AModel<AView> {
 
 	private User() {
 		this.application = GeoTopicsApplication.getInstance();
-		this.mBookMarks = new ArrayList<CommentModel>();
+		this.mBookMarks = new ArrayList<String>();
 		this.mFavorites = new ArrayList<CommentModel>();
-		// this.mComments = new ArrayList<CommentModel>();
 		loadMyComments();
 		mInstallation = new File(application.getContext().getFilesDir(),
 				INSTALLATION_ID);
@@ -303,5 +302,36 @@ public class User extends AModel<AView> {
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * Checks if the supplied ID is inside the users bookmarks. Most useful
+	 * for the User Controller to decide if it needs to add a comment ID to
+	 * the bookmarks array or remove it. Also used by the views to determin
+	 * if a comment is bookmarked.
+	 * @param ID The ID of the comment we are checking
+	 * @return
+	 */
+	public boolean inBookmarks(String ID){
+		return mBookMarks.contains(ID);
+	}
+	/**
+	 * Adds a comment ID to the bookmarks array. Does not check for 
+	 * duplicates.
+	 * @param ID The comment ID
+	 */
+	public void addBookmark(String ID){
+		Log.w("Bookmark", "Adding: " + ID);
+		mBookMarks.add(ID);
+		
+	}
+	/**
+	 * Removes a comment ID from the bookmarks array. Does not check to 
+	 * see if it exists before removing just removes IF it exists.
+	 * @param ID The comment ID
+	 */
+	public void removeBookmark(String ID){
+		Log.w("Bookmark", "Removing: " + ID);
+		mBookMarks.remove(ID);
 	}
 }

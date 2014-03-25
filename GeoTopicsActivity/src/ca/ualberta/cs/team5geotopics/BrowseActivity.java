@@ -3,20 +3,15 @@ package ca.ualberta.cs.team5geotopics;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.team5geotopics.R;
 
@@ -27,9 +22,6 @@ import com.example.team5geotopics.R;
 
 public abstract class BrowseActivity extends Activity {
 	protected BrowseView myView;
-	/**
-	 * The comment list model that the activity uses to store and display its comments
-	 */
 	public CommentListModel clm;
 	protected ListView browseListView;
 	protected CommentModel viewingComment = null;
@@ -39,6 +31,8 @@ public abstract class BrowseActivity extends Activity {
 	protected CommentSearch modelController;
 	protected CommentManager manager;
 	protected Bundle b;
+	protected boolean bookmark = false;
+	protected UserController uController;
 	
 	/**
 	 * New comment request code. 
@@ -101,6 +95,17 @@ public abstract class BrowseActivity extends Activity {
 			break;
 		case R.id.action_refresh:
 			manager.refresh(this.clm, this, viewingComment);
+			break;
+		case R.id.action_bookmark:
+			if(bookmark){
+				//set to white
+				item.setIcon(R.drawable.ic_notification_bookmark);
+				bookmark = false;
+			}else{
+				//set to blue
+				item.setIcon(R.drawable.ic_notification_bookmark_b);
+				bookmark = true;
+			}
 			break;
 		default:
 			return super.onOptionsItemSelected(item);

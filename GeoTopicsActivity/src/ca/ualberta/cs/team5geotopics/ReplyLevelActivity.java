@@ -36,6 +36,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		this.application.setContext(getApplicationContext());
 		this.myUser = User.getInstance();
 		this.manager = CommentManager.getInstance();
+		this.uController = new UserController();
 		me = this;
 		
 		b = getIntent().getExtras();
@@ -90,11 +91,16 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 							int position, long arg3) {
 						CommentModel selected = (CommentModel) browseListView
 								.getItemAtPosition(position);
+						if (!bookmark) {
 						Intent intent = new Intent(ReplyLevelActivity.this,
 								ReplyLevelActivity.class);
 						intent.putExtra("ViewingComment",selected.getmEsID());
 						intent.putExtra("ViewingParent", selected.getmParentID());
 						startActivity(intent);
+						}else{
+							uController.bookmark(selected.getmEsID());
+							update(null);
+						}
 					}
 
 				});
@@ -102,7 +108,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	}
 
 	public void update(AModel model) {
-		
+		this.myView.notifyDataSetChanged();
 	}
 
 
