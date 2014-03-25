@@ -34,6 +34,7 @@ public class User extends AModel<AView> {
 	private static final String INSTALLATION_ID = "INSTALLATION";
 	private static final String POST_COUNT = "POSTCOUNT";
 	private static final String MY_COMMENTS = "myComments.save";
+	private static final String MY_BOOKMARKS = "myBookmarks.save";
 	private File mInstallation;
 	private File mPostCount;
 	private ArrayList<String> mBookMarks;
@@ -48,6 +49,7 @@ public class User extends AModel<AView> {
 		this.mBookMarks = new ArrayList<String>();
 		this.mFavorites = new ArrayList<CommentModel>();
 		loadMyComments();
+		loadMyBookmarks();
 		mInstallation = new File(application.getContext().getFilesDir(),
 				INSTALLATION_ID);
 		mPostCount = new File(application.getContext().getFilesDir(),
@@ -260,6 +262,35 @@ public class User extends AModel<AView> {
 			}
 		}
 	}
+	
+	/**
+	 * Writes the local list of my boomarks to disk. This function will 
+	 * overwrite the whole file it will NOT append so make sure you have all
+	 * the info you want in the mComments list before you call this function.
+	 * Disk writing can be disabled with the ioDisabled flag.
+	 */
+	public void saveBookmarks() {
+		if (!ioDisabled) {
+			try {
+				Gson gson = new Gson();
+				GsonBuilder builder = new GsonBuilder();
+				builder.registerTypeAdapter(Bitmap.class,
+						new BitmapJsonConverter());
+				gson = builder.create();
+
+				FileOutputStream fos = application.getContext().openFileOutput(
+						MY_BOOKMARKS, Context.MODE_PRIVATE);
+				OutputStreamWriter osw = new OutputStreamWriter(fos);
+				gson.toJson(mBookMarks, osw);
+				Log.w("Bookmakrs", gson.toJson(mBookMarks));
+				osw.flush();
+				osw.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	/**
 	 * Loads my comments from disk. This will create a new
@@ -284,6 +315,29 @@ public class User extends AModel<AView> {
 		} catch (FileNotFoundException e) {
 			Log.w("User", "No file");
 			mComments = new ArrayList<CommentModel>();
+		}
+	}
+	
+	/**
+	 * Loads my bookmarks from disk. This will create a new
+	 * mComemnts list so anything currently assigned to this 
+	 * variable will be lost.
+	 */
+	@SuppressWarnings("serial")
+	private void loadMyBookmarks() {
+		Gson gson = new Gson();
+
+		FileInputStream fis;
+		try {
+			fis = application.getContext().openFileInput(MY_BOOKMARKS);
+			InputStreamReader isr = new InputStreamReader(fis);
+			Type type = new TypeToken<ArrayList<String>>() {
+			}.getType();
+			mBookMarks = gson.fromJson(isr, type);
+
+		} catch (FileNotFoundException e) {
+			Log.w("Bookmarks", "No file");
+			mBookMarks = new ArrayList<String>();
 		}
 	}
 	
@@ -323,6 +377,7 @@ public class User extends AModel<AView> {
 	public void addBookmark(String ID){
 		Log.w("Bookmark", "Adding: " + ID);
 		mBookMarks.add(ID);
+		saveBookmarks();
 		
 	}
 	/**
@@ -333,5 +388,6 @@ public class User extends AModel<AView> {
 	public void removeBookmark(String ID){
 		Log.w("Bookmark", "Removing: " + ID);
 		mBookMarks.remove(ID);
+		saveBookmarks();
 	}
 }
