@@ -17,6 +17,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -333,14 +334,28 @@ public class User extends AModel<AView> {
 		return null;
 	}
 
+	/**
+	 * Used to initialize the LocationManager that will help provide the application
+	 * with the users current location. Establishes the best provider for such a task.
+	 * @param void
+	 * @return void
+	 */
 	public void setUpLocationServices() {
 			Context context = application.getContext();
 			lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 			Criteria crit = new Criteria();
 			crit.setAccuracy(Criteria.ACCURACY_COARSE);
 			provider = lm.getBestProvider(crit, true);
+			Toast.makeText(application.getContext(), "HELLO", Toast.LENGTH_LONG).show();
 	}
 	
+	/**
+	 * Used to get the usersCurrentLocation, available at any time. The users Location
+	 * is optionally used (by default) when a comment is created/edited. Users location 
+	 * is also used any time the application calls a user-location based sorting function
+	 * @param void
+	 * @return User's Location
+	 */
 	public Location getCurrentLocation() {
 		Location mRL = lm.getLastKnownLocation(provider);
 		
