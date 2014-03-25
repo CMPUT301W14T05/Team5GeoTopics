@@ -13,6 +13,9 @@ import java.util.UUID;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.util.Log;
 
 import com.google.common.reflect.TypeToken;
@@ -42,6 +45,8 @@ public class User extends AModel<AView> {
 	private static User myself;
 	private GeoTopicsApplication application;
 	private boolean ioDisabled = false;
+	private LocationManager lm;
+	private String provider;
 
 	private User() {
 		this.application = GeoTopicsApplication.getInstance();
@@ -53,6 +58,7 @@ public class User extends AModel<AView> {
 				INSTALLATION_ID);
 		mPostCount = new File(application.getContext().getFilesDir(),
 				POST_COUNT);
+		setUpLocationServices();
 	}
 
 	/**
@@ -309,7 +315,7 @@ public class User extends AModel<AView> {
 			mComments = new ArrayList<CommentModel>();
 		}
 	}
-	
+
 	/**
 	 * Used to retrieve a comment from the myComments array. Assumes that you 
 	 * somehow know the comment already exists in the array. If it doesn't
@@ -325,5 +331,19 @@ public class User extends AModel<AView> {
 			}
 		}
 		return null;
+	}
+
+	public void setUpLocationServices() {
+			Context context = application.getContext();
+			lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+			Criteria crit = new Criteria();
+			crit.setAccuracy(Criteria.ACCURACY_COARSE);
+			provider = lm.getBestProvider(crit, true);
+	}
+	
+	public Location getCurrentLocation() {
+		Location mRL = lm.getLastKnownLocation(provider);
+		
+		return mRL;
 	}
 }

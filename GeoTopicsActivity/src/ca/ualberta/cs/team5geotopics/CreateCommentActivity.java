@@ -105,9 +105,9 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 				 * For Now we just set a default location TODO: (next part) auto
 				 * retrieve location using Mock Provider
 				 */
-				Location loc = new Location("loc");
-				loc.setLongitude(0.005);
+				Location loc = new Location("myLoc");
 				loc.setLatitude(0);
+				loc.setLongitude(0);
 				mGeolocation = loc;
 			}
 			User user = User.getInstance();
