@@ -127,6 +127,7 @@ public class CommentManager extends AModel<AView> {
 		}
 		
 		mCache.updateCache(comment);
+		mUser.saveMyComments();
 	}
 	
 	/**

@@ -113,28 +113,6 @@ public class User extends AModel<AView> {
 		return id;
 	}
 
-	/**
-	 * Updates the hot copy of my comments with new fields. Given a comment
-	 * we will search the hot list of my comments for one with the same EsID
-	 * and replace it with the updated one.
-	 * 
-	 * @param updatedComment The updated comment that we need to replace and old one
-	 * with.
-	 */
-	public void updateMyComment(CommentModel updatedComment) {
-		String commentId = updatedComment.getmEsID();
-		int count = 0;
-		for (CommentModel comment : mComments) {
-			if (commentId.equals(comment.getmEsID())) {
-				mComments.set(count, updatedComment);
-				this.notifyViews(updatedComment);
-				Log.d("User", "Updated a comment");
-				this.saveMyComments();
-				return;
-			}
-			count++;
-		}
-	}
 
 	/**
 	 * Writes the users install files back to disk. This includes the users
@@ -261,7 +239,7 @@ public class User extends AModel<AView> {
 	 * the info you want in the mComments list before you call this function.
 	 * Disk writing can be disabled with the ioDisabled flag.
 	 */
-	private void saveMyComments() {
+	public void saveMyComments() {
 		if (!ioDisabled) {
 			try {
 				Gson gson = new Gson();
