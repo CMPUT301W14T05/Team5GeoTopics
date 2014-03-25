@@ -38,7 +38,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		this.manager = CommentManager.getInstance();
 		me = this;
 		
-		Bundle b = getIntent().getExtras();
+		b = getIntent().getExtras();
 		Log.w("ReplyLevel", b.getString("ViewingParent"));
 		Log.w("ReplyLevel", b.getString("ViewingComment"));
 		viewingParent = b.getString("ViewingParent");
@@ -78,6 +78,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		//Refresh our view
 		viewingComment = this.manager.getComment(viewingParent, viewingID);
 		manager.refresh(this.clm, this, viewingComment);
+		viewingComment = this.manager.getComment(b.getString("ViewingParent"), b.getString("ViewingComment"));
 		this.updateViewingComment(viewingComment);
 		this.myView.notifyDataSetChanged();
 
