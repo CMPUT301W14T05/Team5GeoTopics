@@ -35,5 +35,6 @@
     <string name="top_level_favourite">Favourite</string>
     <string name="title_activity_create_comment">CreateCommentActivity</string>
     <string name="title_activity_edit_comment">EditCommentActivity</string>
+    <string name="title_activity_maps">MapsActivity</string>
 
 </resources>
