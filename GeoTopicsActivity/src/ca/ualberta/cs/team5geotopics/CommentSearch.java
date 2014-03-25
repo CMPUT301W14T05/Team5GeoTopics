@@ -30,6 +30,7 @@ public class CommentSearch {
 	
 	// a simple match all query
 	private final static String MATCH_ALL_QUERY =	"{\n" +
+													"\"from\" : 0, \"size\" : 100,\n" +
 										  			"\"query\": {\n" +
 										  			"\"match_all\": {}\n" +
 										  			"}\n" +
