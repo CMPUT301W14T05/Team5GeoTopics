@@ -58,6 +58,7 @@ public class User extends AModel<AView> {
 				INSTALLATION_ID);
 		mPostCount = new File(application.getContext().getFilesDir(),
 				POST_COUNT);
+		setUpLocationServices();
 	}
 
 	/**
