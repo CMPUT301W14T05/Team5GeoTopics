@@ -103,20 +103,6 @@ public class CommentSearch {
 				"}";
 	}
 	
-	/**
-	 * Only time sort at the moment
-	 * @param type The type of sort.
-	 * @return String The string showing the sorted data.
-	 */
-	private String getSortQuery(String type){
-		if(type.equals("time")){
-		return 	"\"sort\" : [\n" +
-				"{\"epochTime\" : {\"order\" : \"asc\", \"mode\" : \"avg\"}}\n" +
-				"],\n";
-		}
-		
-		return "ERROR";
-	}
 	
 	/**
 	 * Pulls the data from ElasticSearchResponse and sets it up for sorting on a new thread.
