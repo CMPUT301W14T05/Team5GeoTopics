@@ -17,7 +17,6 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -47,6 +46,7 @@ public class User extends AModel<AView> {
 	private GeoTopicsApplication application;
 	private boolean ioDisabled = false;
 	private LocationManager lm;
+	private Location mGeolocation;
 	private String provider;
 
 	private User() {
@@ -333,6 +333,12 @@ public class User extends AModel<AView> {
 		}
 		return null;
 	}
+	
+	public void setInitialLocation() {
+		this.mGeolocation = new Location("userLocation");
+		this.mGeolocation.setLatitude(0);
+		this.mGeolocation.setLongitude(0);
+	}
 
 	/**
 	 * Used to initialize the LocationManager that will help provide the application
@@ -343,22 +349,41 @@ public class User extends AModel<AView> {
 	public void setUpLocationServices() {
 			Context context = application.getContext();
 			lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-			Criteria crit = new Criteria();
-			crit.setAccuracy(Criteria.ACCURACY_COARSE);
-			provider = lm.getBestProvider(crit, true);
-			Toast.makeText(application.getContext(), "HELLO", Toast.LENGTH_LONG).show();
+			//Criteria crit = new Criteria();
+			//crit.setAccuracy(Criteria.ACCURACY_COARSE);
+			//provider = lm.getBestProvider(crit, true);
+	}
+	
+	/**
+	 * Checks if there are any location service providers enabled, ex. gps/network/MockProvider
+	 * These providers are used to get the users current location. If there is no provider currently 
+	 * enabled it returns false and a default location is used. If a provider is enabled it returns 
+	 * True.
+	 * @return True if a provider is enabled, False if no provider is enabled.
+	 */
+	public boolean isProviderAvailable() {
+		Criteria crit = new Criteria();
+		crit.setAccuracy(Criteria.ACCURACY_COARSE);
+		provider = lm.getBestProvider(crit, true);
+		if (provider == null) {
+			return false;
+		}
+		return true;
 	}
 	
 	/**
 	 * Used to get the usersCurrentLocation, available at any time. The users Location
 	 * is optionally used (by default) when a comment is created/edited. Users location 
 	 * is also used any time the application calls a user-location based sorting function
-	 * @param void
-	 * @return User's Location
+	 * 
+	 * If no provider is enabled it returns the users last stored location.
+	 * @return User's Current/Last Known Location
 	 */
 	public Location getCurrentLocation() {
-		Location mRL = lm.getLastKnownLocation(provider);
-		
-		return mRL;
+		if (isProviderAvailable())
+			this.mGeolocation = lm.getLastKnownLocation(provider); 
+				
+		return mGeolocation;
 	}
+	
 }

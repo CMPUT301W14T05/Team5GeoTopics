@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.team5geotopics.R;
 
@@ -91,6 +92,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 					}
 
 				});
+		Toast.makeText(getApplicationContext(), "(" + viewingComment.getLat() + ", " + viewingComment.getLon() + ")", Toast.LENGTH_LONG).show();
 		super.onResume();
 	}
 
