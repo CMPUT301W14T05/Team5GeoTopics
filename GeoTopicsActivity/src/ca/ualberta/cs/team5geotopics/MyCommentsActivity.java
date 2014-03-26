@@ -30,17 +30,9 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 		TextView title = (TextView) findViewById(R.id.top_level_title);
 		title.setText("MY COMMENTS");
 
-		// Remove the title and logo from the action bar
-		// TODO: Look for a better way to do this, this feels like a hack.
-		// Has to be a better way to do this in xml. (James)
-		getActionBar().setDisplayShowTitleEnabled(false);
-		// Gives us the left facing caret. Need to drop the app icon however OR
-		// change it to something other than the android guy OR remove software
-		// back
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-
 		// Get the application
 		application = GeoTopicsApplication.getInstance();
+		manager = CommentManager.getInstance();
 
 		// Construct the model
 		this.clm = new CommentListModel();
@@ -48,7 +40,7 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 		//Find the user
 		this.myUser = User.getInstance();
 		
-		myComments = myUser.getMyComments();
+		myComments = manager.getMyComments();
 
 		// Set my view to the history cache
 		// This is a temporary fix
@@ -83,6 +75,7 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 						.getItemAtPosition(position);
 				Intent intent = new Intent(MyCommentsActivity.this, EditCommentActivity.class);
 				intent.putExtra("ViewingComment",selected.getmEsID());
+				intent.putExtra("ViewingParent", selected.getmParentID());
 				startActivity(intent);
 			}
 			
