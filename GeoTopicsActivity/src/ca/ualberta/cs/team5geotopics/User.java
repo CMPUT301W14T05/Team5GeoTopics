@@ -366,7 +366,8 @@ public class User extends AModel<AView> {
 	 * @param ID The ID of the comment we are checking
 	 * @return
 	 */
-	public boolean inBookmarks(String ID){
+	public boolean inBookmarks(CommentModel comment){
+		String ID = generateIDString(comment);
 		return mBookMarks.contains(ID);
 	}
 	/**
@@ -374,7 +375,8 @@ public class User extends AModel<AView> {
 	 * duplicates.
 	 * @param ID The comment ID
 	 */
-	public void addBookmark(String ID){
+	public void addBookmark(CommentModel comment){
+		String ID = generateIDString(comment);
 		Log.w("Bookmark", "Adding: " + ID);
 		mBookMarks.add(ID);
 		saveBookmarks();
@@ -385,9 +387,14 @@ public class User extends AModel<AView> {
 	 * see if it exists before removing just removes IF it exists.
 	 * @param ID The comment ID
 	 */
-	public void removeBookmark(String ID){
+	public void removeBookmark(CommentModel comment){
+		String ID = generateIDString(comment);
 		Log.w("Bookmark", "Removing: " + ID);
 		mBookMarks.remove(ID);
 		saveBookmarks();
+	}
+	
+	public String generateIDString(CommentModel comment){
+		return comment.getmEsID()+":"+comment.getmParentID();
 	}
 }

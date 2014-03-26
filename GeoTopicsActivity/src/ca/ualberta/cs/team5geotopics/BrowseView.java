@@ -137,7 +137,7 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AMo
 			holder.picture.setImageBitmap(comment.getPicture());
 		else
 			holder.picture.setImageResource(R.drawable.ic_action_uploadedphoto);
-		if(mUser.inBookmarks(comment.getmEsID())){
+		if(mUser.inBookmarks(comment)){
 			holder.bookmark.setImageResource(R.drawable.ic_notification_bookmark_b);
 		}else{
 			holder.bookmark.setImageResource(R.drawable.ic_notification_bookmark);

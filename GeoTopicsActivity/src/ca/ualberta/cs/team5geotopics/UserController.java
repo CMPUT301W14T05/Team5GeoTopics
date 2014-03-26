@@ -12,11 +12,11 @@ public class UserController {
 	 * ID exists its removed, else its added.
 	 * @param ID The comment ID
 	 */
-	public void bookmark(String ID){
-		if(!(mUser.inBookmarks(ID))){
-			mUser.addBookmark(ID);
+	public void bookmark(CommentModel comment){
+		if(!(mUser.inBookmarks(comment))){
+			mUser.addBookmark(comment);
 		}else{
-			mUser.removeBookmark(ID);
+			mUser.removeBookmark(comment);
 		}
 	}
 	

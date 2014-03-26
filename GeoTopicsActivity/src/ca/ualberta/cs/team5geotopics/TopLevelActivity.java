@@ -69,7 +69,7 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel> {
 									selected.getmParentID());
 							startActivity(intent);
 						}else{
-							uController.bookmark(selected.getmEsID());
+							uController.bookmark(selected);
 							update(null);
 						}
 					}
