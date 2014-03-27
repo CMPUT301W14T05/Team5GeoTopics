@@ -48,7 +48,7 @@ public class CommentListModel extends AModel<AView> {
 	public void add(CommentModel comment) {
 		mComments.add(comment);
 		sortOnUpdate();
-		// this.notifyViews();
+		this.notifyViews();
 	}
 
 	/**
@@ -85,7 +85,6 @@ public class CommentListModel extends AModel<AView> {
 		Location defLoc = new Location("myLoc");
 		defLoc.setLongitude(0);
 		defLoc.setLatitude(0);
-
 		switch (sortFlag) {
 		case 0:
 			sortCommentsByProximityToLoc(myLoc);
@@ -122,7 +121,6 @@ public class CommentListModel extends AModel<AView> {
 
 	public static ArrayList<CommentModel> sortCommentsByProximity(
 			final ArrayList<CommentModel> cList, final Location myLoc) {
-
 		Collections.sort(cList, new Comparator<CommentModel>() {
 			public int compare(CommentModel a, CommentModel b) {
 				return (int) (a.getGeoLocation().distanceTo(myLoc) - b
@@ -250,7 +248,7 @@ public class CommentListModel extends AModel<AView> {
 	public void setList(ArrayList<CommentModel> mComments) {
 		this.mComments = mComments;
 		sortOnUpdate();
-		// this.notifyViews();
+		this.notifyViews();
 	}
 
 	/**
@@ -287,9 +285,9 @@ public class CommentListModel extends AModel<AView> {
 			}
 		}
 
-		Log.w("addNew", Integer.valueOf(mComments.size()).toString());
-		sortOnUpdate();
-
+		Log.w("Cache", Integer.valueOf(mComments.size()).toString());
+		//sortOnUpdate();
+		this.notifyViews();
 	}
 	/**
 	 * Replaces a comment in the list with a new version if an old

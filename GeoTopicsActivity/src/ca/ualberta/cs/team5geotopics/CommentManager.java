@@ -61,7 +61,7 @@ public class CommentManager extends AModel<AView> {
 		}
 		CommentSearch modelController = new CommentSearch(clm);
 		if (isNetworkAvailable()) {
-
+			Log.w("Cache", "Internet before test");
 			if (mActivity.getType().equals("TopLevel")) {
 				Log.w("Refresh", "Top Level");
 				modelController.pullTopLevel(mActivity);
