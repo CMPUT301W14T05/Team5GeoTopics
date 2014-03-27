@@ -21,7 +21,7 @@ import com.example.team5geotopics.R;
 public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		ArrayList<CommentModel> myComments;
+		ArrayList<CommentModel> myComments = new ArrayList<CommentModel>();
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.top_level_activity);
@@ -30,36 +30,20 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 		TextView title = (TextView) findViewById(R.id.top_level_title);
 		title.setText("MY COMMENTS");
 
-		// Remove the title and logo from the action bar
-		// TODO: Look for a better way to do this, this feels like a hack.
-		// Has to be a better way to do this in xml. (James)
-		getActionBar().setDisplayShowTitleEnabled(false);
-		// Gives us the left facing caret. Need to drop the app icon however OR
-		// change it to something other than the android guy OR remove software
-		// back
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-
 		// Get the application
 		application = GeoTopicsApplication.getInstance();
+		manager = CommentManager.getInstance();
 
 		// Construct the model
 		this.clm = new CommentListModel();
 		
 		//Find the user
 		this.myUser = User.getInstance();
-		
-		myComments = myUser.getMyComments();
-
+	
 		// Set my view to the history cache
 		// This is a temporary fix
 		this.clm.setList(myComments);
 		
-		/*Using a different solution for now
-		//Register with all the comments in the list to get 
-		for(CommentModel comment : myComments){
-			comment.addView(this);
-		}
-		*/
 		// Construct the View
 		this.myView = new BrowseView(this, R.layout.comment_list_item,
 				clm.getList());
@@ -74,6 +58,7 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 	
 	@Override
 	protected void onResume(){
+		manager.refreshMyComments(clm);
 		myView.notifyDataSetChanged(); //Ensure the view is up to date.
 		browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -83,6 +68,7 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 						.getItemAtPosition(position);
 				Intent intent = new Intent(MyCommentsActivity.this, EditCommentActivity.class);
 				intent.putExtra("ViewingComment",selected.getmEsID());
+				intent.putExtra("ViewingParent", selected.getmParentID());
 				startActivity(intent);
 			}
 			

@@ -255,13 +255,14 @@ public class CommentListModel extends AModel<AView> {
 
 	/**
 	 * Add new comments to the list. Will do a check to ensure the comment
-	 * does not already exist in the list. 
+	 * does not already exist in the list. IF it doest exist it gets replaced by the
+	 * version in new comments
 	 *
 	 * @param  newComments  A list of comments
 	 */
 	public void addNew(ArrayList<CommentModel> newComments) {
-		ArrayList<CommentModel> filteredComments = new ArrayList<CommentModel>();
-		boolean inList = false;
+		int i;
+		boolean inList;
 		try {
 			newComments.size();
 		} catch (NullPointerException e) {
@@ -269,28 +270,27 @@ public class CommentListModel extends AModel<AView> {
 		}
 
 		for (CommentModel inComment : newComments) {
+			inList = false;
+			i = 0;
 			for (CommentModel listComment : this.mComments) {
 				if (listComment.getmEsID().equals(inComment.getmEsID())) {
 					inList = true;
 					break;
 				}
+				i++;
 			}
 
-			if (inList == false) {
-				filteredComments.add(inComment);
+			if (!inList) {
+				mComments.add(inComment);
 			} else {
-				inList = false;
+				mComments.set(i, inComment);
 			}
-		}
-		if (filteredComments.size() > 0) {
-			this.mComments.addAll(filteredComments);
 		}
 
 		Log.w("addNew", Integer.valueOf(mComments.size()).toString());
 		sortOnUpdate();
 
 	}
-
 	/**
 	 * Replaces a comment in the list with a new version if an old
 	 * version exists in the list. 

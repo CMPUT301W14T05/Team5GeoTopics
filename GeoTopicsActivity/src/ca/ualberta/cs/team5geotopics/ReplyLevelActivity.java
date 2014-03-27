@@ -23,6 +23,8 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	private ImageView image;
 	private View divider;
 	private Activity me;
+	private String viewingParent;
+	private String viewingID;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,13 +36,15 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		this.application.setContext(getApplicationContext());
 		this.myUser = User.getInstance();
 		this.manager = CommentManager.getInstance();
+		this.uController = new UserController();
 		me = this;
 		
 		b = getIntent().getExtras();
 		Log.w("ReplyLevel", b.getString("ViewingParent"));
 		Log.w("ReplyLevel", b.getString("ViewingComment"));
-		viewingComment = this.manager.getComment(b.getString("ViewingParent"), b.getString("ViewingComment"));
-
+		viewingParent = b.getString("ViewingParent");
+		viewingID = b.getString("ViewingComment");
+		
 		// Construct the model
 		this.clm = new CommentListModel();
 
@@ -72,10 +76,14 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 
 	@Override
 	protected void onResume() {
+		//Refresh our view
+		viewingComment = this.manager.getComment(viewingParent, viewingID);
 		manager.refresh(this.clm, this, viewingComment);
 		viewingComment = this.manager.getComment(b.getString("ViewingParent"), b.getString("ViewingComment"));
 		this.updateViewingComment(viewingComment);
-		this.update(viewingComment);
+		this.myView.notifyDataSetChanged();
+
+		//Setup the listeners
 		browseListView
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 					@Override
@@ -83,11 +91,16 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 							int position, long arg3) {
 						CommentModel selected = (CommentModel) browseListView
 								.getItemAtPosition(position);
+						if (!bookmark) {
 						Intent intent = new Intent(ReplyLevelActivity.this,
 								ReplyLevelActivity.class);
 						intent.putExtra("ViewingComment",selected.getmEsID());
 						intent.putExtra("ViewingParent", selected.getmParentID());
 						startActivity(intent);
+						}else{
+							uController.bookmark(selected);
+							update(null);
+						}
 					}
 
 				});
@@ -95,7 +108,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	}
 
 	public void update(AModel model) {
-		
+		this.myView.notifyDataSetChanged();
 	}
 
 

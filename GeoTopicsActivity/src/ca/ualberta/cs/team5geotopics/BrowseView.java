@@ -27,6 +27,7 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AMo
 	private DateFormat dateFormat; 
 	private DateFormat timeFormat;
 	private Cache mCache;
+	private User mUser;
 	
 	/**
 	 * Constructor for a new comment browse view.
@@ -47,6 +48,7 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AMo
 		//Testing this idea, registering with the cache so we know when new comments are added.
 		mCache = Cache.getInstance();
 		mCache.addView(this);
+		mUser = User.getInstance();
 	}
 	
 	/*
@@ -66,6 +68,7 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AMo
 		TextView date;
 		TextView time;
 		ImageView picture;
+		ImageView bookmark;
 	}
 	
 	/**
@@ -103,6 +106,7 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AMo
 				holder.date = (TextView)view.findViewById(R.id.top_level_date_list_item);
 				holder.time = (TextView)view.findViewById(R.id.top_level_time_list_item);
 				holder.picture = (ImageView)view.findViewById(R.id.top_level_thumbnail);
+				holder.bookmark = (ImageView)view.findViewById(R.id.top_level_bookmark);
 				view.setTag(holder);
 		}
 		// we don't need to call findViewById to get views, because we already did.
@@ -133,6 +137,12 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AMo
 			holder.picture.setImageBitmap(comment.getPicture());
 		else
 			holder.picture.setImageResource(R.drawable.ic_action_uploadedphoto);
+		if(mUser.inBookmarks(comment)){
+			holder.bookmark.setImageResource(R.drawable.ic_notification_bookmark_b);
+		}else{
+			holder.bookmark.setImageResource(R.drawable.ic_notification_bookmark);
+		}
+			
 		return view;
 		
 	}

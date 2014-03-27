@@ -1,5 +1,7 @@
 package ca.ualberta.cs.team5geotopics;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -85,6 +87,15 @@ public class CommentManager extends AModel<AView> {
 			}
 		}
 	}
+	
+	/**
+	 * Refreshes a comment list model with a list of the users authored comments.
+	 * @param clm The clm to refresh.
+	 */
+	public void refreshMyComments(CommentListModel clm){
+		ArrayList<CommentModel> temp = this.getMyComments();
+		clm.addNew(temp);
+	}
 
 	/**
 	 * Retrieves a single comment from the cache.
@@ -109,8 +120,27 @@ public class CommentManager extends AModel<AView> {
 	 *            The ID of the comment we want
 	 * @return The comment OR null if not found.
 	 */
-	public CommentModel getMyComment(String EsID) {
-		return mUser.getMyComment(EsID);
+	public CommentModel getMyComment(String ID) {
+		String parentID = mUser.breakParentID(ID);
+		String commentID = mUser.breakID(ID);
+		Log.w("MyComments", parentID);
+		Log.w("MyComments", commentID);
+		return getComment(parentID, commentID);
+	}
+	
+	/**
+	 * Returns a list of comment models representing all the comments the user
+	 * authored.
+	 * @return array list of comment models
+	 */
+	public ArrayList<CommentModel> getMyComments(){
+		ArrayList<String> commentIDs = mUser.getMyComments();
+		ArrayList<CommentModel> mComments = new ArrayList<CommentModel>();
+		
+		for(String ID : commentIDs){
+			mComments.add(this.getMyComment(ID));
+		}
+		return mComments;
 	}
 	
 	/**
@@ -127,6 +157,7 @@ public class CommentManager extends AModel<AView> {
 		}
 		
 		mCache.updateCache(comment);
+		mUser.saveMyComments();
 	}
 	
 	/**
