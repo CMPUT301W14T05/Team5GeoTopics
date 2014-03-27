@@ -438,4 +438,13 @@ public class User extends AModel<AView> {
 		
 		return mRL;
 	}
+	/**
+	 * Returns the array of strings representing the ID's necessary to get 
+	 * the comments in my bookmarks from the web or the cache.
+	 * @return Array of the IDs <String>
+	 */
+	public ArrayList<String> getMyBookmarks(){
+		return this.mBookMarks;
+	}
+	
 }

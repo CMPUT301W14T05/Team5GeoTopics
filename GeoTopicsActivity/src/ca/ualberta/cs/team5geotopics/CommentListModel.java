@@ -246,8 +246,9 @@ public class CommentListModel extends AModel<AView> {
 	 * @param  mComments A list of comments.
 	 */
 	public void setList(ArrayList<CommentModel> mComments) {
-		this.mComments = mComments;
-		sortOnUpdate();
+		this.mComments.clear();
+		this.mComments.addAll(mComments);
+		//sortOnUpdate();
 		this.notifyViews();
 	}
 
@@ -289,23 +290,5 @@ public class CommentListModel extends AModel<AView> {
 		//sortOnUpdate();
 		this.notifyViews();
 	}
-	/**
-	 * Replaces a comment in the list with a new version if an old
-	 * version exists in the list. 
-	 *
-	 * @param  updatedComment  An updated comment.
-	 */
-	public void updateComment(CommentModel updatedComment) {
-		String id = updatedComment.getmEsID();
-		int count = 0;
-		for (CommentModel comment : mComments) {
-			if (id.equals(comment.getmEsID())) {
-				Log.w("CLM", "Found a match");
-				mComments.set(count, updatedComment);
-				return;
-			}
-			count++;
-		}
-	}
-
+	
 }

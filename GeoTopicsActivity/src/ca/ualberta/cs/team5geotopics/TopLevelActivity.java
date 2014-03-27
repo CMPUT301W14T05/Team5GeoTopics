@@ -67,6 +67,7 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel> {
 									selected.getmEsID());
 							intent.putExtra("ViewingParent",
 									selected.getmParentID());
+							uController.readingComment(selected);
 							startActivity(intent);
 						}else{
 							uController.bookmark(selected);

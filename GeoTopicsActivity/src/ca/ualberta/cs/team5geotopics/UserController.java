@@ -19,5 +19,17 @@ public class UserController {
 			mUser.removeBookmark(comment);
 		}
 	}
+
+	/**
+	 * This method is used to tell the user model that we are viewing a 
+	 * specific comment. This allows us to remove it from the want to
+	 * read bookmarks list upon reading.
+	 * @param comment The comment we are reading
+	 */
+	public void readingComment(CommentModel comment){
+		if(mUser.inBookmarks(comment)){
+			mUser.removeBookmark(comment);
+		}
+	}
 	
 }

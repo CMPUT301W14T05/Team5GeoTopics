@@ -96,6 +96,15 @@ public class CommentManager extends AModel<AView> {
 		ArrayList<CommentModel> temp = this.getMyComments();
 		clm.addNew(temp);
 	}
+	
+	/**
+	 * Refreshes a comment list model with a list of the users bookmarked comments.
+	 * @param clm The clm to refresh.
+	 */
+	public void refreshMyBookmarks(CommentListModel clm){
+		ArrayList<CommentModel> temp = this.getMyBookmarks();
+		clm.setList(temp);
+	}
 
 	/**
 	 * Retrieves a single comment from the cache.
@@ -120,11 +129,9 @@ public class CommentManager extends AModel<AView> {
 	 *            The ID of the comment we want
 	 * @return The comment OR null if not found.
 	 */
-	public CommentModel getMyComment(String ID) {
+	public CommentModel getCommentByComboID(String ID) {
 		String parentID = mUser.breakParentID(ID);
 		String commentID = mUser.breakID(ID);
-		Log.w("MyComments", parentID);
-		Log.w("MyComments", commentID);
 		return getComment(parentID, commentID);
 	}
 	
@@ -138,7 +145,22 @@ public class CommentManager extends AModel<AView> {
 		ArrayList<CommentModel> mComments = new ArrayList<CommentModel>();
 		
 		for(String ID : commentIDs){
-			mComments.add(this.getMyComment(ID));
+			mComments.add(this.getCommentByComboID(ID));
+		}
+		return mComments;
+	}
+	
+	/**
+	 * Returns a list of comment models representing all the comments the user
+	 * has bookmarked.
+	 * @return array list of comment models
+	 */
+	public ArrayList<CommentModel> getMyBookmarks(){
+		ArrayList<String> commentIDs = mUser.getMyBookmarks();
+		ArrayList<CommentModel> mComments = new ArrayList<CommentModel>();
+		
+		for(String ID : commentIDs){
+			mComments.add(this.getCommentByComboID(ID));
 		}
 		return mComments;
 	}

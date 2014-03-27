@@ -96,6 +96,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 								ReplyLevelActivity.class);
 						intent.putExtra("ViewingComment",selected.getmEsID());
 						intent.putExtra("ViewingParent", selected.getmParentID());
+						uController.readingComment(selected);
 						startActivity(intent);
 						}else{
 							uController.bookmark(selected);
