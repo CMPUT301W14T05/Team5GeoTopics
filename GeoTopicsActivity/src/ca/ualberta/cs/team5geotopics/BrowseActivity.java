@@ -32,6 +32,7 @@ public abstract class BrowseActivity extends Activity {
 	protected CommentManager manager;
 	protected Bundle b;
 	protected boolean bookmark = false;
+	protected boolean favourite = false;
 	protected UserController uController;
 	
 	/**
@@ -105,6 +106,19 @@ public abstract class BrowseActivity extends Activity {
 				//set to blue
 				item.setIcon(R.drawable.ic_notification_bookmark_b);
 				bookmark = true;
+			}
+			break;
+		case R.id.action_favourite:
+			if(favourite){
+				//set to white
+				item.setIcon(R.drawable.ic_action_favorite);
+				favourite = false;
+				uController.favourite(this.viewingComment);
+			}else{
+				//set to blue
+				item.setIcon(R.drawable.ic_action_favorite_b);
+				favourite = true;
+				uController.favourite(this.viewingComment);
 			}
 			break;
 		default:

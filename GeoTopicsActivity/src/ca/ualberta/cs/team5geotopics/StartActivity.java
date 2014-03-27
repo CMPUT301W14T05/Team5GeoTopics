@@ -87,9 +87,8 @@ public class StartActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent myIntent = new Intent(StartActivity.this, TopLevelActivity.class);
+				Intent myIntent = new Intent(StartActivity.this, MyFavouritesActivity.class);
 				startActivity(myIntent);
-				
 			}
 		});
 	}

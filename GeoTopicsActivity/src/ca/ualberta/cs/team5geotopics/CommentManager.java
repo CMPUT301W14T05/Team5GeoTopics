@@ -105,6 +105,15 @@ public class CommentManager extends AModel<AView> {
 		ArrayList<CommentModel> temp = this.getMyBookmarks();
 		clm.setList(temp);
 	}
+	
+	/**
+	 * Refreshes a comment list model with a list of the users bookmarked comments.
+	 * @param clm The clm to refresh.
+	 */
+	public void refreshMyFavourites(CommentListModel clm){
+		ArrayList<CommentModel> temp = this.getMyFavourites();
+		clm.setList(temp);
+	}
 
 	/**
 	 * Retrieves a single comment from the cache.
@@ -157,6 +166,21 @@ public class CommentManager extends AModel<AView> {
 	 */
 	public ArrayList<CommentModel> getMyBookmarks(){
 		ArrayList<String> commentIDs = mUser.getMyBookmarks();
+		ArrayList<CommentModel> mComments = new ArrayList<CommentModel>();
+		
+		for(String ID : commentIDs){
+			mComments.add(this.getCommentByComboID(ID));
+		}
+		return mComments;
+	}
+	
+	/**
+	 * Returns a list of comment models representing all the comments the user
+	 * has favourited.
+	 * @return array list of comment models
+	 */
+	public ArrayList<CommentModel> getMyFavourites(){
+		ArrayList<String> commentIDs = mUser.getMyFavourites();
 		ArrayList<CommentModel> mComments = new ArrayList<CommentModel>();
 		
 		for(String ID : commentIDs){
