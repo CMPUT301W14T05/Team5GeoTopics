@@ -27,6 +27,7 @@ public class CommentSearch {
 	private Gson gson;
 	private JestResult lastResult;
 	protected Cache mCache;
+	private CommentModel commentModel;
 	
 	// a simple match all query
 	private final static String MATCH_ALL_QUERY =	"{\n" +
@@ -168,6 +169,49 @@ public class CommentSearch {
 		return thread;
 	}
 	
+	/**
+	 * This method will pull a single comment and set the commentModel
+	 * field of this CommentSearch object to be equal to the 0th element
+	 * in an array list of the sources of the hits. If the number of hits
+	 * is greater than one, then the commentModel field is not updated.
+	 * 
+	 * @param esID the elastic search id of the comment
+	 * @param index the index in which the comment is found
+	 * @return
+	 */
+	public CommentModel pullComment(final String esID, final String index){
+		final String query = getReplyFilter(esID);
+		Thread thread = new Thread(){
+			public void run(){
+				final Search search = (Search) new Search.Builder(query).addIndex(
+						index).build();
+				try{
+					lastResult = client.execute(search);
+					Log.w("CommentSearch", "result json string = " + lastResult.getJsonString());
+				}
+				catch (Exception e){
+					e.printStackTrace();
+				}
+				
+				client.shutdownClient();
+				
+				Type elasticSearchSearchResponseType = new TypeToken<ElasticSearchSearchResponse<CommentModel>>(){}.getType();
+				String lastResultJsonString = lastResult.getJsonString();
+
+				final ElasticSearchSearchResponse<CommentModel> esResponse = gson.fromJson(lastResultJsonString, elasticSearchSearchResponseType);
+				// zjullion https://github.com/slmyers/PicPosterComplete/blob/master/src/ca/ualberta/cs/picposter/network/ElasticSearchOperations.java
+				
+				final ArrayList<CommentModel> acm = new ArrayList<CommentModel>();
+				acm.addAll((ArrayList<CommentModel>) esResponse.getSources());
+				if(acm.size() == 1){
+					commentModel = acm.get(0);
+				}
+			}
+		};
+		thread.start();
+		return commentModel;
+		
+	}
 	/**
 	 * Returns the result of the search.
 	 * @return lastResult The last result of the search.
