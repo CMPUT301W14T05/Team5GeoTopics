@@ -11,23 +11,24 @@ import android.widget.Toast;
 import com.example.team5geotopics.R;
 
 /**
- * The view you see when you go to "Browse" from the start screen.
- * It holds all the top level comments and displays them to the user.
+ * The view you see when you go to "Browse" from the start screen. It holds all
+ * the top level comments and displays them to the user.
  */
 
-public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
+public class TopLevelActivity extends BrowseActivity implements AView<AModel> {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.top_level_activity);
-		
-		//Get the singletons we may need.
+
+		// Get the singletons we may need.
 		this.application = GeoTopicsApplication.getInstance();
 		this.application.setContext(getApplicationContext());
 		this.myUser = User.getInstance();
 		this.manager = CommentManager.getInstance();
+		this.uController = new UserController();
 
-		//Construct the model
+		// Construct the model
 		this.clm = new CommentListModel();
 
 		// Construct the View
@@ -39,16 +40,15 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 		// Attach the list view to myView
 		browseListView = (ListView) findViewById(R.id.browse_top_level_listView);
 		browseListView.setAdapter(myView);
-		
+
 		// Register with the user
 		this.myUser.addView(this);
-		
-		
+
 	}
 
 	@Override
 	protected void onResume() {
-		
+
 		manager.refresh(this.clm, this, viewingComment);
 		Log.w("Refresh", "After manager refresh");
 		// Reset the current viewing comment
@@ -60,12 +60,19 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 							int position, long arg3) {
 						CommentModel selected = (CommentModel) browseListView
 								.getItemAtPosition(position);
-						//Add this to the cache
-						Intent intent = new Intent(TopLevelActivity.this,
-								ReplyLevelActivity.class);
-						intent.putExtra("ViewingComment",selected.getmEsID());
-						intent.putExtra("ViewingParent", selected.getmParentID());
-						startActivity(intent);
+						if (!bookmark) {
+							Intent intent = new Intent(TopLevelActivity.this,
+									ReplyLevelActivity.class);
+							intent.putExtra("ViewingComment",
+									selected.getmEsID());
+							intent.putExtra("ViewingParent",
+									selected.getmParentID());
+							uController.readingComment(selected);
+							startActivity(intent);
+						}else{
+							uController.bookmark(selected);
+							update(null);
+						}
 					}
 
 				});
@@ -77,25 +84,20 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel>{
 	protected void onPause() {
 		super.onPause();
 	}
-	
 
 	/**
 	 * @return "TopLevel" The type of comment it is.
 	 */
-	public String getType(){
+	public String getType() {
 		return "TopLevel";
 	}
 
-	
 	/**
-	 * The update code for the top level activity. Refreshes the 
-	 * list view and updates any comments in the clm.
+	 * The update code for the top level activity. Refreshes the list view and
+	 * updates any comments in the clm.
 	 */
 	@Override
 	public void update(AModel model) {
-		if (model instanceof CommentModel) {
-			clm.updateComment((CommentModel)model);
-		}
 		this.myView.notifyDataSetChanged();
 	}
 }

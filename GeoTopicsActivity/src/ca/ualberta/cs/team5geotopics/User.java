@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.util.UUID;
 
 import android.content.Context;
@@ -37,11 +38,12 @@ public class User extends AModel<AView> {
 	private static final String INSTALLATION_ID = "INSTALLATION";
 	private static final String POST_COUNT = "POSTCOUNT";
 	private static final String MY_COMMENTS = "myComments.save";
+	private static final String MY_BOOKMARKS = "myBookmarks.save";
 	private File mInstallation;
 	private File mPostCount;
-	private ArrayList<CommentModel> mBookMarks;
+	private ArrayList<String> mBookMarks;
 	private ArrayList<CommentModel> mFavorites;
-	private ArrayList<CommentModel> mComments; // My created comments
+	private ArrayList<String> mComments; // My created comments
 	private static User myself;
 	private GeoTopicsApplication application;
 	private boolean ioDisabled = false;
@@ -51,10 +53,10 @@ public class User extends AModel<AView> {
 
 	private User() {
 		this.application = GeoTopicsApplication.getInstance();
-		this.mBookMarks = new ArrayList<CommentModel>();
+		this.mBookMarks = new ArrayList<String>();
 		this.mFavorites = new ArrayList<CommentModel>();
-		// this.mComments = new ArrayList<CommentModel>();
 		loadMyComments();
+		loadMyBookmarks();
 		mInstallation = new File(application.getContext().getFilesDir(),
 				INSTALLATION_ID);
 		mPostCount = new File(application.getContext().getFilesDir(),
@@ -83,7 +85,7 @@ public class User extends AModel<AView> {
 	 * 
 	 */
 	public void testSetup() {
-		this.mComments = new ArrayList<CommentModel>();
+		this.mComments = new ArrayList<String>();
 		ioDisabled = true;
 	};
 
@@ -120,28 +122,6 @@ public class User extends AModel<AView> {
 		return id;
 	}
 
-	/**
-	 * Updates the hot copy of my comments with new fields. Given a comment
-	 * we will search the hot list of my comments for one with the same EsID
-	 * and replace it with the updated one.
-	 * 
-	 * @param updatedComment The updated comment that we need to replace and old one
-	 * with.
-	 */
-	public void updateMyComment(CommentModel updatedComment) {
-		String commentId = updatedComment.getmEsID();
-		int count = 0;
-		for (CommentModel comment : mComments) {
-			if (commentId.equals(comment.getmEsID())) {
-				mComments.set(count, updatedComment);
-				this.notifyViews(updatedComment);
-				Log.d("User", "Updated a comment");
-				this.saveMyComments();
-				return;
-			}
-			count++;
-		}
-	}
 
 	/**
 	 * Writes the users install files back to disk. This includes the users
@@ -246,8 +226,10 @@ public class User extends AModel<AView> {
 	   * @param comment The comment to be added to the local list.
 	   */
 	public void addToMyComments(CommentModel comment) {
-		mComments.add(comment);
-		this.notifyViews();
+		String ID = generateIDString(comment);
+		Log.w("MyComments", ID);
+		mComments.add(ID);
+		//this.notifyViews();
 		this.saveMyComments();
 	}
 
@@ -257,7 +239,7 @@ public class User extends AModel<AView> {
 	 * 
 	 * @return this.mComments The ArrayList<CommentModel> of comments.
 	 */
-	public ArrayList<CommentModel> getMyComments() {
+	public ArrayList<String> getMyComments() {
 		return this.mComments;
 	}
 
@@ -268,7 +250,7 @@ public class User extends AModel<AView> {
 	 * the info you want in the mComments list before you call this function.
 	 * Disk writing can be disabled with the ioDisabled flag.
 	 */
-	private void saveMyComments() {
+	public void saveMyComments() {
 		if (!ioDisabled) {
 			try {
 				Gson gson = new Gson();
@@ -282,6 +264,35 @@ public class User extends AModel<AView> {
 				OutputStreamWriter osw = new OutputStreamWriter(fos);
 				gson.toJson(mComments, osw);
 				Log.w("User", gson.toJson(mComments));
+				osw.flush();
+				osw.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * Writes the local list of my boomarks to disk. This function will 
+	 * overwrite the whole file it will NOT append so make sure you have all
+	 * the info you want in the mComments list before you call this function.
+	 * Disk writing can be disabled with the ioDisabled flag.
+	 */
+	public void saveBookmarks() {
+		if (!ioDisabled) {
+			try {
+				Gson gson = new Gson();
+				GsonBuilder builder = new GsonBuilder();
+				builder.registerTypeAdapter(Bitmap.class,
+						new BitmapJsonConverter());
+				gson = builder.create();
+
+				FileOutputStream fos = application.getContext().openFileOutput(
+						MY_BOOKMARKS, Context.MODE_PRIVATE);
+				OutputStreamWriter osw = new OutputStreamWriter(fos);
+				gson.toJson(mBookMarks, osw);
+				Log.w("Bookmakrs", gson.toJson(mBookMarks));
 				osw.flush();
 				osw.close();
 
@@ -307,31 +318,112 @@ public class User extends AModel<AView> {
 		try {
 			fis = application.getContext().openFileInput(MY_COMMENTS);
 			InputStreamReader isr = new InputStreamReader(fis);
-			Type type = new TypeToken<ArrayList<CommentModel>>() {
+			Type type = new TypeToken<ArrayList<String>>() {
 			}.getType();
 			mComments = gson.fromJson(isr, type);
 
 		} catch (FileNotFoundException e) {
 			Log.w("User", "No file");
-			mComments = new ArrayList<CommentModel>();
+			mComments = new ArrayList<String>();
 		}
 	}
 
 	/**
-	 * Used to retrieve a comment from the myComments array. Assumes that you 
-	 * somehow know the comment already exists in the array. If it doesn't
-	 * it returns null and you will get null pointer exceptions if you
-	 * do not account for this.
-	 * @param EsID The ID of the comment we want
-	 * @return The comment OR null if not found.
+	 * Loads my bookmarks from disk. This will create a new
+	 * mComemnts list so anything currently assigned to this 
+	 * variable will be lost.
 	 */
-	public CommentModel getMyComment(String EsID){
-		for(CommentModel comment : mComments){
-			if(comment.getmEsID().equals(EsID)){
-				return comment;
-			}
+	@SuppressWarnings("serial")
+	private void loadMyBookmarks() {
+		Gson gson = new Gson();
+
+		FileInputStream fis;
+		try {
+			fis = application.getContext().openFileInput(MY_BOOKMARKS);
+			InputStreamReader isr = new InputStreamReader(fis);
+			Type type = new TypeToken<ArrayList<String>>() {
+			}.getType();
+			mBookMarks = gson.fromJson(isr, type);
+
+		} catch (FileNotFoundException e) {
+			Log.w("Bookmarks", "No file");
+			mBookMarks = new ArrayList<String>();
 		}
-		return null;
+	}
+	
+	/**
+	 * Checks if the supplied ID is inside the users bookmarks. Most useful
+	 * for the User Controller to decide if it needs to add a comment ID to
+	 * the bookmarks array or remove it. Also used by the views to determin
+	 * if a comment is bookmarked.
+	 * @param ID The ID of the comment we are checking
+	 * @return
+	 */
+	public boolean inBookmarks(CommentModel comment){
+		String ID = generateIDString(comment);
+		return mBookMarks.contains(ID);
+	}
+	/**
+	 * Adds a comment ID to the bookmarks array. Does not check for 
+	 * duplicates.
+	 * @param ID The comment ID
+	 */
+	public void addBookmark(CommentModel comment){
+		String ID = generateIDString(comment);
+		Log.w("Bookmark", "Adding: " + ID);
+		mBookMarks.add(ID);
+		saveBookmarks();
+		
+	}
+	/**
+	 * Removes a comment ID from the bookmarks array. Does not check to 
+	 * see if it exists before removing just removes IF it exists.
+	 * @param ID The comment ID
+	 */
+	public void removeBookmark(CommentModel comment){
+		String ID = generateIDString(comment);
+		Log.w("Bookmark", "Removing: " + ID);
+		mBookMarks.remove(ID);
+		saveBookmarks();
+	}
+	
+	/**
+	 * Builds a special comment ID for simple storage. This is parentID:CommentID. This allows us to 
+	 * store both as one string then break it apart to get it the individual parts back later.
+	 * @param comment THe comment
+	 * @return
+	 */
+	public String generateIDString(CommentModel comment){
+		return comment.getmParentID()+":"+comment.getmEsID();
+	}
+	/**
+	 * Breaks up an ID string and returns the parent ID portion. Format is ParentID:CommentID
+	 * @param ID The full ID String
+	 * @return the parent ID
+	 */
+	public String breakParentID(String ID){
+		return this.tokenizeID(ID).get(0);
+	}
+	/**
+	 * Breaks up an ID string and returns the comment ID portion. Format is ParentID:CommentID
+	 * @param ID The full ID String
+	 * @return the comment ID
+	 */
+	public String breakID(String ID){
+		return this.tokenizeID(ID).get(1);
+	}
+	/**
+	 * Tokenizes an ID string using ':' as the delimiter.
+	 * @param ID The ID string
+	 * @return An array list of the token strings
+	 */
+	private ArrayList<String> tokenizeID(String ID){
+		ArrayList<String> parts = new ArrayList<String>();
+		StringTokenizer st = new StringTokenizer(ID, ":");
+		while (st.hasMoreTokens()) {
+	         parts.add(st.nextToken());
+	     }
+		return parts;
 	}
 	
 	public void setInitialLocation() {
@@ -385,5 +477,15 @@ public class User extends AModel<AView> {
 				
 		return mGeolocation;
 	}
+
+	/**
+	 * Returns the array of strings representing the ID's necessary to get 
+	 * the comments in my bookmarks from the web or the cache.
+	 * @return Array of the IDs <String>
+	 */
+	public ArrayList<String> getMyBookmarks(){
+		return this.mBookMarks;
+	}
+
 	
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -11,14 +12,8 @@ import android.widget.TextView;
 
 import com.example.team5geotopics.R;
 
-/**
- * Shown when a user clicks on "My Comments" from the start screen of the application
- * In this activity, the user will be shown all of his/her comments including both top-level and reply comments.
- * Upon clicking a comment, EditCommentActivity will be shown and the user can edit the comment.
- * By clicking the '+' button, the user can create a new top-level comment. Sorting can also be done here.
- */
-
-public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
+public class MyBookmarksActivity extends BrowseActivity implements AView<AModel> {
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		ArrayList<CommentModel> myComments = new ArrayList<CommentModel>();
@@ -28,11 +23,12 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 		
 		//Change the title since we are piggy backing off the top level layout
 		TextView title = (TextView) findViewById(R.id.top_level_title);
-		title.setText("MY COMMENTS");
+		title.setText("MY BOOKMARKS");
 
 		// Get the application
 		application = GeoTopicsApplication.getInstance();
 		manager = CommentManager.getInstance();
+		this.uController = new UserController();
 
 		// Construct the model
 		this.clm = new CommentListModel();
@@ -58,7 +54,7 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 	
 	@Override
 	protected void onResume(){
-		manager.refreshMyComments(clm);
+		manager.refreshMyBookmarks(clm);
 		myView.notifyDataSetChanged(); //Ensure the view is up to date.
 		browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -66,9 +62,10 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 					long arg3) {
 				CommentModel selected = (CommentModel) browseListView
 						.getItemAtPosition(position);
-				Intent intent = new Intent(MyCommentsActivity.this, EditCommentActivity.class);
+				Intent intent = new Intent(MyBookmarksActivity.this, ReplyLevelActivity.class);
 				intent.putExtra("ViewingComment",selected.getmEsID());
 				intent.putExtra("ViewingParent", selected.getmParentID());
+				uController.readingComment(selected);
 				startActivity(intent);
 			}
 			
@@ -87,11 +84,12 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 
 	/**
 	 * Gets the current type of comment.
-	 * @return "MyComments" The type of comment it is.
+	 * @return "MyBookmarks" The type of comment it is.
 	 */
 	@Override
 	public String getType() {
-		return "MyComments";
+		return "MyBookmarks";
 	}
+
 
 }

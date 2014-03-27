@@ -187,8 +187,6 @@ public class InspectCommentActivity extends Activity {
 							if (which == 0) {
 								//GET CURRENT LOCATION
 								mGeolocation = myUser.getCurrentLocation();
-								Toast.makeText(getApplicationContext(), "(" + Double.toString(mGeolocation.getLatitude()) + ", "
-											+ Double.toString(mGeolocation.getLongitude()) + ")", Toast.LENGTH_LONG).show();
 							}
 							
 							// Open up Google maps to select location

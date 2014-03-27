@@ -1,5 +1,7 @@
 package ca.ualberta.cs.team5geotopics;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -59,7 +61,7 @@ public class CommentManager extends AModel<AView> {
 		}
 		CommentSearch modelController = new CommentSearch(clm);
 		if (isNetworkAvailable()) {
-
+			Log.w("Cache", "Internet before test");
 			if (mActivity.getType().equals("TopLevel")) {
 				Log.w("Refresh", "Top Level");
 				modelController.pullTopLevel(mActivity);
@@ -85,6 +87,24 @@ public class CommentManager extends AModel<AView> {
 			}
 		}
 	}
+	
+	/**
+	 * Refreshes a comment list model with a list of the users authored comments.
+	 * @param clm The clm to refresh.
+	 */
+	public void refreshMyComments(CommentListModel clm){
+		ArrayList<CommentModel> temp = this.getMyComments();
+		clm.addNew(temp);
+	}
+	
+	/**
+	 * Refreshes a comment list model with a list of the users bookmarked comments.
+	 * @param clm The clm to refresh.
+	 */
+	public void refreshMyBookmarks(CommentListModel clm){
+		ArrayList<CommentModel> temp = this.getMyBookmarks();
+		clm.setList(temp);
+	}
 
 	/**
 	 * Retrieves a single comment from the cache.
@@ -109,8 +129,40 @@ public class CommentManager extends AModel<AView> {
 	 *            The ID of the comment we want
 	 * @return The comment OR null if not found.
 	 */
-	public CommentModel getMyComment(String EsID) {
-		return mUser.getMyComment(EsID);
+	public CommentModel getCommentByComboID(String ID) {
+		String parentID = mUser.breakParentID(ID);
+		String commentID = mUser.breakID(ID);
+		return getComment(parentID, commentID);
+	}
+	
+	/**
+	 * Returns a list of comment models representing all the comments the user
+	 * authored.
+	 * @return array list of comment models
+	 */
+	public ArrayList<CommentModel> getMyComments(){
+		ArrayList<String> commentIDs = mUser.getMyComments();
+		ArrayList<CommentModel> mComments = new ArrayList<CommentModel>();
+		
+		for(String ID : commentIDs){
+			mComments.add(this.getCommentByComboID(ID));
+		}
+		return mComments;
+	}
+	
+	/**
+	 * Returns a list of comment models representing all the comments the user
+	 * has bookmarked.
+	 * @return array list of comment models
+	 */
+	public ArrayList<CommentModel> getMyBookmarks(){
+		ArrayList<String> commentIDs = mUser.getMyBookmarks();
+		ArrayList<CommentModel> mComments = new ArrayList<CommentModel>();
+		
+		for(String ID : commentIDs){
+			mComments.add(this.getCommentByComboID(ID));
+		}
+		return mComments;
 	}
 	
 	/**
@@ -127,6 +179,7 @@ public class CommentManager extends AModel<AView> {
 		}
 		
 		mCache.updateCache(comment);
+		mUser.saveMyComments();
 	}
 	
 	/**

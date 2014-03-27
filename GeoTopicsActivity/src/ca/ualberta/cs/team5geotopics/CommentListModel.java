@@ -48,7 +48,7 @@ public class CommentListModel extends AModel<AView> {
 	public void add(CommentModel comment) {
 		mComments.add(comment);
 		sortOnUpdate();
-		// this.notifyViews();
+		this.notifyViews();
 	}
 
 	/**
@@ -85,7 +85,6 @@ public class CommentListModel extends AModel<AView> {
 		Location defLoc = new Location("myLoc");
 		defLoc.setLongitude(0);
 		defLoc.setLatitude(0);
-
 		switch (sortFlag) {
 		case 0:
 			sortCommentsByProximityToLoc(myLoc);
@@ -122,7 +121,6 @@ public class CommentListModel extends AModel<AView> {
 
 	public static ArrayList<CommentModel> sortCommentsByProximity(
 			final ArrayList<CommentModel> cList, final Location myLoc) {
-
 		Collections.sort(cList, new Comparator<CommentModel>() {
 			public int compare(CommentModel a, CommentModel b) {
 				return (int) (a.getGeoLocation().distanceTo(myLoc) - b
@@ -248,20 +246,22 @@ public class CommentListModel extends AModel<AView> {
 	 * @param  mComments A list of comments.
 	 */
 	public void setList(ArrayList<CommentModel> mComments) {
-		this.mComments = mComments;
-		sortOnUpdate();
-		// this.notifyViews();
+		this.mComments.clear();
+		this.mComments.addAll(mComments);
+		//sortOnUpdate();
+		this.notifyViews();
 	}
 
 	/**
 	 * Add new comments to the list. Will do a check to ensure the comment
-	 * does not already exist in the list. 
+	 * does not already exist in the list. IF it doest exist it gets replaced by the
+	 * version in new comments
 	 *
 	 * @param  newComments  A list of comments
 	 */
 	public void addNew(ArrayList<CommentModel> newComments) {
-		ArrayList<CommentModel> filteredComments = new ArrayList<CommentModel>();
-		boolean inList = false;
+		int i;
+		boolean inList;
 		try {
 			newComments.size();
 		} catch (NullPointerException e) {
@@ -269,45 +269,26 @@ public class CommentListModel extends AModel<AView> {
 		}
 
 		for (CommentModel inComment : newComments) {
+			inList = false;
+			i = 0;
 			for (CommentModel listComment : this.mComments) {
 				if (listComment.getmEsID().equals(inComment.getmEsID())) {
 					inList = true;
 					break;
 				}
+				i++;
 			}
 
-			if (inList == false) {
-				filteredComments.add(inComment);
+			if (!inList) {
+				mComments.add(inComment);
 			} else {
-				inList = false;
+				mComments.set(i, inComment);
 			}
 		}
-		if (filteredComments.size() > 0) {
-			this.mComments.addAll(filteredComments);
-		}
 
-		Log.w("addNew", Integer.valueOf(mComments.size()).toString());
-		sortOnUpdate();
-
+		Log.w("Cache", Integer.valueOf(mComments.size()).toString());
+		//sortOnUpdate();
+		this.notifyViews();
 	}
-
-	/**
-	 * Replaces a comment in the list with a new version if an old
-	 * version exists in the list. 
-	 *
-	 * @param  updatedComment  An updated comment.
-	 */
-	public void updateComment(CommentModel updatedComment) {
-		String id = updatedComment.getmEsID();
-		int count = 0;
-		for (CommentModel comment : mComments) {
-			if (id.equals(comment.getmEsID())) {
-				Log.w("CLM", "Found a match");
-				mComments.set(count, updatedComment);
-				return;
-			}
-			count++;
-		}
-	}
-
+	
 }

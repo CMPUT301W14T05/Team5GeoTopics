@@ -149,7 +149,7 @@ public class Cache extends AModel<AView> {
 			File file = new File(path + "/history", filename);
 			fos = new FileOutputStream(file);
 			fos.write(jsonString.getBytes());
-			Log.w("Cache-write myCommentsData", jsonString);
+			Log.w("Cache", jsonString);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

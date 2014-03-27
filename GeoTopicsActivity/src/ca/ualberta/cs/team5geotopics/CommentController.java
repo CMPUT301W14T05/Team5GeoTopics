@@ -19,7 +19,6 @@ import com.google.gson.GsonBuilder;
 
 public class CommentController {
 	public final static String TOP_LEVEL = "TopLevelTest";
-	private Cache mCache;
 	private User myUser;
 	private JestClient mClient;
 	private Gson mGson;
@@ -33,7 +32,6 @@ public class CommentController {
 	 * @return      A comment controller
 	 */
 	public CommentController(Context context) {
-		this.mCache = Cache.getInstance();
 		GeoTopicsApplication.getInstance().setContext(context);
 		this.myUser = User.getInstance();
 		this.mClient = GeoTopicsApplication.getInstance().getClient();

@@ -148,9 +148,11 @@ public class CommentSearch {
 						try{
 							ArrayList<CommentModel> acm = new ArrayList<CommentModel>();
 							acm.addAll((ArrayList<CommentModel>) esResponse.getSources());
+							//HERE
 							browseModel.addNew(acm);
-							
+							Log.w("Cache", "4!");
 							String jsonString = gson.toJson(acm);
+							Log.w("Cache","About to replace");
 							mCache.replaceFileHistory(jsonString, commentID); //send the retrieved comments to be saved on the disk
 						}
 						catch (NullPointerException e){

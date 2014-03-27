@@ -29,7 +29,7 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		this.manager = CommentManager.getInstance();
 		
 		Bundle b = getIntent().getExtras();
-		viewingComment = manager.getMyComment(b.getString("ViewingComment"));
+		viewingComment = manager.getCommentByComboID(b.getString("ViewingParent")+":"+ b.getString("ViewingComment"));
 		// Associates the button with their ID.
 		locationBtn = (ImageButton)findViewById(R.id.imageButtonLocationE);
 		photoBtn = (ImageButton)findViewById(R.id.imageButtonImageE);
