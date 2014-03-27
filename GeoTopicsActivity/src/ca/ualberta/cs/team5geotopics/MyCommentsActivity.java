@@ -21,7 +21,7 @@ import com.example.team5geotopics.R;
 public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		ArrayList<CommentModel> myComments;
+		ArrayList<CommentModel> myComments = new ArrayList<CommentModel>();
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.top_level_activity);
@@ -39,19 +39,11 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 		
 		//Find the user
 		this.myUser = User.getInstance();
-		
-		myComments = manager.getMyComments();
-
+	
 		// Set my view to the history cache
 		// This is a temporary fix
 		this.clm.setList(myComments);
 		
-		/*Using a different solution for now
-		//Register with all the comments in the list to get 
-		for(CommentModel comment : myComments){
-			comment.addView(this);
-		}
-		*/
 		// Construct the View
 		this.myView = new BrowseView(this, R.layout.comment_list_item,
 				clm.getList());
@@ -66,6 +58,7 @@ public class MyCommentsActivity extends BrowseActivity implements AView<AModel>{
 	
 	@Override
 	protected void onResume(){
+		manager.refreshMyComments(clm);
 		myView.notifyDataSetChanged(); //Ensure the view is up to date.
 		browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override

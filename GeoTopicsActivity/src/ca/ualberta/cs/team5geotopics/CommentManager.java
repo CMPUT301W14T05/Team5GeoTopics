@@ -87,6 +87,15 @@ public class CommentManager extends AModel<AView> {
 			}
 		}
 	}
+	
+	/**
+	 * Refreshes a comment list model with a list of the users authored comments.
+	 * @param clm The clm to refresh.
+	 */
+	public void refreshMyComments(CommentListModel clm){
+		ArrayList<CommentModel> temp = this.getMyComments();
+		clm.addNew(temp);
+	}
 
 	/**
 	 * Retrieves a single comment from the cache.
