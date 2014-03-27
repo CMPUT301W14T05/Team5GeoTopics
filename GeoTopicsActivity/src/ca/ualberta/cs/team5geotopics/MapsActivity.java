@@ -104,17 +104,21 @@ public class MapsActivity extends InspectCommentActivity {
 
         @Override
         	 public void onClick(View v) {
+        			Intent locIntent = new Intent();
         	    	if(geoPoint != null){
-        	    	DecimalFormat form = new DecimalFormat("0.0000");
-        	    	form.format(geoPoint.latitude);
-        	    	form.format(geoPoint.longitude);
-        	    	Location loc = new Location("loc");
-        	    	loc.setLatitude(geoPoint.latitude);
-        	    	loc.setLongitude(geoPoint.longitude);
-        	    	mGeolocation = loc;
-        	    	finish();
+        	    		DecimalFormat form = new DecimalFormat("0.0000");
+        	    		form.format(geoPoint.latitude);
+        	    		form.format(geoPoint.longitude);
+        	    		Location loc = new Location("loc");
+        	    		loc.setLatitude(geoPoint.latitude);
+        	    		loc.setLongitude(geoPoint.longitude);
+        	    		
+        	    		locIntent.putExtra("location_return", loc);
+        	    		setResult(RESULT_OK, locIntent);
+        	    	} else {
+        	    		setResult(RESULT_CANCELED, locIntent);
         	    	}
-        	finish();
+        	    	finish();
         	}
        });
 	        
