@@ -13,7 +13,6 @@ import java.util.StringTokenizer;
 import java.util.UUID;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -21,7 +20,6 @@ import android.util.Log;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 // code adapted from http://android-developers.blogspot.ca/2011/03/identifying-app-installations.html
 
@@ -39,11 +37,12 @@ public class User extends AModel<AView> {
 	private static final String POST_COUNT = "POSTCOUNT";
 	private static final String MY_COMMENTS = "myComments.save";
 	private static final String MY_BOOKMARKS = "myBookmarks.save";
+	private static final String MY_FAVOURITES = "myFavourites.save";
 	private File mInstallation;
 	private File mPostCount;
-	private ArrayList<String> mBookMarks;
-	private ArrayList<CommentModel> mFavorites;
-	private ArrayList<String> mComments; // My created comments
+	private ArrayList<String> mBookMarks = new ArrayList<String>();
+	private ArrayList<String> mFavourites = new ArrayList<String>();
+	private ArrayList<String> mComments = new ArrayList<String>(); 
 	private static User myself;
 	private GeoTopicsApplication application;
 	private boolean ioDisabled = false;
@@ -53,10 +52,9 @@ public class User extends AModel<AView> {
 
 	private User() {
 		this.application = GeoTopicsApplication.getInstance();
-		this.mBookMarks = new ArrayList<String>();
-		this.mFavorites = new ArrayList<CommentModel>();
 		loadMyComments();
 		loadMyBookmarks();
+		loadMyFavourites();
 		mInstallation = new File(application.getContext().getFilesDir(),
 				INSTALLATION_ID);
 		mPostCount = new File(application.getContext().getFilesDir(),
@@ -245,28 +243,46 @@ public class User extends AModel<AView> {
 
 	
 	/**
-	 * Writes the local list of my comments to disk. This function will 
-	 * overwrite the whole file it will NOT append so make sure you have all
-	 * the info you want in the mComments list before you call this function.
-	 * Disk writing can be disabled with the ioDisabled flag.
+	 * Writes the local list of my comments to disk.
 	 */
 	public void saveMyComments() {
+		saveList(MY_COMMENTS, this.mComments);
+	}
+	
+	/**
+	 * Writes the local list of my boomarks to disk.
+	 */
+	public void saveBookmarks() {
+		saveList(MY_BOOKMARKS, this.mBookMarks);
+	}
+	
+	/**
+	 * Writes the local list of my bookmarks to disk.
+	 */
+	public void saveFavourites() {
+		saveList(MY_FAVOURITES, this.mFavourites);
+	}
+	
+	
+	/**
+	 * Saves a list of strings to disk at the specific filename location. This function will 
+	 * overwrite the whole file it will NOT append so make sure you have all
+	 * the info you want in the list before you call this function.
+	 * @param filename Filename to store at
+	 * @param list The list we are saving.
+	 */
+	private void saveList(String filename, ArrayList<String> list){
+		Gson gson = new Gson();
 		if (!ioDisabled) {
+			
 			try {
-				Gson gson = new Gson();
-				GsonBuilder builder = new GsonBuilder();
-				builder.registerTypeAdapter(Bitmap.class,
-						new BitmapJsonConverter());
-				gson = builder.create();
-
 				FileOutputStream fos = application.getContext().openFileOutput(
-						MY_COMMENTS, Context.MODE_PRIVATE);
+						filename, Context.MODE_PRIVATE);
 				OutputStreamWriter osw = new OutputStreamWriter(fos);
-				gson.toJson(mComments, osw);
-				Log.w("User", gson.toJson(mComments));
+				gson.toJson(list, osw);
 				osw.flush();
 				osw.close();
-
+				Log.w("User", "Saved: " + filename);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -274,33 +290,29 @@ public class User extends AModel<AView> {
 	}
 	
 	/**
-	 * Writes the local list of my boomarks to disk. This function will 
-	 * overwrite the whole file it will NOT append so make sure you have all
-	 * the info you want in the mComments list before you call this function.
-	 * Disk writing can be disabled with the ioDisabled flag.
+	 * Loads my a list of comment strings from disk. This is used
+	 * to restore various user lists from disk such as lists of user favourites.
 	 */
-	public void saveBookmarks() {
-		if (!ioDisabled) {
-			try {
-				Gson gson = new Gson();
-				GsonBuilder builder = new GsonBuilder();
-				builder.registerTypeAdapter(Bitmap.class,
-						new BitmapJsonConverter());
-				gson = builder.create();
+	@SuppressWarnings("serial")
+	private void loadList(String filename, ArrayList<String> list) {
+		ArrayList<String> temp;
+		Gson gson = new Gson();
 
-				FileOutputStream fos = application.getContext().openFileOutput(
-						MY_BOOKMARKS, Context.MODE_PRIVATE);
-				OutputStreamWriter osw = new OutputStreamWriter(fos);
-				gson.toJson(mBookMarks, osw);
-				Log.w("Bookmakrs", gson.toJson(mBookMarks));
-				osw.flush();
-				osw.close();
+		FileInputStream fis;
+		try {
+			fis = application.getContext().openFileInput(filename);
+			InputStreamReader isr = new InputStreamReader(fis);
+			Type type = new TypeToken<ArrayList<String>>() {
+			}.getType();
+			temp = gson.fromJson(isr, type);
+			list.clear();
+			list.addAll(temp);
 
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		} catch (FileNotFoundException e) {
+			Log.w("User", "No file " + filename);
 		}
 	}
+	
 
 	/**
 	 * Loads my comments from disk. This will create a new
@@ -309,23 +321,7 @@ public class User extends AModel<AView> {
 	 */
 	@SuppressWarnings("serial")
 	private void loadMyComments() {
-		Gson gson = new Gson();
-		GsonBuilder builder = new GsonBuilder();
-		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
-		gson = builder.create();
-
-		FileInputStream fis;
-		try {
-			fis = application.getContext().openFileInput(MY_COMMENTS);
-			InputStreamReader isr = new InputStreamReader(fis);
-			Type type = new TypeToken<ArrayList<String>>() {
-			}.getType();
-			mComments = gson.fromJson(isr, type);
-
-		} catch (FileNotFoundException e) {
-			Log.w("User", "No file");
-			mComments = new ArrayList<String>();
-		}
+		loadList(MY_COMMENTS, this.mComments);
 	}
 
 	/**
@@ -335,20 +331,17 @@ public class User extends AModel<AView> {
 	 */
 	@SuppressWarnings("serial")
 	private void loadMyBookmarks() {
-		Gson gson = new Gson();
-
-		FileInputStream fis;
-		try {
-			fis = application.getContext().openFileInput(MY_BOOKMARKS);
-			InputStreamReader isr = new InputStreamReader(fis);
-			Type type = new TypeToken<ArrayList<String>>() {
-			}.getType();
-			mBookMarks = gson.fromJson(isr, type);
-
-		} catch (FileNotFoundException e) {
-			Log.w("Bookmarks", "No file");
-			mBookMarks = new ArrayList<String>();
-		}
+		loadList(MY_BOOKMARKS, this.mBookMarks);
+	}
+	
+	/**
+	 * Loads my favourites from disk. This will create a new
+	 * mComemnts list so anything currently assigned to this 
+	 * variable will be lost.
+	 */
+	@SuppressWarnings("serial")
+	private void loadMyFavourites() {
+		loadList(MY_FAVOURITES, this.mFavourites);
 	}
 	
 	/**
@@ -361,6 +354,9 @@ public class User extends AModel<AView> {
 	 */
 	public boolean inBookmarks(CommentModel comment){
 		String ID = generateIDString(comment);
+		if(mBookMarks == null){
+			Log.w("Bookmark", "NULL");
+		}
 		return mBookMarks.contains(ID);
 	}
 	/**
@@ -385,6 +381,42 @@ public class User extends AModel<AView> {
 		Log.w("Bookmark", "Removing: " + ID);
 		mBookMarks.remove(ID);
 		saveBookmarks();
+	}
+	
+	/**
+	 * Checks if the supplied ID is inside the users bookmarks. Most useful
+	 * for the User Controller to decide if it needs to add a comment ID to
+	 * the bookmarks array or remove it. Also used by the views to determin
+	 * if a comment is bookmarked.
+	 * @param ID The ID of the comment we are checking
+	 * @return
+	 */
+	public boolean inFavourites(CommentModel comment){
+		String ID = generateIDString(comment);
+		return mFavourites.contains(ID);
+	}
+	/**
+	 * Adds a comment ID to the bookmarks array. Does not check for 
+	 * duplicates.
+	 * @param ID The comment ID
+	 */
+	public void addFavourite(CommentModel comment){
+		String ID = generateIDString(comment);
+		Log.w("Favourites", "Adding: " + ID);
+		mFavourites.add(ID);
+		saveFavourites();
+		
+	}
+	/**
+	 * Removes a comment ID from the bookmarks array. Does not check to 
+	 * see if it exists before removing just removes IF it exists.
+	 * @param ID The comment ID
+	 */
+	public void removeFavourite(CommentModel comment){
+		String ID = generateIDString(comment);
+		Log.w("Favourites", "Removing: " + ID);
+		mFavourites.remove(ID);
+		saveFavourites();
 	}
 	
 	/**
@@ -487,5 +519,14 @@ public class User extends AModel<AView> {
 		return this.mBookMarks;
 	}
 
+	
+	/**
+	 * Returns the array of strings representing the ID's necessary to get 
+	 * the comments in my favourites from the web or the cache.
+	 * @return Array of the IDs <String>
+	 */
+	public ArrayList<String> getMyFavourites(){
+		return this.mFavourites;
+	}
 	
 }

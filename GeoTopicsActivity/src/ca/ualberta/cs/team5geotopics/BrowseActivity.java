@@ -16,7 +16,7 @@ import android.widget.ListView;
 import com.example.team5geotopics.R;
 
 /**
- * BrowseActivity is responsible for mainly handling the load of the comments. 
+ * BrowseActivity is responsible for mainly handling the load of the comments.
  * It is what is called when "Browse" is called from the main program screen.
  */
 
@@ -32,19 +32,21 @@ public abstract class BrowseActivity extends Activity {
 	protected CommentManager manager;
 	protected Bundle b;
 	protected boolean bookmark = false;
+	protected boolean favourite = false;
 	protected UserController uController;
-	
+
 	/**
-	 * New comment request code. 
+	 * New comment request code.
 	 */
 	public static final int NEW_COMMENT = 1;
 
 	public abstract String getType();
-	
+
 	/**
 	 * The necessary code for the creation of this activity.
-	 *
-	 * @param  Bundle	Any necessary state for the creation of the activity
+	 * 
+	 * @param Bundle
+	 *            Any necessary state for the creation of the activity
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +57,9 @@ public abstract class BrowseActivity extends Activity {
 		// Has to be a better way to do this in xml. (James)
 		getActionBar().setDisplayShowTitleEnabled(false);
 		// Gives us the left facing caret. Need to drop the app icon however OR
-		// change it to something other than the android guy OR remove software back
-		getActionBar().setDisplayHomeAsUpEnabled(true);	
+		// change it to something other than the android guy OR remove software
+		// back
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	// Creates the options menu using the layout in menu.
@@ -64,23 +67,41 @@ public abstract class BrowseActivity extends Activity {
 		// Inflate the menu items for use in the action bar
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.browse_view, menu);
+
 		return super.onCreateOptionsMenu(menu);
 	}
-	
+
+	//Ensures the favourites icon is the right color
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem item;
+		item = menu.findItem(R.id.action_favourite);
+		if (viewingComment != null) {
+			if (myUser.inFavourites(viewingComment)) {
+				favourite = true;
+				item.setIcon(R.drawable.ic_action_favorite_b);
+			} else {
+				item.setIcon(R.drawable.ic_action_favorite);
+				favourite = false;
+			}
+		}
+		return true;
+	}
+
 	/**
 	 * The necessary code for what to do on a menu item select
-	 *
-	 * @param  item  The menu item that was selected
-	 * @return     If the selection was sucessfull.
+	 * 
+	 * @param item
+	 *            The menu item that was selected
+	 * @return If the selection was sucessfull.
 	 */
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		// User clicks new comment button.
 		case R.id.new_top_level_comment:
 			intent = new Intent(this, CreateCommentActivity.class);
-			if(this instanceof TopLevelActivity ){
+			if (this instanceof TopLevelActivity) {
 				intent.putExtra("CommentType", "TopLevel");
-			}else{
+			} else {
 				intent.putExtra("CommentType", "ReplyLevel");
 				intent.putExtra("ParentID", viewingComment.getmEsID());
 			}
@@ -97,14 +118,27 @@ public abstract class BrowseActivity extends Activity {
 			manager.refresh(this.clm, this, viewingComment);
 			break;
 		case R.id.action_bookmark:
-			if(bookmark){
-				//set to white
+			if (bookmark) {
+				// set to white
 				item.setIcon(R.drawable.ic_notification_bookmark);
 				bookmark = false;
-			}else{
-				//set to blue
+			} else {
+				// set to blue
 				item.setIcon(R.drawable.ic_notification_bookmark_b);
 				bookmark = true;
+			}
+			break;
+		case R.id.action_favourite:
+			if (favourite) {
+				// set to white
+				item.setIcon(R.drawable.ic_action_favorite);
+				favourite = false;
+				uController.favourite(this.viewingComment);
+			} else {
+				// set to blue
+				item.setIcon(R.drawable.ic_action_favorite_b);
+				favourite = true;
+				uController.favourite(this.viewingComment);
 			}
 			break;
 		default:
@@ -112,12 +146,11 @@ public abstract class BrowseActivity extends Activity {
 		}
 		return true;
 	}
-	
 
 	/**
 	 * The code for creating a custom dialogue box for sorting.
-	 *
-	 * @return     The dialog created
+	 * 
+	 * @return The dialog created
 	 */
 	@Override
 	protected Dialog onCreateDialog(int i) {
@@ -147,22 +180,25 @@ public abstract class BrowseActivity extends Activity {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Used to capture returned results from other activities/intents.
-	 *
-	 * @param  requestCode The request code for which this result is returning
-	 * @param	resultCode The result code for the result
-	 * @param	data The returned data from the intent
+	 * 
+	 * @param requestCode
+	 *            The request code for which this result is returning
+	 * @param resultCode
+	 *            The result code for the result
+	 * @param data
+	 *            The returned data from the intent
 	 */
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == NEW_COMMENT) {
-			if(resultCode == RESULT_OK){
+			if (resultCode == RESULT_OK) {
 				CommentModel newComment;
 				Bundle b = data.getExtras();
 				newComment = b.getParcelable("NewComment");
-				
+
 				Log.w("NewComment", Integer.toString(this.clm.getList().size()));
 				this.clm.add(newComment);
 				Log.w("NewComment", Integer.toString(this.clm.getList().size()));
@@ -171,7 +207,5 @@ public abstract class BrowseActivity extends Activity {
 			}
 		}
 	}
-	
+
 }
-
-

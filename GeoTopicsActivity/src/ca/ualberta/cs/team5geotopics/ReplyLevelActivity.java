@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -26,6 +27,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	private Activity me;
 	private String viewingParent;
 	private String viewingID;
+	private MenuItem favouriteItem;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		this.manager = CommentManager.getInstance();
 		this.uController = new UserController();
 		me = this;
+		favouriteItem = (MenuItem)findViewById(R.id.action_favourite);
 		
 		b = getIntent().getExtras();
 		Log.w("ReplyLevel", b.getString("ViewingParent"));
@@ -83,7 +86,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		viewingComment = this.manager.getComment(b.getString("ViewingParent"), b.getString("ViewingComment"));
 		this.updateViewingComment(viewingComment);
 		this.myView.notifyDataSetChanged();
-
+		invalidateOptionsMenu();
 		//Setup the listeners
 		browseListView
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {

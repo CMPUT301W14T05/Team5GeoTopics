@@ -69,6 +69,7 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AMo
 		TextView time;
 		ImageView picture;
 		ImageView bookmark;
+		ImageView favourite;
 	}
 	
 	/**
@@ -107,6 +108,7 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AMo
 				holder.time = (TextView)view.findViewById(R.id.top_level_time_list_item);
 				holder.picture = (ImageView)view.findViewById(R.id.top_level_thumbnail);
 				holder.bookmark = (ImageView)view.findViewById(R.id.top_level_bookmark);
+				holder.favourite = (ImageView)view.findViewById(R.id.top_level_favourite);
 				view.setTag(holder);
 		}
 		// we don't need to call findViewById to get views, because we already did.
@@ -137,10 +139,17 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AMo
 			holder.picture.setImageBitmap(comment.getPicture());
 		else
 			holder.picture.setImageResource(R.drawable.ic_action_uploadedphoto);
+		//Set the bookmark flag to the right color
 		if(mUser.inBookmarks(comment)){
 			holder.bookmark.setImageResource(R.drawable.ic_notification_bookmark_b);
 		}else{
 			holder.bookmark.setImageResource(R.drawable.ic_notification_bookmark);
+		}
+		//Set the favourites flag to the right color
+		if(mUser.inFavourites(comment)){
+			holder.favourite.setImageResource(R.drawable.ic_action_favorite_b);
+		}else{
+			holder.favourite.setImageResource(R.drawable.ic_action_favorite);
 		}
 			
 		return view;
