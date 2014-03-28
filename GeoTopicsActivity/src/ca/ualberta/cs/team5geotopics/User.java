@@ -13,7 +13,6 @@ import java.util.StringTokenizer;
 import java.util.UUID;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -21,7 +20,6 @@ import android.util.Log;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 // code adapted from http://android-developers.blogspot.ca/2011/03/identifying-app-installations.html
 
@@ -42,9 +40,9 @@ public class User extends AModel<AView> {
 	private static final String MY_FAVOURITES = "myFavourites.save";
 	private File mInstallation;
 	private File mPostCount;
-	private ArrayList<String> mBookMarks;
-	private ArrayList<String> mFavourites;
-	private ArrayList<String> mComments; // My created comments
+	private ArrayList<String> mBookMarks = new ArrayList<String>();
+	private ArrayList<String> mFavourites = new ArrayList<String>();
+	private ArrayList<String> mComments = new ArrayList<String>(); 
 	private static User myself;
 	private GeoTopicsApplication application;
 	private boolean ioDisabled = false;
@@ -273,21 +271,17 @@ public class User extends AModel<AView> {
 	 * @param list The list we are saving.
 	 */
 	private void saveList(String filename, ArrayList<String> list){
+		Gson gson = new Gson();
 		if (!ioDisabled) {
+			
 			try {
-				Gson gson = new Gson();
-				GsonBuilder builder = new GsonBuilder();
-				builder.registerTypeAdapter(Bitmap.class,
-						new BitmapJsonConverter());
-				gson = builder.create();
-
 				FileOutputStream fos = application.getContext().openFileOutput(
 						filename, Context.MODE_PRIVATE);
 				OutputStreamWriter osw = new OutputStreamWriter(fos);
 				gson.toJson(list, osw);
 				osw.flush();
 				osw.close();
-
+				Log.w("User", "Saved: " + filename);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -300,6 +294,7 @@ public class User extends AModel<AView> {
 	 */
 	@SuppressWarnings("serial")
 	private void loadList(String filename, ArrayList<String> list) {
+		ArrayList<String> temp;
 		Gson gson = new Gson();
 
 		FileInputStream fis;
@@ -308,11 +303,12 @@ public class User extends AModel<AView> {
 			InputStreamReader isr = new InputStreamReader(fis);
 			Type type = new TypeToken<ArrayList<String>>() {
 			}.getType();
-			list = gson.fromJson(isr, type);
+			temp = gson.fromJson(isr, type);
+			list.clear();
+			list.addAll(temp);
 
 		} catch (FileNotFoundException e) {
 			Log.w("User", "No file " + filename);
-			list = new ArrayList<String>();
 		}
 	}
 	

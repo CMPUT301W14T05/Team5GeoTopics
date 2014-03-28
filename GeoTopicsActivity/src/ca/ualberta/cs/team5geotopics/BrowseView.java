@@ -147,9 +147,9 @@ public class BrowseView  extends ArrayAdapter<CommentModel> implements AView<AMo
 		}
 		//Set the favourites flag to the right color
 		if(mUser.inFavourites(comment)){
-			holder.favourite.setImageResource(R.drawable.ic_action_favorite);
-		}else{
 			holder.favourite.setImageResource(R.drawable.ic_action_favorite_b);
+		}else{
+			holder.favourite.setImageResource(R.drawable.ic_action_favorite);
 		}
 			
 		return view;

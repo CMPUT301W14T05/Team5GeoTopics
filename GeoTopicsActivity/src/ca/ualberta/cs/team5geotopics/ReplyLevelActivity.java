@@ -85,15 +85,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		viewingComment = this.manager.getComment(b.getString("ViewingParent"), b.getString("ViewingComment"));
 		this.updateViewingComment(viewingComment);
 		this.myView.notifyDataSetChanged();
-		
-		if(myUser.inFavourites(viewingComment)){
-			favourite = true;
-			favouriteItem.setIcon(R.drawable.ic_action_favorite_b);
-		}else{
-			favouriteItem.setIcon(R.drawable.ic_action_favorite);
-			favourite = false;
-		}
-
+		invalidateOptionsMenu();
 		//Setup the listeners
 		browseListView
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
