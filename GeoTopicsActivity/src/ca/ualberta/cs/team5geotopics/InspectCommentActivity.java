@@ -51,6 +51,7 @@ public class InspectCommentActivity extends Activity {
 
 	public static String imageFilePath;
 	public static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+	public static final int SELECT_LOCATION_REQUEST_CODE = 200;
 	public static final int GET_PHOTO = 105;
 	public static Uri imageFileUri;
 	protected GeoTopicsApplication application;
@@ -193,8 +194,8 @@ public class InspectCommentActivity extends Activity {
 							if (which == 1) {
 								// SET LOCATION VIA GOOGLE MAP
 								Intent myIntent = new Intent(InspectCommentActivity.this, MapsActivity.class);
-								startActivity(myIntent);
-								
+								//startActivity(myIntent);
+								startActivityForResult(myIntent, SELECT_LOCATION_REQUEST_CODE);
 								
 							}
 						}
@@ -235,6 +236,15 @@ public class InspectCommentActivity extends Activity {
 				// Unknown error, do nothing.
 			}
 
+		}
+		
+		/*
+		 *  Retrieve the set location. If it wasn't set, keep the current location
+		 */
+		if (requestCode == SELECT_LOCATION_REQUEST_CODE) {
+			if (resultCode == RESULT_OK) {
+				mGeolocation = data.getParcelableExtra("location_return");
+			}
 		}
 		
 		// Get photo from internal storage

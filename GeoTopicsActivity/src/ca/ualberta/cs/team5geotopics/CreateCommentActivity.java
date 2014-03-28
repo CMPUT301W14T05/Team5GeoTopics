@@ -100,12 +100,13 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 			}
 			this.mBody = body.getText().toString();
 			if (mGeolocation == null) {
-				 
-				Location l = new Location("l");
-				l.setLatitude(0);
-				l.setLongitude(0);
-				mGeolocation = l;
-				//mGeolocation = myUser.getCurrentLocation();
+
+				Log.w("COMMENT_LOC", "geoLoc appears to be null");
+				mGeolocation = myUser.getCurrentLocation();
+				Log.w("COMMENT_LOC", "(" + Double.toString(mGeolocation.getLatitude()) + ", " + Double.toString(mGeolocation.getLongitude()) + ")");
+				if(mGeolocation == null)
+					Log.w("COMMENT_LOC", "still null");
+
 			}
 			User user = User.getInstance();
 			if (commentType.equals("TopLevel")) {

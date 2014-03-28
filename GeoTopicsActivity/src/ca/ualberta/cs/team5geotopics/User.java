@@ -60,6 +60,7 @@ public class User extends AModel<AView> {
 		mPostCount = new File(application.getContext().getFilesDir(),
 				POST_COUNT);
 		setUpLocationServices();
+		setInitialLocation();
 	}
 
 	/**
@@ -489,9 +490,11 @@ public class User extends AModel<AView> {
 		Criteria crit = new Criteria();
 		crit.setAccuracy(Criteria.ACCURACY_COARSE);
 		provider = lm.getBestProvider(crit, true);
-		if (provider == null) {
+		if (provider == null || provider.equals(LocationManager.PASSIVE_PROVIDER)) {
+			Log.d("PROVIDER_CHECK", "NO PROVIDER AVAILABLE");
 			return false;
 		}
+		Log.d("PROVIDER_CHECK", "PROVIDER " + provider);
 		return true;
 	}
 	
