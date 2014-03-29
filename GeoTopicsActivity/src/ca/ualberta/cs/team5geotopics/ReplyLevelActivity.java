@@ -1,5 +1,8 @@
 package ca.ualberta.cs.team5geotopics;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +31,9 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	private String viewingParent;
 	private String viewingID;
 	private MenuItem favouriteItem;
+	private TextView author;
+	private TextView date;
+	private TextView time;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +81,9 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		body = (TextView) findViewById(R.id.reply_comment_body);
 		image = (ImageView) findViewById(R.id.reply_comment_image);
 		divider = (View) findViewById(R.id.reply_divider1);
+		author = (TextView) findViewById(R.id.reply_author);
+		date =(TextView) findViewById(R.id.reply_date);
+		time =(TextView) findViewById(R.id.reply_time);
 
 	}
 
@@ -145,6 +154,16 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 			} else {
 				image.setVisibility(View.GONE);
 			}
+			Date date = comment.getDate();
+			DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(application.getContext());
+			DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(application.getContext());
+			
+			author.setText("By " + viewingComment.getmAuthor());
+			this.date.setText(dateFormat.format(date));
+			time.setText(timeFormat.format(date));
+			
+			
+			
 		}
 	}
 }
