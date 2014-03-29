@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -28,13 +29,16 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_comment);
+		myUser = User.getInstance();
 
 		setTitle("Create Comment");
 
 		// Find the edit text views
 		this.title = (EditText) findViewById(R.id.editCommentTitle);
-		this.author = (EditText) findViewById(R.id.editCommentAuthor);
+		this.author = (TextView) findViewById(R.id.editCommentAuthor);
 		this.body = (EditText) findViewById(R.id.editCommentBody);
+		
+		this.author.setText(myUser.getUserName());
 
 		// Associates the button with their ID.
 		locationBtn = (ImageButton) findViewById(R.id.imageButtonLocation);
@@ -107,7 +111,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 				Log.w("CreateCommentActivity", "viewingComment == null");
 				// Creates new top level comment.
 				newComment = new CommentModel(Double.toString(mGeolocation.getLatitude()), 
-						Double.toString(mGeolocation.getLongitude()), mBody, mAuthor, mPicture, mTitle, myUser.getProfileID());
+						Double.toString(mGeolocation.getLongitude()), mBody, myUser.getUserName(), mPicture, mTitle, myUser.getProfileID());
 				newComment.setES(
 						user.readInstallIDFile() + user.readPostCount(), "-1",
 						"TopLevel");
@@ -115,7 +119,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 			} else {
 				newComment = new CommentModel(Double.toString(mGeolocation.getLatitude()), 
 						Double.toString(mGeolocation.getLongitude()), 
-						mBody, mAuthor, mPicture, myUser.getProfileID());
+						mBody, myUser.getUserName(), mPicture, myUser.getProfileID());
 				newComment.setES(
 						user.readInstallIDFile() + user.readPostCount(), this.parentID, 
 						this.parentID);

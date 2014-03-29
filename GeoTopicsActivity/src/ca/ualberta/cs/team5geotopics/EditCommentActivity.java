@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -25,7 +26,7 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_comment);
 		setTitle("Edit Comment");
-		
+		this.myUser = User.getInstance();
 		this.manager = CommentManager.getInstance();
 		
 		Bundle b = getIntent().getExtras();
@@ -47,7 +48,7 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		title = (EditText)findViewById(R.id.editCommentTitleE);
 		title.setText(viewingComment.getmTitle());
 			
-		author = (EditText)findViewById(R.id.editCommentAuthorE);
+		author = (TextView)findViewById(R.id.editCommentAuthorE);
 		author.setText(viewingComment.getmAuthor());
 			
 		body = (EditText)findViewById(R.id.editCommentBodyE);
@@ -92,13 +93,12 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		// Gets all the data from the text boxes and submits it as a edited comment
 		if (v == postBtn){
 				title = (EditText)findViewById(R.id.editCommentTitleE);
-				author = (EditText)findViewById(R.id.editCommentAuthorE);
 				body = (EditText)findViewById(R.id.editCommentBodyE);
 				
 				//application.getCurrentViewingComment().setmPicture(mPicture);
 				//application.getCurrentViewingComment().setmGeolocation(mGeolocation);
 				
-				controller.updateComment(viewingComment, title.getText().toString(), author.getText().toString(), body.getText().toString(), mPicture, mGeolocation);
+				controller.updateComment(viewingComment, title.getText().toString(), myUser.getUserName(), body.getText().toString(), mPicture, mGeolocation);
 				finish();
 		}
 	}

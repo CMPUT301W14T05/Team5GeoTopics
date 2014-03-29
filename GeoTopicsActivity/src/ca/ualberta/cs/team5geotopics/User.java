@@ -22,6 +22,7 @@ import android.util.Log;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 // code adapted from http://android-developers.blogspot.ca/2011/03/identifying-app-installations.html
 
@@ -48,6 +49,7 @@ public class User extends AModel<AView> {
 	private ArrayList<String> mBookMarks;
 	private ArrayList<String> mFavourites;
 	private ArrayList<String> mComments; 
+	private String userName;
 	private String biography;
 	private String contactInfo;
 	private Bitmap profilePic;		
@@ -57,9 +59,10 @@ public class User extends AModel<AView> {
 		mBookMarks = new ArrayList<String>();
 		mFavourites = new ArrayList<String>();
 		mComments = new ArrayList<String>(); 
-		biography = null;
-		contactInfo = null;
-		profilePic = null;
+		setBiography(null);
+		setContactInfo(null);
+		setProfilePic(null);
+		setUserName("Anonymous");
 		mID = Secure.getString(application.getContext().getContentResolver(),
 	               Secure.ANDROID_ID);
 		mInstallation = new File(application.getContext().getFilesDir(),
@@ -79,7 +82,6 @@ public class User extends AModel<AView> {
 	public static User getInstance() {
 		if (myself == null) {
 			loadUser();
-			//myself = new User();
 		}
 		return myself;
 	}
@@ -266,6 +268,9 @@ public class User extends AModel<AView> {
 		
 		User temp;
 		Gson gson = new Gson();
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
+		gson = builder.create();
 
 		FileInputStream fis;
 		try {
@@ -286,10 +291,13 @@ public class User extends AModel<AView> {
 	}
 	/**
 	 * Writes the user class out to disk. This is used to store the users profile locally such that 
-	 * it can be retrieved without internet if needed.
+	 * it can be retrieved without Internet if needed.
 	 */
 	private void writeUser(){
 		Gson gson = new Gson();
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
+		gson = builder.create();
 		if (!ioDisabled) {
 			try {
 				FileOutputStream fos = application.getContext().openFileOutput(
@@ -450,6 +458,68 @@ public class User extends AModel<AView> {
 	 */
 	public ArrayList<String> getMyFavourites(){
 		return this.mFavourites;
+	}
+
+	/**
+	 * Returns the profile picture associated with this profile. Used
+	 * to display the profile pic in the UI.
+	 * @return A profiles profile picture.
+	 */
+	public Bitmap getProfilePic() {
+		return profilePic;
+	}
+	/**
+	 * Sets a new profile picture. This is something a user might
+	 * do for their own profile but should not be able to be done 
+	 * to ones we do not own.
+	 * @param profilePic The new profile pic
+	 */
+	public void setProfilePic(Bitmap profilePic) {
+		this.profilePic = profilePic;
+		this.writeUser();
+	}
+
+	/**
+	 * Returns the contact information associated with this profile. Used
+	 * to display the info in the UI.
+	 * @return The profile uses contact info
+	 */
+	public String getContactInfo() {
+		return contactInfo;
+	}
+	/**
+	 * Sets a new contact info for the user. Should be a single string
+	 * containing an e-mail address or a twitter handle, etc.
+	 * @param contactInfo The new contact info.
+	 */
+	public void setContactInfo(String contactInfo) {
+		this.contactInfo = contactInfo;
+		this.writeUser();
+	}
+	/**
+	 * Gets the biography for the user profile. Used to display
+	 * this info in the UI.
+	 * @return Profile biography
+	 */
+	public String getBiography() {
+		return biography;
+	}
+	/**
+	 * Sets a new user biography. Should only be able to set
+	 * your own biography not others.
+	 * @param biography The new biography
+	 */
+	public void setBiography(String biography) {
+		this.biography = biography;
+		this.writeUser();
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 }
