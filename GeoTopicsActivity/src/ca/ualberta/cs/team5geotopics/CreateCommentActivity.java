@@ -107,7 +107,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 				Log.w("CreateCommentActivity", "viewingComment == null");
 				// Creates new top level comment.
 				newComment = new CommentModel(Double.toString(mGeolocation.getLatitude()), 
-						Double.toString(mGeolocation.getLongitude()), mBody, mAuthor, mPicture, mTitle);
+						Double.toString(mGeolocation.getLongitude()), mBody, mAuthor, mPicture, mTitle, myUser.getProfileID());
 				newComment.setES(
 						user.readInstallIDFile() + user.readPostCount(), "-1",
 						"TopLevel");
@@ -115,7 +115,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 			} else {
 				newComment = new CommentModel(Double.toString(mGeolocation.getLatitude()), 
 						Double.toString(mGeolocation.getLongitude()), 
-						mBody, mAuthor, mPicture);
+						mBody, mAuthor, mPicture, myUser.getProfileID());
 				newComment.setES(
 						user.readInstallIDFile() + user.readPostCount(), this.parentID, 
 						this.parentID);
