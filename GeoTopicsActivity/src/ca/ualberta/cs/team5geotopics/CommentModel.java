@@ -31,6 +31,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	private String mTitle;
 	private Bitmap mPicture;
 	private int mSortWeight;
+	private String authorID;
 	
 	/**
 	 * Elastic search comment constructor
@@ -42,7 +43,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	 * @param image The image of the comment.
 	 */
 	public CommentModel(String lat, String lon, String body, String author,
-						String title, Bitmap image){
+						String title, Bitmap image, String authorID){
 		super();
 		this.lat = lat;
 		this.lon = lon;
@@ -89,7 +90,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	 * @param mTitle The title of the comment.
 	 */
 	public CommentModel(String lat, String lon, String mBody, String mAuthor,
-			Bitmap mPicture, String mTitle) {
+			Bitmap mPicture, String mTitle, String authorID) {
 		super();
 		this.lat = lat;
 		this.lon = lon;
@@ -112,7 +113,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	  * @param mPicture The picture of the reply.
 	  */
 	public CommentModel(String lat, String lon, String mBody, String mAuthor,
-			Bitmap mPicture) {
+			Bitmap mPicture, String authorID) {
 		super();
 		this.lat = lat;
 		this.lon = lon;
@@ -288,6 +289,15 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 	 */
 	public String getmAuthor() {
 		return mAuthor;
+	}
+	
+	/**
+	 * Returns the unique identifier that identifies the authors profile. User to
+	 * retrieve the authors profile from online.
+	 * @return The authors profile id
+	 */
+	public String getAuthorID(){
+		return this.authorID;
 	}
 
 	/**

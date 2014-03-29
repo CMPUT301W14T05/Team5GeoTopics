@@ -13,13 +13,16 @@ import java.util.StringTokenizer;
 import java.util.UUID;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.provider.Settings.Secure;
 import android.util.Log;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 // code adapted from http://android-developers.blogspot.ca/2011/03/identifying-app-installations.html
 
@@ -31,30 +34,38 @@ import com.google.gson.Gson;
  */
 
 public class User extends AModel<AView> {
-	// string representing the user ID
+	transient private static final String INSTALLATION_ID = "INSTALLATION";
+	transient private static final String POST_COUNT = "POSTCOUNT";
+	transient private static final String USER = "user.save";
+	transient private File mInstallation;
+	transient private File mPostCount;
+	transient private static User myself;
+	transient private GeoTopicsApplication application;
+	transient private boolean ioDisabled = false;
+	transient private LocationManager lm;
+	transient private String provider;
+	transient private Location mGeolocation;
+	//User Profile Saved Variables
 	private String mID;
-	private static final String INSTALLATION_ID = "INSTALLATION";
-	private static final String POST_COUNT = "POSTCOUNT";
-	private static final String MY_COMMENTS = "myComments.save";
-	private static final String MY_BOOKMARKS = "myBookmarks.save";
-	private static final String MY_FAVOURITES = "myFavourites.save";
-	private File mInstallation;
-	private File mPostCount;
-	private ArrayList<String> mBookMarks = new ArrayList<String>();
-	private ArrayList<String> mFavourites = new ArrayList<String>();
-	private ArrayList<String> mComments = new ArrayList<String>(); 
-	private static User myself;
-	private GeoTopicsApplication application;
-	private boolean ioDisabled = false;
-	private LocationManager lm;
-	private Location mGeolocation;
-	private String provider;
+	private ArrayList<String> mBookMarks;
+	private ArrayList<String> mFavourites;
+	private ArrayList<String> mComments; 
+	private String userName;
+	private String biography;
+	private String contactInfo;
+	private Bitmap profilePic;		
 
 	private User() {
 		this.application = GeoTopicsApplication.getInstance();
-		loadMyComments();
-		loadMyBookmarks();
-		loadMyFavourites();
+		mBookMarks = new ArrayList<String>();
+		mFavourites = new ArrayList<String>();
+		mComments = new ArrayList<String>(); 
+		setBiography(null);
+		setContactInfo(null);
+		setProfilePic(null);
+		setUserName("Anonymous");
+		mID = Secure.getString(application.getContext().getContentResolver(),
+	               Secure.ANDROID_ID);
 		mInstallation = new File(application.getContext().getFilesDir(),
 				INSTALLATION_ID);
 		mPostCount = new File(application.getContext().getFilesDir(),
@@ -72,13 +83,13 @@ public class User extends AModel<AView> {
 	 */
 	public static User getInstance() {
 		if (myself == null) {
-			myself = new User();
+			loadUser();
 		}
 		return myself;
 	}
 	
 	/**
-	 * Initializes the user with a test setup. Use and edit this function if the 
+	 * Initialises the user with a test setup. Use and edit this function if the 
 	 * regular implementation of user has a dependency you need to change in order
 	 * for proper testing. 
 	 * 
@@ -87,6 +98,13 @@ public class User extends AModel<AView> {
 		this.mComments = new ArrayList<String>();
 		ioDisabled = true;
 	};
+	/**
+	 * Returns the profile ID associated with this profile
+	 * @return The unique profile ID
+	 */
+	public String getProfileID(){
+		return this.mID;
+	}
 
 	/**
 	 * This empties the local hot list of authored comments. This will not clear 
@@ -229,7 +247,7 @@ public class User extends AModel<AView> {
 		Log.w("MyComments", ID);
 		mComments.add(ID);
 		//this.notifyViews();
-		this.saveMyComments();
+		this.writeUser();
 	}
 
 	/**
@@ -241,108 +259,61 @@ public class User extends AModel<AView> {
 	public ArrayList<String> getMyComments() {
 		return this.mComments;
 	}
-
 	
 	/**
-	 * Writes the local list of my comments to disk.
+	 * Loads the user from memory if it exists. Else it attempts to pull
+	 * it from elastisearch. If that fails it makes a default
+	 * user. The assumption is that if the user's profile does not exist locally
+	 * or online that it is either lost for good or the user is new.
 	 */
-	public void saveMyComments() {
-		saveList(MY_COMMENTS, this.mComments);
-	}
-	
-	/**
-	 * Writes the local list of my boomarks to disk.
-	 */
-	public void saveBookmarks() {
-		saveList(MY_BOOKMARKS, this.mBookMarks);
-	}
-	
-	/**
-	 * Writes the local list of my bookmarks to disk.
-	 */
-	public void saveFavourites() {
-		saveList(MY_FAVOURITES, this.mFavourites);
-	}
-	
-	
-	/**
-	 * Saves a list of strings to disk at the specific filename location. This function will 
-	 * overwrite the whole file it will NOT append so make sure you have all
-	 * the info you want in the list before you call this function.
-	 * @param filename Filename to store at
-	 * @param list The list we are saving.
-	 */
-	private void saveList(String filename, ArrayList<String> list){
+	private static void loadUser(){
+		
+		User temp;
 		Gson gson = new Gson();
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
+		gson = builder.create();
+
+		FileInputStream fis;
+		try {
+			fis = GeoTopicsApplication.getInstance().getContext().openFileInput(USER);
+			InputStreamReader isr = new InputStreamReader(fis);
+			Type type = new TypeToken<User>() {
+			}.getType();
+			temp = gson.fromJson(isr, type);
+			myself = temp;
+
+		} catch (FileNotFoundException e) {
+			Log.w("User", "No file " + USER);
+			//TODO: Try to grab it from an online source
+			myself = new User();
+		}
+		
+		
+	}
+	/**
+	 * Writes the user class out to disk. This is used to store the users profile locally such that 
+	 * it can be retrieved without Internet if needed.
+	 */
+	private void writeUser(){
+		Gson gson = new Gson();
+		GsonBuilder builder = new GsonBuilder();
+		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
+		gson = builder.create();
 		if (!ioDisabled) {
-			
 			try {
 				FileOutputStream fos = application.getContext().openFileOutput(
-						filename, Context.MODE_PRIVATE);
+						USER, Context.MODE_PRIVATE);
 				OutputStreamWriter osw = new OutputStreamWriter(fos);
-				gson.toJson(list, osw);
+				Log.w("User", gson.toJson(this));
+				gson.toJson(this, osw);
 				osw.flush();
 				osw.close();
-				Log.w("User", "Saved: " + filename);
+				Log.w("User", "Saved: " + USER);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	/**
-	 * Loads my a list of comment strings from disk. This is used
-	 * to restore various user lists from disk such as lists of user favourites.
-	 */
-	@SuppressWarnings("serial")
-	private void loadList(String filename, ArrayList<String> list) {
-		ArrayList<String> temp;
-		Gson gson = new Gson();
-
-		FileInputStream fis;
-		try {
-			fis = application.getContext().openFileInput(filename);
-			InputStreamReader isr = new InputStreamReader(fis);
-			Type type = new TypeToken<ArrayList<String>>() {
-			}.getType();
-			temp = gson.fromJson(isr, type);
-			list.clear();
-			list.addAll(temp);
-
-		} catch (FileNotFoundException e) {
-			Log.w("User", "No file " + filename);
-		}
-	}
-	
-
-	/**
-	 * Loads my comments from disk. This will create a new
-	 * mComemnts list so anything currently assigned to this 
-	 * variable will be lost.
-	 */
-	@SuppressWarnings("serial")
-	private void loadMyComments() {
-		loadList(MY_COMMENTS, this.mComments);
-	}
-
-	/**
-	 * Loads my bookmarks from disk. This will create a new
-	 * mComemnts list so anything currently assigned to this 
-	 * variable will be lost.
-	 */
-	@SuppressWarnings("serial")
-	private void loadMyBookmarks() {
-		loadList(MY_BOOKMARKS, this.mBookMarks);
-	}
-	
-	/**
-	 * Loads my favourites from disk. This will create a new
-	 * mComemnts list so anything currently assigned to this 
-	 * variable will be lost.
-	 */
-	@SuppressWarnings("serial")
-	private void loadMyFavourites() {
-		loadList(MY_FAVOURITES, this.mFavourites);
 	}
 	
 	/**
@@ -366,10 +337,11 @@ public class User extends AModel<AView> {
 	 * @param ID The comment ID
 	 */
 	public void addBookmark(CommentModel comment){
+		writeUser();
 		String ID = generateIDString(comment);
 		Log.w("Bookmark", "Adding: " + ID);
 		mBookMarks.add(ID);
-		saveBookmarks();
+		writeUser();
 		
 	}
 	/**
@@ -381,7 +353,7 @@ public class User extends AModel<AView> {
 		String ID = generateIDString(comment);
 		Log.w("Bookmark", "Removing: " + ID);
 		mBookMarks.remove(ID);
-		saveBookmarks();
+		writeUser();
 	}
 	
 	/**
@@ -405,7 +377,7 @@ public class User extends AModel<AView> {
 		String ID = generateIDString(comment);
 		Log.w("Favourites", "Adding: " + ID);
 		mFavourites.add(ID);
-		saveFavourites();
+		writeUser();
 		
 	}
 	/**
@@ -417,7 +389,7 @@ public class User extends AModel<AView> {
 		String ID = generateIDString(comment);
 		Log.w("Favourites", "Removing: " + ID);
 		mFavourites.remove(ID);
-		saveFavourites();
+		writeUser();
 	}
 	
 	/**
@@ -530,6 +502,68 @@ public class User extends AModel<AView> {
 	 */
 	public ArrayList<String> getMyFavourites(){
 		return this.mFavourites;
+	}
+
+	/**
+	 * Returns the profile picture associated with this profile. Used
+	 * to display the profile pic in the UI.
+	 * @return A profiles profile picture.
+	 */
+	public Bitmap getProfilePic() {
+		return profilePic;
+	}
+	/**
+	 * Sets a new profile picture. This is something a user might
+	 * do for their own profile but should not be able to be done 
+	 * to ones we do not own.
+	 * @param profilePic The new profile pic
+	 */
+	public void setProfilePic(Bitmap profilePic) {
+		this.profilePic = profilePic;
+		this.writeUser();
+	}
+
+	/**
+	 * Returns the contact information associated with this profile. Used
+	 * to display the info in the UI.
+	 * @return The profile uses contact info
+	 */
+	public String getContactInfo() {
+		return contactInfo;
+	}
+	/**
+	 * Sets a new contact info for the user. Should be a single string
+	 * containing an e-mail address or a twitter handle, etc.
+	 * @param contactInfo The new contact info.
+	 */
+	public void setContactInfo(String contactInfo) {
+		this.contactInfo = contactInfo;
+		this.writeUser();
+	}
+	/**
+	 * Gets the biography for the user profile. Used to display
+	 * this info in the UI.
+	 * @return Profile biography
+	 */
+	public String getBiography() {
+		return biography;
+	}
+	/**
+	 * Sets a new user biography. Should only be able to set
+	 * your own biography not others.
+	 * @param biography The new biography
+	 */
+	public void setBiography(String biography) {
+		this.biography = biography;
+		this.writeUser();
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	
 }

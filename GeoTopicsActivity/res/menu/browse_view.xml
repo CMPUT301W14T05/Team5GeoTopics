@@ -1,10 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_profile"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:title="@string/action_profile"/>
     
   	<item
         android:id="@+id/new_top_level_comment"
@@ -36,4 +36,14 @@
         android:icon="@drawable/ic_action_refresh"
         android:showAsAction="never"
         android:title="@string/action_my_comments"/>
+    <item
+        android:id="@+id/action_my_bookmarks"
+        android:icon="@drawable/ic_action_refresh"
+        android:showAsAction="never"
+        android:title="@string/action_my_bookmarks"/>
+     <item
+        android:id="@+id/action_my_favourites"
+        android:icon="@drawable/ic_action_refresh"
+        android:showAsAction="never"
+        android:title="@string/action_my_favourites"/>
 </menu>

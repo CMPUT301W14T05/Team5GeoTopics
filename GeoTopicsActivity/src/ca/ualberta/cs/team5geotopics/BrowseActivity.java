@@ -114,6 +114,14 @@ public abstract class BrowseActivity extends Activity {
 			intent = new Intent(this, MyCommentsActivity.class);
 			startActivity(intent);
 			break;
+		case R.id.action_my_bookmarks:
+			intent = new Intent(this, MyBookmarksActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.action_my_favourites:
+			intent = new Intent(this, MyFavouritesActivity.class);
+			startActivity(intent);
+			break;
 		case R.id.action_refresh:
 			manager.refresh(this.clm, this, viewingComment);
 			break;
