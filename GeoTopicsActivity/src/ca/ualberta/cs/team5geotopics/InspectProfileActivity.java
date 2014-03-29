@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.Menu;
@@ -30,8 +31,9 @@ public class InspectProfileActivity extends Activity {
 	public static Uri imageFileUri;
 	protected GeoTopicsApplication application;
 	protected User myUser;
+	protected UserController uController;
 
-	ImageView uploadedImage;
+	ImageView profileImage;
 	
 	//Viewing variables
 	protected Bitmap mPicture;
@@ -39,6 +41,20 @@ public class InspectProfileActivity extends Activity {
 	protected ImageButton cancelBtn;
 	protected ImageButton postBtn;
 	protected String mAuthor;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		// Remove the title and logo from the action bar
+		// TODO: Look for a better way to do this, this feels like a hack.
+		// Has to be a better way to do this in xml. (James)
+		getActionBar().setDisplayShowTitleEnabled(false);
+		// Gives us the left facing caret. Need to drop the app icon however OR
+		// change it to something other than the android guy OR remove software
+		// back
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -125,7 +141,7 @@ public class InspectProfileActivity extends Activity {
 				}
 
 				// Set image as Bitmap
-				uploadedImage.setImageBitmap(mPicture);
+				profileImage.setImageBitmap(mPicture);
 
 			} else if (resultCode == RESULT_CANCELED) {
 				// Photo was canceled, do nothing.
@@ -150,7 +166,7 @@ public class InspectProfileActivity extends Activity {
 				Bitmap image = BitmapFactory.decodeStream(imageStream);
 				// Set mPicture with Bitmap image.
 				mPicture = returnBitmapImage(image);
-				uploadedImage.setImageBitmap(mPicture);
+				profileImage.setImageBitmap(mPicture);
 			}
 		}
 	}

@@ -269,7 +269,7 @@ public class User extends AModel<AView> {
 	private static void loadUser(){
 		
 		User temp;
-		Gson gson = new Gson();
+		Gson gson;
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
 		gson = builder.create();
@@ -278,8 +278,7 @@ public class User extends AModel<AView> {
 		try {
 			fis = GeoTopicsApplication.getInstance().getContext().openFileInput(USER);
 			InputStreamReader isr = new InputStreamReader(fis);
-			Type type = new TypeToken<User>() {
-			}.getType();
+			Type type = new TypeToken<User>(){}.getType();
 			temp = gson.fromJson(isr, type);
 			myself = temp;
 
@@ -296,10 +295,11 @@ public class User extends AModel<AView> {
 	 * it can be retrieved without Internet if needed.
 	 */
 	private void writeUser(){
-		Gson gson = new Gson();
+		Gson gson;
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
 		gson = builder.create();
+		
 		if (!ioDisabled) {
 			try {
 				FileOutputStream fos = application.getContext().openFileOutput(

@@ -91,6 +91,10 @@
             android:label="@string/title_activity_inspect_comment" >
         </activity>
         <activity
+            android:name="ca.ualberta.cs.team5geotopics.EditMyProfileActivity"
+            android:label="@string/title_activity_inspect_comment" >
+        </activity>
+        <activity
             android:name="ca.ualberta.cs.team5geotopics.MyFavouritesActivity"
             android:label="@string/title_activity_inspect_comment" >
         </activity>
