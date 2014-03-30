@@ -70,7 +70,8 @@
                         android:singleLine="true"
                         android:textSize="16dp"
                         android:onClick="onClick"
-						android:clickable="true" />
+						android:clickable="true"
+						android:textColor="#33B5E5" />
 
                     <View
                         android:id="@+id/reply_divider_10"
