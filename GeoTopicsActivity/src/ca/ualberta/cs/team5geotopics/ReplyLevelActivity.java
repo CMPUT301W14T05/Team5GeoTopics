@@ -175,9 +175,7 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 			author.setText("By " + viewingComment.getmAuthor());
 			this.date.setText(dateFormat.format(date));
 			time.setText(timeFormat.format(date));
-			
-			
-			
+	
 		}
 	}
 }

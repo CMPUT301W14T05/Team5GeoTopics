@@ -218,6 +218,7 @@ public class Cache extends AModel<AView> {
 		// If the parent folder exists search it
 		if (this.repliesExist(mParentID)) {
 			if (mParentID.equals("-1")) {
+				Log.w("Cache", "Updating with a top level");
 				commentList = load("history.sav");
 			} else {
 				commentList = load(mParentID);
@@ -243,8 +244,11 @@ public class Cache extends AModel<AView> {
 			commentList = new ArrayList<CommentModel>();
 			commentList.add(comment);
 		}
-
-		serializeAndWrite(commentList, mParentID);
+		if(mParentID.equals("-1")){
+			serializeAndWrite(commentList, "history.sav");
+		}else{
+			serializeAndWrite(commentList, mParentID);
+		}
 	}
 
 	/**
