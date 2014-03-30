@@ -44,16 +44,12 @@ public class ProfileSearch {
 	}
 	
 	/**
-	 * This method will pull a single comment and set the commentModel
-	 * field of this CommentSearch object to be equal to the 0th element
-	 * in an array list of the sources of the hits. If the number of hits
-	 * is greater than one, then the commentModel field is not updated.
-	 * 
-	 * @param esID the elastic search id of the comment
-	 * @param index the index in which the comment is found
-	 * @return
+	 * This will pull a specific profile ID from the Internet and then push it to the activity that requested it.
+	 * The method will ensure that the search returns only one unique hit else it will return nothing.
+	 * @param profileID The unique profile ID we are searching for
+	 * @param ProfileActivity The activity that requested it
 	 */
-	public User pullProfile(final String profileID, final InspectOtherProfilesActivity ProfileActivity){
+	public void pullProfile(final String profileID, final InspectOtherProfilesActivity ProfileActivity){
 		final String query = getReplyFilter(profileID);
 		final User profile = null;
 
@@ -103,7 +99,6 @@ public class ProfileSearch {
 			}
 		};
 		thread.start();
-		return profile;
 		
 	}
 

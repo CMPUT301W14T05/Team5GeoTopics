@@ -44,7 +44,6 @@ public class User extends AModel<AView> {
 	transient private boolean ioDisabled = false;
 	transient private LocationManager lm;
 	transient private String provider;
-	transient private Location mGeolocation;
 	//User Profile Saved Variables
 	private String mID;
 	private ArrayList<String> mBookMarks;
@@ -53,15 +52,18 @@ public class User extends AModel<AView> {
 	private String userName;
 	private String biography;
 	private String contactInfo;
-	private Bitmap profilePic;		
+	private Bitmap profilePic;
+	private Double myLat;
+	private Double myLong;
 
 	private User() {
 		this.application = GeoTopicsApplication.getInstance();
 		mBookMarks = new ArrayList<String>();
 		mFavourites = new ArrayList<String>();
 		mComments = new ArrayList<String>(); 
+		this.mID = 	Secure.getString(application.getContext().getContentResolver(),
+	               Secure.ANDROID_ID);
 		setUserName("Anonymous");
-
 		mInstallation = new File(application.getContext().getFilesDir(),
 				INSTALLATION_ID);
 		mPostCount = new File(application.getContext().getFilesDir(),
@@ -319,7 +321,7 @@ public class User extends AModel<AView> {
 	/**
 	 * Checks if the supplied ID is inside the users bookmarks. Most useful
 	 * for the User Controller to decide if it needs to add a comment ID to
-	 * the bookmarks array or remove it. Also used by the views to determin
+	 * the bookmarks array or remove it. Also used by the views to determine
 	 * if a comment is bookmarked.
 	 * @param ID The ID of the comment we are checking
 	 * @return
@@ -435,9 +437,8 @@ public class User extends AModel<AView> {
 	}
 	
 	public void setInitialLocation() {
-		this.mGeolocation = new Location("userLocation");
-		this.mGeolocation.setLatitude(0);
-		this.mGeolocation.setLongitude(0);
+		this.myLat = (double) 0;
+		this.myLong = (double) 0;
 	}
 
 	/**
@@ -447,7 +448,6 @@ public class User extends AModel<AView> {
 	 * @return void
 	 */
 	public void setUpLocationServices() {
-			setInitialLocation();
 			Context context = application.getContext();
 			lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 	}
@@ -480,14 +480,27 @@ public class User extends AModel<AView> {
 	 * @return User's Current/Last Known Location
 	 */
 	public Location getCurrentLocation() {
+		Location temp =  new Location("userLocation");
+		setUpLocationServices();
 		if (isProviderAvailable()){
 			Log.w("COMMENT_LOC", "IS AVAILABLE");
-			this.mGeolocation = lm.getLastKnownLocation(provider); 
+			this.setMyLastKnownLocation(lm.getLastKnownLocation(provider)); 
 		}
-		setUpLocationServices();
-		if(this.mGeolocation == null)
-			Log.w("COMMENT_LOC", "STILL NULL");
-		return mGeolocation;
+
+		temp.setLatitude(this.myLat);
+		temp.setLongitude(this.myLong);
+		return temp;
+	}
+	
+	/**
+	 * Sets the users last known position to a specific location
+	 * @param location The location to set the users last known locaiton to.
+	 */
+	public void setMyLastKnownLocation(Location location){
+		this.myLat = (double) 0;
+		this.myLong = (double) 0;
+		//this.myLat = location.getLatitude();
+		//this.myLong = location.getLongitude();
 	}
 
 	/**
@@ -569,6 +582,13 @@ public class User extends AModel<AView> {
 		this.userName = userName;
 	}
 	
+	/**
+	 * Updates the local profile with new information then sync's it online.
+	 * @param userName The new username
+	 * @param contactInfo The new contact Info
+	 * @param bio The new Bio
+	 * @param profile The new profile picture
+	 */
 	public void update(String userName, String contactInfo, String bio, Bitmap profile){
 		this.setUserName(userName);
 		this.setContactInfo(contactInfo);
@@ -576,10 +596,11 @@ public class User extends AModel<AView> {
 		this.setProfilePic(profile);
 		this.syncUser();
 	}
-	
+	/**
+	 * This will sync the user class with the online storage. 
+	 */
 	private void syncUser(){
 		this.writeUser();
-		Log.w("User", "6");
 		ProfilePush pusher = new ProfilePush();
 		pusher.pushProfile(this);	
 	}
