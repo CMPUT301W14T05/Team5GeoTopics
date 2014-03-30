@@ -54,6 +54,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.mPicture = image;
 		this.mParentID = "-1";
 		this.mDate = new Date(epochTime);
+		this.authorID = authorID;
 	}
 	
 	/**
@@ -102,6 +103,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.mEsID = null;
 		this.mParentID = "-1";
 		this.mEsType = "TopLevel";
+		this.authorID = authorID;
 	}
 	
 	 /**
@@ -125,6 +127,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.mEsID = null;
 		this.mParentID = null;
 		this.mEsType = "ReplyLevel";
+		this.authorID = authorID;
 	}
 	
 	/**

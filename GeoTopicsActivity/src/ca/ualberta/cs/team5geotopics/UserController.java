@@ -56,9 +56,6 @@ public class UserController {
 	}
 	
 	public void updateProfile(String userName, String contactInfo, String bio, Bitmap profile){
-		mUser.setUserName(userName);
-		mUser.setContactInfo(contactInfo);
-		mUser.setBiography(bio);
-		mUser.setProfilePic(profile);
+		mUser.update(userName, contactInfo, bio, profile);
 	}
 }

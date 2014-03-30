@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -84,8 +85,21 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		author = (TextView) findViewById(R.id.reply_author);
 		date =(TextView) findViewById(R.id.reply_date);
 		time =(TextView) findViewById(R.id.reply_time);
+		
+		//This takes us to the view profile screen
+		author.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
 
-	}
+				Intent intent = new Intent(ReplyLevelActivity.this,
+						InspectOtherProfilesActivity.class);
+				Log.w("ProfileSearch", "Putting ID in: " + viewingComment.getAuthorID());
+				intent.putExtra("ProfileID",viewingComment.getAuthorID());
+				startActivity(intent);
+			}
+		});
+
+	}	
 
 	@Override
 	protected void onResume() {

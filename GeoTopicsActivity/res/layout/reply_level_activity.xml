@@ -68,7 +68,9 @@
                         android:maxLength="50"
                         android:paddingRight="6dp"
                         android:singleLine="true"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:onClick="onClick"
+						android:clickable="true" />
 
                     <View
                         android:id="@+id/reply_divider_10"
