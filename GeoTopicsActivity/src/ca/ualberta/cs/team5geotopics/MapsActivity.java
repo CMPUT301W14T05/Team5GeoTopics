@@ -44,6 +44,7 @@ import android.widget.Toast;
  * Upon entering this file, a map is displayed and a user can select a location on the map.
  * Submitting the location changes the mGeolocation's longitude and latitude and tags it into the comment.
  *
+ * Help from: http://mobiforge.com/design-development/using-google-maps-android
  */
 public class MapsActivity extends InspectCommentActivity {
 	 

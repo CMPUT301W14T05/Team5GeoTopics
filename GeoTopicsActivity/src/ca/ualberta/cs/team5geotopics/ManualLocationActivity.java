@@ -22,6 +22,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.os.Build;
+/**
+ * This class file is loaded if the user is not running Google API and thus
+ * cannot pick a location on the map. This file allows the user to manually
+ * enter a longitude and latitude.
+ */
 
 public class ManualLocationActivity extends Activity {
 Button submit;
