@@ -81,6 +81,7 @@ public class MapsActivity extends InspectCommentActivity {
                 Intent myIntent = new Intent(MapsActivity.this, ManualLocationActivity.class);
 				startActivityForResult(myIntent, SELECT_LOCATION_REQUEST_CODE);
             }
+            googleMap.setMyLocationEnabled(true);
             
             googleMap.setOnMapClickListener(new OnMapClickListener(){
             
@@ -142,20 +143,12 @@ public class MapsActivity extends InspectCommentActivity {
 		 */
 		if (requestCode == SELECT_LOCATION_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
-				if(geoPoint != null){
 				mGeolocation = data.getParcelableExtra("location_return");
 				Intent locIntent = new Intent();
-    	    	DecimalFormat form = new DecimalFormat("0.0000");
-    	    	form.format(geoPoint.latitude);
-    	    	form.format(geoPoint.longitude);
-    	    	Location loc = new Location("loc");
-    	    	loc.setLatitude(geoPoint.latitude);
-    	    	loc.setLongitude(geoPoint.longitude);
-    	    	locIntent.putExtra("location_return", loc);
+    	    	locIntent.putExtra("location_return", mGeolocation);
     	    	setResult(RESULT_OK, locIntent);    	
-				}
-				finish();
 			}
+			finish();
 		}	
 	}
 
