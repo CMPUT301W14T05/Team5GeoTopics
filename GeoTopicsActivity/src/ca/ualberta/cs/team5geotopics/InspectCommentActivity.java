@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -236,6 +237,8 @@ public class InspectCommentActivity extends Activity {
 		if (requestCode == SELECT_LOCATION_REQUEST_CODE) {
 			if (resultCode == RESULT_OK) {
 				mGeolocation = data.getParcelableExtra("location_return");
+				Log.d("SET_LOCATION_COORDS", "(" + Double.toString(mGeolocation.getLatitude()) +
+						", " + Double.toString(mGeolocation.getLongitude()) + ")");
 			}
 		}
 		

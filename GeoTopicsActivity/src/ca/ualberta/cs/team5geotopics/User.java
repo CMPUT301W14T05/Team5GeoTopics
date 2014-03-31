@@ -412,7 +412,7 @@ public class User extends AModel<AView> {
 		String ID = generateIDString(comment);
 		Log.w("Favourites", "Removing: " + ID);
 		mFavourites.remove(ID);
-		Log.w("User", "4");
+		Log.w("User", "4"); 
 		writeUser();
 	}
 	
@@ -516,10 +516,13 @@ public class User extends AModel<AView> {
 	 * @param location The location to set the users last known locaiton to.
 	 */
 	public void setMyLastKnownLocation(Location location){
-		this.myLat = (double) 0;
-		this.myLong = (double) 0;
-		//this.myLat = location.getLatitude();
-		//this.myLong = location.getLongitude();
+		//this.myLat = (double) 0;
+		//this.myLong = (double) 0;
+		Log.d("NULL_LOC", "Caught the fake provided gps");
+		if (location != null) {
+			this.myLat = location.getLatitude();
+			this.myLong = location.getLongitude();
+		}
 	}
 
 	/**
