@@ -123,6 +123,13 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 						"TopLevel");
 				controller.newTopLevel(newComment);
 			} else {
+				Log.w("MID", "Lat: " + Double.toString(mGeolocation.getLatitude()));
+				Log.w("MID", "Long: " + Double.toString(mGeolocation.getLongitude()));
+				Log.w("MID", "body: " + mBody);
+				Log.w("MID", "User: " + myUser.getUserName());
+				if(mPicture != null)
+					Log.w("MID", "Pic: Not NUll");
+				Log.w("MID", "PID: " + myUser.getProfileID());
 				newComment = new CommentModel(Double.toString(mGeolocation.getLatitude()), 
 						Double.toString(mGeolocation.getLongitude()), 
 						mBody, myUser.getUserName(), mPicture, myUser.getProfileID());

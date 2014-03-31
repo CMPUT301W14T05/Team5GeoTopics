@@ -114,6 +114,10 @@ public abstract class BrowseActivity extends Activity {
 			intent = new Intent(this, MyCommentsActivity.class);
 			startActivity(intent);
 			break;
+		case R.id.action_profile:
+			intent = new Intent(this, EditMyProfileActivity.class);
+			startActivity(intent);
+			break;
 		case R.id.action_my_bookmarks:
 			intent = new Intent(this, MyBookmarksActivity.class);
 			startActivity(intent);

@@ -1,11 +1,15 @@
 package ca.ualberta.cs.team5geotopics;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -28,6 +32,9 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	private String viewingParent;
 	private String viewingID;
 	private MenuItem favouriteItem;
+	private TextView author;
+	private TextView date;
+	private TextView time;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +82,24 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		body = (TextView) findViewById(R.id.reply_comment_body);
 		image = (ImageView) findViewById(R.id.reply_comment_image);
 		divider = (View) findViewById(R.id.reply_divider1);
+		author = (TextView) findViewById(R.id.reply_author);
+		date =(TextView) findViewById(R.id.reply_date);
+		time =(TextView) findViewById(R.id.reply_time);
+		
+		//This takes us to the view profile screen
+		author.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
 
-	}
+				Intent intent = new Intent(ReplyLevelActivity.this,
+						InspectOtherProfilesActivity.class);
+				Log.w("ProfileSearch", "Putting ID in: " + viewingComment.getAuthorID());
+				intent.putExtra("ProfileID",viewingComment.getAuthorID());
+				startActivity(intent);
+			}
+		});
+
+	}	
 
 	@Override
 	protected void onResume() {
@@ -145,6 +168,14 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 			} else {
 				image.setVisibility(View.GONE);
 			}
+			Date date = comment.getDate();
+			DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(application.getContext());
+			DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(application.getContext());
+			
+			author.setText("By " + viewingComment.getmAuthor());
+			this.date.setText(dateFormat.format(date));
+			time.setText(timeFormat.format(date));
+	
 		}
 	}
 }

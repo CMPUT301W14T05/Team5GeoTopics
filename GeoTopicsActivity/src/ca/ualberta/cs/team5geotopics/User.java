@@ -44,7 +44,6 @@ public class User extends AModel<AView> {
 	transient private boolean ioDisabled = false;
 	transient private LocationManager lm;
 	transient private String provider;
-	transient private Location mGeolocation;
 	//User Profile Saved Variables
 	private String mID;
 	private ArrayList<String> mBookMarks;
@@ -53,19 +52,18 @@ public class User extends AModel<AView> {
 	private String userName;
 	private String biography;
 	private String contactInfo;
-	private Bitmap profilePic;		
+	private Bitmap profilePic;
+	private Double myLat;
+	private Double myLong;
 
 	private User() {
 		this.application = GeoTopicsApplication.getInstance();
 		mBookMarks = new ArrayList<String>();
 		mFavourites = new ArrayList<String>();
 		mComments = new ArrayList<String>(); 
-		setBiography(null);
-		setContactInfo(null);
-		setProfilePic(null);
-		setUserName("Anonymous");
-		mID = Secure.getString(application.getContext().getContentResolver(),
+		this.mID = 	Secure.getString(application.getContext().getContentResolver(),
 	               Secure.ANDROID_ID);
+		setUserName("Anonymous");
 		mInstallation = new File(application.getContext().getFilesDir(),
 				INSTALLATION_ID);
 		mPostCount = new File(application.getContext().getFilesDir(),
@@ -103,6 +101,7 @@ public class User extends AModel<AView> {
 	 * @return The unique profile ID
 	 */
 	public String getProfileID(){
+		Log.w("MID", "Profile ID: " + this.mID);
 		return this.mID;
 	}
 
@@ -248,6 +247,7 @@ public class User extends AModel<AView> {
 		mComments.add(ID);
 		//this.notifyViews();
 		this.writeUser();
+		Log.w("User", "7");
 	}
 
 	/**
@@ -269,7 +269,7 @@ public class User extends AModel<AView> {
 	private static void loadUser(){
 		
 		User temp;
-		Gson gson = new Gson();
+		Gson gson;
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
 		gson = builder.create();
@@ -278,11 +278,10 @@ public class User extends AModel<AView> {
 		try {
 			fis = GeoTopicsApplication.getInstance().getContext().openFileInput(USER);
 			InputStreamReader isr = new InputStreamReader(fis);
-			Type type = new TypeToken<User>() {
-			}.getType();
+			Type type = new TypeToken<User>(){}.getType();
 			temp = gson.fromJson(isr, type);
 			myself = temp;
-
+			Log.w("User", "Loaded User");
 		} catch (FileNotFoundException e) {
 			Log.w("User", "No file " + USER);
 			//TODO: Try to grab it from an online source
@@ -296,10 +295,13 @@ public class User extends AModel<AView> {
 	 * it can be retrieved without Internet if needed.
 	 */
 	private void writeUser(){
-		Gson gson = new Gson();
+		this.mID = 	Secure.getString(application.getContext().getContentResolver(),
+	               Secure.ANDROID_ID);
+		Gson gson;
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
 		gson = builder.create();
+		
 		if (!ioDisabled) {
 			try {
 				FileOutputStream fos = application.getContext().openFileOutput(
@@ -319,7 +321,7 @@ public class User extends AModel<AView> {
 	/**
 	 * Checks if the supplied ID is inside the users bookmarks. Most useful
 	 * for the User Controller to decide if it needs to add a comment ID to
-	 * the bookmarks array or remove it. Also used by the views to determin
+	 * the bookmarks array or remove it. Also used by the views to determine
 	 * if a comment is bookmarked.
 	 * @param ID The ID of the comment we are checking
 	 * @return
@@ -337,10 +339,10 @@ public class User extends AModel<AView> {
 	 * @param ID The comment ID
 	 */
 	public void addBookmark(CommentModel comment){
-		writeUser();
 		String ID = generateIDString(comment);
 		Log.w("Bookmark", "Adding: " + ID);
 		mBookMarks.add(ID);
+		Log.w("User", "1");
 		writeUser();
 		
 	}
@@ -353,6 +355,7 @@ public class User extends AModel<AView> {
 		String ID = generateIDString(comment);
 		Log.w("Bookmark", "Removing: " + ID);
 		mBookMarks.remove(ID);
+		Log.w("User", "2");
 		writeUser();
 	}
 	
@@ -377,6 +380,7 @@ public class User extends AModel<AView> {
 		String ID = generateIDString(comment);
 		Log.w("Favourites", "Adding: " + ID);
 		mFavourites.add(ID);
+		Log.w("User", "3");
 		writeUser();
 		
 	}
@@ -389,6 +393,7 @@ public class User extends AModel<AView> {
 		String ID = generateIDString(comment);
 		Log.w("Favourites", "Removing: " + ID);
 		mFavourites.remove(ID);
+		Log.w("User", "4");
 		writeUser();
 	}
 	
@@ -432,9 +437,8 @@ public class User extends AModel<AView> {
 	}
 	
 	public void setInitialLocation() {
-		this.mGeolocation = new Location("userLocation");
-		this.mGeolocation.setLatitude(0);
-		this.mGeolocation.setLongitude(0);
+		this.myLat = (double) 0;
+		this.myLong = (double) 0;
 	}
 
 	/**
@@ -446,9 +450,6 @@ public class User extends AModel<AView> {
 	public void setUpLocationServices() {
 			Context context = application.getContext();
 			lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-			//Criteria crit = new Criteria();
-			//crit.setAccuracy(Criteria.ACCURACY_COARSE);
-			//provider = lm.getBestProvider(crit, true);
 	}
 	
 	/**
@@ -479,10 +480,27 @@ public class User extends AModel<AView> {
 	 * @return User's Current/Last Known Location
 	 */
 	public Location getCurrentLocation() {
-		if (isProviderAvailable())
-			this.mGeolocation = lm.getLastKnownLocation(provider); 
-				
-		return mGeolocation;
+		Location temp =  new Location("userLocation");
+		setUpLocationServices();
+		if (isProviderAvailable()){
+			Log.w("COMMENT_LOC", "IS AVAILABLE");
+			this.setMyLastKnownLocation(lm.getLastKnownLocation(provider)); 
+		}
+
+		temp.setLatitude(this.myLat);
+		temp.setLongitude(this.myLong);
+		return temp;
+	}
+	
+	/**
+	 * Sets the users last known position to a specific location
+	 * @param location The location to set the users last known locaiton to.
+	 */
+	public void setMyLastKnownLocation(Location location){
+		this.myLat = (double) 0;
+		this.myLong = (double) 0;
+		//this.myLat = location.getLatitude();
+		//this.myLong = location.getLongitude();
 	}
 
 	/**
@@ -520,7 +538,7 @@ public class User extends AModel<AView> {
 	 */
 	public void setProfilePic(Bitmap profilePic) {
 		this.profilePic = profilePic;
-		this.writeUser();
+		Log.w("User", "5");
 	}
 
 	/**
@@ -536,9 +554,8 @@ public class User extends AModel<AView> {
 	 * containing an e-mail address or a twitter handle, etc.
 	 * @param contactInfo The new contact info.
 	 */
-	public void setContactInfo(String contactInfo) {
+	private void setContactInfo(String contactInfo) {
 		this.contactInfo = contactInfo;
-		this.writeUser();
 	}
 	/**
 	 * Gets the biography for the user profile. Used to display
@@ -553,17 +570,39 @@ public class User extends AModel<AView> {
 	 * your own biography not others.
 	 * @param biography The new biography
 	 */
-	public void setBiography(String biography) {
+	private void setBiography(String biography) {
 		this.biography = biography;
-		this.writeUser();
 	}
 
 	public String getUserName() {
 		return userName;
 	}
 
-	public void setUserName(String userName) {
+	private void setUserName(String userName) {
 		this.userName = userName;
+	}
+	
+	/**
+	 * Updates the local profile with new information then sync's it online.
+	 * @param userName The new username
+	 * @param contactInfo The new contact Info
+	 * @param bio The new Bio
+	 * @param profile The new profile picture
+	 */
+	public void update(String userName, String contactInfo, String bio, Bitmap profile){
+		this.setUserName(userName);
+		this.setContactInfo(contactInfo);
+		this.setBiography(bio);
+		this.setProfilePic(profile);
+		this.syncUser();
+	}
+	/**
+	 * This will sync the user class with the online storage. 
+	 */
+	private void syncUser(){
+		this.writeUser();
+		ProfilePush pusher = new ProfilePush();
+		pusher.pushProfile(this);	
 	}
 	
 }

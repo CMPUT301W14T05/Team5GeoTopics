@@ -1,5 +1,7 @@
 package ca.ualberta.cs.team5geotopics;
 
+import android.graphics.Bitmap;
+
 public class UserController {
 	private User mUser;
 
@@ -52,5 +54,8 @@ public class UserController {
 			}
 		}
 	}
-
+	
+	public void updateProfile(String userName, String contactInfo, String bio, Bitmap profile){
+		mUser.update(userName, contactInfo, bio, profile);
+	}
 }

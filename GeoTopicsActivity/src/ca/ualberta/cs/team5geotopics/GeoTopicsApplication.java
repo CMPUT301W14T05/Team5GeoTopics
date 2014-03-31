@@ -14,6 +14,7 @@ import com.searchly.jestdroid.JestClientFactory;
  */
 public class GeoTopicsApplication {
 	transient private static final String SEARCHLY_CLUSTER = "http://site:d87a47445dc808449dd78637d9031609@bombur-us-east-1.searchly.com";
+	transient private static final String SEARCHLY_PROFILES = "http://site:5bf382d96e42cc0b437f4a412b299975@dwalin-us-east-1.searchly.com";
 
 	@SuppressWarnings("unused")
 	private static final String CMPUT301_CLUSTER = "http://cmput301.softwareprocess.es:8080/testing/";
@@ -21,6 +22,7 @@ public class GeoTopicsApplication {
 	private CommentModel currentlyViewingComment = null;
 	private static GeoTopicsApplication myself;
 	private JestClient mClient = null;
+	private JestClient mProfileClient = null;
 	private String mID;
 	private Context context;
 	
@@ -39,7 +41,7 @@ public class GeoTopicsApplication {
 	}
 
 	/**
-	 * Gets the jest client using the application.
+	 * Gets the jest client for the profiles storage using the application.
 	 * @return this.mClient The client(user) of the application.
 	 */
 	public JestClient getClient() {
@@ -52,6 +54,22 @@ public class GeoTopicsApplication {
 			this.mClient = jestClientFactory.getObject();
 		}
 		return this.mClient;
+	}
+	
+	/**
+	 * Gets the jest client using the application.
+	 * @return this.mClient The client(user) of the application.
+	 */
+	public JestClient getProfileClient() {
+		if (mProfileClient == null) {
+			DroidClientConfig clientConfig = new DroidClientConfig.Builder(
+					SEARCHLY_PROFILES).build();
+
+			JestClientFactory jestClientFactory = new JestClientFactory();
+			jestClientFactory.setDroidClientConfig(clientConfig);
+			this.mProfileClient = jestClientFactory.getObject();
+		}
+		return this.mProfileClient;
 	}
 	
 	
