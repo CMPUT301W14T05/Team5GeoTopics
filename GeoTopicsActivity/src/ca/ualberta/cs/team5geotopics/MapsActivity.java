@@ -1,5 +1,8 @@
 package ca.ualberta.cs.team5geotopics;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -19,16 +22,21 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 /**
@@ -65,13 +73,12 @@ public class MapsActivity extends InspectCommentActivity {
         if (googleMap == null) {
             googleMap = ((MapFragment) getFragmentManager().findFragmentById(
                     R.id.map)).getMap();
-            googleMap.setMyLocationEnabled(true);
+            //googleMap.setMyLocationEnabled(true);
             
             // check if map is created successfully or not
             if (googleMap == null) {
-                Toast.makeText(getApplicationContext(),
-                        "Sorry! unable to create maps", Toast.LENGTH_SHORT)
-                        .show();
+                Intent myIntent = new Intent(MapsActivity.this, ManualLocationActivity.class);
+				startActivityForResult(myIntent, SELECT_LOCATION_REQUEST_CODE);
             }
             
             googleMap.setOnMapClickListener(new OnMapClickListener(){
@@ -126,11 +133,30 @@ public class MapsActivity extends InspectCommentActivity {
  
     
     
-    @Override
-    protected void onResume() {
-        super.onResume();
-        initilizeMap();
-    }
+    
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		/*
+		 *  Retrieve the set location. If it wasn't set, keep the current location
+		 */
+		if (requestCode == SELECT_LOCATION_REQUEST_CODE) {
+			if (resultCode == RESULT_OK) {
+				if(geoPoint != null){
+				mGeolocation = data.getParcelableExtra("location_return");
+				Intent locIntent = new Intent();
+    	    	DecimalFormat form = new DecimalFormat("0.0000");
+    	    	form.format(geoPoint.latitude);
+    	    	form.format(geoPoint.longitude);
+    	    	Location loc = new Location("loc");
+    	    	loc.setLatitude(geoPoint.latitude);
+    	    	loc.setLongitude(geoPoint.longitude);
+    	    	locIntent.putExtra("location_return", loc);
+    	    	setResult(RESULT_OK, locIntent);    	
+				}
+				finish();
+			}
+		}	
+	}
 
         
 }
