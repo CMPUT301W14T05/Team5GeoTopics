@@ -39,12 +39,12 @@
     <string name="title_activity_create_comment">CreateCommentActivity</string>
     <string name="title_activity_edit_comment">EditCommentActivity</string>
     <string name="title_activity_maps">MapsActivity</string>
-    
-    
-	<string name="biography_title">BIOGRAPHY</string>
-	<string name="profile_contact_title">CONTACT</string>
-	<string name="profile_contact">No Contact Info</string>
-	<string name="profile_username_title">USERNAME</string>
-	<string name="profile_username">Anonymous</string>
-	<string name="biography_body">No Biography Available</string>
+    <string name="biography_title">BIOGRAPHY</string>
+    <string name="profile_contact_title">CONTACT</string>
+    <string name="profile_contact">No Contact Info</string>
+    <string name="profile_username_title">USERNAME</string>
+    <string name="profile_username">Anonymous</string>
+    <string name="biography_body">No Biography Available</string>
+    <string name="title_activity_manual_location">ManualLocationActivity</string>
+
 </resources>
