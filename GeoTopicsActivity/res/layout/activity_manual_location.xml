@@ -10,31 +10,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.team5geotopics.ManualLocationActivity$PlaceholderFragment" >
 
-    <EditText
-        android:id="@+id/manualLatitude"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView2"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_alignParentRight="true"
-        android:ems="10"
-        android:inputType="numberDecimal" />
-
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/longTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/manualLocation"
         android:layout_marginBottom="80dp"
-        android:text="Longitude"
+        android:text="@string/longitude_text"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
         android:id="@+id/manualLongitude"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView1"
-        android:layout_toRightOf="@+id/textView1"
+        android:layout_alignBottom="@+id/longTextView"
+        android:layout_toRightOf="@+id/longTextView"
         android:ems="10"
         android:inputType="numberDecimal" >
 
@@ -42,21 +32,40 @@
     </EditText>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/latTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/manualLocation"
-        android:layout_alignLeft="@+id/textView1"
-        android:text="Latitude"
+        android:layout_alignLeft="@+id/longTextView"
+        android:text="@string/latitude_text"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
         android:id="@+id/manualLocation"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="178dp"
-        android:text="Submit" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="157dp"
+        android:text="@string/submit_button" />
+
+    <EditText
+        android:id="@+id/manualLatitude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/latTextView"
+        android:layout_alignLeft="@+id/manualLongitude"
+        android:ems="10"
+        android:inputType="numberDecimal" />
+
+    <TextView
+        android:id="@+id/manLocHeaderTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/manualLongitude"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="22dp"
+        android:text="@string/man_location_header"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

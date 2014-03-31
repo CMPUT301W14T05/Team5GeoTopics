@@ -46,5 +46,11 @@
     <string name="profile_username">Anonymous</string>
     <string name="biography_body">No Biography Available</string>
     <string name="title_activity_manual_location">ManualLocationActivity</string>
-
+    
+    <!-- Strings for manual location layout -->
+	<string name="longitude_text">Longitude:</string>
+	<string name="latitude_text">Latitude:</string>
+	<string name="submit_button">Submit</string>
+	<string name="man_location_header">Enter Desired Longitude/Latitude:</string>
+	
 </resources>
