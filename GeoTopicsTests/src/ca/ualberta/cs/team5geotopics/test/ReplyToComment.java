@@ -16,8 +16,8 @@ public class ReplyToComment extends ActivityInstrumentationTestCase2<InspectComm
 //		mGeolocation.setLatitude(30.6282);
 //		mGeolocation.setLongitude(55.3116);
 		
-		CommentModel parent = new CommentModel ("30.6282", "55.3116", "Parent Body", "Parent Author", null);
-		CommentModel reply = new CommentModel ("30.6282", "55.3116", "Reply Body", "Reply Author", null);
+		CommentModel parent = new CommentModel ("30.6282", "55.3116", "Parent Body", "Parent Author", null, null);
+		CommentModel reply = new CommentModel ("30.6282", "55.3116", "Reply Body", "Reply Author", null, null);
 		
 		reply.setmParentID(parent.getmEsID());
 		

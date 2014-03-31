@@ -53,6 +53,8 @@ public class CommentPush {
 					mResult = mClient.execute(pushIndex);
 				}
 				catch (Exception e1){
+					Log.w("Connectivity", "Error with the comment push");
+					Log.w("Connectivity", e1);
 					e = e1;
 					e1.printStackTrace();
 				}

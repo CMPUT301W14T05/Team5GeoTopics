@@ -26,9 +26,9 @@ public class BrowseCommentRepliesTests extends
 				public void run() {
 
 					CommentModel comment = new CommentModel("1", "1", "Body",
-							"Author", null);
+							"Author", null, null);
 					CommentModel viewingComment = new CommentModel("1", "1",
-							"ViewingBody", "ViewingAuthor", null);
+							"ViewingBody", "ViewingAuthor", null, null);
 
 					Intent intent = new Intent();
 					intent.putExtra("ViewingComment", viewingComment);
@@ -87,9 +87,9 @@ public class BrowseCommentRepliesTests extends
 				@Override
 				public void run() {
 					CommentModel comment = new CommentModel("1", "1", "Body",
-							"Author", null);
+							"Author", null, null);
 					CommentModel viewingComment = new CommentModel("1", "1",
-							"ViewingBody", "ViewingAuthor", null);
+							"ViewingBody", "ViewingAuthor", null, null);
 
 					Intent intent = new Intent();
 					intent.putExtra("ViewingComment", viewingComment);

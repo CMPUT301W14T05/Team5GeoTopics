@@ -12,11 +12,15 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.UUID;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
 import android.provider.Settings.Secure;
 import android.util.Log;
 
@@ -44,6 +48,8 @@ public class User extends AModel<AView> {
 	transient private boolean ioDisabled = false;
 	transient private LocationManager lm;
 	transient private String provider;
+	transient private boolean needUpdate = false;
+	transient private BroadcastReceiver webConnectionReceiver;
 	//User Profile Saved Variables
 	private String mID;
 	private ArrayList<String> mBookMarks;
@@ -70,6 +76,19 @@ public class User extends AModel<AView> {
 				POST_COUNT);
 		setUpLocationServices();
 		setInitialLocation();
+		
+		webConnectionReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				if (application.isNetworkAvailable() && needUpdate == true) {
+					Log.w("Connectivity", "Pushing profile update");
+					syncUser();
+					needUpdate = false;
+				}
+			}
+		};
+		application.getContext().registerReceiver(webConnectionReceiver,
+				new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 	}
 
 	/**
@@ -594,15 +613,22 @@ public class User extends AModel<AView> {
 		this.setContactInfo(contactInfo);
 		this.setBiography(bio);
 		this.setProfilePic(profile);
+		this.writeUser();
 		this.syncUser();
 	}
 	/**
-	 * This will sync the user class with the online storage. 
+	 * This will sync the user class with the online storage. If web is unavailable then 
+	 * flag the user for update once it comes online.
 	 */
 	private void syncUser(){
-		this.writeUser();
 		ProfilePush pusher = new ProfilePush();
-		pusher.pushProfile(this);	
+		if(application.isNetworkAvailable()){
+			pusher.pushProfile(this);	
+			needUpdate = false;
+		}else{
+			needUpdate = true;
+		}
+		
 	}
 	
 }

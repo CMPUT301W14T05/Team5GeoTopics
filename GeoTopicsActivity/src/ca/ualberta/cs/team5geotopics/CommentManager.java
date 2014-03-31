@@ -2,7 +2,10 @@ package ca.ualberta.cs.team5geotopics;
 
 import java.util.ArrayList;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -13,37 +16,35 @@ public class CommentManager extends AModel<AView> {
 	private Cache mCache;
 	private Context mContext;
 	private User mUser;
+	private GeoTopicsApplication mApp;
+	private BroadcastReceiver webConnectionReceiver;
+	private ArrayList<CommentModel> commentStash;
 
 	private CommentManager() {
 		this.mCache = Cache.getInstance();
 		this.mContext = GeoTopicsApplication.getInstance().getContext();
 		this.mUser = User.getInstance();
+		this.mApp = GeoTopicsApplication.getInstance();
+		this.commentStash = new ArrayList<CommentModel>();
+		webConnectionReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				if (mApp.isNetworkAvailable()) {
+					Log.w("Connectivity", "Have network");
+					pushStashedComments();
+				}
+			}
+		};
+		mApp.getContext().registerReceiver(webConnectionReceiver,
+				new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 	}
 
 	public static CommentManager getInstance() {
 		if (myself == null) {
-			Log.w("Refresh", "Making new COmment manager");
+			Log.w("Refresh", "Making new Comment manager");
 			myself = new CommentManager();
 		}
 		return myself;
-	}
-
-	/**
-	 * Returns status about the network availablilty.
-	 * 
-	 * @author Alexandre Jasmin Link:
-	 *         http://stackoverflow.com/questions/4238921/
-	 *         android-detect-whether-there-is-an-internet-connection-available
-	 * @param context
-	 *            An application context.
-	 * @return True is the network is available, false if not.
-	 */
-	public boolean isNetworkAvailable() {
-		ConnectivityManager connectivityManager = (ConnectivityManager) this.mContext
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetworkInfo = connectivityManager
-				.getActiveNetworkInfo();
-		return (activeNetworkInfo != null && activeNetworkInfo.isConnected());
 	}
 
 	/**
@@ -60,7 +61,7 @@ public class CommentManager extends AModel<AView> {
 			EsID = viewingComment.getmEsID();
 		}
 		CommentSearch modelController = new CommentSearch(clm);
-		if (isNetworkAvailable()) {
+		if (mApp.isNetworkAvailable()) {
 			Log.w("Cache", "Internet before test");
 			if (mActivity.getType().equals("TopLevel")) {
 				Log.w("Refresh", "Top Level");
@@ -87,30 +88,39 @@ public class CommentManager extends AModel<AView> {
 			}
 		}
 	}
-	
+
 	/**
-	 * Refreshes a comment list model with a list of the users authored comments.
-	 * @param clm The clm to refresh.
+	 * Refreshes a comment list model with a list of the users authored
+	 * comments.
+	 * 
+	 * @param clm
+	 *            The clm to refresh.
 	 */
-	public void refreshMyComments(CommentListModel clm){
+	public void refreshMyComments(CommentListModel clm) {
 		ArrayList<CommentModel> temp = this.getMyComments();
 		clm.addNew(temp);
 	}
-	
+
 	/**
-	 * Refreshes a comment list model with a list of the users bookmarked comments.
-	 * @param clm The clm to refresh.
+	 * Refreshes a comment list model with a list of the users bookmarked
+	 * comments.
+	 * 
+	 * @param clm
+	 *            The clm to refresh.
 	 */
-	public void refreshMyBookmarks(CommentListModel clm){
+	public void refreshMyBookmarks(CommentListModel clm) {
 		ArrayList<CommentModel> temp = this.getMyBookmarks();
 		clm.setList(temp);
 	}
-	
+
 	/**
-	 * Refreshes a comment list model with a list of the users bookmarked comments.
-	 * @param clm The clm to refresh.
+	 * Refreshes a comment list model with a list of the users bookmarked
+	 * comments.
+	 * 
+	 * @param clm
+	 *            The clm to refresh.
 	 */
-	public void refreshMyFavourites(CommentListModel clm){
+	public void refreshMyFavourites(CommentListModel clm) {
 		ArrayList<CommentModel> temp = this.getMyFavourites();
 		clm.setList(temp);
 	}
@@ -143,103 +153,151 @@ public class CommentManager extends AModel<AView> {
 		String commentID = mUser.breakID(ID);
 		return getComment(parentID, commentID);
 	}
-	
+
 	/**
 	 * Returns a list of comment models representing all the comments the user
 	 * authored.
+	 * 
 	 * @return array list of comment models
 	 */
-	public ArrayList<CommentModel> getMyComments(){
+	public ArrayList<CommentModel> getMyComments() {
 		ArrayList<String> commentIDs = mUser.getMyComments();
 		ArrayList<CommentModel> mComments = new ArrayList<CommentModel>();
-		
-		for(String ID : commentIDs){
+
+		for (String ID : commentIDs) {
 			mComments.add(this.getCommentByComboID(ID));
 		}
 		return mComments;
 	}
-	
+
 	/**
 	 * Returns a list of comment models representing all the comments the user
 	 * has bookmarked.
+	 * 
 	 * @return array list of comment models
 	 */
-	public ArrayList<CommentModel> getMyBookmarks(){
+	public ArrayList<CommentModel> getMyBookmarks() {
 		ArrayList<String> commentIDs = mUser.getMyBookmarks();
 		ArrayList<CommentModel> mComments = new ArrayList<CommentModel>();
-		
-		for(String ID : commentIDs){
+
+		for (String ID : commentIDs) {
 			mComments.add(this.getCommentByComboID(ID));
 		}
 		return mComments;
 	}
-	
+
 	/**
 	 * Returns a list of comment models representing all the comments the user
 	 * has favourited.
+	 * 
 	 * @return array list of comment models
 	 */
-	public ArrayList<CommentModel> getMyFavourites(){
+	public ArrayList<CommentModel> getMyFavourites() {
 		ArrayList<String> commentIDs = mUser.getMyFavourites();
 		ArrayList<CommentModel> mComments = new ArrayList<CommentModel>();
-		
-		for(String ID : commentIDs){
+
+		for (String ID : commentIDs) {
 			mComments.add(this.getCommentByComboID(ID));
 		}
 		return mComments;
 	}
-	
+
 	/**
-	 * Handles updating a comment. This involves pushing the comment
-	 * to the Internet AND updating the cache.
-	 * @param comment The updated comment
+	 * Handles updating a comment. This involves pushing the comment to the
+	 * Internet AND updating the cache.
+	 * 
+	 * @param comment
+	 *            The updated comment
 	 */
-	public void updateComment(CommentModel comment){
+	public void updateComment(CommentModel comment) {
 		CommentPush pusher = new CommentPush();
-		if(comment.isTopLevel()) {
-			pusher.pushComment(comment, "TopLevel");
-		}else{
-			pusher.pushComment(comment, "ReplyLevel");
+		if (mApp.isNetworkAvailable()) {
+			if (comment.isTopLevel()) {
+				pusher.pushComment(comment, "TopLevel");
+			} else {
+				pusher.pushComment(comment, "ReplyLevel");
+			}
+		} else {
+			Log.w("Connectivity", "Stashed a comment update");
+			this.commentStash.add(comment);
 		}
-		
 		mCache.updateCache(comment);
-		//mUser.saveMyComments();
+		// mUser.saveMyComments();
 	}
-	
+
 	/**
-	 * Handles adding a new reply. This involves pushing it to the Internet 
-	 * and into the cache.
+	 * Handles adding a new reply. This involves pushing it to the Internet and
+	 * into the cache.
 	 * 
-	 * @param comment The new replys
+	 * @param comment
+	 *            The new replys
 	 * @return The thread the push is running on
 	 */
-	public Thread newReply(CommentModel comment){
-		Thread thread;
+	public Thread newReply(CommentModel comment) {
+		Thread thread = null;
 		CommentPush pusher = new CommentPush();
-		
-		thread = pusher.pushComment(comment, "ReplyLevel");
-
+		if (mApp.isNetworkAvailable()) {
+			thread = pusher.pushComment(comment, "ReplyLevel");
+		} else {
+			Log.w("Connectivity", "Stashed a new reply");
+			this.commentStash.add(comment);
+		}
 		mCache.updateCache(comment);
-		
+
 		return thread;
 	}
-	
+
 	/**
-	 * Handles adding a new Top level. This involves pushing it to the Internet 
+	 * Handles adding a new Top level. This involves pushing it to the Internet
 	 * and into the cache.
 	 * 
-	 * @param comment The new reply
+	 * @param comment
+	 *            The new reply
 	 * @return The thread the push is running on
 	 */
-	public Thread newTopLevel(CommentModel comment){
-		Thread thread;
+	public Thread newTopLevel(CommentModel comment) {
+		Thread thread = null;
 		CommentPush pusher = new CommentPush();
-		
-		thread = pusher.pushComment(comment, "TopLevel");
-
+		if (mApp.isNetworkAvailable()) {
+			thread = pusher.pushComment(comment, "TopLevel");
+		} else {
+			Log.w("Connectivity", "Stashed a new top levels");
+			this.commentStash.add(comment);
+		}
 		mCache.updateCache(comment);
-		
+
 		return thread;
 	}
-	
+
+	/**
+	 * Attempts to push all the comments we have stashed. Will make sure 
+	 * network is available on each push. If it is not then it gets re-stashed
+	 * waiting for a later push. Comments will be pushed in the same order
+	 * they were put in (fifo). If they have to be re-stashed they will be 
+	 * stashed in the same order they were originally put in. 
+	 */
+	private void pushStashedComments() {
+		ArrayList<CommentModel> temp = new ArrayList<CommentModel>();
+		Log.w("Connectivity", "Stash Size: " + Integer.toString(commentStash.size()));
+		temp.addAll(commentStash);
+		commentStash.clear();
+
+		for (CommentModel comment : temp) {
+			CommentPush pusher = new CommentPush();
+			if (mApp.isNetworkAvailable()) {
+				if (comment.isTopLevel()) {
+					Log.w("Connectivity", "Pushed Stashed Top Level");
+					pusher.pushComment(comment, "TopLevel");
+				} else {
+					Log.w("Connectivity", "Pushed Stashed Reply Level");
+					pusher.pushComment(comment, "ReplyLevel");
+				}
+			} else {
+				Log.w("Connectivity", "Re stashed a comment");
+				this.commentStash.add(comment);
+			}
+		}
+
+	}
+
 }

@@ -2,6 +2,8 @@ package ca.ualberta.cs.team5geotopics;
 
 import io.searchbox.client.JestClient;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
@@ -19,22 +21,19 @@ public class GeoTopicsApplication {
 	@SuppressWarnings("unused")
 	private static final String CMPUT301_CLUSTER = "http://cmput301.softwareprocess.es:8080/testing/";
 
-	private CommentModel currentlyViewingComment = null;
 	private static GeoTopicsApplication myself;
-	private JestClient mClient = null;
-	private JestClient mProfileClient = null;
-	private String mID;
 	private Context context;
-	
+
 	private GeoTopicsApplication() {
 	}
 
 	/**
 	 * Lazy implementation of a singleton that initialises when first requested.
+	 * 
 	 * @return myself A single instance of GeoTopicsApplication.
 	 */
 	public static GeoTopicsApplication getInstance() {
-		if(myself == null){
+		if (myself == null) {
 			myself = new GeoTopicsApplication();
 		}
 		return myself;
@@ -42,55 +41,75 @@ public class GeoTopicsApplication {
 
 	/**
 	 * Gets the jest client for the profiles storage using the application.
+	 * 
 	 * @return this.mClient The client(user) of the application.
 	 */
 	public JestClient getClient() {
-		if (mClient == null) {
-			DroidClientConfig clientConfig = new DroidClientConfig.Builder(
-					SEARCHLY_CLUSTER).build();
+		JestClient client;
+		DroidClientConfig clientConfig = new DroidClientConfig.Builder(
+				SEARCHLY_CLUSTER).build();
 
-			JestClientFactory jestClientFactory = new JestClientFactory();
-			jestClientFactory.setDroidClientConfig(clientConfig);
-			this.mClient = jestClientFactory.getObject();
-		}
-		return this.mClient;
+		JestClientFactory jestClientFactory = new JestClientFactory();
+		jestClientFactory.setDroidClientConfig(clientConfig);
+		client = jestClientFactory.getObject();
+		return client;
 	}
-	
+
 	/**
 	 * Gets the jest client using the application.
+	 * 
 	 * @return this.mClient The client(user) of the application.
 	 */
 	public JestClient getProfileClient() {
-		if (mProfileClient == null) {
-			DroidClientConfig clientConfig = new DroidClientConfig.Builder(
-					SEARCHLY_PROFILES).build();
+		JestClient client;
+		DroidClientConfig clientConfig = new DroidClientConfig.Builder(
+				SEARCHLY_PROFILES).build();
 
-			JestClientFactory jestClientFactory = new JestClientFactory();
-			jestClientFactory.setDroidClientConfig(clientConfig);
-			this.mProfileClient = jestClientFactory.getObject();
-		}
-		return this.mProfileClient;
+		JestClientFactory jestClientFactory = new JestClientFactory();
+		jestClientFactory.setDroidClientConfig(clientConfig);
+		client = jestClientFactory.getObject();
+		return client;
 	}
-	
-	
+
 	/**
-	 * Stores an application context in the application singleton. This is useful for 
-	 * save/load code that need a context to find the files to read/write too but do not 
-	 * need a specific context.
+	 * Stores an application context in the application singleton. This is
+	 * useful for save/load code that need a context to find the files to
+	 * read/write too but do not need a specific context.
+	 * 
 	 * @param context
 	 */
 	public void setContext(Context context) {
 		this.context = context;
 	}
-	
+
 	/**
-	 * Returns the context of the application. This is useful for 
-	 * save/load code that need a context to find the files to read/write too but do not 
-	 * need a specific context.
+	 * Returns the context of the application. This is useful for save/load code
+	 * that need a context to find the files to read/write too but do not need a
+	 * specific context.
+	 * 
 	 * @return this.context The context of the application.
 	 */
 	public Context getContext() {
 		return this.context;
 	}
+	
+	/**
+	 * Returns status about the network availablilty.
+	 * 
+	 * @author Alexandre Jasmin Link:
+	 *         http://stackoverflow.com/questions/4238921/
+	 *         android-detect-whether-there-is-an-internet-connection-available
+	 * @param context
+	 *            An application context.
+	 * @return True is the network is available, false if not.
+	 */
+	public boolean isNetworkAvailable() {
+		ConnectivityManager connectivityManager = (ConnectivityManager) this.context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetworkInfo = connectivityManager
+				.getActiveNetworkInfo();
+		return (activeNetworkInfo != null && activeNetworkInfo.isConnected());
+	}
+
 
 }

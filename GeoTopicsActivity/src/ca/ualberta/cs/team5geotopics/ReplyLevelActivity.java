@@ -19,8 +19,8 @@ import android.widget.Toast;
 import com.example.team5geotopics.R;
 
 /**
- * The view you see when you go to view the replies once you click a top level comment and click a reply.
- * It also updates replies as needed.
+ * The view you see when you go to view the replies once you click a top level
+ * comment and click a reply. It also updates replies as needed.
  */
 
 public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> {
@@ -43,19 +43,19 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 
 		// Get the singletons we may need.
 		this.application = GeoTopicsApplication.getInstance();
-		this.application.setContext(getApplicationContext());
+		// this.application.setContext(getApplicationContext());
 		this.myUser = User.getInstance();
 		this.manager = CommentManager.getInstance();
 		this.uController = new UserController();
 		me = this;
-		favouriteItem = (MenuItem)findViewById(R.id.action_favourite);
-		
+		favouriteItem = (MenuItem) findViewById(R.id.action_favourite);
+
 		b = getIntent().getExtras();
 		Log.w("ReplyLevel", b.getString("ViewingParent"));
 		Log.w("ReplyLevel", b.getString("ViewingComment"));
 		viewingParent = b.getString("ViewingParent");
 		viewingID = b.getString("ViewingComment");
-		
+
 		// Construct the model
 		this.clm = new CommentListModel();
 
@@ -64,10 +64,10 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 				clm.getList());
 		// Register the adapter view with the model
 		this.clm.addView(this.myView);
-		//Register with the manager
+		// Register with the manager
 		this.manager.addView(this);
 		// Register with the user
-		//this.myUser.addView(this);
+		// this.myUser.addView(this);
 
 		// Register myself with the viewing comment
 		// TODO: Figure out why this is not working
@@ -83,34 +83,39 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		image = (ImageView) findViewById(R.id.reply_comment_image);
 		divider = (View) findViewById(R.id.reply_divider1);
 		author = (TextView) findViewById(R.id.reply_author);
-		date =(TextView) findViewById(R.id.reply_date);
-		time =(TextView) findViewById(R.id.reply_time);
-		
-		//This takes us to the view profile screen
+		date = (TextView) findViewById(R.id.reply_date);
+		time = (TextView) findViewById(R.id.reply_time);
+
+		// This takes us to the view profile screen
 		author.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-
-				Intent intent = new Intent(ReplyLevelActivity.this,
-						InspectOtherProfilesActivity.class);
-				Log.w("ProfileSearch", "Putting ID in: " + viewingComment.getAuthorID());
-				intent.putExtra("ProfileID",viewingComment.getAuthorID());
-				startActivity(intent);
+				if (application.isNetworkAvailable()) {
+					Intent intent = new Intent(ReplyLevelActivity.this,
+							InspectOtherProfilesActivity.class);
+					Log.w("ProfileSearch",
+							"Putting ID in: " + viewingComment.getAuthorID());
+					intent.putExtra("ProfileID", viewingComment.getAuthorID());
+					startActivity(intent);
+				}else{
+					Toast.makeText(me, "Unable to view profile without internet, Sorry!", 3).show();
+				}
 			}
 		});
 
-	}	
+	}
 
 	@Override
 	protected void onResume() {
-		//Refresh our view
+		// Refresh our view
 		viewingComment = this.manager.getComment(viewingParent, viewingID);
 		manager.refresh(this.clm, this, viewingComment);
-		viewingComment = this.manager.getComment(b.getString("ViewingParent"), b.getString("ViewingComment"));
+		viewingComment = this.manager.getComment(b.getString("ViewingParent"),
+				b.getString("ViewingComment"));
 		this.updateViewingComment(viewingComment);
 		this.myView.notifyDataSetChanged();
 		invalidateOptionsMenu();
-		//Setup the listeners
+		// Setup the listeners
 		browseListView
 				.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 					@Override
@@ -119,20 +124,25 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 						CommentModel selected = (CommentModel) browseListView
 								.getItemAtPosition(position);
 						if (!bookmark) {
-						Intent intent = new Intent(ReplyLevelActivity.this,
-								ReplyLevelActivity.class);
-						intent.putExtra("ViewingComment",selected.getmEsID());
-						intent.putExtra("ViewingParent", selected.getmParentID());
-						uController.readingComment(selected);
-						startActivity(intent);
-						}else{
+							Intent intent = new Intent(ReplyLevelActivity.this,
+									ReplyLevelActivity.class);
+							intent.putExtra("ViewingComment",
+									selected.getmEsID());
+							intent.putExtra("ViewingParent",
+									selected.getmParentID());
+							uController.readingComment(selected);
+							startActivity(intent);
+						} else {
 							uController.bookmark(selected);
 							update(null);
 						}
 					}
 
 				});
-		Toast.makeText(getApplicationContext(), "(" + viewingComment.getLat() + ", " + viewingComment.getLon() + ")", Toast.LENGTH_LONG).show();
+		Toast.makeText(
+				getApplicationContext(),
+				"(" + viewingComment.getLat() + ", " + viewingComment.getLon()
+						+ ")", Toast.LENGTH_LONG).show();
 		super.onResume();
 	}
 
@@ -140,17 +150,15 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		this.myView.notifyDataSetChanged();
 	}
 
-
 	/**
 	 * @return "ReplyLevel" The type of comment it is.
 	 */
 	public String getType() {
 		return "ReplyLevel";
 	}
-	
-	private void updateViewingComment(CommentModel comment){
-		if (comment.getmEsID().equals(
-				viewingComment.getmEsID())) {
+
+	private void updateViewingComment(CommentModel comment) {
+		if (comment.getmEsID().equals(viewingComment.getmEsID())) {
 			Log.w("ReplyLevel", "Updating viewing comment");
 			Log.w("ReplyLevel", viewingComment.getmBody());
 			Log.w("ReplyLevel", comment.getmBody());
@@ -169,13 +177,15 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 				image.setVisibility(View.GONE);
 			}
 			Date date = comment.getDate();
-			DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(application.getContext());
-			DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(application.getContext());
-			
+			DateFormat dateFormat = android.text.format.DateFormat
+					.getDateFormat(application.getContext());
+			DateFormat timeFormat = android.text.format.DateFormat
+					.getTimeFormat(application.getContext());
+
 			author.setText("By " + viewingComment.getmAuthor());
 			this.date.setText(dateFormat.format(date));
 			time.setText(timeFormat.format(date));
-	
+
 		}
 	}
 }

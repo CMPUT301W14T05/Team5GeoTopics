@@ -29,7 +29,7 @@ public class EsTestsA extends ActivityInstrumentationTestCase2<InspectCommentAct
 		Bitmap mPicture = Bitmap.createBitmap(10,10 ,Bitmap.Config.ARGB_8888);
 		CommentManager manager = CommentManager.getInstance();
 		
-		CommentModel topLevel = new CommentModel("30.6282", "55.3116", mBody, mAuthor, mTitle, mPicture);
+		CommentModel topLevel = new CommentModel("30.6282", "55.3116", mBody, mAuthor, mTitle, mPicture, null);
 		topLevel.setES("test id", "-1", "test type");
 		CommentController cc = new CommentController(mActivity.getApplicationContext());
 		
@@ -52,7 +52,7 @@ public class EsTestsA extends ActivityInstrumentationTestCase2<InspectCommentAct
 		Bitmap mPicture = Bitmap.createBitmap(10,10 ,Bitmap.Config.ARGB_8888);
 		CommentManager manager = CommentManager.getInstance();
 		
-		CommentModel ReplyLevel = new CommentModel("30.6282", "55.3116", mBody, mAuthor, mTitle, mPicture);
+		CommentModel ReplyLevel = new CommentModel("30.6282", "55.3116", mBody, mAuthor, mTitle, mPicture, null);
 		ReplyLevel.setES("test reply to test id", "test id", "test id");
 		CommentController cc = new CommentController(mActivity.getApplicationContext());
 		

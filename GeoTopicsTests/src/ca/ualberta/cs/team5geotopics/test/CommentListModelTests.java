@@ -20,7 +20,7 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<TopL
 	
 	public void testClearList() {
 		CommentListModel clm = new CommentListModel();
-		CommentModel comment = new CommentModel("0", "0", "hey", "Tyler", "testing", null);
+		CommentModel comment = new CommentModel("0", "0", "hey", "Tyler", "testing", null, null);
 		clm.add(comment);
 		assertFalse("The list is not empty", clm.getList().isEmpty());
 		clm.clearList();
@@ -31,7 +31,7 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<TopL
 		GeoTopicsApplication application = GeoTopicsApplication.getInstance();
 		application.setContext(getActivity()); 
 		CommentListModel clm = new CommentListModel();
-		CommentModel comment = new CommentModel("0", "0", "hey", "Tyler", "testing", null);
+		CommentModel comment = new CommentModel("0", "0", "hey", "Tyler", "testing", null, null);
 		assertTrue("The list is empty", clm.getList().isEmpty());
 		clm.add(comment);
 		assertFalse("The list is not empty", clm.getList().isEmpty());
