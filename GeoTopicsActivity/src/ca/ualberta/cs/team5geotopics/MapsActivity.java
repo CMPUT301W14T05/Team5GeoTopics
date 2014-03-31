@@ -38,7 +38,8 @@ import android.widget.Toast;
  *
  */
 public class MapsActivity extends InspectCommentActivity {
-	 
+	
+	public final static int MAP_FAILED_TO_LOAD = 1337;
     // Google Map
     private GoogleMap googleMap;
     private LatLng geoPoint;
@@ -65,6 +66,16 @@ public class MapsActivity extends InspectCommentActivity {
         if (googleMap == null) {
             googleMap = ((MapFragment) getFragmentManager().findFragmentById(
                     R.id.map)).getMap();
+            if (googleMap == null) {
+            	/* 
+            	 * The map is failing to create so use alternate method
+            	 * return error_code and have inspectCommentActivity 
+            	 * generate secondary dialog.
+            	 */
+            	Intent locIntent = new Intent();
+            	setResult(MAP_FAILED_TO_LOAD, locIntent);
+            	finish();
+            }
             googleMap.setMyLocationEnabled(true);
             
             // check if map is created successfully or not

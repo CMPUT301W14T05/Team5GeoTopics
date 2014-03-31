@@ -255,6 +255,10 @@ public class InspectCommentActivity extends Activity {
 				// Set mPicture with Bitmap image.
 				mPicture = returnBitmapImage(image);
 				uploadedImage.setImageBitmap(mPicture);
+			} else if (resultCode == MapsActivity.MAP_FAILED_TO_LOAD) {
+				/*
+				 * Create the back-up dialog box
+				 */
 			}
 		}
 	}
