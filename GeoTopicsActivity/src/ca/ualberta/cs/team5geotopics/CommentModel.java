@@ -18,7 +18,7 @@ import ca.ualberta.cs.team5geotopics.AView;
  * of the program.
  */
 
-public class CommentModel extends AModel<AView> implements Parcelable {
+public class CommentModel extends AModel<AView> {
 	// elastic search dependent variables
 	private String mEsID;
 	private String mParentID;
@@ -130,81 +130,7 @@ public class CommentModel extends AModel<AView> implements Parcelable {
 		this.authorID = authorID;
 	}
 	
-	/**
-	 * Parcable stuff
-	 * @param in The parceable data.
-	 */
-	 
-	private void readFromParcel(Parcel in) {
-		this.mPicture = in.readParcelable(Bitmap.class.getClassLoader());
-		this.mTitle = in.readString();
-		this.mAuthor = in.readString();
-		this.mBody = in.readString();
-		this.lat = in.readString();
-		this.lon = in.readString();
-		this.epochTime = in.readLong();
-		this.mEsID = in.readString();
-		this.mEsType = in.readString();
-		this.mParentID = in.readString();
-		this.mDate = new Date(this.epochTime);
-	}
 	
-	/**
-	 * Parcable constructor
-	 * @param in The Parcel data to be read from.
-	 */
-	public CommentModel(Parcel in) {  
-	     readFromParcel(in);  
-	}  
-	
-	
-	/**
-	 * This writes to a parcel.
-	 * @param out The Parcel data to be written to.
-	 * @param flags The flags for the written data.
-	 */
-	@Override 
-    public void writeToParcel(Parcel out, int flags) {  
-		out.writeParcelable(mPicture, flags);
-		out.writeString(mTitle);
-		out.writeString(mAuthor);
-		out.writeString(mBody);
-		out.writeString(lat);
-		out.writeString(lon);
-		out.writeLong(epochTime);
-		out.writeString(mEsID);
-		out.writeString(mEsType);
-		out.writeString(mParentID);
-	}  
-	
-	public static final Parcelable.Creator<CommentModel> CREATOR = new Parcelable.Creator<CommentModel>() {  
-	    
-		/**
-		 * Creates a new CommentModel from a Parcel
-		 * @param in The Parcel to be created from.
-		 */
-        public CommentModel createFromParcel(Parcel in) {  
-            return new CommentModel(in);  
-        }  
-   
-        /**
-         * Creates a new array of CommentModels
-         * @param size The size of the new array.
-         */
-        public CommentModel[] newArray(int size) {  
-            return new CommentModel[size];  
-        }  
-          
-    }; 
-    
-    /**
-     * Describes the contents as being 0.
-     * @return 0 The number of contents.
-     */
-    @Override  
-    public int describeContents() {  
-        return 0;  
-    }  
 
     /**
      * Puts the current system time into the date field for the comment. Used 

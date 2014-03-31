@@ -139,9 +139,8 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 				controller.newReply(newComment, this);
 			}
 			returnIntent = new Intent();
-			Bundle bundle = new Bundle();
-			bundle.putParcelable("NewComment", newComment);
-			returnIntent.putExtras(bundle);
+			returnIntent.putExtra("esID", newComment.getmEsID());
+			returnIntent.putExtra("parentId", newComment.getmParentID());
 			setResult(RESULT_OK, returnIntent);
 			finish();
 		}

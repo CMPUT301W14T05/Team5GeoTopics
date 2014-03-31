@@ -208,9 +208,10 @@ public abstract class BrowseActivity extends Activity {
 		if (requestCode == NEW_COMMENT) {
 			if (resultCode == RESULT_OK) {
 				CommentModel newComment;
-				Bundle b = data.getExtras();
-				newComment = b.getParcelable("NewComment");
-
+				String esID = data.getStringExtra("esID");
+				String parentId = data.getStringExtra("parentId");
+				newComment = manager.getComment(parentId, esID);
+				
 				Log.w("NewComment", Integer.toString(this.clm.getList().size()));
 				this.clm.add(newComment);
 				Log.w("NewComment", Integer.toString(this.clm.getList().size()));
