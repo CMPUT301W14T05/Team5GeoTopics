@@ -483,7 +483,12 @@ public class User extends AModel<AView> {
 		crit.setAccuracy(Criteria.ACCURACY_COARSE);
 		provider = lm.getBestProvider(crit, true);
 		if (provider == null || provider.equals(LocationManager.PASSIVE_PROVIDER)) {
-			Log.d("PROVIDER_CHECK", "NO PROVIDER AVAILABLE");
+			if (lm.isProviderEnabled("mockLocationProvider")) {
+				Log.d("MOCK_PROVIDER_CHECK", "provider is working");
+				setMyLastKnownLocation(lm.getLastKnownLocation("mockLocationProvider"));
+			} else {
+				Log.d("PROVIDER_CHECK", "NO PROVIDER AVAILABLE");
+			}
 			return false;
 		}
 		Log.d("PROVIDER_CHECK", "PROVIDER " + provider);
