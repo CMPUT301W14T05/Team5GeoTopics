@@ -73,4 +73,7 @@ public class CommentPush {
 		return thread;
 	}
 
+	public JestResult returnResult(){
+		return this.mResult;
+	}
 }

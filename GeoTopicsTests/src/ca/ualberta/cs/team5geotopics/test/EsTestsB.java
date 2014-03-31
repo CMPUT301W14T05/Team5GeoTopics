@@ -34,7 +34,7 @@ public class EsTestsB extends ActivityInstrumentationTestCase2<TopLevelActivity>
 		try{
 			thread.join();
 		} catch (InterruptedException e) {
-			Log.w("EsTestPush", "Thread interrupt");
+			Log.w("EsTestPullTopLevel", "Thread interrupt");
 		}
 		
 		JestResult result = search.returnResult();
@@ -50,7 +50,43 @@ public class EsTestsB extends ActivityInstrumentationTestCase2<TopLevelActivity>
 		try{
 			thread.join();
 		} catch (InterruptedException e){
-			Log.w("EsTestPush", "Thread interrupt");
+			Log.w("EsTestPullReply", "Thread interrupt");
+		}
+		
+		JestResult result = search.returnResult();
+		assertTrue("Result is not null", result != null);
+		assertTrue("Result is successful", result.isSucceeded());
+	}
+	
+	public void testPullSingleCommentTopLevel(){
+		String ID = null;
+		CommentListModel listModel = new CommentListModel();
+		CommentSearch search = new CommentSearch(listModel);
+		
+		Thread thread = search.pullComment("test id", "TopLevel");
+		try{
+			thread.join();
+		}
+		catch (InterruptedException e){
+			Log.w("EsTestPullSingleTopLevel", "Thread interrupt");
+		}
+		
+		JestResult result = search.returnResult();
+		assertTrue("Result is not null", result != null);
+		assertTrue("Result is successful", result.isSucceeded());
+	}
+	
+	public void testPullSingleCommentReplyLevel(){
+		String ID = null;
+		CommentListModel listModel = new CommentListModel();
+		CommentSearch search = new CommentSearch(listModel);
+		
+		Thread thread = search.pullComment("test id", "ReplyLevel");
+		try{
+			thread.join();
+		}
+		catch (InterruptedException e){
+			Log.w("EsTestPullSingleTopLevel", "Thread interrupt");
 		}
 		
 		JestResult result = search.returnResult();

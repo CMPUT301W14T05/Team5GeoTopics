@@ -18,11 +18,11 @@ import com.google.gson.GsonBuilder;
  */
 
 public class CommentController {
-	public final static String TOP_LEVEL = "TopLevelTest";
+	
 	private User myUser;
-	private JestClient mClient;
+	
 	private Gson mGson;
-	private JestResult mResult;
+	
 	private CommentManager manager;
 	
 	/**
@@ -34,24 +34,14 @@ public class CommentController {
 	public CommentController(Context context) {
 		GeoTopicsApplication.getInstance().setContext(context);
 		this.myUser = User.getInstance();
-		this.mClient = GeoTopicsApplication.getInstance().getClient();
-		
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
 		this.mGson = builder.create();
-		this.mResult = new JestResult(mGson);
 		manager = CommentManager.getInstance();
 		
 	}
 
-	/**
-	 * Returns a Jest result
-	 *
-	 * @return      The Jest result.
-	 */
-	public JestResult returnResult(){
-		return mResult;
-	}
+	
 	
 	/**
 	 * Creates a new top level comment. The comment is pushed to the web

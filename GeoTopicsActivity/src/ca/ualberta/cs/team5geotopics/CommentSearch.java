@@ -179,7 +179,7 @@ public class CommentSearch {
 	 * @param index the index in which the comment is found
 	 * @return
 	 */
-	public CommentModel pullComment(final String esID, final String index){
+	public Thread pullComment(final String esID, final String index){
 		final String query = getReplyFilter(esID);
 		Thread thread = new Thread(){
 			public void run(){
@@ -209,7 +209,7 @@ public class CommentSearch {
 			}
 		};
 		thread.start();
-		return commentModel;
+		return thread;
 		
 	}
 	/**
