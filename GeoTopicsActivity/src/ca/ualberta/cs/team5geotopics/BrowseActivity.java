@@ -39,6 +39,7 @@ public abstract class BrowseActivity extends Activity {
 	 * New comment request code.
 	 */
 	public static final int NEW_COMMENT = 1;
+	public static final int SELECT_LOCATION_REQUEST_CODE = 200;
 
 	public abstract String getType();
 
@@ -184,8 +185,20 @@ public abstract class BrowseActivity extends Activity {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							// Which option to sort by?
-							clm.setSortFlag(which);
-							clm.sortOnUpdate();
+							if (which == 1) {
+								// SET LOCATION VIA GOOGLE MAP
+								Intent myIntent = new Intent(BrowseActivity.this, MapsActivity.class);
+								//startActivity(myIntent);
+								startActivityForResult(myIntent, SELECT_LOCATION_REQUEST_CODE);
+								
+								if (clm.getCustomSortLoc() != null) {
+									clm.setSortFlag(which);
+									clm.sortOnUpdate();
+								}
+							} else {
+								clm.setSortFlag(which);
+								clm.sortOnUpdate();
+							}
 						}
 					});
 			return builder.create();
@@ -217,6 +230,18 @@ public abstract class BrowseActivity extends Activity {
 				Log.w("NewComment", Integer.toString(this.clm.getList().size()));
 				Log.w("NewComment", newComment.getmBody());
 				this.myView.notifyDataSetChanged();
+			}
+		}
+		
+		/*
+		 *  Retrieve the set location. If it wasn't set, keep the current location
+		 */
+		if (requestCode == SELECT_LOCATION_REQUEST_CODE) {
+			if (resultCode == RESULT_OK) {
+				Location searchLoc = data.getParcelableExtra("location_return");
+				clm.setCustomSortLoc(searchLoc);
+				Log.d("SET_LOCATION_COORDS", "(" + Double.toString(searchLoc.getLatitude()) +
+						", " + Double.toString(searchLoc.getLongitude()) + ")");
 			}
 		}
 	}

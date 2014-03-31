@@ -17,6 +17,7 @@ public class CommentListModel extends AModel<AView> {
 	private ArrayList<CommentModel> mComments;
 	private Cache mCache;
 	private int sortFlag = 2;
+	private Location customSortLoc;
 	protected User myUser;
 
 	/**
@@ -82,15 +83,13 @@ public class CommentListModel extends AModel<AView> {
 		 * SortByProximityToMe SortByProximityToLoc SortByFreshness
 		 */
 		Location myLoc = myUser.getCurrentLocation();
-		Location defLoc = new Location("myLoc");
-		defLoc.setLongitude(0);
-		defLoc.setLatitude(0);
+	
 		switch (sortFlag) {
 		case 0:
 			sortCommentsByProximityToLoc(myLoc);
 			break;
 		case 1:
-			sortCommentsByProximityToLoc(defLoc);
+			sortCommentsByProximityToLoc(getCustomSortLoc());
 			break;
 		case 2:
 			sortCommentsByFreshness(myLoc);
@@ -289,6 +288,14 @@ public class CommentListModel extends AModel<AView> {
 		Log.w("Cache", Integer.valueOf(mComments.size()).toString());
 		//sortOnUpdate();
 		this.notifyViews();
+	}
+
+	public Location getCustomSortLoc() {
+		return customSortLoc;
+	}
+
+	public void setCustomSortLoc(Location customSortLoc) {
+		this.customSortLoc = customSortLoc;
 	}
 	
 }
