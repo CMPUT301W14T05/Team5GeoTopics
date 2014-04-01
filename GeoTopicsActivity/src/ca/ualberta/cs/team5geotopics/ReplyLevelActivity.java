@@ -138,10 +138,6 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 					}
 
 				});
-		Toast.makeText(
-				getApplicationContext(),
-				"(" + viewingComment.getLat() + ", " + viewingComment.getLon()
-						+ ")", Toast.LENGTH_LONG).show();
 		super.onResume();
 	}
 
