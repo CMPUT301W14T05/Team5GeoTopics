@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -64,7 +66,7 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel> {
 
 	@Override
 	protected void onResume() {
-		
+		invalidateOptionsMenu();
 		manager.refresh(this.clm, this, viewingComment);
 		Log.w("Refresh", "After manager refresh");
 		// Reset the current viewing comment
@@ -119,4 +121,13 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel> {
 	public void update(AModel model) {
 		this.myView.notifyDataSetChanged();
 	}
+	
+	//Ensures the favourites icon is the right color
+		public boolean onPrepareOptionsMenu(Menu menu) {
+			MenuItem item;
+			item = menu.findItem(R.id.action_favourite);
+			item.setVisible(false);
+			
+			return true;
+		}
 }

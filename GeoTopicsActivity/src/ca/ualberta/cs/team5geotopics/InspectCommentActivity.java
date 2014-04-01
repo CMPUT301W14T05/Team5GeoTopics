@@ -19,6 +19,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -107,6 +108,28 @@ public class InspectCommentActivity extends Activity {
 		getActionBar().setDisplayShowHomeEnabled(false);
 		
 	}
+	
+	@Override
+	public void onResume() {
+		invalidateOptionsMenu();
+		super.onResume();
+	}
+	
+	// Ensures the proper action bar items are shown
+			public boolean onPrepareOptionsMenu(Menu menu) {
+				MenuItem item;
+				item = menu.findItem(R.id.action_favourite);
+				item.setVisible(false);
+				item = menu.findItem(R.id.action_bookmark);
+				item.setVisible(false);
+				item = menu.findItem(R.id.new_top_level_comment);
+				item.setVisible(false);
+				item = menu.findItem(R.id.action_sort);
+				item.setVisible(false);
+				item = menu.findItem(R.id.action_refresh);
+				item.setVisible(false);
+				return true;
+			}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
