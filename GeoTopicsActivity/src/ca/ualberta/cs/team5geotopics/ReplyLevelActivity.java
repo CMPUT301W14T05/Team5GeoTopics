@@ -153,7 +153,6 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		
 		registerReceiver(webConnectionReceiver,
 				new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-		
 		super.onResume();
 	}
 
