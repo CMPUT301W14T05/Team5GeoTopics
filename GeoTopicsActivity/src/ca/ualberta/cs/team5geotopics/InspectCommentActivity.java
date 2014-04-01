@@ -101,6 +101,11 @@ public class InspectCommentActivity extends Activity {
 			commentType = "notApplicable";
 		}
 		
+		//Remove the top back button, not going to use it.
+		getActionBar().setDisplayShowTitleEnabled(false);
+		getActionBar().setHomeButtonEnabled(false);
+		getActionBar().setDisplayShowHomeEnabled(false);
+		
 	}
 
 	@Override

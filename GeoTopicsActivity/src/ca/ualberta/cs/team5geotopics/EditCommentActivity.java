@@ -95,9 +95,6 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 				title = (EditText)findViewById(R.id.editCommentTitleE);
 				body = (EditText)findViewById(R.id.editCommentBodyE);
 				
-				//application.getCurrentViewingComment().setmPicture(mPicture);
-				//application.getCurrentViewingComment().setmGeolocation(mGeolocation);
-				
 				controller.updateComment(viewingComment, title.getText().toString(), myUser.getUserName(), body.getText().toString(), mPicture, mGeolocation);
 				finish();
 		}

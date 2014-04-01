@@ -264,7 +264,6 @@ public class User extends AModel<AView> {
 		String ID = generateIDString(comment);
 		Log.w("MyComments", ID);
 		mComments.add(ID);
-		//this.notifyViews();
 		this.writeUser();
 		Log.w("User", "7");
 	}
@@ -521,8 +520,6 @@ public class User extends AModel<AView> {
 	 * @param location The location to set the users last known locaiton to.
 	 */
 	public void setMyLastKnownLocation(Location location){
-		//this.myLat = (double) 0;
-		//this.myLong = (double) 0;
 		Log.d("NULL_LOC", "Caught the fake provided gps");
 		if (location != null) {
 			this.myLat = location.getLatitude();

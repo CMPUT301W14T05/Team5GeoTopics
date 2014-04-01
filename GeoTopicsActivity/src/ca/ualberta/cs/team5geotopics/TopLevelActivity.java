@@ -49,11 +49,22 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel> {
 		// Register with the user
 		this.myUser.addView(this);
 		
+		webConnectionReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				if (application.isNetworkAvailable()) {
+					Log.w("Connectivity", "Have network");
+					Log.w("Connectivity", "Refreshing an activity");
+					manager.refresh(clm, me, viewingComment);
+				}
+			}
+		};
+		
 	}
 
 	@Override
 	protected void onResume() {
-
+		
 		manager.refresh(this.clm, this, viewingComment);
 		Log.w("Refresh", "After manager refresh");
 		// Reset the current viewing comment
@@ -81,15 +92,18 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel> {
 					}
 
 				});
-
+		
+		registerReceiver(webConnectionReceiver,
+				new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 		super.onResume();
 	}
 
 	@Override
 	protected void onPause() {
+		unregisterReceiver(webConnectionReceiver);
 		super.onPause();
 	}
-
+	
 	/**
 	 * @return "TopLevel" The type of comment it is.
 	 */

@@ -1,6 +1,5 @@
 package ca.ualberta.cs.team5geotopics;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -77,18 +76,11 @@ public class Cache extends AModel<AView> {
 		if (file.exists()) {
 			try {
 				FileInputStream fis = new FileInputStream(file);
-				final BufferedReader in = new BufferedReader(
-						new InputStreamReader(fis));
-				String jsonString = ""; // empty string
-				String line = in.readLine();
-				while (line != null) {
-					jsonString = jsonString.concat(line);
-					line = in.readLine();
-				}
+				InputStreamReader isr = new InputStreamReader(fis);
 				Gson gson = new Gson();
 				Type type = new TypeToken<ArrayList<String>>() {
 				}.getType();
-				this.fileDir = gson.fromJson(jsonString, type);
+				this.fileDir = gson.fromJson(isr, type);
 			} catch (IOException e) {
 				Log.w("Cache", "IO exception in reading fileDir");
 			}
@@ -335,22 +327,13 @@ public class Cache extends AModel<AView> {
 		try {
 			File file = new File(path + "/history", filename);
 			fis = new FileInputStream(file);
-			final BufferedReader in = new BufferedReader(new InputStreamReader(
-					fis));
+			InputStreamReader isr = new InputStreamReader(fis);
 			try {
-				String jsonString = "";
-				String line = in.readLine();
-				while (line != null) {
-					jsonString = jsonString.concat(line);
-					line = in.readLine();
-				}
 				Type acmType = new TypeToken<ArrayList<CommentModel>>() {
 				}.getType();
-				commentList = gson.fromJson(jsonString, acmType);
+				commentList = gson.fromJson(isr, acmType);
 			} catch (NullPointerException e) {
 				Log.w("Cache", "comments are null or model not registered");
-			} catch (IOException e) {
-				Log.w("Cache", "IO exception in the thread");
 			}
 
 		} catch (FileNotFoundException e) {

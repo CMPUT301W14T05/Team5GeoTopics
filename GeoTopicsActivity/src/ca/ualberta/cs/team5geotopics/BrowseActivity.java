@@ -66,32 +66,8 @@ public abstract class BrowseActivity extends Activity {
 		getActionBar().setDisplayShowTitleEnabled(false);
 		getActionBar().setHomeButtonEnabled(false);
 		getActionBar().setDisplayShowHomeEnabled(false);
-		
-		webConnectionReceiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				if (application.isNetworkAvailable()) {
-					Log.w("Connectivity", "Have network");
-					Log.w("Connectivity", "Refreshing an activity");
-					manager.refresh(clm, me, viewingComment);
-				}
-			}
-		};
-	}
-	
-	@Override
-	protected void onResume() {
-		registerReceiver(webConnectionReceiver,
-				new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-		super.onResume();
-	}
-	
-	@Override
-	protected void onPause() {
-		unregisterReceiver(webConnectionReceiver);
-		super.onPause();
-	}
 
+	}
 	// Creates the options menu using the layout in menu.
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
