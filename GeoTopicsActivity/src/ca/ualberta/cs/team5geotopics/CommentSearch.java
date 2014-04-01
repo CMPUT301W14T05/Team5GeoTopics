@@ -152,9 +152,7 @@ public class CommentSearch {
 							//HERE
 							browseModel.addNew(acm);
 							Log.w("Cache", "4!");
-							String jsonString = gson.toJson(acm);
-							Log.w("Cache","About to replace");
-							mCache.replaceFileHistory(jsonString, commentID); //send the retrieved comments to be saved on the disk
+							mCache.updateCache(acm);
 						}
 						catch (NullPointerException e){
 							// do nothing if the new comments are null
