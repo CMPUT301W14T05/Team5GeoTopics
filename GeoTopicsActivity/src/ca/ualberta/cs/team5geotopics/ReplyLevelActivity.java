@@ -28,7 +28,6 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	private TextView body;
 	private ImageView image;
 	private View divider;
-	private Activity me;
 	private String viewingParent;
 	private String viewingID;
 	private MenuItem favouriteItem;
