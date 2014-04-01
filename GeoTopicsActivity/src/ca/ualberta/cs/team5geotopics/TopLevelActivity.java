@@ -1,6 +1,10 @@
 package ca.ualberta.cs.team5geotopics;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +31,7 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel> {
 		this.myUser = User.getInstance();
 		this.manager = CommentManager.getInstance();
 		this.uController = new UserController();
+		me = this;
 
 		// Construct the model
 		this.clm = new CommentListModel();
@@ -43,7 +48,7 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel> {
 
 		// Register with the user
 		this.myUser.addView(this);
-
+		
 	}
 
 	@Override

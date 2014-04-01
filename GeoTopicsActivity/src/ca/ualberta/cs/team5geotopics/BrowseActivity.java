@@ -3,15 +3,22 @@ package ca.ualberta.cs.team5geotopics;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.team5geotopics.R;
 
@@ -34,6 +41,8 @@ public abstract class BrowseActivity extends Activity {
 	protected boolean bookmark = false;
 	protected boolean favourite = false;
 	protected UserController uController;
+	protected BroadcastReceiver webConnectionReceiver;
+	protected BrowseActivity me;
 
 	/**
 	 * New comment request code.
@@ -61,6 +70,30 @@ public abstract class BrowseActivity extends Activity {
 		// change it to something other than the android guy OR remove software
 		// back
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setHomeButtonEnabled(false);
+		webConnectionReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				if (application.isNetworkAvailable()) {
+					Log.w("Connectivity", "Have network");
+					Log.w("Connectivity", "Refreshing an activity");
+					manager.refresh(clm, me, viewingComment);
+				}
+			}
+		};
+	}
+	
+	@Override
+	protected void onResume() {
+		registerReceiver(webConnectionReceiver,
+				new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+		super.onResume();
+	}
+	
+	@Override
+	protected void onPause() {
+		unregisterReceiver(webConnectionReceiver);
+		super.onPause();
 	}
 
 	// Creates the options menu using the layout in menu.
