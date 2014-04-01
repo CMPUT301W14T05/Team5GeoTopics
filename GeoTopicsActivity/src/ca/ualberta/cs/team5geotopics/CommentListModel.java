@@ -115,7 +115,7 @@ public class CommentListModel extends AModel<AView> {
 	 */
 	public void sortCommentsByProximityToLoc(Location myLoc) {
 		sortCommentsByProximity(mComments, myLoc);
-		// this.notifyViews();
+		this.notifyViews();
 	}
 
 	public static ArrayList<CommentModel> sortCommentsByProximity(
@@ -208,7 +208,7 @@ public class CommentListModel extends AModel<AView> {
 			mComments.add(noPicList.get(i));
 		}
 
-		// this.notifyViews();
+		this.notifyViews();
 	}
 	
 	/**
@@ -217,7 +217,7 @@ public class CommentListModel extends AModel<AView> {
 	 */
 	public void sortAllCommentsByDate() {
 		mComments = sortCommentsByDate(mComments);
-		// this.notifyViews();
+		this.notifyViews();
 	}
 
 	/**
@@ -247,7 +247,7 @@ public class CommentListModel extends AModel<AView> {
 	public void setList(ArrayList<CommentModel> mComments) {
 		this.mComments.clear();
 		this.mComments.addAll(mComments);
-		//sortOnUpdate();
+		sortOnUpdate();
 		this.notifyViews();
 	}
 
@@ -286,7 +286,7 @@ public class CommentListModel extends AModel<AView> {
 		}
 
 		Log.w("Cache", Integer.valueOf(mComments.size()).toString());
-		//sortOnUpdate();
+		sortOnUpdate();
 		this.notifyViews();
 	}
 

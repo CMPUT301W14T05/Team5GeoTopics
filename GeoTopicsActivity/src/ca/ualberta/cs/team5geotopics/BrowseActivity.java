@@ -3,15 +3,22 @@ package ca.ualberta.cs.team5geotopics;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.location.Location;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.team5geotopics.R;
 
@@ -34,6 +41,8 @@ public abstract class BrowseActivity extends Activity {
 	protected boolean bookmark = false;
 	protected boolean favourite = false;
 	protected UserController uController;
+	protected BroadcastReceiver webConnectionReceiver;
+	protected BrowseActivity me;
 
 	/**
 	 * New comment request code.
@@ -53,16 +62,12 @@ public abstract class BrowseActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Remove the title and logo from the action bar
-		// TODO: Look for a better way to do this, this feels like a hack.
-		// Has to be a better way to do this in xml. (James)
+		//Remove the top back button, not going to use it.
 		getActionBar().setDisplayShowTitleEnabled(false);
-		// Gives us the left facing caret. Need to drop the app icon however OR
-		// change it to something other than the android guy OR remove software
-		// back
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-	}
+		getActionBar().setHomeButtonEnabled(false);
+		getActionBar().setDisplayShowHomeEnabled(false);
 
+	}
 	// Creates the options menu using the layout in menu.
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar

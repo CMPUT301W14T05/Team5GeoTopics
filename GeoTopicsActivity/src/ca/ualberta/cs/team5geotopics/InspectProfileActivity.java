@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -46,14 +47,10 @@ public class InspectProfileActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Remove the title and logo from the action bar
-		// TODO: Look for a better way to do this, this feels like a hack.
-		// Has to be a better way to do this in xml. (James)
+		//Remove the top back button, not going to use it.
 		getActionBar().setDisplayShowTitleEnabled(false);
-		// Gives us the left facing caret. Need to drop the app icon however OR
-		// change it to something other than the android guy OR remove software
-		// back
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setHomeButtonEnabled(false);
+		getActionBar().setDisplayShowHomeEnabled(false);
 	}
 
 	@Override
@@ -62,6 +59,30 @@ public class InspectProfileActivity extends Activity {
 		getMenuInflater().inflate(R.menu.inspect_comment, menu);
 		return true;
 	}
+	
+	@Override
+	public void onResume() {
+		invalidateOptionsMenu();
+		super.onResume();
+	}
+	
+	// Ensures the proper action bar items are shown
+		public boolean onPrepareOptionsMenu(Menu menu) {
+			MenuItem item;
+			item = menu.findItem(R.id.action_favourite);
+			item.setVisible(false);
+			item = menu.findItem(R.id.action_bookmark);
+			item.setVisible(false);
+			item = menu.findItem(R.id.new_top_level_comment);
+			item.setVisible(false);
+			item = menu.findItem(R.id.action_sort);
+			item.setVisible(false);
+			item = menu.findItem(R.id.action_refresh);
+			item.setVisible(false);
+			item = menu.findItem(R.id.action_profile);
+			item.setVisible(false);
+			return true;
+		}
 
 	/**
 	 * Method takes photo from camera and returns image.

@@ -50,7 +50,7 @@ public class InspectOtherProfilesActivity extends InspectProfileActivity{
 	}
 	
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		this.updateUi();
 		super.onResume();
 	}

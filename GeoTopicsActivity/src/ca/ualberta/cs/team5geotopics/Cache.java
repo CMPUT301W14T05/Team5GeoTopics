@@ -1,6 +1,5 @@
 package ca.ualberta.cs.team5geotopics;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -77,18 +76,11 @@ public class Cache extends AModel<AView> {
 		if (file.exists()) {
 			try {
 				FileInputStream fis = new FileInputStream(file);
-				final BufferedReader in = new BufferedReader(
-						new InputStreamReader(fis));
-				String jsonString = ""; // empty string
-				String line = in.readLine();
-				while (line != null) {
-					jsonString = jsonString.concat(line);
-					line = in.readLine();
-				}
+				InputStreamReader isr = new InputStreamReader(fis);
 				Gson gson = new Gson();
 				Type type = new TypeToken<ArrayList<String>>() {
 				}.getType();
-				this.fileDir = gson.fromJson(jsonString, type);
+				this.fileDir = gson.fromJson(isr, type);
 			} catch (IOException e) {
 				Log.w("Cache", "IO exception in reading fileDir");
 			}
@@ -149,8 +141,10 @@ public class Cache extends AModel<AView> {
 			File file = new File(path + "/history", filename);
 			fos = new FileOutputStream(file);
 			fos.write(jsonString.getBytes());
+			Log.w("Cache", "Writing this to disk");
 			Log.w("Cache", jsonString);
 		} catch (FileNotFoundException e) {
+			Log.w("Cache", "File not found");
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -199,7 +193,19 @@ public class Cache extends AModel<AView> {
 		return null;
 
 	}
-
+	/**
+	 * Updates the cache with a whole list of comment. This update
+	 * calls the single comment update for each comment in the list. This
+	 * is very inefficient as it does a write to disk for each comment in the list.
+	 * Should look into making a more efficient version of this.
+	 * @param updatedList Updated list of comments
+	 */
+	public void updateCache(ArrayList<CommentModel> updatedList) {
+		for(CommentModel comment : updatedList){
+			updateCache(comment);
+		}
+	}
+	
 	/**
 	 * Will take a comment and either update a current version of it or add it
 	 * to the cache.
@@ -213,14 +219,17 @@ public class Cache extends AModel<AView> {
 		String EsID = comment.getmEsID();
 		int i;
 		boolean findFlag = false;
-
 		this.loadFileList();
+		
+		Log.w("Cache", "Updating cache");
 		// If the parent folder exists search it
 		if (this.repliesExist(mParentID)) {
+			Log.w("Cache", "Parent Exists");
 			if (mParentID.equals("-1")) {
 				Log.w("Cache", "Updating with a top level");
 				commentList = load("history.sav");
 			} else {
+				Log.w("Cache", "Updating with a reply level");
 				commentList = load(mParentID);
 			}
 			// Search the lost
@@ -230,23 +239,28 @@ public class Cache extends AModel<AView> {
 					// flag that we found it.
 					commentList.set(i, comment);
 					findFlag = true;
+					Log.w("Cache", "Found a copy of it");
 					break;
 				}
 			}
 			// We did not find a copy of this comment
 			// in its parents folder. Add it to the list then
 			if (!findFlag) {
+				Log.w("Cache", "Did not find a copy of the comment");
 				commentList.add(comment);
 			}
 		} else {
 			// There was not folder for the parent so we
 			// Create a new empty list and add the comment to it.
+			Log.w("Cache", "No parent folder");
 			commentList = new ArrayList<CommentModel>();
 			commentList.add(comment);
 		}
 		if(mParentID.equals("-1")){
+			Log.w("Cache", "Write top level");
 			serializeAndWrite(commentList, "history.sav");
 		}else{
+			Log.w("Cache", "Write parent level: " + mParentID);
 			serializeAndWrite(commentList, mParentID);
 		}
 	}
@@ -313,22 +327,13 @@ public class Cache extends AModel<AView> {
 		try {
 			File file = new File(path + "/history", filename);
 			fis = new FileInputStream(file);
-			final BufferedReader in = new BufferedReader(new InputStreamReader(
-					fis));
+			InputStreamReader isr = new InputStreamReader(fis);
 			try {
-				String jsonString = "";
-				String line = in.readLine();
-				while (line != null) {
-					jsonString = jsonString.concat(line);
-					line = in.readLine();
-				}
 				Type acmType = new TypeToken<ArrayList<CommentModel>>() {
 				}.getType();
-				commentList = gson.fromJson(jsonString, acmType);
+				commentList = gson.fromJson(isr, acmType);
 			} catch (NullPointerException e) {
 				Log.w("Cache", "comments are null or model not registered");
-			} catch (IOException e) {
-				Log.w("Cache", "IO exception in the thread");
 			}
 
 		} catch (FileNotFoundException e) {

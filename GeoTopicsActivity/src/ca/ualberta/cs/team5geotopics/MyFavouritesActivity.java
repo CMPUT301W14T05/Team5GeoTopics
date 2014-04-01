@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -53,6 +55,7 @@ public class MyFavouritesActivity extends BrowseActivity implements AView<AModel
 	
 	@Override
 	protected void onResume(){
+		invalidateOptionsMenu();
 		manager.refreshMyFavourites(clm);
 		myView.notifyDataSetChanged(); //Ensure the view is up to date.
 		browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -88,6 +91,21 @@ public class MyFavouritesActivity extends BrowseActivity implements AView<AModel
 	@Override
 	public String getType() {
 		return "MyFavourites";
+	}
+	
+	// Ensures the proper action bar items are shown
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem item;
+		item = menu.findItem(R.id.action_favourite);
+		item.setVisible(false);
+		item = menu.findItem(R.id.action_bookmark);
+		item.setVisible(false);
+		item = menu.findItem(R.id.action_my_favourites);
+		item.setVisible(false);
+		item = menu.findItem(R.id.new_top_level_comment);
+		item.setVisible(false);
+
+		return true;
 	}
 
 

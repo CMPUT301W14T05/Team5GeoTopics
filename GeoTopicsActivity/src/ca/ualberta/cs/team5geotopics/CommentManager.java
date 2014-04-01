@@ -162,11 +162,19 @@ public class CommentManager extends AModel<AView> {
 	 */
 	public ArrayList<CommentModel> getMyComments() {
 		ArrayList<String> commentIDs = mUser.getMyComments();
+		Log.w("MyComments", Integer.toString(commentIDs.size()));
+		for(String comment : commentIDs){
+			Log.w("MyComments", comment);
+		}
 		ArrayList<CommentModel> mComments = new ArrayList<CommentModel>();
 
 		for (String ID : commentIDs) {
 			mComments.add(this.getCommentByComboID(ID));
 		}
+		for(CommentModel comment : mComments){
+			Log.w("MyComments", comment.getmBody());
+		}
+		Log.w("MyComments", Integer.toString(mComments.size()));
 		return mComments;
 	}
 
