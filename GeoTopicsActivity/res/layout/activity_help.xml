@@ -129,7 +129,7 @@
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_alignParentLeft="true"
-	            android:contentDescription="@string/favorite_icon_detail"
+	            android:contentDescription="@string/favourite_icon_detail"
 	            android:src="@drawable/ic_action_favorite" />
 	
 	        <TextView
@@ -139,7 +139,7 @@
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
 	            android:layout_marginLeft="20dp"
-	            android:text="@string/favorite_icon_detail" />
+	            android:text="@string/favourite_icon_detail" />
 	        	
         </RelativeLayout>
         
@@ -218,6 +218,74 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="@string/sort_comments_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to Bookmark Comments -->
+        <TextView
+            android:id="@+id/BookmarkCommentsText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_bookmark_comments"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/BookmarkCommentsDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/bookmark_comments_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to View Bookmarks -->
+        <TextView
+            android:id="@+id/viewBookmarksText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_view_bookmarks"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/viewBookmarksDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/view_bookmarks_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to Favourite Comments -->
+        <TextView
+            android:id="@+id/favouriteCommentsText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_favourite_comments"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/favouriteCommentsDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/favorite_comments_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to View Favourites -->
+        <TextView
+            android:id="@+id/viewFavouritesText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_view_favourites"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/viewFavouritesDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/view_favourites_detail"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </LinearLayout>

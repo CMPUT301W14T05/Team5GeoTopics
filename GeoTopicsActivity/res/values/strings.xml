@@ -60,7 +60,7 @@
 	<string name="sort_icon_detail">Displays sort options</string>
 	<string name="bookmark_icon_detail">Bookmarks a post</string>
 	<string name="refresh_icon_detail">Refresh the list of Comments</string>
-	<string name="favorite_icon_detail">Favorite a post</string>
+	<string name="favourite_icon_detail">Favourite a post</string>
 	<string name="menu_icon_detail">Displays the menu</string>
 	<string name="help_browse_top_level">Browse Top Levels:</string>
 	<string name="browse_top_level_detail">From the home screen, click on the \'Browse\' button.</string>
@@ -73,5 +73,22 @@
 	    proximity to the given location. On older APIs you will be redirected to an activity where you will can enter 
 	    coordinate location manually and press the \'Set Location\' button to sort the comments with proximity to the 
 	    given location.</string>
+	<string name="help_bookmark_comments">Bookmark Comments:</string>
+	<string name="bookmark_comments_detail">To bookmark comments tap the bookmark icon (see above) on the action bar to 
+	    highlight it blue. Once it is highlighted blue, tap on all the comments you wish to bookmark, then press the bookmark
+	    icon again to un-highlight it. All of the comments which you have selected will have a highlighted blue bookmark icon
+	    and will have been added to your bookmarks.</string>
+	<string name="help_view_bookmarks">View Bookmarks:</string>
+	<string name="view_bookmarks_detail">To view bookmarked comments either return to the application main screen and tap the
+	    button labeled \'Bookmarks\' or tap the menu button (see above) and select the \'My Bookmarks\' option. Once a bookmarked
+	    comment is viewed, it will be removed from your list of bookmarked comments.</string>
+	<string name="help_favourite_comments">Favourite Comments:</string>
+	<string name="favorite_comments_detail">To favorite a comments you must first tap the comment, to view the comment. Then press
+	    the favorite icon (see above) to favorite the comment. When the comment has been successfully favorited, the favorite icon
+	    will be highlighted blue.</string>
+	<string name="help_view_favourites">View Favourites:</string>
+	<string name="view_favourites_detail">To view favourited comments either return to the application main screen and tap the
+	    button labeled \'Favourites\' or tap the menu button (see above) and select the \'My Favourites\' option.</string>
+	
 	
 </resources>
