@@ -28,7 +28,6 @@ public class CommentController {
 	 * @return      A comment controller
 	 */
 	public CommentController(Context context) {
-		GeoTopicsApplication.getInstance().setContext(context);
 		this.myUser = User.getInstance();
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());

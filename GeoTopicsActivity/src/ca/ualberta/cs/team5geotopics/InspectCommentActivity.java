@@ -90,7 +90,6 @@ public class InspectCommentActivity extends Activity {
 
 		this.application = GeoTopicsApplication.getInstance();
 		this.mCache = Cache.getInstance();
-		this.application.setContext(getApplicationContext());
 		this.myUser = User.getInstance();
 		
 		this.controller = new CommentController(getApplicationContext());
