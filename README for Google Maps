@@ -1,0 +1,12 @@
+The GeoTopics uses a unique way to manually set the location; if you have Google Maps installed properly, it prompts
+a virtual map and if not, it prompts for a manual longitude and latitude.
+
+In order to use the Google Maps functionality please ensure these steps are done:
+
+1. Clone and import our project into Eclipse.
+2. Right click on "GeoTopicsActivity" -> Properties -> Android (on the left side) ensure google-play-services_lib is imported.
+3. Go to Window -> Android SDK Manager and at the bottom, check and install "Google Play services"
+4. Restart Eclipse.
+5. Create a new emulator with the Google API rather than the normal Android API.
+
+That should give you the virtual map functionality when you go to set/edit a location.
