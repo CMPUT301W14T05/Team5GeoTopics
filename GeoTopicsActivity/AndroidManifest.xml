@@ -109,6 +109,10 @@
             android:name="ca.ualberta.cs.team5geotopics.ManualLocationActivity"
             android:label="@string/title_activity_manual_location" >
         </activity>
+        <activity 
+            android:name="ca.ualberta.cs.team5geotopics.HelpActivity" 
+            android:label="@string/title_activity_help" >  
+        </activity>
     </application>
 
 </manifest>

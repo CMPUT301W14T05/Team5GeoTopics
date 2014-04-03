@@ -17,6 +17,7 @@
     <string name="es_test_activity">Elastic Search Test Suite</string>
     <string name="title_activity_inspect_comment">InspectCommentActivity</string>
     <string name="title_activity_browse_relpy">BrowseRelpyActivity</string>
+    <string name="title_activity_help">HelpActivity</string>
     <string name="comment_image">Comment Image</string>
     <string name="action_settings">Settings</string>
 
@@ -52,5 +53,17 @@
 	<string name="latitude_text">Latitude:</string>
 	<string name="submit_button">Submit</string>
 	<string name="man_location_header">Enter Desired Longitude/Latitude:</string>
+	
+	<!-- Strings for the help activity -->
+	<string name="help_icons">Icons:</string>
+	<string name="add_post_detail">Create a new comment/reply</string>
+	<string name="sort_icon_detail">Displays sort options</string>
+	<string name="bookmark_icon_detail">Bookmarks a post</string>
+	<string name="refresh_icon_detail">Refresh the list of Comments</string>
+	<string name="favorite_icon_detail">Favorite a post</string>
+	<string name="help_browse_top_level">Browse Top Levels:</string>
+	<string name="browse_top_level_detail">From the home screen, click on the \'Browse\' button.</string>
+	<string name="help_browse_replies">Browse Replies:</string>
+	<string name="browse_replies_detail">Tap any available Comment to view it\'s body, and it\'s replies.</string>
 	
 </resources>
