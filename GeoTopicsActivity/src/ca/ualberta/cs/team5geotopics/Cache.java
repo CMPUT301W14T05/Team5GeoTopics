@@ -193,19 +193,71 @@ public class Cache extends AModel<AView> {
 		return null;
 
 	}
+	
 	/**
-	 * Updates the cache with a whole list of comment. This update
-	 * calls the single comment update for each comment in the list. This
-	 * is very inefficient as it does a write to disk for each comment in the list.
-	 * Should look into making a more efficient version of this.
-	 * @param updatedList Updated list of comments
+	 * Updates the cache with a whole list of comments. This update assumes that
+	 * the list of comments all have the SAME parent and that a version of the
+	 * list exists in the cache.
+	 * 
+	 * @param updatedList
+	 *            Updated list of comments
 	 */
-	public void updateCache(ArrayList<CommentModel> updatedList) {
-		for(CommentModel comment : updatedList){
-			updateCache(comment);
+	public void updateCache(ArrayList<CommentModel> updatedList, String mParentID) {
+		ArrayList<CommentModel> commentList;
+		if (this.repliesExist(mParentID)) {
+			Log.w("Cache", "Parent Exists");
+			if (mParentID.equals("-1")) {
+				Log.w("Cache", "Updating with a top level");
+				commentList = load("history.sav");
+			} else {
+				Log.w("Cache", "Updating with a reply level");
+				commentList = load(mParentID);
+			}
+			for (CommentModel comment : updatedList) {
+				findAndReplace(commentList, comment);
+			}
+		}else{
+			commentList = new ArrayList<CommentModel>();
+			commentList.addAll(updatedList);
+		}
+		
+		writeListToCache(commentList, mParentID);
+	}
+
+	/**
+	 * Takes in a list of comments and searches it for a comment withe the same
+	 * ID in the list. If we find one then we replace the list version with the
+	 * supplied version. If we do not find it then we add it to the end.
+	 * 
+	 * @param commentList
+	 *            The list we are searching
+	 * @param comment
+	 *            Version of the comment we want to replace in the list
+	 */
+	public void findAndReplace(ArrayList<CommentModel> commentList,
+			CommentModel comment) {
+		int i;
+		String EsID = comment.getmEsID();
+		boolean findFlag = false;
+
+		for (i = 0; i < commentList.size(); i++) {
+			if (commentList.get(i).getmEsID().equals(EsID)) {
+				// We found a copy of it so lets replace it and
+				// flag that we found it.
+				commentList.set(i, comment);
+				findFlag = true;
+				Log.w("Cache", "Found a copy of it");
+				break;
+			}
+		}
+		// We did not find a copy of this comment
+		// in its parents folder. Add it to the list then
+		if (!findFlag) {
+			Log.w("Cache", "Did not find a copy of the comment");
+			commentList.add(comment);
 		}
 	}
-	
+
 	/**
 	 * Will take a comment and either update a current version of it or add it
 	 * to the cache.
@@ -216,11 +268,8 @@ public class Cache extends AModel<AView> {
 	public void updateCache(CommentModel comment) {
 		ArrayList<CommentModel> commentList;
 		String mParentID = comment.getmParentID();
-		String EsID = comment.getmEsID();
-		int i;
-		boolean findFlag = false;
 		this.loadFileList();
-		
+
 		Log.w("Cache", "Updating cache");
 		// If the parent folder exists search it
 		if (this.repliesExist(mParentID)) {
@@ -232,23 +281,8 @@ public class Cache extends AModel<AView> {
 				Log.w("Cache", "Updating with a reply level");
 				commentList = load(mParentID);
 			}
-			// Search the lost
-			for (i = 0; i < commentList.size(); i++) {
-				if (commentList.get(i).getmEsID().equals(EsID)) {
-					// We found a copy of it so lets replace it and
-					// flag that we found it.
-					commentList.set(i, comment);
-					findFlag = true;
-					Log.w("Cache", "Found a copy of it");
-					break;
-				}
-			}
-			// We did not find a copy of this comment
-			// in its parents folder. Add it to the list then
-			if (!findFlag) {
-				Log.w("Cache", "Did not find a copy of the comment");
-				commentList.add(comment);
-			}
+
+			this.findAndReplace(commentList, comment);
 		} else {
 			// There was not folder for the parent so we
 			// Create a new empty list and add the comment to it.
@@ -256,10 +290,20 @@ public class Cache extends AModel<AView> {
 			commentList = new ArrayList<CommentModel>();
 			commentList.add(comment);
 		}
-		if(mParentID.equals("-1")){
+		writeListToCache(commentList, mParentID);
+	}
+	
+	/**
+	 * Takes a list of comment models and determines where to write them to disk (cache). 
+	 * This is determined using the supplied parent ID
+	 * @param commentList The list to write to the cache
+	 * @param mParentID The ID of the parent to all the comments in the list
+	 */
+	public void writeListToCache(ArrayList<CommentModel> commentList, String mParentID){
+		if (mParentID.equals("-1")) {
 			Log.w("Cache", "Write top level");
 			serializeAndWrite(commentList, "history.sav");
-		}else{
+		} else {
 			Log.w("Cache", "Write parent level: " + mParentID);
 			serializeAndWrite(commentList, mParentID);
 		}
@@ -280,7 +324,7 @@ public class Cache extends AModel<AView> {
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
 		gson = builder.create();
-		
+
 		replaceFileHistory(gson.toJson(commentList), filename);
 	}
 

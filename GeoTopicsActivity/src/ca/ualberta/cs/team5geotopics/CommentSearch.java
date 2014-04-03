@@ -152,7 +152,7 @@ public class CommentSearch {
 							//HERE
 							browseModel.addNew(acm);
 							Log.w("Cache", "4!");
-							mCache.updateCache(acm);
+							mCache.updateCache(acm, commentID);
 						}
 						catch (NullPointerException e){
 							// do nothing if the new comments are null
