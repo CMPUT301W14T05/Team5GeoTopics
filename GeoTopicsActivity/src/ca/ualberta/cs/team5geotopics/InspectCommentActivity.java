@@ -58,6 +58,7 @@ public class InspectCommentActivity extends Activity {
 	protected Bundle b;
 	protected CommentModel viewingComment;
 	protected CommentManager manager;
+	protected Intent intent;
 
 
 
@@ -113,15 +114,66 @@ public class InspectCommentActivity extends Activity {
 		
 	}
 	
+	/**
+	 * The necessary code for what to do on a menu item select
+	 * 
+	 * @param item
+	 *            The menu item that was selected
+	 * @return If the selection was sucessfull.
+	 */
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_my_comments:
+			intent = new Intent(this, MyCommentsActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.action_profile:
+			intent = new Intent(this, EditMyProfileActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.action_my_bookmarks:
+			intent = new Intent(this, MyBookmarksActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.action_my_favourites:
+			intent = new Intent(this, MyFavouritesActivity.class);
+			startActivity(intent);
+			break;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return true;
+	}
+	
 	@Override
 	public void onResume() {
+		invalidateOptionsMenu();
 		super.onResume();
 	}
+	
+	// Ensures the proper action bar items are shown
+		public boolean onPrepareOptionsMenu(Menu menu) {
+			MenuItem item;
+			item = menu.findItem(R.id.action_favourite);
+			item.setVisible(false);
+			item = menu.findItem(R.id.action_bookmark);
+			item.setVisible(false);
+			item = menu.findItem(R.id.new_top_level_comment);
+			item.setVisible(false);
+			item = menu.findItem(R.id.action_sort);
+			item.setVisible(false);
+			item = menu.findItem(R.id.action_refresh);
+			item.setVisible(false);
+			item = menu.findItem(R.id.action_my_comments);
+			item.setVisible(false);
+			return true;
+		}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.inspect_comment, menu);
+		// Inflate the menu; this adds items to the action bar if it is
+		// present.
+		getMenuInflater().inflate(R.menu.browse_view, menu);
 		return true;
 	}
 

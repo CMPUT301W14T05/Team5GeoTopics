@@ -161,6 +161,7 @@ public class CommentManager extends AModel<AView> {
 	 * @return array list of comment models
 	 */
 	public ArrayList<CommentModel> getMyComments() {
+		CommentModel tempComment;
 		ArrayList<String> commentIDs = mUser.getMyComments();
 		Log.w("MyComments", Integer.toString(commentIDs.size()));
 		for(String comment : commentIDs){
@@ -169,7 +170,10 @@ public class CommentManager extends AModel<AView> {
 		ArrayList<CommentModel> mComments = new ArrayList<CommentModel>();
 
 		for (String ID : commentIDs) {
-			mComments.add(this.getCommentByComboID(ID));
+			tempComment = this.getCommentByComboID(ID);
+			if(tempComment!=null){
+				mComments.add(tempComment);
+			}
 		}
 		for(CommentModel comment : mComments){
 			Log.w("MyComments", comment.getmBody());

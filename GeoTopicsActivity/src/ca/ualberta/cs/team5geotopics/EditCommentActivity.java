@@ -6,6 +6,7 @@ import com.example.team5geotopics.R;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -73,8 +74,9 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.edit_comment, menu);
+		// Inflate the menu; this adds items to the action bar if it is
+		// present.
+		getMenuInflater().inflate(R.menu.browse_view, menu);
 		return true;
 	}
 	

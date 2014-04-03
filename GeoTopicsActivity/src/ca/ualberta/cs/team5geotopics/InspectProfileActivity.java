@@ -33,6 +33,7 @@ public class InspectProfileActivity extends Activity {
 	protected GeoTopicsApplication application;
 	protected User myUser;
 	protected UserController uController;
+	protected Intent intent;
 
 	ImageView profileImage;
 	
@@ -55,8 +56,9 @@ public class InspectProfileActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.inspect_comment, menu);
+		// Inflate the menu; this adds items to the action bar if it is
+		// present.
+		getMenuInflater().inflate(R.menu.browse_view, menu);
 		return true;
 	}
 	
@@ -210,6 +212,37 @@ public class InspectProfileActivity extends Activity {
 	 */
 	public Bitmap returnBitmapImage(Bitmap image) {
 		return image = Bitmap.createScaledBitmap(image, 200, 200, false);
+	}
+	
+	/**
+	 * The necessary code for what to do on a menu item select
+	 * 
+	 * @param item
+	 *            The menu item that was selected
+	 * @return If the selection was sucessfull.
+	 */
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_my_comments:
+			intent = new Intent(this, MyCommentsActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.action_profile:
+			intent = new Intent(this, EditMyProfileActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.action_my_bookmarks:
+			intent = new Intent(this, MyBookmarksActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.action_my_favourites:
+			intent = new Intent(this, MyFavouritesActivity.class);
+			startActivity(intent);
+			break;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return true;
 	}
 
 }
