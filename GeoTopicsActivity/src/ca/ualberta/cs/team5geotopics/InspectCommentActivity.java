@@ -139,6 +139,10 @@ public class InspectCommentActivity extends Activity {
 			intent = new Intent(this, MyFavouritesActivity.class);
 			startActivity(intent);
 			break;
+		case R.id.action_help_page:
+			intent = new Intent(this, HelpActivity.class);
+			startActivity(intent);
+			break;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

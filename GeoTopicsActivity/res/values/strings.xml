@@ -31,6 +31,7 @@
     <string name="action_my_comments">My Comments</string>
     <string name="action_my_bookmarks">My Bookmarks</string>
     <string name="action_my_favourites">My Favourites</string>
+    <string name="action_help_page">Help Page</string>
 
     <!-- Strings for top level list layout -->
     <string name="top_level_thumbnail">Thumbnail</string>
@@ -89,6 +90,16 @@
 	<string name="help_view_favourites">View Favourites:</string>
 	<string name="view_favourites_detail">To view favourited comments either return to the application main screen and tap the
 	    button labeled \'Favourites\' or tap the menu button (see above) and select the \'My Favourites\' option.</string>
+	<string name="help_new_top_level_comment">Create Top Level Comment:</string>
+	<string name="new_top_level_detail">To create a new top level comment you must be currently viewing the root comments.
+	    An easy way to access the root comments is to go to the application\'s main screen then tap the button labeled
+	    \'Browse\'. Once you are viewing the list of root comments tap the new comment button (see above). This will bring you
+	    to the comment creation activity. Fill in the title, body fields. To set your comment\'s location tap the button
+	    labeled \'LOCATION\' and either select \'get current location\' to automatically retrieve your current location or
+	    manually set your location by selecting the \'set location\' option. To add a picture to your comment tap the 
+	    button labeled \'ADD PICTURE\' and either select the \'Take new photo\' option to take a new photo and use that or 
+	    the \'Take from gallery\' option to add a pre-existing photo.\n\nTo post the comment tap the button labeled \'POST\'
+	    or tap the button labeled \'CANCEL\' to cancel the comment.</string>
 	
 	
 </resources>

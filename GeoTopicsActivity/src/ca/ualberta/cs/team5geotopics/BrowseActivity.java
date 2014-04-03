@@ -159,6 +159,10 @@ public abstract class BrowseActivity extends Activity {
 				uController.favourite(this.viewingComment);
 			}
 			break;
+		case R.id.action_help_page:
+			intent = new Intent(this, HelpActivity.class);
+			startActivity(intent);
+			break;
 		default:
 			return super.onOptionsItemSelected(item);
 		}

@@ -287,6 +287,23 @@
             android:layout_marginLeft="20dp"
             android:text="@string/view_favourites_detail"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to Post a Top Level -->
+        <TextView
+            android:id="@+id/postTopLevelText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_new_top_level_comment"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/postTopLevelDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/new_top_level_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </LinearLayout>
 
