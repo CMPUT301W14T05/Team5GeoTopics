@@ -143,6 +143,33 @@
 	        	
         </RelativeLayout>
         
+        <!-- Menu Icon -->
+        <RelativeLayout
+            android:id="@+id/RelativeLayoutHelp6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+	        
+	        <ImageView
+	            android:id="@+id/menuIconImage"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:contentDescription="@string/menu_icon_detail"
+	            android:src="@drawable/ic_action_overflow" />
+	
+	        <TextView
+	            android:id="@+id/menuIconText"
+	            android:layout_toRightOf="@+id/menuIconImage"
+	            android:layout_alignBottom="@+id/menuIconImage"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="20dp"
+	            android:text="@string/menu_icon_detail" />
+	        	
+        </RelativeLayout>
+        
+        <!-- How to Browse Top Level Comments -->
         <TextView
             android:id="@+id/BrowseTopLevelText"
             android:layout_marginTop="20dp"
@@ -159,6 +186,7 @@
             android:text="@string/browse_top_level_detail"
             android:textAppearance="?android:attr/textAppearanceSmall" />
         
+        <!-- How to Browse Replies -->
         <TextView
             android:id="@+id/BrowseRepliesText"
             android:layout_marginTop="20dp"
@@ -173,6 +201,23 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="@string/browse_replies_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to Sort Comments -->
+        <TextView
+            android:id="@+id/SortCommentsText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_sort_comments"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/SortCommentsDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/sort_comments_detail"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </LinearLayout>

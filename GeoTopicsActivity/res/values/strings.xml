@@ -51,7 +51,7 @@
     <!-- Strings for manual location layout -->
 	<string name="longitude_text">Longitude:</string>
 	<string name="latitude_text">Latitude:</string>
-	<string name="submit_button">Submit</string>
+	<string name="submit_button">Set Location</string>
 	<string name="man_location_header">Enter Desired Longitude/Latitude:</string>
 	
 	<!-- Strings for the help activity -->
@@ -61,9 +61,17 @@
 	<string name="bookmark_icon_detail">Bookmarks a post</string>
 	<string name="refresh_icon_detail">Refresh the list of Comments</string>
 	<string name="favorite_icon_detail">Favorite a post</string>
+	<string name="menu_icon_detail">Displays the menu</string>
 	<string name="help_browse_top_level">Browse Top Levels:</string>
 	<string name="browse_top_level_detail">From the home screen, click on the \'Browse\' button.</string>
 	<string name="help_browse_replies">Browse Replies:</string>
 	<string name="browse_replies_detail">Tap any available Comment to view it\'s body, and it\'s replies.</string>
+	<string name="help_sort_comments">Sort Comments:</string>
+	<string name="sort_comments_detail">Tap on the sort comments icon (see above) and select any of the available
+	    sorting options to sort the current list of comments. If \'Sort by proximity to location\' is selected you
+	    will have to select your location on the map and press the \'Set Location\' button to sort the comments with
+	    proximity to the given location. On older APIs you will be redirected to an activity where you will can enter 
+	    coordinate location manually and press the \'Set Location\' button to sort the comments with proximity to the 
+	    given location.</string>
 	
 </resources>
