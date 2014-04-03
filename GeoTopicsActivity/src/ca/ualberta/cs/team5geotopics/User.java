@@ -38,16 +38,14 @@ import com.google.gson.GsonBuilder;
  */
 
 public class User extends AModel<AView> {
+	private UserLocationServices userLocation = new UserLocationServices();
 	transient private static final String INSTALLATION_ID = "INSTALLATION";
 	transient private static final String POST_COUNT = "POSTCOUNT";
 	transient private static final String USER = "user.save";
 	transient private File mInstallation;
 	transient private File mPostCount;
 	transient private static User myself;
-	transient private GeoTopicsApplication application;
 	transient private boolean ioDisabled = false;
-	transient private LocationManager lm;
-	transient private String provider;
 	transient private boolean needUpdate = false;
 	transient private BroadcastReceiver webConnectionReceiver;
 	//User Profile Saved Variables
@@ -59,35 +57,31 @@ public class User extends AModel<AView> {
 	private String biography;
 	private String contactInfo;
 	private Bitmap profilePic;
-	private Double myLat;
-	private Double myLong;
-
 	private User() {
-		this.application = GeoTopicsApplication.getInstance();
 		mBookMarks = new ArrayList<String>();
 		mFavourites = new ArrayList<String>();
 		mComments = new ArrayList<String>(); 
-		this.mID = 	Secure.getString(application.getContext().getContentResolver(),
+		this.mID = 	Secure.getString(userLocation.getContext().getContentResolver(),
 	               Secure.ANDROID_ID);
 		setUserName("Anonymous");
-		mInstallation = new File(application.getContext().getFilesDir(),
+		mInstallation = new File(userLocation.getContext().getFilesDir(),
 				INSTALLATION_ID);
-		mPostCount = new File(application.getContext().getFilesDir(),
+		mPostCount = new File(userLocation.getContext().getFilesDir(),
 				POST_COUNT);
-		setUpLocationServices();
-		setInitialLocation();
+		userLocation.setUpLocationServices();
+		userLocation.setInitialLocation();
 		
 		webConnectionReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				if (application.isNetworkAvailable() && needUpdate == true) {
+				if (userLocation.isNetworkAvailable() && needUpdate == true) {
 					Log.w("Connectivity", "Pushing profile update");
 					syncUser();
 					needUpdate = false;
 				}
 			}
 		};
-		application.getContext().registerReceiver(webConnectionReceiver,
+		userLocation.getContext().registerReceiver(webConnectionReceiver,
 				new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 	}
 
@@ -313,7 +307,7 @@ public class User extends AModel<AView> {
 	 * it can be retrieved without Internet if needed.
 	 */
 	private void writeUser(){
-		this.mID = 	Secure.getString(application.getContext().getContentResolver(),
+		this.mID = 	Secure.getString(userLocation.getContext().getContentResolver(),
 	               Secure.ANDROID_ID);
 		Gson gson;
 		GsonBuilder builder = new GsonBuilder();
@@ -322,7 +316,7 @@ public class User extends AModel<AView> {
 		
 		if (!ioDisabled) {
 			try {
-				FileOutputStream fos = application.getContext().openFileOutput(
+				FileOutputStream fos = userLocation.getContext().openFileOutput(
 						USER, Context.MODE_PRIVATE);
 				OutputStreamWriter osw = new OutputStreamWriter(fos);
 				Log.w("User", gson.toJson(this));
@@ -454,46 +448,6 @@ public class User extends AModel<AView> {
 		return parts;
 	}
 	
-	public void setInitialLocation() {
-		this.myLat = (double) 0;
-		this.myLong = (double) 0;
-	}
-
-	/**
-	 * Used to initialize the LocationManager that will help provide the application
-	 * with the users current location. Establishes the best provider for such a task.
-	 * @param void
-	 * @return void
-	 */
-	public void setUpLocationServices() {
-			Context context = application.getContext();
-			lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-	}
-	
-	/**
-	 * Checks if there are any location service providers enabled, ex. gps/network/MockProvider
-	 * These providers are used to get the users current location. If there is no provider currently 
-	 * enabled it returns false and a default location is used. If a provider is enabled it returns 
-	 * True.
-	 * @return True if a provider is enabled, False if no provider is enabled.
-	 */
-	public boolean isProviderAvailable() {
-		Criteria crit = new Criteria();
-		crit.setAccuracy(Criteria.ACCURACY_COARSE);
-		provider = lm.getBestProvider(crit, true);
-		if (provider == null || provider.equals(LocationManager.PASSIVE_PROVIDER)) {
-			if (lm.isProviderEnabled("mockLocationProvider")) {
-				Log.d("MOCK_PROVIDER_CHECK", "provider is working");
-				setMyLastKnownLocation(lm.getLastKnownLocation("mockLocationProvider"));
-			} else {
-				Log.d("PROVIDER_CHECK", "NO PROVIDER AVAILABLE");
-			}
-			return false;
-		}
-		Log.d("PROVIDER_CHECK", "PROVIDER " + provider);
-		return true;
-	}
-	
 	/**
 	 * Used to get the usersCurrentLocation, available at any time. The users Location
 	 * is optionally used (by default) when a comment is created/edited. Users location 
@@ -503,30 +457,9 @@ public class User extends AModel<AView> {
 	 * @return User's Current/Last Known Location
 	 */
 	public Location getCurrentLocation() {
-		Location temp =  new Location("userLocation");
-		setUpLocationServices();
-		if (isProviderAvailable()){
-			Log.w("COMMENT_LOC", "IS AVAILABLE");
-			this.setMyLastKnownLocation(lm.getLastKnownLocation(provider)); 
-		}
-
-		temp.setLatitude(this.myLat);
-		temp.setLongitude(this.myLong);
-		return temp;
+		return userLocation.getCurrentLocation();
 	}
 	
-	/**
-	 * Sets the users last known position to a specific location
-	 * @param location The location to set the users last known locaiton to.
-	 */
-	public void setMyLastKnownLocation(Location location){
-		Log.d("NULL_LOC", "Caught the fake provided gps");
-		if (location != null) {
-			this.myLat = location.getLatitude();
-			this.myLong = location.getLongitude();
-		}
-	}
-
 	/**
 	 * Returns the array of strings representing the ID's necessary to get 
 	 * the comments in my bookmarks from the web or the cache.
@@ -627,7 +560,7 @@ public class User extends AModel<AView> {
 	 */
 	private void syncUser(){
 		ProfilePush pusher = new ProfilePush();
-		if(application.isNetworkAvailable()){
+		if(userLocation.isNetworkAvailable()){
 			pusher.pushProfile(this);	
 			needUpdate = false;
 		}else{
@@ -661,5 +594,4 @@ public class User extends AModel<AView> {
 			removeBookmark(comment);
 		}
 	}
-	
 }
