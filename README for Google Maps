@@ -7,6 +7,6 @@ In order to use the Google Maps functionality please ensure these steps are done
 2. Right click on "GeoTopicsActivity" -> Properties -> Android (on the left side) ensure google-play-services_lib is imported.
 3. Go to Window -> Android SDK Manager and at the bottom, check and install "Google Play services"
 4. Restart Eclipse.
-5. Create a new emulator with the Google API rather than the normal Android API.
+5. Create a new emulator with the Google API rather than the normal Android API unless it is Android API Level 19 or higher.
 
 That should give you the virtual map functionality when you go to set/edit a location.
