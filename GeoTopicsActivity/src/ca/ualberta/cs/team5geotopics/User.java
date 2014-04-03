@@ -635,5 +635,31 @@ public class User extends AModel<AView> {
 		}
 		
 	}
+
+	/**
+	 * Used to add OR remove a comment ID from the favourites's list. If the ID exists its removed, else its added.
+	 * @param ID The comment ID
+	 */
+	public void favourite(CommentModel comment) {
+		if (comment != null) {
+			if (!(inFavourites(comment))) {
+				addFavourite(comment);
+			} else {
+				removeFavourite(comment);
+			}
+		}
+	}
+
+	/**
+	 * Used to add OR remove a comment ID from the bookmark's list. If the ID exists its removed, else its added.
+	 * @param ID The comment ID
+	 */
+	public void bookmark(CommentModel comment) {
+		if (!(inBookmarks(comment))) {
+			addBookmark(comment);
+		} else {
+			removeBookmark(comment);
+		}
+	}
 	
 }
