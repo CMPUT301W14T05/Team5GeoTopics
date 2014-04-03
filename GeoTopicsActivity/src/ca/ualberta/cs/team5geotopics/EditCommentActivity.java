@@ -4,6 +4,7 @@ package ca.ualberta.cs.team5geotopics;
 import com.example.team5geotopics.R;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,9 +63,10 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		
 		// Replies do not have titles and thus we should disable it OR make
 		// a new activity/layout
-		if (viewingComment != null) {
+		if (!viewingComment.isTopLevel()) {
+			Log.w("MyComments", "Disable title");
 			this.title.setVisibility(View.GONE);
-			//findViewById(R.id.textViewTitle).setVisibility(View.GONE);
+			findViewById(R.id.textViewTitleE).setVisibility(View.GONE);
 		}
 		
 	}
