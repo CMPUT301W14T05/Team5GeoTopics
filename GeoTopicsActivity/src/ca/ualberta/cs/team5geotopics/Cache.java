@@ -1,12 +1,5 @@
 package ca.ualberta.cs.team5geotopics;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -15,7 +8,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 /**
  * Cache is what is responsible for saving and loading data to and from the
@@ -23,12 +15,9 @@ import com.google.gson.reflect.TypeToken;
  */
 
 public class Cache extends AModel<AView> {
-	private CacheIO cacheProduct = new CacheIO();
+	private CacheIO cacheIO;
 	private Context context;
 	private GeoTopicsApplication application;
-	private CommentListModel browseModel;
-	private String path;
-
 	boolean isLoaded;
 
 	private static Cache myself;
@@ -40,18 +29,13 @@ public class Cache extends AModel<AView> {
 	 */
 	private Cache() {
 		this.application = GeoTopicsApplication.getInstance();
-		cacheProduct.setFileDir(new ArrayList<String>()); // this is a directory of the
-												// cache files
+		
 		context = application.getContext();
 		try {
-			this.path = context.getFilesDir().getAbsolutePath();
+		cacheIO = new CacheIO(context.getFilesDir().getAbsolutePath());
 		} catch (NullPointerException e) {
 			// just go on. This is Null in the test
 		}
-		File historyFolder = new File(path, "history");
-		historyFolder.mkdir();// makes a folder "history/" in our apps section
-								// of internal storage
-
 		isLoaded = false;
 	}
 
@@ -72,7 +56,7 @@ public class Cache extends AModel<AView> {
 	 * 
 	 */
 	public void loadFileList() {
-		cacheProduct.loadFileList(path);
+		cacheIO.loadFileList();
 
 	}
 
@@ -87,9 +71,9 @@ public class Cache extends AModel<AView> {
 	public boolean repliesExist(String filename) {
 		// returns true if there are replies in the cache
 		if (!filename.equals("-1")) {
-			return this.cacheProduct.getFileDir().contains(filename);
+			return this.cacheIO.getFileDir().contains(filename);
 		} else {
-			return this.cacheProduct.getFileDir().contains("history.sav");
+			return this.cacheIO.getFileDir().contains("history.sav");
 		}
 
 	}
@@ -109,14 +93,14 @@ public class Cache extends AModel<AView> {
 	public CommentModel loadComment(String mParentID, String EsID) {
 		ArrayList<CommentModel> commentList;
 
-		cacheProduct.loadFileList(path);
+		cacheIO.loadFileList();
 
 		if (this.repliesExist(mParentID)) {
 
 			if (mParentID.equals("-1")) {
-				commentList = load("history.sav");
+				commentList = this.cacheIO.load("history.sav");
 			} else {
-				commentList = load(mParentID);
+				commentList = this.cacheIO.load(mParentID);
 			}
 
 			for (CommentModel comment : commentList) {
@@ -143,10 +127,10 @@ public class Cache extends AModel<AView> {
 			Log.w("Cache", "Parent Exists");
 			if (mParentID.equals("-1")) {
 				Log.w("Cache", "Updating with a top level");
-				commentList = load("history.sav");
+				commentList = this.cacheIO.load("history.sav");
 			} else {
 				Log.w("Cache", "Updating with a reply level");
-				commentList = load(mParentID);
+				commentList = this.cacheIO.load(mParentID);
 			}
 			for (CommentModel comment : updatedList) {
 				findAndReplace(commentList, comment);
@@ -203,7 +187,7 @@ public class Cache extends AModel<AView> {
 	public void updateCache(CommentModel comment) {
 		ArrayList<CommentModel> commentList;
 		String mParentID = comment.getmParentID();
-		cacheProduct.loadFileList(path);
+		cacheIO.loadFileList();
 
 		Log.w("Cache", "Updating cache");
 		// If the parent folder exists search it
@@ -211,10 +195,10 @@ public class Cache extends AModel<AView> {
 			Log.w("Cache", "Parent Exists");
 			if (mParentID.equals("-1")) {
 				Log.w("Cache", "Updating with a top level");
-				commentList = load("history.sav");
+				commentList = this.cacheIO.load("history.sav");
 			} else {
 				Log.w("Cache", "Updating with a reply level");
-				commentList = load(mParentID);
+				commentList = this.cacheIO.load(mParentID);
 			}
 
 			this.findAndReplace(commentList, comment);
@@ -260,7 +244,7 @@ public class Cache extends AModel<AView> {
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
 		gson = builder.create();
 
-		cacheProduct.replaceFileHistory(gson.toJson(commentList), filename, path);
+		cacheIO.replaceFileHistory(gson.toJson(commentList), filename);
 	}
 
 	/**
@@ -277,49 +261,11 @@ public class Cache extends AModel<AView> {
 	public void loadFromCache(String filename, CommentListModel clm) {
 		ArrayList<CommentModel> commentList;
 		if (!filename.equals("-1")) {
-			commentList = load(filename);
+			commentList = this.cacheIO.load(filename);
 		} else {
-			commentList = load("history.sav");
+			commentList = this.cacheIO.load("history.sav");
 		}
 		clm.addNew(commentList);
 	}
 
-	/**
-	 * Loads comments from cache. Comments loaded get put into the registered
-	 * comment list model. Thus registration must precede the load.
-	 * 
-	 * @param filename
-	 *            The filename where we are to load comments from
-	 * @param currentActivity
-	 *            The activity requesting the load
-	 * @return ArrayList<CommentModel>
-	 */
-	public ArrayList<CommentModel> load(String filename) {
-
-		ArrayList<CommentModel> commentList = null;
-		GsonBuilder builder = new GsonBuilder();
-		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
-		final Gson gson = builder.create();
-
-		FileInputStream fis = null;
-
-		try {
-			File file = new File(path + "/history", filename);
-			fis = new FileInputStream(file);
-			InputStreamReader isr = new InputStreamReader(fis);
-			try {
-				Type acmType = new TypeToken<ArrayList<CommentModel>>() {
-				}.getType();
-				commentList = gson.fromJson(isr, acmType);
-			} catch (NullPointerException e) {
-				Log.w("Cache", "comments are null or model not registered");
-			}
-
-		} catch (FileNotFoundException e) {
-			Log.w("Cache", "ERROR: File not found (loading cache)");
-		} catch (IOException e) {
-			Log.w("Cache", "ERROR: Java IO error reading cache file");
-		}
-		return commentList;
-	}
 }
