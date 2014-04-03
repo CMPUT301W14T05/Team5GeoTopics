@@ -15,6 +15,8 @@ public class UserLocationServices {
 
 	public UserLocationServices() {
 		this.application = GeoTopicsApplication.getInstance();
+		this.setUpLocationServices();
+		this.setInitialLocation();
 	}
 
 	public Context getContext() {
