@@ -23,9 +23,9 @@ import com.google.gson.reflect.TypeToken;
  */
 
 public class Cache extends AModel<AView> {
-	private CacheIO cacheIO = new CacheIO();
 	private Context context;
 	private GeoTopicsApplication application;
+	private ArrayList<String> fileDir;
 	private CommentListModel browseModel;
 	private String path;
 
@@ -40,7 +40,7 @@ public class Cache extends AModel<AView> {
 	 */
 	private Cache() {
 		this.application = GeoTopicsApplication.getInstance();
-		cacheIO.setFileDir(new ArrayList<String>()); // this is a directory of the
+		this.fileDir = new ArrayList<String>(); // this is a directory of the
 												// cache files
 		context = application.getContext();
 		try {
@@ -72,8 +72,30 @@ public class Cache extends AModel<AView> {
 	 * 
 	 */
 	public void loadFileList() {
-		cacheIO.loadFileList(path);
+		File file = new File(path + "/history", "files.sav");
+		if (file.exists()) {
+			try {
+				FileInputStream fis = new FileInputStream(file);
+				InputStreamReader isr = new InputStreamReader(fis);
+				Gson gson = new Gson();
+				Type type = new TypeToken<ArrayList<String>>() {
+				}.getType();
+				this.fileDir = gson.fromJson(isr, type);
+			} catch (IOException e) {
+				Log.w("Cache", "IO exception in reading fileDir");
+			}
+		}
 
+	}
+
+	/**
+	 * Saves the file directory back to disk.
+	 * 
+	 */
+	public void saveFileList() {
+		Gson gson = new Gson();
+		String jsonString = gson.toJson(this.fileDir);
+		replaceFileHistory(jsonString, "files.sav");
 	}
 
 	/**
@@ -87,11 +109,54 @@ public class Cache extends AModel<AView> {
 	public boolean repliesExist(String filename) {
 		// returns true if there are replies in the cache
 		if (!filename.equals("-1")) {
-			return this.cacheIO.getFileDir().contains(filename);
+			return this.fileDir.contains(filename);
 		} else {
-			return this.cacheIO.getFileDir().contains("history.sav");
+			return this.fileDir.contains("history.sav");
 		}
 
+	}
+
+	/**
+	 * Replaces the current file history with a new one.
+	 * 
+	 * @param jsonString
+	 *            The file history we are replacing the old one with in json
+	 *            format
+	 * @param filename
+	 *            The location of the file history we are replacing
+	 */
+	public void replaceFileHistory(String jsonString, String filename) {
+		/*
+		 * this will save the serialized comments retrieved from elasticsearch
+		 * to disk. Right now this just replaces the file on disk with the last
+		 * elasticsearch query result which shares that esID
+		 */
+		if (!this.fileDir.contains(filename) && !filename.equals("files.sav")) {
+			this.fileDir.add(filename);
+			saveFileList();// saves to disk (may be a source of slowness)
+			Log.w("Cache", "added file to fileDir: " + filename);
+		}
+		FileOutputStream fos = null;
+		try {
+			File file = new File(path + "/history", filename);
+			fos = new FileOutputStream(file);
+			fos.write(jsonString.getBytes());
+			Log.w("Cache", "Writing this to disk");
+			Log.w("Cache", jsonString);
+		} catch (FileNotFoundException e) {
+			Log.w("Cache", "File not found");
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				fileDir.add(filename);
+				if (fos != null)
+					fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**
@@ -109,7 +174,7 @@ public class Cache extends AModel<AView> {
 	public CommentModel loadComment(String mParentID, String EsID) {
 		ArrayList<CommentModel> commentList;
 
-		cacheIO.loadFileList(path);
+		this.loadFileList();
 
 		if (this.repliesExist(mParentID)) {
 
@@ -203,7 +268,7 @@ public class Cache extends AModel<AView> {
 	public void updateCache(CommentModel comment) {
 		ArrayList<CommentModel> commentList;
 		String mParentID = comment.getmParentID();
-		cacheIO.loadFileList(path);
+		this.loadFileList();
 
 		Log.w("Cache", "Updating cache");
 		// If the parent folder exists search it
@@ -260,7 +325,7 @@ public class Cache extends AModel<AView> {
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
 		gson = builder.create();
 
-		cacheIO.replaceFileHistory(gson.toJson(commentList), filename, path);
+		replaceFileHistory(gson.toJson(commentList), filename);
 	}
 
 	/**
