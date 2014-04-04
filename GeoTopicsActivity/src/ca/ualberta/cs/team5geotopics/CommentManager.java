@@ -12,10 +12,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 public class CommentManager extends AModel<AView> {
+	private CommentRetriever commentRetriever = new CommentRetriever();
 	private static CommentManager myself = null;
 	private Cache mCache;
 	private Context mContext;
-	private User mUser;
 	private GeoTopicsApplication mApp;
 	private BroadcastReceiver webConnectionReceiver;
 	private ArrayList<CommentModel> commentStash;
@@ -24,7 +24,7 @@ public class CommentManager extends AModel<AView> {
 	private CommentManager() {
 		this.mCache = Cache.getInstance();
 		this.mContext = GeoTopicsApplication.getInstance().getContext();
-		this.mUser = User.getInstance();
+		commentRetriever.setMUser(User.getInstance());
 		this.mApp = GeoTopicsApplication.getInstance();
 		this.myUser = User.getInstance();
 		this.commentStash = new ArrayList<CommentModel>();
@@ -99,7 +99,7 @@ public class CommentManager extends AModel<AView> {
 	 *            The clm to refresh.
 	 */
 	public void refreshMyComments(CommentListModel clm) {
-		ArrayList<CommentModel> temp = this.getMyComments();
+		ArrayList<CommentModel> temp = commentRetriever.getMyComments(this);
 		clm.addNew(temp);
 	}
 
@@ -111,7 +111,7 @@ public class CommentManager extends AModel<AView> {
 	 *            The clm to refresh.
 	 */
 	public void refreshMyBookmarks(CommentListModel clm) {
-		ArrayList<CommentModel> temp = this.getMyBookmarks();
+		ArrayList<CommentModel> temp = commentRetriever.getMyBookmarks(this);
 		clm.setList(temp);
 	}
 
@@ -123,7 +123,7 @@ public class CommentManager extends AModel<AView> {
 	 *            The clm to refresh.
 	 */
 	public void refreshMyFavourites(CommentListModel clm) {
-		ArrayList<CommentModel> temp = this.getMyFavourites();
+		ArrayList<CommentModel> temp = commentRetriever.getMyFavourites(this);
 		clm.setList(temp);
 	}
 
@@ -151,69 +151,7 @@ public class CommentManager extends AModel<AView> {
 	 * @return The comment OR null if not found.
 	 */
 	public CommentModel getCommentByComboID(String ID) {
-		String parentID = mUser.breakParentID(ID);
-		String commentID = mUser.breakID(ID);
-		return getComment(parentID, commentID);
-	}
-
-	/**
-	 * Returns a list of comment models representing all the comments the user
-	 * authored.
-	 * 
-	 * @return array list of comment models
-	 */
-	public ArrayList<CommentModel> getMyComments() {
-		CommentModel tempComment;
-		ArrayList<String> commentIDs = mUser.getMyComments();
-		Log.w("MyComments", Integer.toString(commentIDs.size()));
-		for(String comment : commentIDs){
-			Log.w("MyComments", comment);
-		}
-		ArrayList<CommentModel> mComments = new ArrayList<CommentModel>();
-
-		for (String ID : commentIDs) {
-			tempComment = this.getCommentByComboID(ID);
-			if(tempComment!=null){
-				mComments.add(tempComment);
-			}
-		}
-		for(CommentModel comment : mComments){
-			Log.w("MyComments", comment.getmBody());
-		}
-		Log.w("MyComments", Integer.toString(mComments.size()));
-		return mComments;
-	}
-
-	/**
-	 * Returns a list of comment models representing all the comments the user
-	 * has bookmarked.
-	 * 
-	 * @return array list of comment models
-	 */
-	public ArrayList<CommentModel> getMyBookmarks() {
-		ArrayList<String> commentIDs = mUser.getMyBookmarks();
-		ArrayList<CommentModel> mComments = new ArrayList<CommentModel>();
-
-		for (String ID : commentIDs) {
-			mComments.add(this.getCommentByComboID(ID));
-		}
-		return mComments;
-	}
-
-	/**
-	 * Returns a list of comment models representing all the comments the user
-	 * has favourited.
-	 * 
-	 * @return array list of comment models
-	 */
-	public ArrayList<CommentModel> getMyFavourites() {
-		ArrayList<String> commentIDs = mUser.getMyFavourites();
-		ArrayList<CommentModel> mComments = new ArrayList<CommentModel>();
-
-		for (String ID : commentIDs) {
-			mComments.add(this.getCommentByComboID(ID));
-		}
-		return mComments;
+		return commentRetriever.getCommentByComboID(ID, this);
 	}
 
 	/**
@@ -316,10 +254,10 @@ public class CommentManager extends AModel<AView> {
 	}
 
 	/**
-	 * Creates a new top level comment. The comment is pushed to the web and added to the local my comments list.
-	 * @param newComment   an absolute URL giving the base location of the image
+	 * Creates a new reply comment. The comment is pushed to the web and added to the local my comments list.
+	 * @param newComment   the new reply level comment
 	 * @param context 	An activity context
-	 * @param myUser
+	 * @param myUser the user profile to add the newly created reply comment to.
 	 */
 	public void newReply(CommentModel newComment, Context context, User myUser) {
 		myUser.addToMyComments(newComment);

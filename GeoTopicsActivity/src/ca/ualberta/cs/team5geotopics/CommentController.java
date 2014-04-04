@@ -49,7 +49,7 @@ public class CommentController {
 	}
 
 	/**
-	 * Creates a new top level comment. The comment is pushed to the web
+	 * Creates a new Reply Level comment. The comment is pushed to the web
 	 * and added to the local my comments list.
 	 *
 	 * @param  newComment  an absolute URL giving the base location of the image
