@@ -4,9 +4,8 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
 import ca.ualberta.cs.team5geotopics.CommentModel;
-import ca.ualberta.cs.team5geotopics.GeoTopicsApplication;
 import ca.ualberta.cs.team5geotopics.InspectCommentActivity;
-import junit.framework.TestCase;
+
 
 public class EditTLComment extends ActivityInstrumentationTestCase2<InspectCommentActivity> {
 

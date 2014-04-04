@@ -1,32 +1,19 @@
 package ca.ualberta.cs.team5geotopics;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.RandomAccessFile;
-import java.lang.reflect.Type;
+
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-import java.util.UUID;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.provider.Settings.Secure;
 import android.util.Log;
 
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
 
 // code adapted from http://android-developers.blogspot.ca/2011/03/identifying-app-installations.html
 
@@ -37,6 +24,7 @@ import com.google.gson.GsonBuilder;
  * 
  */
 
+@SuppressWarnings("rawtypes")
 public class User extends AModel<AView> {
 	private static UserIO userIO = new UserIO();
 	private UserLocationServices userLocation = new UserLocationServices();

@@ -7,18 +7,24 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import ca.ualberta.cs.team5geotopics.CommentModel;
 import ca.ualberta.cs.team5geotopics.CommentPush;
-import ca.ualberta.cs.team5geotopics.StartActivity;
+import ca.ualberta.cs.team5geotopics.GeoTopicsApplication;
+import ca.ualberta.cs.team5geotopics.TopLevelActivity;
 
-public class EsTestsA extends ActivityInstrumentationTestCase2<StartActivity> {
+public class EsTestsA extends ActivityInstrumentationTestCase2<TopLevelActivity> {
 	
+	private TopLevelActivity mActivity;
+
 	public EsTestsA() {
-		super(StartActivity.class);
+		super(TopLevelActivity.class);
 		
 	}
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		mActivity = getActivity();
+		GeoTopicsApplication application = GeoTopicsApplication.getInstance();
+		application.setContext(mActivity);
 	
 	}
 	public void testPushTopLevel(){
