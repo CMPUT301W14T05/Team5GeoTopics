@@ -29,6 +29,7 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel> {
 
 		// Get the singletons we may need.
 		this.application = GeoTopicsApplication.getInstance();
+		application.setContext(this);
 		this.myUser = User.getInstance();
 		this.manager = CommentManager.getInstance();
 		this.uController = new UserController();

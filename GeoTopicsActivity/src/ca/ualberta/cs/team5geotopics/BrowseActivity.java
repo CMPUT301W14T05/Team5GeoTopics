@@ -61,7 +61,9 @@ public abstract class BrowseActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		
+		
 		//Remove the top back button, not going to use it.
 		getActionBar().setDisplayShowTitleEnabled(false);
 		getActionBar().setHomeButtonEnabled(false);
