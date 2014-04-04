@@ -100,6 +100,21 @@
 	    button labeled \'ADD PICTURE\' and either select the \'Take new photo\' option to take a new photo and use that or 
 	    the \'Take from gallery\' option to add a pre-existing photo.\n\nTo post the comment tap the button labeled \'POST\'
 	    or tap the button labeled \'CANCEL\' to cancel the comment.</string>
+	<string name="help_new_reply">Create Reply:</string>
+	<string name="new_reply_detail">To create a new reply you must be currently viewing a comment. Once you are viewing the
+	    comment, to reply to it simply tap the \'new comment/reply\' button in the action bar (see above). This will redirect
+	    you to the comment creation activity, fill in the fields, set location, add pictures the same as is explained in the
+	    \'Create Top Level Comment\' explanation.</string>
+	<string name="help_edit_profile">Edit Your Profile:</string>
+	<string name="edit_profile_detail">To edit your profile tap on the menu button (see above) and select the \'My Profile\'
+	    option. This will redirect your to your profile, where you can edit all the fields and give yourself a profile picture.
+	    To add a picture, tap the button labeled \'ADD PICTURE\' and either select the \'Take new photo\' option to take a
+	    new picture, or select the \'Take from gallery\' to select a picture from your phone\'s gallery. When you are ready
+	    to save your profile, tap the \'POST\' button, or press the \'CANCEL\' button to delete your changes.</string>
+	<string name="help_view_profile">View Profile:</string>
+	<string name="view_profile_details">To view a profile you must be viewing one of the author\'s comments. Once you are viewing
+	    the desired author\'s comment, tap the author\'s name, which will be highlighted blue. This will bring you to the author\'s
+	    profile.</string>
 	
 	
 </resources>

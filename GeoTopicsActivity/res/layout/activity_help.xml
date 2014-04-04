@@ -304,6 +304,57 @@
             android:layout_marginLeft="20dp"
             android:text="@string/new_top_level_detail"
             android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to Post a Reply -->
+        <TextView
+            android:id="@+id/postReplyText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_new_reply"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/postReplyDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/new_reply_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to Edit Your Profile -->
+        <TextView
+            android:id="@+id/editProfileText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_edit_profile"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/editProfileDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/edit_profile_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to View a Profile -->
+        <TextView
+            android:id="@+id/viewProfileText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_view_profile"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/viewProfileDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/view_profile_details"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </LinearLayout>
 
