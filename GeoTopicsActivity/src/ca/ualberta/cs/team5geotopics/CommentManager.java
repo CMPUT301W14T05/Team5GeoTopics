@@ -19,12 +19,14 @@ public class CommentManager extends AModel<AView> {
 	private GeoTopicsApplication mApp;
 	private BroadcastReceiver webConnectionReceiver;
 	private ArrayList<CommentModel> commentStash;
+	private User myUser;
 
 	private CommentManager() {
 		this.mCache = Cache.getInstance();
 		this.mContext = GeoTopicsApplication.getInstance().getContext();
 		this.mUser = User.getInstance();
 		this.mApp = GeoTopicsApplication.getInstance();
+		this.myUser = User.getInstance();
 		this.commentStash = new ArrayList<CommentModel>();
 		webConnectionReceiver = new BroadcastReceiver() {
 			@Override
@@ -277,6 +279,7 @@ public class CommentManager extends AModel<AView> {
 			this.commentStash.add(comment);
 		}
 		mCache.updateCache(comment);
+		myUser.addToMyComments(comment);
 
 		return thread;
 	}
@@ -310,6 +313,19 @@ public class CommentManager extends AModel<AView> {
 			}
 		}
 
+	}
+
+	/**
+	 * Creates a new top level comment. The comment is pushed to the web and added to the local my comments list.
+	 * @param newComment   an absolute URL giving the base location of the image
+	 * @param context 	An activity context
+	 * @param myUser
+	 */
+	public void newReply(CommentModel newComment, Context context, User myUser) {
+		myUser.addToMyComments(newComment);
+		newReply(newComment);
+		Log.w("CommentController", "id: " + newComment.getmEsID() + "\n"
+				+ "type: " + newComment.getmEsType());
 	}
 
 }

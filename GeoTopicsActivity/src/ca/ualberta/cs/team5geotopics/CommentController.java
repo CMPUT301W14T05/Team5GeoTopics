@@ -1,12 +1,8 @@
 package ca.ualberta.cs.team5geotopics;
 
-import io.searchbox.client.JestClient;
-import io.searchbox.client.JestResult;
-import io.searchbox.core.Index;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Location;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -32,7 +28,6 @@ public class CommentController {
 	 * @return      A comment controller
 	 */
 	public CommentController(Context context) {
-		GeoTopicsApplication.getInstance().setContext(context);
 		this.myUser = User.getInstance();
 		GsonBuilder builder = new GsonBuilder();
 		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
@@ -50,7 +45,6 @@ public class CommentController {
 	 * @param  newComment	The new top level comment.
 	 */
 	public void newTopLevel(CommentModel newComment) {
-		myUser.addToMyComments(newComment);
 		manager.newTopLevel(newComment);
 	}
 
@@ -62,10 +56,7 @@ public class CommentController {
 	 * @param	context	An activity context
 	 */
 	public void newReply(CommentModel newComment, Context context) {
-		myUser.addToMyComments(newComment);
-		manager.newReply(newComment);
-		Log.w("CommentController", "id: " + newComment.getmEsID() +"\n" 
-				+ "type: " + newComment.getmEsType());
+		manager.newReply(newComment, context, myUser);
 	}
 
 	/**
