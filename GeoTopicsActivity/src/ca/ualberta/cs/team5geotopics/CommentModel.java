@@ -1,13 +1,12 @@
 package ca.ualberta.cs.team5geotopics;
 
 
-import java.util.ArrayList;
+
 import java.util.Date;
 
 import android.graphics.Bitmap;
 import android.location.Location;
-import android.os.Parcel;
-import android.os.Parcelable;
+
 
 import ca.ualberta.cs.team5geotopics.AModel;
 import ca.ualberta.cs.team5geotopics.AView;
@@ -18,6 +17,7 @@ import ca.ualberta.cs.team5geotopics.AView;
  * of the program.
  */
 
+@SuppressWarnings("rawtypes")
 public class CommentModel extends AModel<AView> {
 	// elastic search dependent variables
 	private String mEsID;
