@@ -39,6 +39,10 @@ public class Cache extends AModel<AView> {
 		isLoaded = false;
 	}
 
+	public CacheIO getCacheIO(){
+		return this.cacheIO;
+	}
+	
 	/**
 	 * Returns the cache singleton. Only one cache object can exist at once.
 	 * Will construct a new one if one does not currently exist.
