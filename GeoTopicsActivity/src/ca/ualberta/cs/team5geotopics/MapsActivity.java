@@ -47,7 +47,8 @@ import android.widget.Toast;
  * Help from: http://mobiforge.com/design-development/using-google-maps-android
  */
 public class MapsActivity extends InspectCommentActivity {
-	 
+	
+	public final static int MAP_FAILED_TO_LOAD = 1337;
     // Google Map
     private GoogleMap googleMap;
     private LatLng geoPoint;

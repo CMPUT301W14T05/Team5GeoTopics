@@ -113,6 +113,7 @@
             android:name="ca.ualberta.cs.team5geotopics.HelpActivity" 
             android:label="@string/title_activity_help" >  
         </activity>
+
     </application>
 
 </manifest>
