@@ -28,7 +28,7 @@ import android.os.Build;
  * enter a longitude and latitude.
  */
 
-public class ManualLocationActivity extends Activity {
+public class ManualLocationActivity extends MapsActivity {
 Button submit;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
