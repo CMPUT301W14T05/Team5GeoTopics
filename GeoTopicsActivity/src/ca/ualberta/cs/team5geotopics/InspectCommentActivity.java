@@ -48,8 +48,6 @@ public class InspectCommentActivity extends Activity {
 	public static final int SELECT_LOCATION_REQUEST_CODE = 200;
 	public static final int GET_PHOTO = 105;
 	public static Uri imageFileUri;
-	protected GeoTopicsApplication application;
-	protected Cache mCache;
 	protected CommentModel newComment;
 	protected User myUser;
 	protected CommentController controller;
@@ -88,8 +86,6 @@ public class InspectCommentActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.application = GeoTopicsApplication.getInstance();
-		this.mCache = Cache.getInstance();
 		this.myUser = User.getInstance();
 		
 		this.controller = new CommentController(getApplicationContext());

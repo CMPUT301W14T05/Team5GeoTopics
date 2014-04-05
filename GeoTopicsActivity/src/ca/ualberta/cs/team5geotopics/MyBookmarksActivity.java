@@ -28,7 +28,6 @@ public class MyBookmarksActivity extends BrowseActivity implements AView<AModel>
 		title.setText("MY BOOKMARKS");
 
 		// Get the application
-		application = GeoTopicsApplication.getInstance();
 		manager = CommentManager.getInstance();
 		this.uController = new UserController();
 
