@@ -37,7 +37,7 @@ public class ProfileTests extends ActivityInstrumentationTestCase2<InspectOtherP
 	}
 	
 	// tests pushing and pulling a test profile
-	public void testAPushProfile(){
+	public void testPushAndPullProfile(){
 		Intent intent = new Intent();
 		intent.putExtra("ProfileID", "testProfile");
 		setActivityIntent(intent);
