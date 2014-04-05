@@ -14,19 +14,23 @@ import android.util.Log;
 import ca.ualberta.cs.team5geotopics.BitmapJsonConverter;
 import ca.ualberta.cs.team5geotopics.BrowseActivity;
 import ca.ualberta.cs.team5geotopics.Cache;
+import ca.ualberta.cs.team5geotopics.CacheIO;
+import ca.ualberta.cs.team5geotopics.CommentListModel;
+
 import ca.ualberta.cs.team5geotopics.CommentModel;
+import ca.ualberta.cs.team5geotopics.CommentSearch;
 import ca.ualberta.cs.team5geotopics.TopLevelActivity;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-public class CacheTests extends
+public class F_CacheTests extends
 		ActivityInstrumentationTestCase2<TopLevelActivity> {
 	
 	BrowseActivity activity;
 
-	public CacheTests() {
+	public F_CacheTests() {
 		super(TopLevelActivity.class);
 	}
 	
@@ -86,4 +90,22 @@ public class CacheTests extends
 		
 		
 	}
+	
+	public void testCacheReadComment(){
+		Cache cache = Cache.getInstance();
+
+		CommentListModel listModel = new CommentListModel();
+		CommentSearch search = new CommentSearch(listModel);
+		
+		Thread thread = search.pullComment("test id", "ReplyLevel");
+		try{
+			thread.join();
+		}
+		catch (InterruptedException e){
+			Log.w("EsTestPullSingleTopLevel", "Thread interrupt");
+		}
+		
+		
+	}
+
 }
