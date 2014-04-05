@@ -1,13 +1,7 @@
 package ca.ualberta.cs.team5geotopics;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,7 +44,7 @@ public class InspectOtherProfilesActivity extends InspectProfileActivity{
 	}
 	
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		this.updateUi();
 		super.onResume();
 	}

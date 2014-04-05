@@ -1,8 +1,14 @@
 package ca.ualberta.cs.team5geotopics;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -23,10 +29,11 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel> {
 
 		// Get the singletons we may need.
 		this.application = GeoTopicsApplication.getInstance();
-		this.application.setContext(getApplicationContext());
+		application.setContext(this);
 		this.myUser = User.getInstance();
 		this.manager = CommentManager.getInstance();
 		this.uController = new UserController();
+		me = this;
 
 		// Construct the model
 		this.clm = new CommentListModel();
@@ -43,12 +50,23 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel> {
 
 		// Register with the user
 		this.myUser.addView(this);
-
+		
+		webConnectionReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				if (application.isNetworkAvailable()) {
+					Log.w("Connectivity", "Have network");
+					Log.w("Connectivity", "Refreshing an activity");
+					manager.refresh(clm, me, viewingComment);
+				}
+			}
+		};
+		
 	}
 
 	@Override
 	protected void onResume() {
-
+		invalidateOptionsMenu();
 		manager.refresh(this.clm, this, viewingComment);
 		Log.w("Refresh", "After manager refresh");
 		// Reset the current viewing comment
@@ -76,15 +94,18 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel> {
 					}
 
 				});
-
+		
+		registerReceiver(webConnectionReceiver,
+				new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 		super.onResume();
 	}
 
 	@Override
 	protected void onPause() {
+		unregisterReceiver(webConnectionReceiver);
 		super.onPause();
 	}
-
+	
 	/**
 	 * @return "TopLevel" The type of comment it is.
 	 */
@@ -100,4 +121,13 @@ public class TopLevelActivity extends BrowseActivity implements AView<AModel> {
 	public void update(AModel model) {
 		this.myView.notifyDataSetChanged();
 	}
+	
+	//Ensures the favourites icon is the right color
+		public boolean onPrepareOptionsMenu(Menu menu) {
+			MenuItem item;
+			item = menu.findItem(R.id.action_favourite);
+			item.setVisible(false);
+			
+			return true;
+		}
 }

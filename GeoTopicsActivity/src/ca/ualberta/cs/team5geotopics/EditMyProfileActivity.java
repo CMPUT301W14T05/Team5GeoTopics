@@ -26,7 +26,6 @@ public class EditMyProfileActivity extends InspectProfileActivity implements OnC
 		username = (EditText)findViewById(R.id.edit_profile_username);
 		contact = (EditText)findViewById(R.id.edit_profile_contact);
 		bio = (EditText)findViewById(R.id.edit_biography_body);
-		myUser = User.getInstance();
 		profileImage = (ImageView)findViewById(R.id.profile_image);  
 		
 		photoBtn = (ImageButton)findViewById(R.id.imageButtonImageP);
@@ -38,6 +37,15 @@ public class EditMyProfileActivity extends InspectProfileActivity implements OnC
 		cancelBtn.setOnClickListener(this);
 		postBtn.setOnClickListener(this);
 		
+		myUser = User.getInstance();
+		username.setText(myUser.getUserName());
+		contact.setText(myUser.getContactInfo());
+		bio.setText(myUser.getBiography());
+		if(myUser.getProfilePic() != null){
+			profileImage.setImageBitmap(myUser.getProfilePic());
+			mPicture = myUser.getProfilePic();
+		}
+		
 	}
 	
 	@Override
@@ -46,18 +54,6 @@ public class EditMyProfileActivity extends InspectProfileActivity implements OnC
 		// present.
 		getMenuInflater().inflate(R.menu.browse_view, menu);
 		return true;
-	}
-	
-	@Override
-	protected void onResume() {
-		username.setText(myUser.getUserName());
-		contact.setText(myUser.getContactInfo());
-		bio.setText(myUser.getBiography());
-		if(myUser.getProfilePic() != null){
-			profileImage.setImageBitmap(myUser.getProfilePic());
-			mPicture = myUser.getProfilePic();
-		}
-		super.onResume();
 	}
 	
 	// This function will check for which button was clicked.

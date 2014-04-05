@@ -27,11 +27,14 @@ public class BrowseCommentRepliesTests extends
 
 					CommentModel comment = new CommentModel("1", "1", "Body",
 							"Author", null, null);
+					comment.setES("testParentId", "-1", "TopLevel");
 					CommentModel viewingComment = new CommentModel("1", "1",
 							"ViewingBody", "ViewingAuthor", null, null);
+					viewingComment.setES("testReplyId", "testParentId", "ReplyLevel");
 
 					Intent intent = new Intent();
-					intent.putExtra("ViewingComment", viewingComment);
+					intent.putExtra("ViewingParent", comment.getmEsID());
+					intent.putExtra("ViewingComment", viewingComment.getmEsID());
 					setActivityIntent(intent);
 
 					ReplyLevelActivity activity = getActivity();
@@ -88,11 +91,14 @@ public class BrowseCommentRepliesTests extends
 				public void run() {
 					CommentModel comment = new CommentModel("1", "1", "Body",
 							"Author", null, null);
+					comment.setES("testParentId", "-1", "TopLevel");
 					CommentModel viewingComment = new CommentModel("1", "1",
 							"ViewingBody", "ViewingAuthor", null, null);
+					viewingComment.setES("testReplyId", "testParentId", "ReplyLevel");
 
 					Intent intent = new Intent();
-					intent.putExtra("ViewingComment", viewingComment);
+					intent.putExtra("ViewingParent", comment.getmEsID());
+					intent.putExtra("ViewingComment", viewingComment.getmEsID());
 					setActivityIntent(intent);
 
 					ReplyLevelActivity activity = getActivity();
@@ -102,7 +108,7 @@ public class BrowseCommentRepliesTests extends
 					clm.add(comment);
 					activity.update(comment);
 
-					View view = activity.getWindow().getDecorView();
+					
 
 					// Find the views we want to assert their text
 					TextView author = (TextView) activity

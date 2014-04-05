@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/LinearLayout01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/helpIconsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_icons"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+		
+        <RelativeLayout
+            android:id="@+id/RelativeLayoutHelp1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+	        
+	        <ImageView
+	            android:id="@+id/addPostIcon"
+	            android:contentDescription="@string/add_post_detail"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:src="@drawable/ic_action_new" />
+	
+	        <TextView
+	            android:id="@+id/addPostTextView"
+	            android:layout_toRightOf="@+id/addPostIcon"
+	            android:layout_alignBottom="@+id/addPostIcon"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="20dp"
+	            android:text="@string/add_post_detail" />
+	        	
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:id="@+id/RelativeLayoutHelp2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+	        
+	        <ImageView
+	            android:id="@+id/sortIconImage"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:contentDescription="@string/sort_icon_detail"
+	            android:src="@drawable/ic_action_sort_by_size" />
+	
+	        <TextView
+	            android:id="@+id/sortIconText"
+	            android:layout_toRightOf="@+id/sortIconImage"
+	            android:layout_alignBottom="@+id/sortIconImage"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="20dp"
+	            android:text="@string/sort_icon_detail" />
+	        	
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:id="@+id/RelativeLayoutHelp3"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+	        
+	        <ImageView
+	            android:id="@+id/bookmarkIconImage"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:contentDescription="@string/bookmark_icon_detail"
+	            android:src="@drawable/ic_notification_bookmark" />
+	
+	        <TextView
+	            android:id="@+id/bookmarkIconText"
+	            android:layout_toRightOf="@+id/bookmarkIconImage"
+	            android:layout_alignBottom="@+id/bookmarkIconImage"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="20dp"
+	            android:text="@string/bookmark_icon_detail" />
+	        	
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:id="@+id/RelativeLayoutHelp4"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+	        
+	        <ImageView
+	            android:id="@+id/refreshIconImage"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:contentDescription="@string/refresh_icon_detail"
+	            android:src="@drawable/ic_action_refresh" />
+	
+	        <TextView
+	            android:id="@+id/refreshIconText"
+	            android:layout_toRightOf="@+id/refreshIconImage"
+	            android:layout_alignBottom="@+id/refreshIconImage"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="20dp"
+	            android:text="@string/refresh_icon_detail" />
+	        	
+        </RelativeLayout>
+        
+        <RelativeLayout
+            android:id="@+id/RelativeLayoutHelp5"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+	        
+	        <ImageView
+	            android:id="@+id/favoriteIconImage"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:contentDescription="@string/favourite_icon_detail"
+	            android:src="@drawable/ic_action_favorite" />
+	
+	        <TextView
+	            android:id="@+id/favoriteIconText"
+	            android:layout_toRightOf="@+id/favoriteIconImage"
+	            android:layout_alignBottom="@+id/favoriteIconImage"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="20dp"
+	            android:text="@string/favourite_icon_detail" />
+	        	
+        </RelativeLayout>
+        
+        <!-- Menu Icon -->
+        <RelativeLayout
+            android:id="@+id/RelativeLayoutHelp6"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+	        
+	        <ImageView
+	            android:id="@+id/menuIconImage"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentLeft="true"
+	            android:contentDescription="@string/menu_icon_detail"
+	            android:src="@drawable/ic_action_overflow" />
+	
+	        <TextView
+	            android:id="@+id/menuIconText"
+	            android:layout_toRightOf="@+id/menuIconImage"
+	            android:layout_alignBottom="@+id/menuIconImage"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="20dp"
+	            android:text="@string/menu_icon_detail" />
+	        	
+        </RelativeLayout>
+        
+        <!-- How to Browse Top Level Comments -->
+        <TextView
+            android:id="@+id/BrowseTopLevelText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_browse_top_level"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+      
+        <TextView
+            android:id="@+id/BrowseTopLevelDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/browse_top_level_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to Browse Replies -->
+        <TextView
+            android:id="@+id/BrowseRepliesText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_browse_replies"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+      
+        <TextView
+            android:id="@+id/BrowseRepliesDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/browse_replies_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to Sort Comments -->
+        <TextView
+            android:id="@+id/SortCommentsText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_sort_comments"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/SortCommentsDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/sort_comments_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to Bookmark Comments -->
+        <TextView
+            android:id="@+id/BookmarkCommentsText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_bookmark_comments"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/BookmarkCommentsDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/bookmark_comments_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to View Bookmarks -->
+        <TextView
+            android:id="@+id/viewBookmarksText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_view_bookmarks"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/viewBookmarksDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/view_bookmarks_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to Favourite Comments -->
+        <TextView
+            android:id="@+id/favouriteCommentsText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_favourite_comments"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/favouriteCommentsDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/favorite_comments_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to View Favourites -->
+        <TextView
+            android:id="@+id/viewFavouritesText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_view_favourites"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/viewFavouritesDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/view_favourites_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to Post a Top Level -->
+        <TextView
+            android:id="@+id/postTopLevelText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_new_top_level_comment"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/postTopLevelDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/new_top_level_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to Post a Reply -->
+        <TextView
+            android:id="@+id/postReplyText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_new_reply"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/postReplyDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/new_reply_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to Edit Your Profile -->
+        <TextView
+            android:id="@+id/editProfileText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_edit_profile"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/editProfileDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/edit_profile_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
+        <!-- How to View a Profile -->
+        <TextView
+            android:id="@+id/viewProfileText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_view_profile"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/viewProfileDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/view_profile_details"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </LinearLayout>
+
+</ScrollView>

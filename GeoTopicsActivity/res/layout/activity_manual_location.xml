@@ -26,7 +26,7 @@
         android:layout_alignBottom="@+id/longTextView"
         android:layout_toRightOf="@+id/longTextView"
         android:ems="10"
-        android:inputType="numberDecimal" >
+        android:inputType="numberSigned|numberDecimal" >
 
         <requestFocus />
     </EditText>
@@ -56,7 +56,7 @@
         android:layout_alignBottom="@+id/latTextView"
         android:layout_alignLeft="@+id/manualLongitude"
         android:ems="10"
-        android:inputType="numberDecimal" />
+        android:inputType="numberSigned|numberDecimal" />
 
     <TextView
         android:id="@+id/manLocHeaderTextView"

@@ -1,11 +1,5 @@
 package ca.ualberta.cs.team5geotopics.test;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import android.graphics.Bitmap;
@@ -23,7 +17,6 @@ import ca.ualberta.cs.team5geotopics.TopLevelActivity;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 public class F_CacheTests extends
 		ActivityInstrumentationTestCase2<TopLevelActivity> {
@@ -41,15 +34,15 @@ public class F_CacheTests extends
 	}
 
 	public void testFileIO(){
-		//this has the "hard to test" smell: but tests storing and loading an ArrayList<CommentModel>
 		Cache cache = Cache.getInstance();
 		String filename = "testFile";
 		
 		Bitmap pic = Bitmap.createBitmap(10,10 ,Bitmap.Config.ARGB_8888);
 
 		ArrayList<CommentModel> acm = new ArrayList<CommentModel>();
-		CommentModel comment1 = new CommentModel("1.2", "1.111", "Body-test body", "Author", null, "Title");
-		CommentModel comment2 = new CommentModel("2", "2", "Body2", "Author2", pic, "Title2");
+		CommentModel comment1 = new CommentModel("1.2", "1.111", "body1", "Author1", "Title1", null, "testAuthorId");
+		CommentModel comment2 = new CommentModel("2", "2", "body2", "Author2", "Title2", pic, "testAuthorId");
+		
 		
  		acm.add(comment1);
  		acm.add(comment2); //make a list of 2 comments
@@ -59,20 +52,18 @@ public class F_CacheTests extends
 		Gson gson = builder.create();
 		
 		String jsonString = gson.toJson(acm);
+		CacheIO cacheIO = cache.getCacheIO();
 		
-		cache.replaceFileHistory(jsonString, filename); //store to file 
+		cacheIO.replaceFileHistory(jsonString, filename); //store to file 
 		acm.clear();
 		
-		acm = cache.load(filename); /*retrieve from cache (though the deserialization
-														is duplicated on ui thread of the calling activity) 
-														The cache needs to be modularized: one thing will be to change how it passes
-														this arraylist to the CommentListModel for the activity. It works but I can't
-														seem to get at it for testing. */
-		//acm = activity.clm.getList();
+		acm = cacheIO.load(filename); 
+		
 		assertTrue(!acm.isEmpty()); 
 		
 		assertTrue(acm.get(0).getmBody().equals(comment1.getmBody()));
 		assertTrue(acm.get(0).getmAuthor().equals(comment1.getmAuthor()));
+		Log.w("CacheTests", acm.get(0).getmTitle() + " " + comment1.getmTitle());
 		assertTrue(acm.get(0).getmTitle().equals(comment1.getmTitle()));
 		assertTrue(acm.get(0).getmPicture() == null);
 		assertTrue(acm.get(0).getLat().equals(comment1.getLat()));
@@ -84,11 +75,8 @@ public class F_CacheTests extends
 		assertTrue(acm.get(1).getLat().equals(comment2.getLat()));
 		assertTrue(acm.get(1).getLon().equals(comment2.getLon()));
 		
-		//Log.w("filterlogstest", acm.get(1).getmPicture().toString());
-		//Log.w("filterlogstest", comment2.getmPicture().toString()); //references change but the picture still makes it.
+		
 		assertTrue(acm.get(1).getmPicture().describeContents() == comment2.getmPicture().describeContents());
-		
-		
 	}
 	
 	public void testCacheReadComment(){

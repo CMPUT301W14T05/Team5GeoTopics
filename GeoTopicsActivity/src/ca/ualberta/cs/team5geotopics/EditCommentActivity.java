@@ -4,7 +4,9 @@ package ca.ualberta.cs.team5geotopics;
 import com.example.team5geotopics.R;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -62,17 +64,19 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		
 		// Replies do not have titles and thus we should disable it OR make
 		// a new activity/layout
-		if (viewingComment != null) {
+		if (!viewingComment.isTopLevel()) {
+			Log.w("MyComments", "Disable title");
 			this.title.setVisibility(View.GONE);
-			//findViewById(R.id.textViewTitle).setVisibility(View.GONE);
+			findViewById(R.id.textViewTitleE).setVisibility(View.GONE);
 		}
 		
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.edit_comment, menu);
+		// Inflate the menu; this adds items to the action bar if it is
+		// present.
+		getMenuInflater().inflate(R.menu.browse_view, menu);
 		return true;
 	}
 	
@@ -94,9 +98,6 @@ public class EditCommentActivity extends InspectCommentActivity implements OnCli
 		if (v == postBtn){
 				title = (EditText)findViewById(R.id.editCommentTitleE);
 				body = (EditText)findViewById(R.id.editCommentBodyE);
-				
-				//application.getCurrentViewingComment().setmPicture(mPicture);
-				//application.getCurrentViewingComment().setmGeolocation(mGeolocation);
 				
 				controller.updateComment(viewingComment, title.getText().toString(), myUser.getUserName(), body.getText().toString(), mPicture, mGeolocation);
 				finish();

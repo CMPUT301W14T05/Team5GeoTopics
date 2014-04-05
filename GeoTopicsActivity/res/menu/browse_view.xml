@@ -46,4 +46,9 @@
         android:icon="@drawable/ic_action_refresh"
         android:showAsAction="never"
         android:title="@string/action_my_favourites"/>
+     <item 
+        android:id="@+id/action_help_page"
+        android:icon="@drawable/ic_action_refresh"
+        android:showAsAction="never"
+        android:title="@string/action_help_page"/>
 </menu>

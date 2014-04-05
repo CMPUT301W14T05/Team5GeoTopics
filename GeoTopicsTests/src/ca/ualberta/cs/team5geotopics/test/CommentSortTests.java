@@ -6,15 +6,15 @@ import java.util.List;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.test.ActivityInstrumentationTestCase2;
-import ca.ualberta.cs.team5geotopics.BrowseActivity;
 import ca.ualberta.cs.team5geotopics.CommentListModel;
 import ca.ualberta.cs.team5geotopics.CommentModel;
+import ca.ualberta.cs.team5geotopics.CommentSort;
 import ca.ualberta.cs.team5geotopics.GeoTopicsApplication;
 import ca.ualberta.cs.team5geotopics.TopLevelActivity;
 
-public class CommentListModelTests extends ActivityInstrumentationTestCase2<TopLevelActivity> {
+public class CommentSortTests extends ActivityInstrumentationTestCase2<TopLevelActivity> {
 
-	public CommentListModelTests() {
+	public CommentSortTests() {
 		super(TopLevelActivity.class);
 	}
 	
@@ -68,8 +68,8 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<TopL
 		assertTrue("The second element of the list is B", clm.getList().get(1).getmBody().equals("B"));
 		assertTrue("The third element of the list is A", clm.getList().get(2).getmBody().equals("A"));
 		
-		clm.sortCommentsByProximityToLoc(myLoc);
-		
+		CommentSort sort = new CommentSort(clm.getList());
+		sort.sortCommentsByProximityToLoc(myLoc);
 		assertTrue("The first element of the list is B", clm.getList().get(0).getmBody().equals("B"));
 		assertTrue("The second element of the list is A", clm.getList().get(1).getmBody().equals("A"));
 		assertTrue("The first element of the list is C", clm.getList().get(2).getmBody().equals("C"));
@@ -100,7 +100,9 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<TopL
 		assertTrue("The first element of the list is C", clm.getList().get(0).getmBody().equals("C"));
 		assertTrue("The second element of the list is B", clm.getList().get(1).getmBody().equals("B"));
 		assertTrue("The third element of the list is A", clm.getList().get(2).getmBody().equals("A"));
-		clm.sortCommentsByPicture(myLoc);
+		CommentSort sort = new CommentSort(clm.getList());
+		sort.sortCommentsByPicture(myLoc);
+		
 		assertTrue("The first element of the list is C", clm.getList().get(0).getmBody().equals("C"));
 		assertTrue("The second element of the list is A", clm.getList().get(1).getmBody().equals("A"));
 		assertTrue("The third element of the list is B", clm.getList().get(2).getmBody().equals("B"));
@@ -130,8 +132,8 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<TopL
 		assertTrue("The first element is originally C", clm.getList().get(0).getmBody().equals("C"));
 		assertTrue("The first element is originally B", clm.getList().get(1).getmBody().equals("B"));
 		assertTrue("The first element is originally A", clm.getList().get(2).getmBody().equals("A"));
-		
-		clm.sortAllCommentsByDate();
+		CommentSort sort = new CommentSort(clm.getList());
+		sort.sortAllCommentsByDate();
 		
 		assertTrue("The first element should be C", clm.getList().get(0).getmBody().equals("C"));
 		assertTrue("The first element is originally B", clm.getList().get(1).getmBody().equals("B"));
@@ -163,8 +165,8 @@ public class CommentListModelTests extends ActivityInstrumentationTestCase2<TopL
 		assertTrue("The first element of the list is C", clm.getList().get(0).getmBody().equals("C"));
 		assertTrue("The second element of the list is B", clm.getList().get(1).getmBody().equals("B"));
 		assertTrue("The third element of the list is A", clm.getList().get(2).getmBody().equals("A"));
-		
-		clm.sortCommentsByFreshness(myLoc);
+		CommentSort sort = new CommentSort(clm.getList());
+		sort.sortCommentsByFreshness(myLoc);
 		
 		assertEquals("The size of the array should now be 3", 3, clm.getList().size());
 		assertTrue("The first element of the list is C", clm.getList().get(0).getmBody().equals("C"));

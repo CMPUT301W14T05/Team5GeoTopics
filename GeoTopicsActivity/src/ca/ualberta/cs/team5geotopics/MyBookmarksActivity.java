@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -26,7 +28,6 @@ public class MyBookmarksActivity extends BrowseActivity implements AView<AModel>
 		title.setText("MY BOOKMARKS");
 
 		// Get the application
-		application = GeoTopicsApplication.getInstance();
 		manager = CommentManager.getInstance();
 		this.uController = new UserController();
 
@@ -54,6 +55,7 @@ public class MyBookmarksActivity extends BrowseActivity implements AView<AModel>
 	
 	@Override
 	protected void onResume(){
+		invalidateOptionsMenu();
 		manager.refreshMyBookmarks(clm);
 		myView.notifyDataSetChanged(); //Ensure the view is up to date.
 		browseListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -89,6 +91,21 @@ public class MyBookmarksActivity extends BrowseActivity implements AView<AModel>
 	@Override
 	public String getType() {
 		return "MyBookmarks";
+	}
+	
+	// Ensures the proper action bar items are shown
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem item;
+		item = menu.findItem(R.id.action_favourite);
+		item.setVisible(false);
+		item = menu.findItem(R.id.action_bookmark);
+		item.setVisible(false);
+		item = menu.findItem(R.id.action_my_bookmarks);
+		item.setVisible(false);
+		item = menu.findItem(R.id.new_top_level_comment);
+		item.setVisible(false);
+
+		return true;
 	}
 
 

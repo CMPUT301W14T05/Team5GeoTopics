@@ -2,11 +2,9 @@ package ca.ualberta.cs.team5geotopics;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Index;
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
@@ -63,7 +61,7 @@ public class CommentPush {
 				if (e == null){
 					User user = User.getInstance();
 					user.updatePostCountFile();
-					Log.w("CommentController", mResult.getJsonString());
+					//Log.w("CommentController", mResult.getJsonString());
 				}
 				
 				

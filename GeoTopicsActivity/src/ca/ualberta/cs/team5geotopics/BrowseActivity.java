@@ -3,15 +3,21 @@ package ca.ualberta.cs.team5geotopics;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+
 import android.content.DialogInterface;
 import android.content.Intent;
+
 import android.location.Location;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
 import android.widget.ListView;
+
 
 import com.example.team5geotopics.R;
 
@@ -34,6 +40,8 @@ public abstract class BrowseActivity extends Activity {
 	protected boolean bookmark = false;
 	protected boolean favourite = false;
 	protected UserController uController;
+	protected BroadcastReceiver webConnectionReceiver;
+	protected BrowseActivity me;
 
 	/**
 	 * New comment request code.
@@ -52,17 +60,15 @@ public abstract class BrowseActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		// Remove the title and logo from the action bar
-		// TODO: Look for a better way to do this, this feels like a hack.
-		// Has to be a better way to do this in xml. (James)
+		
+		
+		
+		//Remove the top back button, not going to use it.
 		getActionBar().setDisplayShowTitleEnabled(false);
-		// Gives us the left facing caret. Need to drop the app icon however OR
-		// change it to something other than the android guy OR remove software
-		// back
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-	}
+		getActionBar().setHomeButtonEnabled(false);
+		getActionBar().setDisplayShowHomeEnabled(false);
 
+	}
 	// Creates the options menu using the layout in menu.
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
@@ -95,6 +101,7 @@ public abstract class BrowseActivity extends Activity {
 	 *            The menu item that was selected
 	 * @return If the selection was sucessfull.
 	 */
+	@SuppressWarnings("deprecation")
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		// User clicks new comment button.
@@ -153,6 +160,10 @@ public abstract class BrowseActivity extends Activity {
 				favourite = true;
 				uController.favourite(this.viewingComment);
 			}
+			break;
+		case R.id.action_help_page:
+			intent = new Intent(this, HelpActivity.class);
+			startActivity(intent);
 			break;
 		default:
 			return super.onOptionsItemSelected(item);

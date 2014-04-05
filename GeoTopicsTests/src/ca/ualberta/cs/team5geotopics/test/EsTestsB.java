@@ -8,6 +8,7 @@ import ca.ualberta.cs.team5geotopics.BrowseActivity;
 import ca.ualberta.cs.team5geotopics.Cache;
 import ca.ualberta.cs.team5geotopics.CommentListModel;
 import ca.ualberta.cs.team5geotopics.CommentSearch;
+import ca.ualberta.cs.team5geotopics.GeoTopicsApplication;
 import ca.ualberta.cs.team5geotopics.TopLevelActivity;
 
 
@@ -23,12 +24,15 @@ public class EsTestsB extends ActivityInstrumentationTestCase2<TopLevelActivity>
 	protected void setUp() throws Exception {
 		super.setUp();
 		mActivity = getActivity();
+		GeoTopicsApplication application = GeoTopicsApplication.getInstance();
+		application.setContext(mActivity);
 	}
 	
 	public void testPullTopLevel(){
 		CommentListModel listModel = new CommentListModel();
 		Cache cache = Cache.getInstance();
 		CommentSearch search = new CommentSearch(listModel, cache);
+		
 		
 		Thread thread = search.pullTopLevel((BrowseActivity) mActivity);
 		try{
@@ -59,7 +63,7 @@ public class EsTestsB extends ActivityInstrumentationTestCase2<TopLevelActivity>
 	}
 	
 	public void testPullSingleCommentTopLevel(){
-		String ID = null;
+		
 		CommentListModel listModel = new CommentListModel();
 		CommentSearch search = new CommentSearch(listModel);
 		
@@ -77,7 +81,7 @@ public class EsTestsB extends ActivityInstrumentationTestCase2<TopLevelActivity>
 	}
 	
 	public void testPullSingleCommentReplyLevel(){
-		String ID = null;
+		
 		CommentListModel listModel = new CommentListModel();
 		CommentSearch search = new CommentSearch(listModel);
 		

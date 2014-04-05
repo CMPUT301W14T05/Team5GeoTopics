@@ -65,7 +65,7 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is
 		// present.
-		getMenuInflater().inflate(R.menu.create_comment, menu);
+		getMenuInflater().inflate(R.menu.browse_view, menu);
 		return true;
 	}
 
@@ -74,16 +74,6 @@ public class CreateCommentActivity extends InspectCommentActivity implements
 	public void onClick(View v) {
 		if (v == locationBtn) {
 			showDialog(1);
-			/*
-			 * SIMPLY HERE FOR TESTING PURPOSES:
-			 * 
-			 * generates a different location than default. TODO: For next part
-			 * of project, let users choose a custom location
-			 */			///Location loc = new Location("loc");
-			//loc.setLongitude(0.1);
-			//loc.setLatitude(0);
-			//mGeolocation = loc;
-			/*------------------------------------------------------------------*/
 		}
 		if (v == photoBtn) {
 			uploadedImage = (ImageView) findViewById(R.id.imageViewPicture);

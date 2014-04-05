@@ -74,7 +74,6 @@ public class MapsActivity extends InspectCommentActivity {
         if (googleMap == null) {
             googleMap = ((MapFragment) getFragmentManager().findFragmentById(
                     R.id.map)).getMap();
-            //googleMap.setMyLocationEnabled(true);
             
             // check if map is created successfully or not
             if (googleMap == null) {

@@ -4,7 +4,11 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -28,7 +32,6 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	private TextView body;
 	private ImageView image;
 	private View divider;
-	private Activity me;
 	private String viewingParent;
 	private String viewingID;
 	private MenuItem favouriteItem;
@@ -43,7 +46,6 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 
 		// Get the singletons we may need.
 		this.application = GeoTopicsApplication.getInstance();
-		// this.application.setContext(getApplicationContext());
 		this.myUser = User.getInstance();
 		this.manager = CommentManager.getInstance();
 		this.uController = new UserController();
@@ -66,12 +68,6 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 		this.clm.addView(this.myView);
 		// Register with the manager
 		this.manager.addView(this);
-		// Register with the user
-		// this.myUser.addView(this);
-
-		// Register myself with the viewing comment
-		// TODO: Figure out why this is not working
-		// this.viewingComment.addView(this);
 
 		// Attach the list view to myView
 		browseListView = (ListView) findViewById(R.id.reply_level_listView);
@@ -102,6 +98,17 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 				}
 			}
 		});
+		
+		webConnectionReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				if (application.isNetworkAvailable()) {
+					Log.w("Connectivity", "Have network");
+					Log.w("Connectivity", "Refreshing an activity");
+					manager.refresh(clm, me, viewingComment);
+				}
+			}
+		};
 
 	}
 
@@ -139,10 +146,9 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 					}
 
 				});
-		Toast.makeText(
-				getApplicationContext(),
-				"(" + viewingComment.getLat() + ", " + viewingComment.getLon()
-						+ ")", Toast.LENGTH_LONG).show();
+		
+		registerReceiver(webConnectionReceiver,
+				new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 		super.onResume();
 	}
 
@@ -155,6 +161,12 @@ public class ReplyLevelActivity extends BrowseActivity implements AView<AModel> 
 	 */
 	public String getType() {
 		return "ReplyLevel";
+	}
+	
+	@Override
+	protected void onPause() {
+		unregisterReceiver(webConnectionReceiver);
+		super.onPause();
 	}
 
 	private void updateViewingComment(CommentModel comment) {

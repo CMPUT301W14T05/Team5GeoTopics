@@ -17,11 +17,7 @@ public class UserController {
 	 *            The comment ID
 	 */
 	public void bookmark(CommentModel comment) {
-		if (!(mUser.inBookmarks(comment))) {
-			mUser.addBookmark(comment);
-		} else {
-			mUser.removeBookmark(comment);
-		}
+		mUser.bookmark(comment);
 	}
 
 	/**
@@ -46,13 +42,7 @@ public class UserController {
 	 *            The comment ID
 	 */
 	public void favourite(CommentModel comment) {
-		if (comment != null) {
-			if (!(mUser.inFavourites(comment))) {
-				mUser.addFavourite(comment);
-			} else {
-				mUser.removeFavourite(comment);
-			}
-		}
+		mUser.favourite(comment);
 	}
 	
 	public void updateProfile(String userName, String contactInfo, String bio, Bitmap profile){

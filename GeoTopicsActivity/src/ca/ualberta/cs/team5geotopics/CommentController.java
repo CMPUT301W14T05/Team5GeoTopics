@@ -1,15 +1,9 @@
 package ca.ualberta.cs.team5geotopics;
 
-import io.searchbox.client.JestClient;
-import io.searchbox.client.JestResult;
-import io.searchbox.core.Index;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Location;
-import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 /**
  * The CommentController class is what helps distinguish between a new reply or a new top level
@@ -21,8 +15,6 @@ public class CommentController {
 	
 	private User myUser;
 	
-	private Gson mGson;
-	
 	private CommentManager manager;
 	
 	/**
@@ -32,11 +24,7 @@ public class CommentController {
 	 * @return      A comment controller
 	 */
 	public CommentController(Context context) {
-		GeoTopicsApplication.getInstance().setContext(context);
 		this.myUser = User.getInstance();
-		GsonBuilder builder = new GsonBuilder();
-		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
-		this.mGson = builder.create();
 		manager = CommentManager.getInstance();
 		
 	}
@@ -50,22 +38,18 @@ public class CommentController {
 	 * @param  newComment	The new top level comment.
 	 */
 	public void newTopLevel(CommentModel newComment) {
-		myUser.addToMyComments(newComment);
 		manager.newTopLevel(newComment);
 	}
 
 	/**
-	 * Creates a new top level comment. The comment is pushed to the web
+	 * Creates a new Reply Level comment. The comment is pushed to the web
 	 * and added to the local my comments list.
 	 *
 	 * @param  newComment  an absolute URL giving the base location of the image
 	 * @param	context	An activity context
 	 */
 	public void newReply(CommentModel newComment, Context context) {
-		myUser.addToMyComments(newComment);
-		manager.newReply(newComment);
-		Log.w("CommentController", "id: " + newComment.getmEsID() +"\n" 
-				+ "type: " + newComment.getmEsType());
+		manager.newReply(newComment, context, myUser);
 	}
 
 	/**

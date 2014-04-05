@@ -17,6 +17,7 @@
     <string name="es_test_activity">Elastic Search Test Suite</string>
     <string name="title_activity_inspect_comment">InspectCommentActivity</string>
     <string name="title_activity_browse_relpy">BrowseRelpyActivity</string>
+    <string name="title_activity_help">HelpActivity</string>
     <string name="comment_image">Comment Image</string>
     <string name="action_settings">Settings</string>
 
@@ -30,6 +31,7 @@
     <string name="action_my_comments">My Comments</string>
     <string name="action_my_bookmarks">My Bookmarks</string>
     <string name="action_my_favourites">My Favourites</string>
+    <string name="action_help_page">Help Page</string>
 
     <!-- Strings for top level list layout -->
     <string name="top_level_thumbnail">Thumbnail</string>
@@ -50,7 +52,69 @@
     <!-- Strings for manual location layout -->
 	<string name="longitude_text">Longitude:</string>
 	<string name="latitude_text">Latitude:</string>
-	<string name="submit_button">Submit</string>
+	<string name="submit_button">Set Location</string>
 	<string name="man_location_header">Enter Desired Longitude/Latitude:</string>
+	
+	<!-- Strings for the help activity -->
+	<string name="help_icons">Icons:</string>
+	<string name="add_post_detail">Create a new comment/reply</string>
+	<string name="sort_icon_detail">Displays sort options</string>
+	<string name="bookmark_icon_detail">Bookmarks a post</string>
+	<string name="refresh_icon_detail">Refresh the list of Comments</string>
+	<string name="favourite_icon_detail">Favourite a post</string>
+	<string name="menu_icon_detail">Displays the menu</string>
+	<string name="help_browse_top_level">Browse Top Levels:</string>
+	<string name="browse_top_level_detail">From the home screen, click on the \'Browse\' button.</string>
+	<string name="help_browse_replies">Browse Replies:</string>
+	<string name="browse_replies_detail">Tap any available Comment to view it\'s body, and it\'s replies.</string>
+	<string name="help_sort_comments">Sort Comments:</string>
+	<string name="sort_comments_detail">Tap on the sort comments icon (see above) and select any of the available
+	    sorting options to sort the current list of comments. If \'Sort by proximity to location\' is selected you
+	    will have to select your location on the map and press the \'Set Location\' button to sort the comments with
+	    proximity to the given location. On older APIs you will be redirected to an activity where you will can enter 
+	    coordinate location manually and press the \'Set Location\' button to sort the comments with proximity to the 
+	    given location.</string>
+	<string name="help_bookmark_comments">Bookmark Comments:</string>
+	<string name="bookmark_comments_detail">To bookmark comments tap the bookmark icon (see above) on the action bar to 
+	    highlight it blue. Once it is highlighted blue, tap on all the comments you wish to bookmark, then press the bookmark
+	    icon again to un-highlight it. All of the comments which you have selected will have a highlighted blue bookmark icon
+	    and will have been added to your bookmarks.</string>
+	<string name="help_view_bookmarks">View Bookmarks:</string>
+	<string name="view_bookmarks_detail">To view bookmarked comments either return to the application main screen and tap the
+	    button labeled \'Bookmarks\' or tap the menu button (see above) and select the \'My Bookmarks\' option. Once a bookmarked
+	    comment is viewed, it will be removed from your list of bookmarked comments.</string>
+	<string name="help_favourite_comments">Favourite Comments:</string>
+	<string name="favorite_comments_detail">To favorite a comments you must first tap the comment, to view the comment. Then press
+	    the favorite icon (see above) to favorite the comment. When the comment has been successfully favorited, the favorite icon
+	    will be highlighted blue.</string>
+	<string name="help_view_favourites">View Favourites:</string>
+	<string name="view_favourites_detail">To view favourited comments either return to the application main screen and tap the
+	    button labeled \'Favourites\' or tap the menu button (see above) and select the \'My Favourites\' option.</string>
+	<string name="help_new_top_level_comment">Create Top Level Comment:</string>
+	<string name="new_top_level_detail">To create a new top level comment you must be currently viewing the root comments.
+	    An easy way to access the root comments is to go to the application\'s main screen then tap the button labeled
+	    \'Browse\'. Once you are viewing the list of root comments tap the new comment button (see above). This will bring you
+	    to the comment creation activity. Fill in the title, body fields. To set your comment\'s location tap the button
+	    labeled \'LOCATION\' and either select \'get current location\' to automatically retrieve your current location or
+	    manually set your location by selecting the \'set location\' option. To add a picture to your comment tap the 
+	    button labeled \'ADD PICTURE\' and either select the \'Take new photo\' option to take a new photo and use that or 
+	    the \'Take from gallery\' option to add a pre-existing photo.\n\nTo post the comment tap the button labeled \'POST\'
+	    or tap the button labeled \'CANCEL\' to cancel the comment.</string>
+	<string name="help_new_reply">Create Reply:</string>
+	<string name="new_reply_detail">To create a new reply you must be currently viewing a comment. Once you are viewing the
+	    comment, to reply to it simply tap the \'new comment/reply\' button in the action bar (see above). This will redirect
+	    you to the comment creation activity, fill in the fields, set location, add pictures the same as is explained in the
+	    \'Create Top Level Comment\' explanation.</string>
+	<string name="help_edit_profile">Edit Your Profile:</string>
+	<string name="edit_profile_detail">To edit your profile tap on the menu button (see above) and select the \'My Profile\'
+	    option. This will redirect your to your profile, where you can edit all the fields and give yourself a profile picture.
+	    To add a picture, tap the button labeled \'ADD PICTURE\' and either select the \'Take new photo\' option to take a
+	    new picture, or select the \'Take from gallery\' to select a picture from your phone\'s gallery. When you are ready
+	    to save your profile, tap the \'POST\' button, or press the \'CANCEL\' button to delete your changes.</string>
+	<string name="help_view_profile">View Profile:</string>
+	<string name="view_profile_details">To view a profile you must be viewing one of the author\'s comments. Once you are viewing
+	    the desired author\'s comment, tap the author\'s name, which will be highlighted blue. This will bring you to the author\'s
+	    profile.</string>
+	
 	
 </resources>

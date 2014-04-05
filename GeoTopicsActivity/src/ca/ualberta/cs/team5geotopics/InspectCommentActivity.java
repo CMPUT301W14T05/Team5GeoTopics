@@ -19,6 +19,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -47,8 +48,6 @@ public class InspectCommentActivity extends Activity {
 	public static final int SELECT_LOCATION_REQUEST_CODE = 200;
 	public static final int GET_PHOTO = 105;
 	public static Uri imageFileUri;
-	protected GeoTopicsApplication application;
-	protected Cache mCache;
 	protected CommentModel newComment;
 	protected User myUser;
 	protected CommentController controller;
@@ -57,6 +56,7 @@ public class InspectCommentActivity extends Activity {
 	protected Bundle b;
 	protected CommentModel viewingComment;
 	protected CommentManager manager;
+	protected Intent intent;
 
 
 
@@ -86,9 +86,6 @@ public class InspectCommentActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.application = GeoTopicsApplication.getInstance();
-		this.mCache = Cache.getInstance();
-		this.application.setContext(getApplicationContext());
 		this.myUser = User.getInstance();
 		
 		this.controller = new CommentController(getApplicationContext());
@@ -101,12 +98,81 @@ public class InspectCommentActivity extends Activity {
 			commentType = "notApplicable";
 		}
 		
+		//Remove the top back button, not going to use it.
+		try{
+			getActionBar().setDisplayShowTitleEnabled(false);
+			getActionBar().setHomeButtonEnabled(false);
+			getActionBar().setDisplayShowHomeEnabled(false);
+		}catch (NullPointerException e){
+			//Do nothing
+		}
+		
 	}
+	
+	/**
+	 * The necessary code for what to do on a menu item select
+	 * 
+	 * @param item
+	 *            The menu item that was selected
+	 * @return If the selection was sucessfull.
+	 */
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.action_my_comments:
+			intent = new Intent(this, MyCommentsActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.action_profile:
+			intent = new Intent(this, EditMyProfileActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.action_my_bookmarks:
+			intent = new Intent(this, MyBookmarksActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.action_my_favourites:
+			intent = new Intent(this, MyFavouritesActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.action_help_page:
+			intent = new Intent(this, HelpActivity.class);
+			startActivity(intent);
+			break;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return true;
+	}
+	
+	@Override
+	public void onResume() {
+		invalidateOptionsMenu();
+		super.onResume();
+	}
+	
+	// Ensures the proper action bar items are shown
+		public boolean onPrepareOptionsMenu(Menu menu) {
+			MenuItem item;
+			item = menu.findItem(R.id.action_favourite);
+			item.setVisible(false);
+			item = menu.findItem(R.id.action_bookmark);
+			item.setVisible(false);
+			item = menu.findItem(R.id.new_top_level_comment);
+			item.setVisible(false);
+			item = menu.findItem(R.id.action_sort);
+			item.setVisible(false);
+			item = menu.findItem(R.id.action_refresh);
+			item.setVisible(false);
+			item = menu.findItem(R.id.action_my_comments);
+			item.setVisible(false);
+			return true;
+		}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.inspect_comment, menu);
+		// Inflate the menu; this adds items to the action bar if it is
+		// present.
+		getMenuInflater().inflate(R.menu.browse_view, menu);
 		return true;
 	}
 
