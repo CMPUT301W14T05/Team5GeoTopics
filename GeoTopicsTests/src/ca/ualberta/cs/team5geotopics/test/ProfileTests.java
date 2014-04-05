@@ -38,9 +38,7 @@ public class ProfileTests extends ActivityInstrumentationTestCase2<InspectOtherP
 	
 	// tests pushing and pulling a test profile
 	public void testPushAndPullProfile(){
-		Intent intent = new Intent();
-		intent.putExtra("ProfileID", "testProfile");
-		setActivityIntent(intent);
+		
 		JestResult result = null;
 		Thread thread = pp.pushProfile(user);
 		try{

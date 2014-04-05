@@ -9,6 +9,9 @@ public class UserController {
 		this.mUser = User.getInstance();
 	}
 
+	public UserController(User user){
+		this.mUser = user;
+	}
 	/**
 	 * Used to add OR remove a comment ID from the bookmark's list. If the ID
 	 * exists its removed, else its added.

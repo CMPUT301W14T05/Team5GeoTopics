@@ -10,11 +10,11 @@ import android.test.ActivityInstrumentationTestCase2;
 import ca.ualberta.cs.team5geotopics.CommentModel;
 import ca.ualberta.cs.team5geotopics.InspectCommentActivity;
 
-public class CreateNewTLComment extends ActivityInstrumentationTestCase2<InspectCommentActivity> {
+public class CreateNewComment extends ActivityInstrumentationTestCase2<InspectCommentActivity> {
 	
 	
 	
-	public CreateNewTLComment() {
+	public CreateNewComment() {
 		super(InspectCommentActivity.class);
 	}
 	
