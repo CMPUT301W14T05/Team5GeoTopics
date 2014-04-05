@@ -29,7 +29,7 @@ public class FavouriteTests extends ActivityInstrumentationTestCase2<MyFavourite
 		mComment = new CommentModel("1", "1", "Body", "Anon" , "Title",  null, "AID1234");
 		mComment.setmParentID("werfdws123");
 		mComment.setmEsID("wetvwre908");
-		mComment.setmEsType("TopLevel");
+		mComment.setmEsType("ReplyLevel");
 		
 		manager.newReply(mComment);
 		
@@ -53,7 +53,7 @@ public class FavouriteTests extends ActivityInstrumentationTestCase2<MyFavourite
 					mComment = new CommentModel("1", "1", "Body", "Anon" , "Title",  null, "AID1234");
 					mComment.setmParentID("werfdws123");
 					mComment.setmEsID("wetvwre908");
-					mComment.setmEsType("TopLevel");
+					mComment.setmEsType("ReplyLevel");
 					
 					manager.newReply(mComment);
 				
