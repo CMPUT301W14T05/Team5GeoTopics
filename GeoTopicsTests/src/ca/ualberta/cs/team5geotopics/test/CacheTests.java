@@ -31,7 +31,6 @@ public class CacheTests extends
 	}
 
 	public void testFileIO(){
-		//this has the "hard to test" smell: but tests storing and loading an ArrayList<CommentModel>
 		Cache cache = Cache.getInstance();
 		String filename = "testFile";
 		
@@ -55,11 +54,7 @@ public class CacheTests extends
 		cacheIO.replaceFileHistory(jsonString, filename); //store to file 
 		acm.clear();
 		
-		acm = cacheIO.load(filename); /*retrieve from cache (though the deserialization
-														is duplicated on ui thread of the calling activity) 
-														The cache needs to be modularized: one thing will be to change how it passes
-														this arraylist to the CommentListModel for the activity. It works but I can't
-														seem to get at it for testing. */
+		acm = cacheIO.load(filename); 
 		
 		assertTrue(!acm.isEmpty()); 
 		
@@ -79,7 +74,6 @@ public class CacheTests extends
 		
 		
 		assertTrue(acm.get(1).getmPicture().describeContents() == comment2.getmPicture().describeContents());
-		
-		
 	}
+	
 }

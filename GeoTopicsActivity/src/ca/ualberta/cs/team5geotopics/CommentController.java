@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.location.Location;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 /**
  * The CommentController class is what helps distinguish between a new reply or a new top level
@@ -17,8 +15,6 @@ public class CommentController {
 	
 	private User myUser;
 	
-	private Gson mGson;
-	
 	private CommentManager manager;
 	
 	/**
@@ -29,9 +25,6 @@ public class CommentController {
 	 */
 	public CommentController(Context context) {
 		this.myUser = User.getInstance();
-		GsonBuilder builder = new GsonBuilder();
-		builder.registerTypeAdapter(Bitmap.class, new BitmapJsonConverter());
-		this.mGson = builder.create();
 		manager = CommentManager.getInstance();
 		
 	}
