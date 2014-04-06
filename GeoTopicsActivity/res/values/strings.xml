@@ -115,6 +115,12 @@
 	<string name="view_profile_details">To view a profile you must be viewing one of the author\'s comments. Once you are viewing
 	    the desired author\'s comment, tap the author\'s name, which will be highlighted blue. This will bring you to the author\'s
 	    profile.</string>
+	<string name="help_edit_comment">Edit Your Comments:</string>
+	<string name="edit_comment_detail">To edit your comments navigate to the my commments page. To do so tap on the menu button in
+	    action bar (see above) or select the \'My Comments\' option from the app\'s main menu screen. Once you have navigated to
+	    the my comments page, tap on the comment you want to edit and it will bring you to the comment editiing screen. Simply fill
+	    in the fields in the same fashion as you did for creating the comment and press the \'POST\' button when you are ready to
+	    post your edit, or press \'CANCEL\' to cancel the changes.</string>
 	
 	
 </resources>

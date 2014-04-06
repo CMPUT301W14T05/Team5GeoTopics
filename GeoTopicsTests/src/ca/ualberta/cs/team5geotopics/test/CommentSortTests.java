@@ -136,8 +136,8 @@ public class CommentSortTests extends ActivityInstrumentationTestCase2<TopLevelA
 		sort.sortAllCommentsByDate();
 		
 		assertTrue("The first element should be C", clm.getList().get(0).getmBody().equals("C"));
-		assertTrue("The first element is originally B", clm.getList().get(1).getmBody().equals("B"));
-		assertTrue("The first element is originally A", clm.getList().get(2).getmBody().equals("A"));
+		assertTrue("The first element should be B", clm.getList().get(1).getmBody().equals("B"));
+		assertTrue("The first element should be A", clm.getList().get(2).getmBody().equals("A"));
 	}
 	
 	/*

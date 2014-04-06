@@ -90,6 +90,11 @@ public class UserLocationServices {
 		return true;
 	}
 
+	/**
+	 * Sets the initial location which will be used in the case where there
+	 * is no location providers available. This location is used for sorting
+	 * purposes and for new comments.
+	 */
 	public void setInitialLocation() {
 		this.myLat = (double) 0;
 		this.myLong = (double) 0;

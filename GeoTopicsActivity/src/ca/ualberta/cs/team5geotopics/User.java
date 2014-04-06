@@ -116,6 +116,26 @@ public class User extends AModel<AView> {
 	public void clearLocalMyComments() {
 		mComments.clear();
 	}
+	
+	/**
+	 * This empties the local hot list of favourite comments. This will not clear
+	 * any comments written to disk it will only clear the hot versions that
+	 * have been put into the list.
+	 * 
+	 */
+	public void clearLocalMyFavrouties() {
+		mFavourites.clear();
+	}
+	
+	/**
+	 * This empties the local hot list of bookmarked comments. This will not clear
+	 * any comments written to disk it will only clear the hot versions that
+	 * have been put into the list.
+	 * 
+	 */
+	public void clearLocalMyBookmarks() {
+		mBookMarks.clear();
+	}
 
 	/**
 	 * Messages to read and write dependent files
