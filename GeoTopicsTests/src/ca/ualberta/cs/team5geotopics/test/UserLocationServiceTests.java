@@ -12,6 +12,12 @@ public class UserLocationServiceTests extends
 		super(TopLevelActivity.class);
 	}
 	
+	/*
+	 * test used case 18: DefaultCommentLocationLocal
+	 * 
+	 * this simply tests the function that is called to retrieve the location by default.
+	 * Since there is no provider in the test it gets the last known location which should be (0.0, 0.0)
+	 */
 	public void testGetCurrentLocation() {
 		UserLocationServices uls = new UserLocationServices();
 		
