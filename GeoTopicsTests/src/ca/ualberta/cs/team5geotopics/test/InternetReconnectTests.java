@@ -29,19 +29,27 @@ public class InternetReconnectTests extends ActivityInstrumentationTestCase2<Rep
 		
 		CommentModel comment = new CommentModel("1", "1", "Body",
 				"Author", null, null);
-		comment.setES("testParentId", "AnotherComment", "ReplyLevel");
+		comment.setmParentID("NoParent");
+		comment.setmEsID("Random1");
+		comment.setmEsType("ReplyLevel");
 		
 		manager.newReply(comment);
 		
 		CommentModel viewingComment = new CommentModel("1", "1",
 				"ViewingBody", "ViewingAuthor", null, null);
-		viewingComment.setES("testReplyId", "testParentId", "ReplyLevel");
+		viewingComment.setmParentID(comment.getmEsID());
+		viewingComment.setmEsID("Random2");
+		viewingComment.setmEsType("ReplyLevel");
 		
 		manager.newReply(viewingComment);
 		
 		CommentModel replyVComment = new CommentModel("1", "1",
 				"replyVCommentBody", "replyVCommentAuthor", null, null);
-		replyVComment.setES("replyVCommentID", "testReplyId", "ReplyLevel");
+		
+		replyVComment.setmParentID(viewingComment.getmEsID());
+		replyVComment.setmEsID("Random3");
+		replyVComment.setmEsType("ReplyLevel");
+		
 		
 		manager.newReply(replyVComment);
 
