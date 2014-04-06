@@ -322,6 +322,23 @@
             android:text="@string/new_reply_detail"
             android:textAppearance="?android:attr/textAppearanceSmall" />
         
+        <!-- How to Edit Your Comments -->
+        <TextView
+            android:id="@+id/editCommentsText"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/help_edit_comment"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/editCommentsDetailText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/edit_comment_detail"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+        
         <!-- How to Edit Your Profile -->
         <TextView
             android:id="@+id/editProfileText"
