@@ -84,26 +84,30 @@ public class F_CacheTests extends
 	}
 	
 	public void testCacheReadComment(){
+		//this test need internet activity and assumes that their is a top level comment in Elasticsearch. For that reason this must run after the ES tests. 
 		CommentListModel listModel = new CommentListModel();
 		Cache cache = Cache.getInstance();
 		CommentSearch search = new CommentSearch(listModel, cache);
 		CacheIO cacheIO = cache.getCacheIO();
 		
 		ArrayList<CommentModel> acm = new ArrayList<CommentModel>(); //this is empty and written to disk to clear the cache. 
-		cache.serializeAndWrite(acm, "test id");
 		
-		acm = cacheIO.load("test id"); 
+		
+		cache.serializeAndWrite(acm, "history.sav");
+		
+		acm = cacheIO.load("history.sav"); 
 		assertTrue(acm.isEmpty());
 		
-		Thread thread = search.pullComment("test id", "ReplyLevel");
+		Thread thread = search.pullTopLevel((BrowseActivity) mActivity);
 		try{
 			thread.join();
 		}
 		catch (InterruptedException e){
-			Log.w("EsTestPullSingleTopLevel", "Thread interrupt");
+			Log.w("EsTestPullReplies", "Thread interrupt");
 		}
-		
+		acm = cacheIO.load("history.sav"); 
 		assertTrue(!acm.isEmpty());
+		
 	}
 
 }
