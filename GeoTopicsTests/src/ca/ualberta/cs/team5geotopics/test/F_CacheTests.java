@@ -2,6 +2,7 @@ package ca.ualberta.cs.team5geotopics.test;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
@@ -9,25 +10,31 @@ import ca.ualberta.cs.team5geotopics.BitmapJsonConverter;
 import ca.ualberta.cs.team5geotopics.BrowseActivity;
 import ca.ualberta.cs.team5geotopics.Cache;
 import ca.ualberta.cs.team5geotopics.CacheIO;
+import ca.ualberta.cs.team5geotopics.CommentListModel;
+import ca.ualberta.cs.team5geotopics.GeoTopicsApplication;
+
 import ca.ualberta.cs.team5geotopics.CommentModel;
+import ca.ualberta.cs.team5geotopics.CommentSearch;
 import ca.ualberta.cs.team5geotopics.TopLevelActivity;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class CacheTests extends
+public class F_CacheTests extends
 		ActivityInstrumentationTestCase2<TopLevelActivity> {
 	
-	BrowseActivity activity;
+	private Activity mActivity;
 
-	public CacheTests() {
+	public F_CacheTests() {
 		super(TopLevelActivity.class);
 	}
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		activity = getActivity();
+		mActivity = getActivity();
+		GeoTopicsApplication application = GeoTopicsApplication.getInstance();
+		application.setContext(mActivity);
 	}
 
 	public void testFileIO(){
@@ -76,4 +83,31 @@ public class CacheTests extends
 		assertTrue(acm.get(1).getmPicture().describeContents() == comment2.getmPicture().describeContents());
 	}
 	
+	public void testCacheReadComment(){
+		//this test need internet activity and assumes that their is a top level comment in Elasticsearch. For that reason this must run after the ES tests. 
+		CommentListModel listModel = new CommentListModel();
+		Cache cache = Cache.getInstance();
+		CommentSearch search = new CommentSearch(listModel, cache);
+		CacheIO cacheIO = cache.getCacheIO();
+		
+		ArrayList<CommentModel> acm = new ArrayList<CommentModel>(); //this is empty and written to disk to clear the cache. 
+		
+		
+		cache.serializeAndWrite(acm, "history.sav");
+		
+		acm = cacheIO.load("history.sav"); 
+		assertTrue(acm.isEmpty());
+		
+		Thread thread = search.pullTopLevel((BrowseActivity) mActivity);
+		try{
+			thread.join();
+		}
+		catch (InterruptedException e){
+			Log.w("EsTestPullReplies", "Thread interrupt");
+		}
+		acm = cacheIO.load("history.sav"); 
+		assertTrue(!acm.isEmpty());
+		
+	}
+
 }
