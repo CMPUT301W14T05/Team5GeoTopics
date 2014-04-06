@@ -49,7 +49,7 @@ public class ProfileSearch {
 	 * @param profileID The unique profile ID we are searching for
 	 * @param ProfileActivity The activity that requested it
 	 */
-	public void pullProfile(final String profileID, final InspectOtherProfilesActivity ProfileActivity){
+	public Thread pullProfile(final String profileID, final InspectOtherProfilesActivity ProfileActivity){
 		final String query = getReplyFilter(profileID);
 		final User profile = null;
 
@@ -99,7 +99,11 @@ public class ProfileSearch {
 			}
 		};
 		thread.start();
-		
+		return thread;
+	}
+	
+	public JestResult returnResult(){
+		return this.lastResult;
 	}
 
 }

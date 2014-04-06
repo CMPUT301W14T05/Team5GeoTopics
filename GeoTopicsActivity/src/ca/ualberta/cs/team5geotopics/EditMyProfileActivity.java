@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.example.team5geotopics.R;
 
 public class EditMyProfileActivity extends InspectProfileActivity implements OnClickListener{
-	
+	User user;
 	EditText username;
 	EditText contact;
 	EditText bio;
@@ -20,9 +20,12 @@ public class EditMyProfileActivity extends InspectProfileActivity implements OnC
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_my_profile);
-		
-		uController = new UserController();
-		
+		GeoTopicsApplication.getInstance().setContext(this);
+		try{
+			uController = new UserController();
+		} catch (NullPointerException e){
+			uController = new UserController(this.user);
+		}
 		username = (EditText)findViewById(R.id.edit_profile_username);
 		contact = (EditText)findViewById(R.id.edit_profile_contact);
 		bio = (EditText)findViewById(R.id.edit_biography_body);
@@ -77,5 +80,10 @@ public class EditMyProfileActivity extends InspectProfileActivity implements OnC
 		}
 	}
 
+	public void setUser(User user) {
+		this.user = user;
+	}
 
+	
+	
 }

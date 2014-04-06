@@ -61,7 +61,7 @@ public class CommentPush {
 				if (e == null){
 					User user = User.getInstance();
 					user.updatePostCountFile();
-					//Log.w("CommentController", mResult.getJsonString());
+					
 				}
 				
 				

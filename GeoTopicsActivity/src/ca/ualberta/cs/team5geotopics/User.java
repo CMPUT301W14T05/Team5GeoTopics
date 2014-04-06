@@ -27,6 +27,7 @@ import android.util.Log;
 @SuppressWarnings("rawtypes")
 public class User extends AModel<AView> {
 	private static UserIO userIO = new UserIO();
+	
 	private UserLocationServices userLocation = new UserLocationServices();
 	transient private static User myself;
 	transient private boolean ioDisabled = false;
@@ -62,6 +63,8 @@ public class User extends AModel<AView> {
 		userLocation.getContext().registerReceiver(webConnectionReceiver,
 				new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 	}
+	
+	
 	
 	public void setmID(String mID){
 		this.mID = mID;
@@ -435,7 +438,7 @@ public class User extends AModel<AView> {
 		return userName;
 	}
 
-	private void setUserName(String userName) {
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 

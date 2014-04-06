@@ -68,4 +68,7 @@ public class ProfilePush {
 		return thread;
 	}
 
+	public JestResult returnResult(){
+		return this.mResult;
+	}
 }

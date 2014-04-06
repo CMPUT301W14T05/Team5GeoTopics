@@ -28,10 +28,16 @@ public class InspectOtherProfilesActivity extends InspectProfileActivity{
 		profileImage = (ImageView)findViewById(R.id.profile_image); 
 		
 		
-		b = getIntent().getExtras();
-		profileID = b.getString("ProfileID");
-		puller = new ProfileSearch();
-		puller.pullProfile(profileID, this);
+		try{
+			b = getIntent().getExtras();
+			profileID = b.getString("ProfileID");
+			puller = new ProfileSearch();
+			puller.pullProfile(profileID, this);
+		}
+		catch(NullPointerException e){
+			// this is only for testing
+			// do nothing
+		}
 	
 	}
 

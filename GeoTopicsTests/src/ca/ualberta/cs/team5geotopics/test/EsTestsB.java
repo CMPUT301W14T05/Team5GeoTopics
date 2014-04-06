@@ -1,6 +1,8 @@
 package ca.ualberta.cs.team5geotopics.test;
 
+import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
+import io.searchbox.core.Delete;
 import android.app.Activity;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
@@ -78,6 +80,21 @@ public class EsTestsB extends ActivityInstrumentationTestCase2<TopLevelActivity>
 		JestResult result = search.returnResult();
 		assertTrue("Result is not null", result != null);
 		assertTrue("Result is successful", result.isSucceeded());
+		
+		final JestClient jestClient = GeoTopicsApplication.getInstance().getClient();
+		final Delete deleteDocument = new Delete.Builder("Test id").index("TopLevel").type("test type").build();
+		
+		Thread thread2 = new Thread(){
+			public void run(){
+				try {
+					jestClient.execute(deleteDocument);
+				}
+				catch(Exception e){
+					Log.w("delete test document", "didn't delete");
+				}
+			}
+		};
+		thread2.start();
 	}
 	
 	public void testPullSingleCommentReplyLevel(){

@@ -1,7 +1,8 @@
 package ca.ualberta.cs.team5geotopics.test;
 
+import io.searchbox.client.JestClient;
 import io.searchbox.client.JestResult;
-
+import io.searchbox.core.Delete;
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
@@ -32,7 +33,7 @@ public class EsTestsA extends ActivityInstrumentationTestCase2<TopLevelActivity>
 		String mAuthor = "AUTHOR";
 		String mTitle = "TITLE";
 		Bitmap mPicture = Bitmap.createBitmap(10,10 ,Bitmap.Config.ARGB_8888);
-		
+		JestResult jestResult = new JestResult(null);
 		
 		CommentModel topLevel = new CommentModel("30.6282", "55.3116", mBody, mAuthor, mTitle, mPicture, null);
 		topLevel.setES("test id", "-1", "test type");
@@ -48,6 +49,8 @@ public class EsTestsA extends ActivityInstrumentationTestCase2<TopLevelActivity>
 		assertTrue("JestResult is not null", result != null);
 		Log.w("EsTestPush", result.getJsonString());
 		assertTrue("JestResult suceeded", cp.returnResult().isSucceeded());
+		
+		
 	}
 	
 	public void testPushReplyLevel(){
