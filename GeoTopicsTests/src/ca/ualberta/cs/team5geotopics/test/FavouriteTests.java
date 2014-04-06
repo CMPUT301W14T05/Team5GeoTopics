@@ -86,6 +86,8 @@ public class FavouriteTests extends ActivityInstrumentationTestCase2<MyFavourite
 					ViewAsserts.assertOnScreen(view, picture);
 					
 					uController.favourite(mComment); //Removes it from the list
+					
+					activity.finish();
 
 				}
 			});
@@ -137,6 +139,8 @@ public class FavouriteTests extends ActivityInstrumentationTestCase2<MyFavourite
 							body.getText().toString());
 					
 					uController.favourite(mComment); //Removes it from the list
+					
+					activity.finish();
 
 				}
 			});
