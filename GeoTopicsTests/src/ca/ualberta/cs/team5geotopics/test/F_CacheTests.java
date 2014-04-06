@@ -106,7 +106,7 @@ public class F_CacheTests extends
 			Log.w("EsTestPullReplies", "Thread interrupt");
 		}
 		acm = cacheIO.load("history.sav"); 
-		assertTrue(!acm.isEmpty());
+		assertFalse(acm.isEmpty());
 		
 	}
 

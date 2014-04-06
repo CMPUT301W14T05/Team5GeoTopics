@@ -68,7 +68,8 @@ public class InternetReconnectTests extends ActivityInstrumentationTestCase2<Rep
 		manager.refresh(clm, activity, viewingComment);
 		
 		//if it does then we assume the refresh pulled the comment properly
-		assertTrue("Activities clm has 1 comment in it", clm.getList().size() == 1);
+		assertTrue("Acitivities clm is not empty", clm.getList().isEmpty());
+		
 		
 	}
 

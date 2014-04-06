@@ -188,6 +188,7 @@ public class CommentManager extends AModel<AView> {
 		Thread thread = null;
 		CommentPush pusher = new CommentPush();
 		if (mApp.isNetworkAvailable()) {
+			Log.d("Connectivity", "Pushed Comment");
 			thread = pusher.pushComment(comment, "ReplyLevel");
 		} else {
 			Log.w("Connectivity", "Stashed a new reply");
