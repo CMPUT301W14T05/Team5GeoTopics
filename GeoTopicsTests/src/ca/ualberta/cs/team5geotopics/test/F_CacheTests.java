@@ -2,6 +2,7 @@ package ca.ualberta.cs.team5geotopics.test;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
@@ -10,6 +11,7 @@ import ca.ualberta.cs.team5geotopics.BrowseActivity;
 import ca.ualberta.cs.team5geotopics.Cache;
 import ca.ualberta.cs.team5geotopics.CacheIO;
 import ca.ualberta.cs.team5geotopics.CommentListModel;
+import ca.ualberta.cs.team5geotopics.GeoTopicsApplication;
 
 import ca.ualberta.cs.team5geotopics.CommentModel;
 import ca.ualberta.cs.team5geotopics.CommentSearch;
@@ -21,7 +23,7 @@ import com.google.gson.GsonBuilder;
 public class F_CacheTests extends
 		ActivityInstrumentationTestCase2<TopLevelActivity> {
 	
-	BrowseActivity activity;
+	private Activity mActivity;
 
 	public F_CacheTests() {
 		super(TopLevelActivity.class);
@@ -30,7 +32,9 @@ public class F_CacheTests extends
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		activity = getActivity();
+		mActivity = getActivity();
+		GeoTopicsApplication application = GeoTopicsApplication.getInstance();
+		application.setContext(mActivity);
 	}
 
 	public void testFileIO(){
@@ -80,10 +84,16 @@ public class F_CacheTests extends
 	}
 	
 	public void testCacheReadComment(){
-		Cache cache = Cache.getInstance();
-
 		CommentListModel listModel = new CommentListModel();
-		CommentSearch search = new CommentSearch(listModel);
+		Cache cache = Cache.getInstance();
+		CommentSearch search = new CommentSearch(listModel, cache);
+		CacheIO cacheIO = cache.getCacheIO();
+		
+		ArrayList<CommentModel> acm = new ArrayList<CommentModel>(); //this is empty and written to disk to clear the cache. 
+		cache.serializeAndWrite(acm, "test id");
+		
+		acm = cacheIO.load("test id"); 
+		assertTrue(acm.isEmpty());
 		
 		Thread thread = search.pullComment("test id", "ReplyLevel");
 		try{
@@ -93,7 +103,7 @@ public class F_CacheTests extends
 			Log.w("EsTestPullSingleTopLevel", "Thread interrupt");
 		}
 		
-		
+		assertTrue(!acm.isEmpty());
 	}
 
 }
