@@ -84,7 +84,7 @@ public class CacheTests extends
 	}
 	
 	public void testCacheReadComment(){
-		//this test needs internet connectivity and assumes that there is a top level comment in Elasticsearch already.
+		//this test needs Internet connectivity and assumes that there is a top level comment in Elasticsearch already.
 		CommentListModel listModel = new CommentListModel();
 		Cache cache = Cache.getInstance();
 		CommentSearch search = new CommentSearch(listModel, cache);
@@ -106,7 +106,7 @@ public class CacheTests extends
 			Log.w("EsTestPullReplies", "Thread interrupt");
 		}
 		acm = cacheIO.load("history.sav"); 
-		assertFalse(acm.isEmpty());
+		assertFalse(acm.isEmpty()); //if this fails on the first execution: re-run the test.
 		
 	}
 
