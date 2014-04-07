@@ -20,12 +20,12 @@ import ca.ualberta.cs.team5geotopics.TopLevelActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class F_CacheTests extends
+public class CacheTests extends
 		ActivityInstrumentationTestCase2<TopLevelActivity> {
 	
 	private Activity mActivity;
 
-	public F_CacheTests() {
+	public CacheTests() {
 		super(TopLevelActivity.class);
 	}
 	
@@ -84,7 +84,7 @@ public class F_CacheTests extends
 	}
 	
 	public void testCacheReadComment(){
-		//this test need internet activity and assumes that their is a top level comment in Elasticsearch. For that reason this must run after the ES tests. 
+		//this test needs internet connectivity and assumes that there is a top level comment in Elasticsearch already.
 		CommentListModel listModel = new CommentListModel();
 		Cache cache = Cache.getInstance();
 		CommentSearch search = new CommentSearch(listModel, cache);
