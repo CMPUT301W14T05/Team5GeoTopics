@@ -106,7 +106,7 @@ public class CacheTests extends
 			Log.w("EsTestPullReplies", "Thread interrupt");
 		}
 		acm = cacheIO.load("history.sav"); 
-		assertFalse(acm.isEmpty()); //if this fails on the first execution: re-run the test.
+		assertFalse(acm.isEmpty()); //if this fails on the first execution: re-run this test again.
 		
 	}
 
