@@ -82,7 +82,7 @@ public class EsTestsB extends ActivityInstrumentationTestCase2<TopLevelActivity>
 		assertTrue("Result is successful", result.isSucceeded());
 		
 		final JestClient jestClient = GeoTopicsApplication.getInstance().getClient();
-		final Delete deleteDocument = new Delete.Builder("Test id").index("TopLevel").type("test type").build();
+		final Delete deleteDocument = new Delete.Builder("test id").index("TopLevel").type("test type").build();
 		
 		Thread thread2 = new Thread(){
 			public void run(){
