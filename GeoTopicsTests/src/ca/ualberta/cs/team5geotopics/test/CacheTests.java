@@ -1,5 +1,7 @@
 package ca.ualberta.cs.team5geotopics.test;
 
+import io.searchbox.client.JestResult;
+
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -23,7 +25,7 @@ import com.google.gson.GsonBuilder;
 public class CacheTests extends
 		ActivityInstrumentationTestCase2<TopLevelActivity> {
 	
-	private Activity mActivity;
+	private Activity unusedInAnotherTestActivity;
 
 	public CacheTests() {
 		super(TopLevelActivity.class);
@@ -32,9 +34,9 @@ public class CacheTests extends
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		mActivity = getActivity();
+		unusedInAnotherTestActivity = getActivity();
 		GeoTopicsApplication application = GeoTopicsApplication.getInstance();
-		application.setContext(mActivity);
+		application.setContext(unusedInAnotherTestActivity);
 	}
 
 	public void testFileIO(){
@@ -98,16 +100,22 @@ public class CacheTests extends
 		acm = cacheIO.load("history.sav"); 
 		assertTrue(acm.isEmpty());
 		
-		Thread thread = search.pullTopLevel((BrowseActivity) mActivity);
+		Thread thread = search.pullTopLevel((BrowseActivity) unusedInAnotherTestActivity);
 		try{
 			thread.join();
 		}
 		catch (InterruptedException e){
 			Log.w("EsTestPullReplies", "Thread interrupt");
+			Log.w("PULL", "Thread interrupt");
 		}
-		acm = cacheIO.load("history.sav"); 
-		assertFalse(acm.isEmpty()); //if this fails on the first execution: re-run this test again.
 		
+		acm = cacheIO.load("history.sav"); 
+		
+		JestResult result = search.returnResult();
+		assertTrue("Result is not null", result != null);
+		assertTrue("Result is successful", result.isSucceeded());
+		
+		assertFalse("cache is still empty",acm.isEmpty()); //if this fails on the first execution: re-run this test again.
 	}
 
 }
